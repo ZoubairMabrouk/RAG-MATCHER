@@ -1,0 +1,82 @@
+{
+  "database_name": "ecommerce_db",
+  "version": "PostgreSQL 15.2",
+  "introspection_timestamp": "2024-01-15T10:30:00Z",
+  "tables": [
+    {
+      "name": "customers",
+      "schema": "public",
+      "columns": [
+        {
+          "name": "id",
+          "type": "uuid",
+          "nullable": false,
+          "pk": true,
+          "default": "gen_random_uuid()"
+        },
+        {
+          "name": "email",
+          "type": "varchar(255)",
+          "nullable": false,
+          "unique": true
+        },
+        {
+          "name": "first_name",
+          "type": "varchar(100)",
+          "nullable": false
+        },
+        {
+          "name": "last_name",
+          "type": "varchar(100)",
+          "nullable": false
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp",
+          "nullable": false,
+          "default": "CURRENT_TIMESTAMP"
+        }
+      ],
+      "foreign_keys": [],
+      "indexes": [
+        {
+          "name": "idx_customers_email",
+          "columns": ["email"],
+          "unique": true
+        }
+      ],
+      "row_count": 15420,
+      "comment": "Customer master table"
+    },
+    {
+      "name": "products",
+      "schema": "public",
+      "columns": [
+        {
+          "name": "id",
+          "type": "uuid",
+          "nullable": false,
+          "pk": true
+        },
+        {
+          "name": "name",
+          "type": "varchar(255)",
+          "nullable": false
+        },
+        {
+          "name": "price",
+          "type": "numeric(10,2)",
+          "nullable": false
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp",
+          "nullable": false
+        }
+      ],
+      "foreign_keys": [],
+      "indexes": [],
+      "row_count": 8750
+    }
+  ]
+}

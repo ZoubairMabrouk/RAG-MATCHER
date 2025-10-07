@@ -1,0 +1,206 @@
+{
+  "version": "1.0",
+  "metadata": {
+    "name": "Analytics Warehouse Schema",
+    "description": "Star schema for analytics",
+    "type": "data_warehouse"
+  },
+  "entities": [
+    {
+      "name": "SalesFact",
+      "description": "Fact table for sales transactions",
+      "attributes": [
+        {
+          "name": "id",
+          "type": "uuid",
+          "required": true
+        },
+        {
+          "name": "date_key",
+          "type": "integer",
+          "required": true
+        },
+        {
+          "name": "customer_key",
+          "type": "integer",
+          "required": true
+        },
+        {
+          "name": "product_key",
+          "type": "integer",
+          "required": true
+        },
+        {
+          "name": "store_key",
+          "type": "integer",
+          "required": true
+        },
+        {
+          "name": "quantity_sold",
+          "type": "integer",
+          "required": true
+        },
+        {
+          "name": "unit_price",
+          "type": "decimal",
+          "required": true
+        },
+        {
+          "name": "total_amount",
+          "type": "decimal",
+          "required": true
+        },
+        {
+          "name": "discount_amount",
+          "type": "decimal",
+          "required": true
+        }
+      ],
+      "relationships": [
+        {
+          "type": "belongsTo",
+          "entity": "DateDimension",
+          "key": "date_key"
+        },
+        {
+          "type": "belongsTo",
+          "entity": "CustomerDimension",
+          "key": "customer_key"
+        },
+        {
+          "type": "belongsTo",
+          "entity": "ProductDimension",
+          "key": "product_key"
+        }
+      ]
+    },
+    {
+      "name": "DateDimension",
+      "description": "Date dimension for time-based analysis",
+      "attributes": [
+        {
+          "name": "date_key",
+          "type": "integer",
+          "required": true
+        },
+        {
+          "name": "full_date",
+          "type": "date",
+          "required": true
+        },
+        {
+          "name": "year",
+          "type": "integer",
+          "required": true
+        },
+        {
+          "name": "quarter",
+          "type": "integer",
+          "required": true
+        },
+        {
+          "name": "month",
+          "type": "integer",
+          "required": true
+        },
+        {
+          "name": "day",
+          "type": "integer",
+          "required": true
+        },
+        {
+          "name": "day_of_week",
+          "type": "integer",
+          "required": true
+        },
+        {
+          "name": "is_weekend",
+          "type": "boolean",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "CustomerDimension",
+      "description": "Customer dimension with SCD Type 2",
+      "attributes": [
+        {
+          "name": "customer_key",
+          "type": "integer",
+          "required": true
+        },
+        {
+          "name": "customer_id",
+          "type": "uuid",
+          "required": true
+        },
+        {
+          "name": "full_name",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "email",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "customer_segment",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "effective_date",
+          "type": "date",
+          "required": true
+        },
+        {
+          "name": "expiration_date",
+          "type": "date",
+          "required": false
+        },
+        {
+          "name": "is_current",
+          "type": "boolean",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "ProductDimension",
+      "description": "Product dimension",
+      "attributes": [
+        {
+          "name": "product_key",
+          "type": "integer",
+          "required": true
+        },
+        {
+          "name": "product_id",
+          "type": "uuid",
+          "required": true
+        },
+        {
+          "name": "product_name",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "category",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "subcategory",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "brand",
+          "type": "string",
+          "required": true
+        }
+      ]
+    }
+  ]
+}

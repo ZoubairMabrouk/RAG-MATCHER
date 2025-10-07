@@ -1,0 +1,77 @@
+{
+  "naming": {
+    "table_pattern": "snake_case",
+    "column_pattern": "snake_case",
+    "pk_suffix": "_id",
+    "fk_suffix": "_id",
+    "index_prefix": "idx_",
+    "constraint_prefix": "fk_"
+  },
+  "design_rules": [
+    {
+      "rule_id": "R1_NAMING",
+      "name": "Naming Convention",
+      "description": "All tables and columns must use snake_case naming",
+      "category": "naming",
+      "severity": "warning"
+    },
+    {
+      "rule_id": "R2_NO_NULL_FK",
+      "name": "Non-Nullable Foreign Keys",
+      "description": "Foreign key columns should be NOT NULL to ensure referential integrity",
+      "category": "structure",
+      "severity": "warning"
+    },
+    {
+      "rule_id": "R3_INDEX_FK",
+      "name": "Index Foreign Keys",
+      "description": "All foreign key columns should have indexes for performance",
+      "category": "performance",
+      "severity": "info"
+    },
+    {
+      "rule_id": "R4_PK_REQUIRED",
+      "name": "Primary Key Required",
+      "description": "Every table must have a primary key defined",
+      "category": "structure",
+      "severity": "error"
+    },
+    {
+      "rule_id": "R5_TIMESTAMP_TRACKING",
+      "name": "Timestamp Tracking",
+      "description": "Tables should have created_at and updated_at columns for audit",
+      "category": "data_quality",
+      "severity": "info"
+    },
+    {
+      "rule_id": "R6_UUID_PRIMARY_KEY",
+      "name": "UUID Primary Keys",
+      "description": "Use UUID for primary keys instead of sequential integers",
+      "category": "structure",
+      "severity": "info"
+    },
+    {
+      "rule_id": "R7_SOFT_DELETE",
+      "name": "Soft Delete Pattern",
+      "description": "Important tables should have deleted_at column for soft deletes",
+      "category": "data_quality",
+      "severity": "info"
+    }
+  ],
+  "type_mappings": {
+    "string": "VARCHAR(255)",
+    "integer": "INTEGER",
+    "decimal": "NUMERIC(10,2)",
+    "boolean": "BOOLEAN",
+    "timestamp": "TIMESTAMP WITH TIME ZONE",
+    "date": "DATE",
+    "json": "JSONB",
+    "uuid": "UUID"
+  },
+  "scd_policies": {
+    "type2": {
+      "required_columns": ["effective_date", "expiration_date", "is_current"],
+      "naming_convention": "_dimension suffix for dimension tables"
+    }
+  }
+}

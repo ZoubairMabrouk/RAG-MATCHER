@@ -1,0 +1,926 @@
+table_name,column_name,data_type,comment
+admissions,row_id,integer,Unique row identifier.
+admissions,subject_id,integer,Foreign key. Identifies the patient.
+admissions,hadm_id,integer,Primary key. Identifies the hospital stay.
+admissions,admittime,timestamp without time zone,Time of admission to the hospital.
+admissions,dischtime,timestamp without time zone,Time of discharge from the hospital.
+admissions,deathtime,timestamp without time zone,Time of death.
+admissions,admission_type,character varying,"Type of admission, for example emergency or elective."
+admissions,admission_location,character varying,Admission location.
+admissions,discharge_location,character varying,Discharge location
+admissions,insurance,character varying,Insurance type.
+admissions,language,character varying,Language.
+admissions,religion,character varying,Religon.
+admissions,marital_status,character varying,Marital status.
+admissions,ethnicity,character varying,Ethnicity.
+admissions,edregtime,timestamp without time zone,""
+admissions,edouttime,timestamp without time zone,""
+admissions,diagnosis,character varying,Diagnosis.
+admissions,hospital_expire_flag,smallint,""
+admissions,has_chartevents_data,smallint,Hospital admission has at least one observation in the CHARTEVENTS table.
+admissions,id,integer,""
+admissions,admit_time,text,""
+admissions,patientsid,integer,""
+admissions,telemedicine_flag,integer,""
+admissions,visit_mode,text,""
+admissions_items,id,bigint,""
+admissions_items,hadm_id,bigint,""
+admissions_items,admittime,text,""
+admissions_items,dischtime,text,""
+admissions_items,deathtime,text,""
+admissions_items,admission_type,text,""
+admissions_items,valid_from,timestamp with time zone,""
+admissions_items,valid_to,timestamp with time zone,""
+admissions_items,hadm_id_v1,bigint,""
+admissions_items,admittime_v1,text,""
+admissions_items,dischtime_v1,text,""
+admissions_items,deathtime_v1,text,""
+admissions_items,admission_type_v1,text,""
+attachments,id,integer,""
+attachments,attachments,text,""
+attachments,online_consultationsid,integer,""
+callout,row_id,integer,Unique row identifier.
+callout,subject_id,integer,Foreign key. Identifies the patient.
+callout,hadm_id,integer,Foreign key. Identifies the hospital stay.
+callout,submit_wardid,integer,Identifies the ward where the call out request was submitted.
+callout,submit_careunit,character varying,"If the ward where the call was submitted was an ICU, the ICU type is listed here."
+callout,curr_wardid,integer,Identifies the ward where the patient is currently residing.
+callout,curr_careunit,character varying,"If the ward where the patient is currently residing is an ICU, the ICU type is listed here."
+callout,callout_wardid,integer,Identifies the ward where the patient is to be discharged to. A value of 1 indicates the first available ward. A value of 0 indicates home.
+callout,callout_service,character varying,Identifies the service that the patient is called out to.
+callout,request_tele,smallint,Indicates if special precautions are required.
+callout,request_resp,smallint,Indicates if special precautions are required.
+callout,request_cdiff,smallint,Indicates if special precautions are required.
+callout,request_mrsa,smallint,Indicates if special precautions are required.
+callout,request_vre,smallint,Indicates if special precautions are required.
+callout,callout_status,character varying,Current status of the call out request.
+callout,callout_outcome,character varying,The result of the call out request; either a cancellation or a discharge.
+callout,discharge_wardid,integer,The ward to which the patient was discharged.
+callout,acknowledge_status,character varying,The status of the response to the call out request.
+callout,createtime,timestamp without time zone,Time at which the call out request was created.
+callout,updatetime,timestamp without time zone,Last time at which the call out request was updated.
+callout,acknowledgetime,timestamp without time zone,Time at which the call out request was acknowledged.
+callout,outcometime,timestamp without time zone,Time at which the outcome (cancelled or discharged) occurred.
+callout,firstreservationtime,timestamp without time zone,First time at which a ward was reserved for the call out request.
+callout,currentreservationtime,timestamp without time zone,Latest time at which a ward was reserved for the call out request.
+caregivers,row_id,integer,Unique row identifier.
+caregivers,cgid,integer,Unique caregiver identifier.
+caregivers,label,character varying,"Title of the caregiver, for example MD or RN."
+caregivers,description,character varying,"More detailed description of the caregiver, if available."
+caregivers_items,id,bigint,""
+caregivers_items,cgid,bigint,""
+caregivers_items,label,text,""
+caregivers_items,description,text,""
+caregivers_items,chartevents,text,""
+caregivers_items,valid_from,timestamp with time zone,""
+caregivers_items,valid_to,timestamp with time zone,""
+caregivers_items,cgid_v13,bigint,""
+caregivers_items,label_v13,text,""
+caregivers_items,description_v13,text,""
+caregivers_items,chartevents_v13,text,""
+caregivers_items,cgid_v12,bigint,""
+caregivers_items,label_v12,text,""
+caregivers_items,description_v12,text,""
+caregivers_items,chartevents_v12,text,""
+caregivers_items,cgid_v11,bigint,""
+caregivers_items,label_v11,text,""
+caregivers_items,description_v11,text,""
+caregivers_items,chartevents_v11,text,""
+chartevents,row_id,integer,Unique row identifier.
+chartevents,subject_id,integer,Foreign key. Identifies the patient.
+chartevents,hadm_id,integer,Foreign key. Identifies the hospital stay.
+chartevents,icustay_id,integer,Foreign key. Identifies the ICU stay.
+chartevents,itemid,integer,Foreign key. Identifies the charted item.
+chartevents,charttime,timestamp without time zone,Time when the event occured.
+chartevents,storetime,timestamp without time zone,Time when the event was recorded in the system.
+chartevents,cgid,integer,Foreign key. Identifies the caregiver.
+chartevents,value,character varying,Value of the event as a text string.
+chartevents,valuenum,double precision,Value of the event as a number.
+chartevents,valueuom,character varying,Unit of measurement.
+chartevents,warning,integer,Flag to highlight that the value has triggered a warning.
+chartevents,error,integer,Flag to highlight an error with the event.
+chartevents,resultstatus,character varying,Result status of lab data.
+chartevents,stopped,character varying,"Text string indicating the stopped status of an event (i.e. stopped, not stopped)."
+chartevents_1,row_id,integer,""
+chartevents_1,subject_id,integer,""
+chartevents_1,hadm_id,integer,""
+chartevents_1,icustay_id,integer,""
+chartevents_1,itemid,integer,""
+chartevents_1,charttime,timestamp without time zone,""
+chartevents_1,storetime,timestamp without time zone,""
+chartevents_1,cgid,integer,""
+chartevents_1,value,character varying,""
+chartevents_1,valuenum,double precision,""
+chartevents_1,valueuom,character varying,""
+chartevents_1,warning,integer,""
+chartevents_1,error,integer,""
+chartevents_1,resultstatus,character varying,""
+chartevents_1,stopped,character varying,""
+chartevents_10,row_id,integer,""
+chartevents_10,subject_id,integer,""
+chartevents_10,hadm_id,integer,""
+chartevents_10,icustay_id,integer,""
+chartevents_10,itemid,integer,""
+chartevents_10,charttime,timestamp without time zone,""
+chartevents_10,storetime,timestamp without time zone,""
+chartevents_10,cgid,integer,""
+chartevents_10,value,character varying,""
+chartevents_10,valuenum,double precision,""
+chartevents_10,valueuom,character varying,""
+chartevents_10,warning,integer,""
+chartevents_10,error,integer,""
+chartevents_10,resultstatus,character varying,""
+chartevents_10,stopped,character varying,""
+chartevents_11,row_id,integer,""
+chartevents_11,subject_id,integer,""
+chartevents_11,hadm_id,integer,""
+chartevents_11,icustay_id,integer,""
+chartevents_11,itemid,integer,""
+chartevents_11,charttime,timestamp without time zone,""
+chartevents_11,storetime,timestamp without time zone,""
+chartevents_11,cgid,integer,""
+chartevents_11,value,character varying,""
+chartevents_11,valuenum,double precision,""
+chartevents_11,valueuom,character varying,""
+chartevents_11,warning,integer,""
+chartevents_11,error,integer,""
+chartevents_11,resultstatus,character varying,""
+chartevents_11,stopped,character varying,""
+chartevents_12,row_id,integer,""
+chartevents_12,subject_id,integer,""
+chartevents_12,hadm_id,integer,""
+chartevents_12,icustay_id,integer,""
+chartevents_12,itemid,integer,""
+chartevents_12,charttime,timestamp without time zone,""
+chartevents_12,storetime,timestamp without time zone,""
+chartevents_12,cgid,integer,""
+chartevents_12,value,character varying,""
+chartevents_12,valuenum,double precision,""
+chartevents_12,valueuom,character varying,""
+chartevents_12,warning,integer,""
+chartevents_12,error,integer,""
+chartevents_12,resultstatus,character varying,""
+chartevents_12,stopped,character varying,""
+chartevents_13,row_id,integer,""
+chartevents_13,subject_id,integer,""
+chartevents_13,hadm_id,integer,""
+chartevents_13,icustay_id,integer,""
+chartevents_13,itemid,integer,""
+chartevents_13,charttime,timestamp without time zone,""
+chartevents_13,storetime,timestamp without time zone,""
+chartevents_13,cgid,integer,""
+chartevents_13,value,character varying,""
+chartevents_13,valuenum,double precision,""
+chartevents_13,valueuom,character varying,""
+chartevents_13,warning,integer,""
+chartevents_13,error,integer,""
+chartevents_13,resultstatus,character varying,""
+chartevents_13,stopped,character varying,""
+chartevents_14,row_id,integer,""
+chartevents_14,subject_id,integer,""
+chartevents_14,hadm_id,integer,""
+chartevents_14,icustay_id,integer,""
+chartevents_14,itemid,integer,""
+chartevents_14,charttime,timestamp without time zone,""
+chartevents_14,storetime,timestamp without time zone,""
+chartevents_14,cgid,integer,""
+chartevents_14,value,character varying,""
+chartevents_14,valuenum,double precision,""
+chartevents_14,valueuom,character varying,""
+chartevents_14,warning,integer,""
+chartevents_14,error,integer,""
+chartevents_14,resultstatus,character varying,""
+chartevents_14,stopped,character varying,""
+chartevents_15,row_id,integer,""
+chartevents_15,subject_id,integer,""
+chartevents_15,hadm_id,integer,""
+chartevents_15,icustay_id,integer,""
+chartevents_15,itemid,integer,""
+chartevents_15,charttime,timestamp without time zone,""
+chartevents_15,storetime,timestamp without time zone,""
+chartevents_15,cgid,integer,""
+chartevents_15,value,character varying,""
+chartevents_15,valuenum,double precision,""
+chartevents_15,valueuom,character varying,""
+chartevents_15,warning,integer,""
+chartevents_15,error,integer,""
+chartevents_15,resultstatus,character varying,""
+chartevents_15,stopped,character varying,""
+chartevents_16,row_id,integer,""
+chartevents_16,subject_id,integer,""
+chartevents_16,hadm_id,integer,""
+chartevents_16,icustay_id,integer,""
+chartevents_16,itemid,integer,""
+chartevents_16,charttime,timestamp without time zone,""
+chartevents_16,storetime,timestamp without time zone,""
+chartevents_16,cgid,integer,""
+chartevents_16,value,character varying,""
+chartevents_16,valuenum,double precision,""
+chartevents_16,valueuom,character varying,""
+chartevents_16,warning,integer,""
+chartevents_16,error,integer,""
+chartevents_16,resultstatus,character varying,""
+chartevents_16,stopped,character varying,""
+chartevents_17,row_id,integer,""
+chartevents_17,subject_id,integer,""
+chartevents_17,hadm_id,integer,""
+chartevents_17,icustay_id,integer,""
+chartevents_17,itemid,integer,""
+chartevents_17,charttime,timestamp without time zone,""
+chartevents_17,storetime,timestamp without time zone,""
+chartevents_17,cgid,integer,""
+chartevents_17,value,character varying,""
+chartevents_17,valuenum,double precision,""
+chartevents_17,valueuom,character varying,""
+chartevents_17,warning,integer,""
+chartevents_17,error,integer,""
+chartevents_17,resultstatus,character varying,""
+chartevents_17,stopped,character varying,""
+chartevents_2,row_id,integer,""
+chartevents_2,subject_id,integer,""
+chartevents_2,hadm_id,integer,""
+chartevents_2,icustay_id,integer,""
+chartevents_2,itemid,integer,""
+chartevents_2,charttime,timestamp without time zone,""
+chartevents_2,storetime,timestamp without time zone,""
+chartevents_2,cgid,integer,""
+chartevents_2,value,character varying,""
+chartevents_2,valuenum,double precision,""
+chartevents_2,valueuom,character varying,""
+chartevents_2,warning,integer,""
+chartevents_2,error,integer,""
+chartevents_2,resultstatus,character varying,""
+chartevents_2,stopped,character varying,""
+chartevents_3,row_id,integer,""
+chartevents_3,subject_id,integer,""
+chartevents_3,hadm_id,integer,""
+chartevents_3,icustay_id,integer,""
+chartevents_3,itemid,integer,""
+chartevents_3,charttime,timestamp without time zone,""
+chartevents_3,storetime,timestamp without time zone,""
+chartevents_3,cgid,integer,""
+chartevents_3,value,character varying,""
+chartevents_3,valuenum,double precision,""
+chartevents_3,valueuom,character varying,""
+chartevents_3,warning,integer,""
+chartevents_3,error,integer,""
+chartevents_3,resultstatus,character varying,""
+chartevents_3,stopped,character varying,""
+chartevents_4,row_id,integer,""
+chartevents_4,subject_id,integer,""
+chartevents_4,hadm_id,integer,""
+chartevents_4,icustay_id,integer,""
+chartevents_4,itemid,integer,""
+chartevents_4,charttime,timestamp without time zone,""
+chartevents_4,storetime,timestamp without time zone,""
+chartevents_4,cgid,integer,""
+chartevents_4,value,character varying,""
+chartevents_4,valuenum,double precision,""
+chartevents_4,valueuom,character varying,""
+chartevents_4,warning,integer,""
+chartevents_4,error,integer,""
+chartevents_4,resultstatus,character varying,""
+chartevents_4,stopped,character varying,""
+chartevents_5,row_id,integer,""
+chartevents_5,subject_id,integer,""
+chartevents_5,hadm_id,integer,""
+chartevents_5,icustay_id,integer,""
+chartevents_5,itemid,integer,""
+chartevents_5,charttime,timestamp without time zone,""
+chartevents_5,storetime,timestamp without time zone,""
+chartevents_5,cgid,integer,""
+chartevents_5,value,character varying,""
+chartevents_5,valuenum,double precision,""
+chartevents_5,valueuom,character varying,""
+chartevents_5,warning,integer,""
+chartevents_5,error,integer,""
+chartevents_5,resultstatus,character varying,""
+chartevents_5,stopped,character varying,""
+chartevents_6,row_id,integer,""
+chartevents_6,subject_id,integer,""
+chartevents_6,hadm_id,integer,""
+chartevents_6,icustay_id,integer,""
+chartevents_6,itemid,integer,""
+chartevents_6,charttime,timestamp without time zone,""
+chartevents_6,storetime,timestamp without time zone,""
+chartevents_6,cgid,integer,""
+chartevents_6,value,character varying,""
+chartevents_6,valuenum,double precision,""
+chartevents_6,valueuom,character varying,""
+chartevents_6,warning,integer,""
+chartevents_6,error,integer,""
+chartevents_6,resultstatus,character varying,""
+chartevents_6,stopped,character varying,""
+chartevents_7,row_id,integer,""
+chartevents_7,subject_id,integer,""
+chartevents_7,hadm_id,integer,""
+chartevents_7,icustay_id,integer,""
+chartevents_7,itemid,integer,""
+chartevents_7,charttime,timestamp without time zone,""
+chartevents_7,storetime,timestamp without time zone,""
+chartevents_7,cgid,integer,""
+chartevents_7,value,character varying,""
+chartevents_7,valuenum,double precision,""
+chartevents_7,valueuom,character varying,""
+chartevents_7,warning,integer,""
+chartevents_7,error,integer,""
+chartevents_7,resultstatus,character varying,""
+chartevents_7,stopped,character varying,""
+chartevents_8,row_id,integer,""
+chartevents_8,subject_id,integer,""
+chartevents_8,hadm_id,integer,""
+chartevents_8,icustay_id,integer,""
+chartevents_8,itemid,integer,""
+chartevents_8,charttime,timestamp without time zone,""
+chartevents_8,storetime,timestamp without time zone,""
+chartevents_8,cgid,integer,""
+chartevents_8,value,character varying,""
+chartevents_8,valuenum,double precision,""
+chartevents_8,valueuom,character varying,""
+chartevents_8,warning,integer,""
+chartevents_8,error,integer,""
+chartevents_8,resultstatus,character varying,""
+chartevents_8,stopped,character varying,""
+chartevents_9,row_id,integer,""
+chartevents_9,subject_id,integer,""
+chartevents_9,hadm_id,integer,""
+chartevents_9,icustay_id,integer,""
+chartevents_9,itemid,integer,""
+chartevents_9,charttime,timestamp without time zone,""
+chartevents_9,storetime,timestamp without time zone,""
+chartevents_9,cgid,integer,""
+chartevents_9,value,character varying,""
+chartevents_9,valuenum,double precision,""
+chartevents_9,valueuom,character varying,""
+chartevents_9,warning,integer,""
+chartevents_9,error,integer,""
+chartevents_9,resultstatus,character varying,""
+chartevents_9,stopped,character varying,""
+chartevents_items,id,bigint,""
+chartevents_items,itemid,bigint,""
+chartevents_items,charttime,text,""
+chartevents_items,value,text,""
+chartevents_items,valuenum,text,""
+chartevents_items,valueuom,text,""
+chartevents_items,d_items_id,text,""
+chartevents_items,valid_from,timestamp with time zone,""
+chartevents_items,valid_to,timestamp with time zone,""
+chartevents_items,itemid_v8,bigint,""
+chartevents_items,charttime_v8,text,""
+chartevents_items,value_v8,text,""
+chartevents_items,valuenum_v8,text,""
+chartevents_items,valueuom_v8,text,""
+chartevents_items,d_items_id_v8,text,""
+chartevents_items,itemid_v7,bigint,""
+chartevents_items,charttime_v7,text,""
+chartevents_items,value_v7,text,""
+chartevents_items,valuenum_v7,text,""
+chartevents_items,valueuom_v7,text,""
+chartevents_items,d_items_id_v7,text,""
+chartevents_items,itemid_v6,bigint,""
+chartevents_items,charttime_v6,text,""
+chartevents_items,value_v6,text,""
+chartevents_items,valuenum_v6,text,""
+chartevents_items,valueuom_v6,text,""
+chartevents_items,d_items_id_v6,text,""
+comments,id,integer,""
+comments,user_id,integer,""
+comments,content,text,""
+comments,timestamp,text,""
+comments,postsid,integer,""
+comments,post_id,integer,""
+comments,userid,text,""
+cptevents,row_id,integer,Unique row identifier.
+cptevents,subject_id,integer,Foreign key. Identifies the patient.
+cptevents,hadm_id,integer,Foreign key. Identifies the hospital stay.
+cptevents,costcenter,character varying,"Center recording the code, for example the ICU or the respiratory unit."
+cptevents,chartdate,timestamp without time zone,"Date when the event occured, if available."
+cptevents,cpt_cd,character varying,Current Procedural Terminology code.
+cptevents,cpt_number,integer,Numerical element of the Current Procedural Terminology code.
+cptevents,cpt_suffix,character varying,"Text element of the Current Procedural Terminology, if any. Indicates code category."
+cptevents,ticket_id_seq,integer,"Sequence number of the event, derived from the ticket ID."
+cptevents,sectionheader,character varying,High-level section of the Current Procedural Terminology code.
+cptevents,subsectionheader,character varying,Subsection of the Current Procedural Terminology code.
+cptevents,description,character varying,"Description of the Current Procedural Terminology, if available."
+d_cpt,row_id,integer,Unique row identifier.
+d_cpt,category,smallint,Code category.
+d_cpt,sectionrange,character varying,Range of codes within the high-level section.
+d_cpt,sectionheader,character varying,Section header.
+d_cpt,subsectionrange,character varying,Range of codes within the subsection.
+d_cpt,subsectionheader,character varying,Subsection header.
+d_cpt,codesuffix,character varying,"Text element of the Current Procedural Terminology, if any."
+d_cpt,mincodeinsubsection,integer,Minimum code within the subsection.
+d_cpt,maxcodeinsubsection,integer,Maximum code within the subsection.
+d_icd_diagnoses,row_id,integer,Unique row identifier.
+d_icd_diagnoses,icd9_code,character varying,"ICD9 code - note that this is a fixed length character field, as whitespaces are important in uniquely identifying ICD-9 codes."
+d_icd_diagnoses,short_title,text,Short title associated with the code.
+d_icd_diagnoses,long_title,text,Long title associated with the code.
+d_icd_diagnoses,short_title_v2,text,""
+d_icd_diagnoses,long_title_v2,text,""
+d_icd_diagnoses,short_title_v1,text,""
+d_icd_diagnoses,long_title_v1,text,""
+d_icd_diagnoses_items,id,bigint,""
+d_icd_diagnoses_items,icd9_code,text,""
+d_icd_diagnoses_items,short_title,text,""
+d_icd_diagnoses_items,long_title,text,""
+d_icd_diagnoses_items,valid_from,timestamp with time zone,""
+d_icd_diagnoses_items,valid_to,timestamp with time zone,""
+d_icd_diagnoses_items,icd9_code_v14,text,""
+d_icd_diagnoses_items,short_title_v14,text,""
+d_icd_diagnoses_items,long_title_v14,text,""
+d_icd_diagnoses_items,icd9_code_v13,text,""
+d_icd_diagnoses_items,short_title_v13,text,""
+d_icd_diagnoses_items,long_title_v13,text,""
+d_icd_diagnoses_items,icd9_code_v12,text,""
+d_icd_diagnoses_items,short_title_v12,text,""
+d_icd_diagnoses_items,long_title_v12,text,""
+d_icd_procedures,row_id,integer,Unique row identifier.
+d_icd_procedures,icd9_code,character varying,"ICD9 code - note that this is a fixed length character field, as whitespaces are important in uniquely identifying ICD-9 codes."
+d_icd_procedures,short_title,text,Short title associated with the code.
+d_icd_procedures,long_title,text,Long title associated with the code.
+d_icd_procedures,short_title_v4,text,""
+d_icd_procedures,long_title_v4,text,""
+d_icd_procedures,short_title_v3,text,""
+d_icd_procedures,long_title_v3,text,""
+d_icd_procedures,short_title_v2,text,""
+d_icd_procedures,long_title_v2,text,""
+d_icd_procedures_items,id,bigint,""
+d_icd_procedures_items,icd9_code,text,""
+d_icd_procedures_items,short_title,text,""
+d_icd_procedures_items,long_title,text,""
+d_icd_procedures_items,valid_from,timestamp with time zone,""
+d_icd_procedures_items,valid_to,timestamp with time zone,""
+d_icd_procedures_items,icd9_code_v15,text,""
+d_icd_procedures_items,short_title_v15,text,""
+d_icd_procedures_items,long_title_v15,text,""
+d_icd_procedures_items,icd9_code_v14,text,""
+d_icd_procedures_items,short_title_v14,text,""
+d_icd_procedures_items,long_title_v14,text,""
+d_icd_procedures_items,icd9_code_v13,text,""
+d_icd_procedures_items,short_title_v13,text,""
+d_icd_procedures_items,long_title_v13,text,""
+d_items,row_id,integer,Unique row identifier.
+d_items,itemid,integer,Primary key. Identifies the charted item.
+d_items,label,text,Label identifying the item.
+d_items,abbreviation,text,Abbreviation associated with the item.
+d_items,dbsource,character varying,Source database of the item.
+d_items,linksto,character varying,Table which contains data for the given ITEMID.
+d_items,category,text,Category of data which the concept falls under.
+d_items,unitname,character varying,Unit associated with the item.
+d_items,param_type,character varying,"Type of item, for example solution or ingredient."
+d_items,conceptid,integer,Identifier used to harmonize concepts identified by multiple ITEMIDs. CONCEPTIDs are planned but not yet implemented (all values are NULL).
+d_items,label_v7,text,""
+d_items,abbreviation_v7,text,""
+d_items,category_v7,text,""
+d_items,label_v6,text,""
+d_items,abbreviation_v6,text,""
+d_items,category_v6,text,""
+d_items,label_v5,text,""
+d_items,abbreviation_v5,text,""
+d_items,category_v5,text,""
+d_items_items,id,bigint,""
+d_items_items,itemid,bigint,""
+d_items_items,label,text,""
+d_items_items,abbreviation,text,""
+d_items_items,category,text,""
+d_items_items,valid_from,timestamp with time zone,""
+d_items_items,valid_to,timestamp with time zone,""
+d_items_items,itemid_v16,bigint,""
+d_items_items,label_v16,text,""
+d_items_items,abbreviation_v16,text,""
+d_items_items,category_v16,text,""
+d_items_items,itemid_v15,bigint,""
+d_items_items,label_v15,text,""
+d_items_items,abbreviation_v15,text,""
+d_items_items,category_v15,text,""
+d_items_items,itemid_v14,bigint,""
+d_items_items,label_v14,text,""
+d_items_items,abbreviation_v14,text,""
+d_items_items,category_v14,text,""
+d_labitems,row_id,integer,Unique row identifier.
+d_labitems,itemid,integer,Foreign key. Identifies the charted item.
+d_labitems,label,text,Label identifying the item.
+d_labitems,fluid,text,"Fluid associated with the item, for example blood or urine."
+d_labitems,category,text,"Category of item, for example chemistry or hematology."
+d_labitems,loinc_code,character varying,"Logical Observation Identifiers Names and Codes (LOINC) mapped to the item, if available."
+d_labitems,label_v9,text,""
+d_labitems,fluid_v9,text,""
+d_labitems,category_v9,text,""
+d_labitems,label_v8,text,""
+d_labitems,fluid_v8,text,""
+d_labitems,category_v8,text,""
+d_labitems,label_v7,text,""
+d_labitems,fluid_v7,text,""
+d_labitems,category_v7,text,""
+d_labitems_items,id,bigint,""
+d_labitems_items,itemid,bigint,""
+d_labitems_items,label,text,""
+d_labitems_items,fluid,text,""
+d_labitems_items,category,text,""
+d_labitems_items,valid_from,timestamp with time zone,""
+d_labitems_items,valid_to,timestamp with time zone,""
+d_labitems_items,itemid_v17,bigint,""
+d_labitems_items,label_v17,text,""
+d_labitems_items,fluid_v17,text,""
+d_labitems_items,category_v17,text,""
+d_labitems_items,itemid_v16,bigint,""
+d_labitems_items,label_v16,text,""
+d_labitems_items,fluid_v16,text,""
+d_labitems_items,category_v16,text,""
+d_labitems_items,itemid_v15,bigint,""
+d_labitems_items,label_v15,text,""
+d_labitems_items,fluid_v15,text,""
+d_labitems_items,category_v15,text,""
+datetimeevents,row_id,integer,Unique row identifier.
+datetimeevents,subject_id,integer,Foreign key. Identifies the patient.
+datetimeevents,hadm_id,integer,Foreign key. Identifies the hospital stay.
+datetimeevents,icustay_id,integer,Foreign key. Identifies the ICU stay.
+datetimeevents,itemid,integer,Foreign key. Identifies the charted item.
+datetimeevents,charttime,timestamp without time zone,Time when the event occured.
+datetimeevents,storetime,timestamp without time zone,Time when the event was recorded in the system.
+datetimeevents,cgid,integer,Foreign key. Identifies the caregiver.
+datetimeevents,value,timestamp without time zone,Value of the event as a text string.
+datetimeevents,valueuom,character varying,Unit of measurement.
+datetimeevents,warning,smallint,Flag to highlight that the value has triggered a warning.
+datetimeevents,error,smallint,Flag to highlight an error with the event.
+datetimeevents,resultstatus,character varying,Result status of lab data.
+datetimeevents,stopped,character varying,Event was explicitly marked as stopped. Infrequently used by caregivers.
+diagnoses,id,integer,""
+diagnoses,code,text,""
+diagnoses,description,text,""
+diagnoses,admissionsid,integer,""
+diagnoses_icd,row_id,integer,Unique row identifier.
+diagnoses_icd,subject_id,integer,Foreign key. Identifies the patient.
+diagnoses_icd,hadm_id,integer,Foreign key. Identifies the hospital stay.
+diagnoses_icd,seq_num,integer,Priority of the code. Sequence 1 is the primary code.
+diagnoses_icd,icd9_code,character varying,ICD9 code for the diagnosis.
+diagnoses_icd_items,id,bigint,""
+diagnoses_icd_items,seq_num,bigint,""
+diagnoses_icd_items,icd9_code,text,""
+diagnoses_icd_items,d_icd_diagnoses_id,text,""
+diagnoses_icd_items,valid_from,timestamp with time zone,""
+diagnoses_icd_items,valid_to,timestamp with time zone,""
+diagnoses_icd_items,seq_num_v3,bigint,""
+diagnoses_icd_items,icd9_code_v3,text,""
+diagnoses_icd_items,d_icd_diagnoses_id_v3,text,""
+diagnoses_icd_items,seq_num_v2,bigint,""
+diagnoses_icd_items,icd9_code_v2,text,""
+diagnoses_icd_items,d_icd_diagnoses_id_v2,text,""
+diagnoses_icd_items,seq_num_v1,bigint,""
+diagnoses_icd_items,icd9_code_v1,text,""
+diagnoses_icd_items,d_icd_diagnoses_id_v1,text,""
+drgcodes,row_id,integer,Unique row identifier.
+drgcodes,subject_id,integer,Foreign key. Identifies the patient.
+drgcodes,hadm_id,integer,Foreign key. Identifies the hospital stay.
+drgcodes,drg_type,character varying,"Type of Diagnosis-Related Group, for example APR is All Patient Refined"
+drgcodes,drg_code,character varying,Diagnosis-Related Group code
+drgcodes,description,character varying,Description of the Diagnosis-Related Group
+drgcodes,drg_severity,smallint,"Relative severity, available for type APR only."
+drgcodes,drg_mortality,smallint,"Relative mortality, available for type APR only."
+friends,id,integer,""
+friends,name,text,""
+friends,status,text,""
+friends,userid,text,""
+icustays,row_id,integer,Unique row identifier.
+icustays,subject_id,integer,Foreign key. Identifies the patient.
+icustays,hadm_id,integer,Foreign key. Identifies the hospital stay.
+icustays,icustay_id,integer,Primary key. Identifies the ICU stay.
+icustays,dbsource,character varying,Source database of the item.
+icustays,first_careunit,character varying,First careunit associated with the ICU stay.
+icustays,last_careunit,character varying,Last careunit associated with the ICU stay.
+icustays,first_wardid,smallint,Identifier for the first ward the patient was located in.
+icustays,last_wardid,smallint,Identifier for the last ward the patient is located in.
+icustays,intime,timestamp without time zone,Time of admission to the ICU.
+icustays,outtime,timestamp without time zone,Time of discharge from the ICU.
+icustays,los,double precision,Length of stay in the ICU measured in fractional days.
+icustays_items,id,bigint,""
+icustays_items,icustay_id,bigint,""
+icustays_items,dbsource,text,""
+icustays_items,first_careunit,text,""
+icustays_items,last_careunit,text,""
+icustays_items,intime,text,""
+icustays_items,outtime,text,""
+icustays_items,los,double precision,""
+icustays_items,valid_from,timestamp with time zone,""
+icustays_items,valid_to,timestamp with time zone,""
+icustays_items,icustay_id_v6,bigint,""
+icustays_items,dbsource_v6,text,""
+icustays_items,first_careunit_v6,text,""
+icustays_items,last_careunit_v6,text,""
+icustays_items,intime_v6,text,""
+icustays_items,outtime_v6,text,""
+icustays_items,los_v6,double precision,""
+icustays_items,icustay_id_v5,bigint,""
+icustays_items,dbsource_v5,text,""
+icustays_items,first_careunit_v5,text,""
+icustays_items,last_careunit_v5,text,""
+icustays_items,intime_v5,text,""
+icustays_items,outtime_v5,text,""
+icustays_items,los_v5,double precision,""
+icustays_items,icustay_id_v4,bigint,""
+icustays_items,dbsource_v4,text,""
+icustays_items,first_careunit_v4,text,""
+icustays_items,last_careunit_v4,text,""
+icustays_items,intime_v4,text,""
+icustays_items,outtime_v4,text,""
+icustays_items,los_v4,double precision,""
+inputevents_cv,row_id,integer,Unique row identifier.
+inputevents_cv,subject_id,integer,Foreign key. Identifies the patient.
+inputevents_cv,hadm_id,integer,Foreign key. Identifies the hospital stay.
+inputevents_cv,icustay_id,integer,Foreign key. Identifies the ICU stay.
+inputevents_cv,charttime,timestamp without time zone,Time that the input was started or received.
+inputevents_cv,itemid,integer,Foreign key. Identifies the charted item.
+inputevents_cv,amount,double precision,Amount of the item administered to the patient.
+inputevents_cv,amountuom,character varying,Unit of measurement for the amount.
+inputevents_cv,rate,double precision,Rate at which the item is being administered to the patient.
+inputevents_cv,rateuom,character varying,Unit of measurement for the rate.
+inputevents_cv,storetime,timestamp without time zone,Time when the event was recorded in the system.
+inputevents_cv,cgid,integer,Foreign key. Identifies the caregiver.
+inputevents_cv,orderid,integer,Identifier linking items which are grouped in a solution.
+inputevents_cv,linkorderid,integer,Identifier linking orders across multiple administrations. LINKORDERID is always equal to the first occuring ORDERID of the series.
+inputevents_cv,stopped,character varying,Event was explicitly marked as stopped. Infrequently used by caregivers.
+inputevents_cv,newbottle,integer,Indicates when a new bottle of the solution was hung at the bedside.
+inputevents_cv,originalamount,double precision,Amount of the item which was originally charted.
+inputevents_cv,originalamountuom,character varying,Unit of measurement for the original amount.
+inputevents_cv,originalroute,character varying,Route of administration originally chosen for the item.
+inputevents_cv,originalrate,double precision,Rate of administration originally chosen for the item.
+inputevents_cv,originalrateuom,character varying,Unit of measurement for the rate originally chosen.
+inputevents_cv,originalsite,character varying,Anatomical site for the original administration of the item.
+inputevents_mv,row_id,integer,Unique row identifier.
+inputevents_mv,subject_id,integer,Foreign key. Identifies the patient.
+inputevents_mv,hadm_id,integer,Foreign key. Identifies the hospital stay.
+inputevents_mv,icustay_id,integer,Foreign key. Identifies the ICU stay.
+inputevents_mv,starttime,timestamp without time zone,Time when the event started.
+inputevents_mv,endtime,timestamp without time zone,Time when the event ended.
+inputevents_mv,itemid,integer,Foreign key. Identifies the charted item.
+inputevents_mv,amount,double precision,Amount of the item administered to the patient.
+inputevents_mv,amountuom,character varying,Unit of measurement for the amount.
+inputevents_mv,rate,double precision,Rate at which the item is being administered to the patient.
+inputevents_mv,rateuom,character varying,Unit of measurement for the rate.
+inputevents_mv,storetime,timestamp without time zone,Time when the event was recorded in the system.
+inputevents_mv,cgid,integer,Foreign key. Identifies the caregiver.
+inputevents_mv,orderid,integer,Identifier linking items which are grouped in a solution.
+inputevents_mv,linkorderid,integer,Identifier linking orders across multiple administrations. LINKORDERID is always equal to the first occuring ORDERID of the series.
+inputevents_mv,ordercategoryname,character varying,A group which the item corresponds to.
+inputevents_mv,secondaryordercategoryname,character varying,A secondary group for those items with more than one grouping possible.
+inputevents_mv,ordercomponenttypedescription,character varying,The role of the item administered in the order.
+inputevents_mv,ordercategorydescription,character varying,The type of item administered.
+inputevents_mv,patientweight,double precision,"For drugs dosed by weight, the value of the weight used in the calculation."
+inputevents_mv,totalamount,double precision,The total amount in the solution for the given item.
+inputevents_mv,totalamountuom,character varying,Unit of measurement for the total amount in the solution.
+inputevents_mv,isopenbag,smallint,Indicates whether the bag containing the solution is open.
+inputevents_mv,continueinnextdept,smallint,Indicates whether the item will be continued in the next department where the patient is transferred to.
+inputevents_mv,cancelreason,smallint,"Reason for cancellation, if cancelled."
+inputevents_mv,statusdescription,character varying,"The current status of the order: stopped, rewritten, running or cancelled."
+inputevents_mv,comments_editedby,character varying,The title of the caregiver who edited the order.
+inputevents_mv,comments_canceledby,character varying,The title of the caregiver who canceled the order.
+inputevents_mv,comments_date,timestamp without time zone,Time at which the caregiver edited or cancelled the order.
+inputevents_mv,originalamount,double precision,Amount of the item which was originally charted.
+inputevents_mv,originalrate,double precision,Rate of administration originally chosen for the item.
+iomt_vitals,id,integer,""
+iomt_vitals,subject_id,integer,""
+iomt_vitals,device_id,text,""
+iomt_vitals,ts,text,""
+iomt_vitals,hr,integer,""
+iomt_vitals,spo2,integer,""
+iomt_vitals,patientsid,text,""
+labevents,row_id,integer,Unique row identifier.
+labevents,subject_id,integer,Foreign key. Identifies the patient.
+labevents,hadm_id,integer,Foreign key. Identifies the hospital stay.
+labevents,itemid,integer,Foreign key. Identifies the charted item.
+labevents,charttime,timestamp without time zone,Time when the event occured.
+labevents,value,character varying,Value of the event as a text string.
+labevents,valuenum,double precision,Value of the event as a number.
+labevents,valueuom,character varying,Unit of measurement.
+labevents,flag,character varying,Flag indicating whether the lab test value is considered abnormal (null if the test was normal).
+labevents_items,id,bigint,""
+labevents_items,itemid,bigint,""
+labevents_items,charttime,text,""
+labevents_items,value,text,""
+labevents_items,valuenum,double precision,""
+labevents_items,valueuom,text,""
+labevents_items,d_labitems_id,text,""
+labevents_items,valid_from,timestamp with time zone,""
+labevents_items,valid_to,timestamp with time zone,""
+labevents_items,itemid_v10,bigint,""
+labevents_items,charttime_v10,text,""
+labevents_items,value_v10,text,""
+labevents_items,valuenum_v10,double precision,""
+labevents_items,valueuom_v10,text,""
+labevents_items,d_labitems_id_v10,text,""
+labevents_items,itemid_v9,bigint,""
+labevents_items,charttime_v9,text,""
+labevents_items,value_v9,text,""
+labevents_items,valuenum_v9,double precision,""
+labevents_items,valueuom_v9,text,""
+labevents_items,d_labitems_id_v9,text,""
+labevents_items,itemid_v8,bigint,""
+labevents_items,charttime_v8,text,""
+labevents_items,value_v8,text,""
+labevents_items,valuenum_v8,double precision,""
+labevents_items,valueuom_v8,text,""
+labevents_items,d_labitems_id_v8,text,""
+location,id,integer,""
+location,city,text,""
+location,zip,text,""
+location,profileid,integer,""
+location,profileID,integer,""
+microbiologyevents,row_id,integer,Unique row identifier.
+microbiologyevents,subject_id,integer,Foreign key. Identifies the patient.
+microbiologyevents,hadm_id,integer,Foreign key. Identifies the hospital stay.
+microbiologyevents,chartdate,timestamp without time zone,Date when the event occured.
+microbiologyevents,charttime,timestamp without time zone,"Time when the event occured, if available."
+microbiologyevents,spec_itemid,integer,Foreign key. Identifies the specimen.
+microbiologyevents,spec_type_desc,character varying,Description of the specimen.
+microbiologyevents,org_itemid,integer,Foreign key. Identifies the organism.
+microbiologyevents,org_name,character varying,Name of the organism.
+microbiologyevents,isolate_num,smallint,Isolate number associated with the test.
+microbiologyevents,ab_itemid,integer,Foreign key. Identifies the antibody.
+microbiologyevents,ab_name,character varying,Name of the antibody used.
+microbiologyevents,dilution_text,character varying,The dilution amount tested for and the comparison which was made against it (e.g. <=4).
+microbiologyevents,dilution_comparison,character varying,"The comparison component of DILUTION_TEXT: either <= (less than or equal), = (equal), or >= (greater than or equal), or null when not available."
+microbiologyevents,dilution_value,double precision,The value component of DILUTION_TEXT: must be a floating point number.
+microbiologyevents,interpretation,character varying,Interpretation of the test.
+noteevents,row_id,integer,Unique row identifier.
+noteevents,subject_id,integer,Foreign key. Identifies the patient.
+noteevents,hadm_id,integer,Foreign key. Identifies the hospital stay.
+noteevents,chartdate,timestamp without time zone,Date when the note was charted.
+noteevents,charttime,timestamp without time zone,Date and time when the note was charted. Note that some notes (e.g. discharge summaries) do not have a time associated with them: these notes have NULL in this column.
+noteevents,storetime,timestamp without time zone,""
+noteevents,category,character varying,"Category of the note, e.g. Discharge summary."
+noteevents,description,character varying,"A more detailed categorization for the note, sometimes entered by free-text."
+noteevents,cgid,integer,Foreign key. Identifies the caregiver.
+noteevents,iserror,character,Flag to highlight an error with the note.
+noteevents,text,text,Content of the note.
+notifications,id,integer,""
+notifications,email_notifications,integer,""
+notifications,sms_notifications,integer,""
+notifications,settingsid,integer,""
+online_consultations,id,integer,""
+online_consultations,consult_id,integer,""
+online_consultations,subject_id,integer,""
+online_consultations,hadm_id,integer,""
+online_consultations,platform,text,""
+online_consultations,duration_min,integer,""
+online_consultations,notes,text,""
+online_consultations,patientsid,text,""
+outputevents,row_id,integer,Unique row identifier.
+outputevents,subject_id,integer,Foreign key. Identifies the patient.
+outputevents,hadm_id,integer,Foreign key. Identifies the hospital stay.
+outputevents,icustay_id,integer,Foreign key. Identifies the ICU stay.
+outputevents,charttime,timestamp without time zone,Time when the output was recorded/occurred.
+outputevents,itemid,integer,Foreign key. Identifies the charted item.
+outputevents,value,double precision,Value of the event as a float.
+outputevents,valueuom,character varying,Unit of measurement.
+outputevents,storetime,timestamp without time zone,Time when the event was recorded in the system.
+outputevents,cgid,integer,Foreign key. Identifies the caregiver.
+outputevents,stopped,character varying,Event was explicitly marked as stopped. Infrequently used by caregivers.
+outputevents,newbottle,character,Not applicable to outputs - column always null.
+outputevents,iserror,integer,Flag to highlight an error with the measurement.
+patients,row_id,bigint,Unique row identifier.
+patients,subject_id,bigint,Primary key. Identifies the patient.
+patients,gender,text,Gender.
+patients,dob,timestamp without time zone,Date of birth.
+patients,dod,timestamp without time zone,Date of death. Null if the patient was alive at least 90 days post hospital discharge.
+patients,dod_hosp,timestamp without time zone,Date of death recorded in the hospital records.
+patients,dod_ssn,timestamp without time zone,Date of death recorded in the social security records.
+patients,expire_flag,integer,Flag indicating that the patient has died.
+patients,id,bigint,""
+patients,name,text,""
+patients,subject_id_v1,bigint,""
+patients,row_id_v1,bigint,""
+patients,gender_v1,text,""
+patients,id_v1,bigint,""
+patients,name_v1,text,""
+patients,patients_id,text,""
+patients,patients_id_v11,text,""
+patients,patients_id_v10,text,""
+posts,id,integer,""
+posts,content,text,""
+posts,timestamp,text,""
+posts,likes,integer,""
+posts,userid,text,""
+prescriptions,row_id,integer,Unique row identifier.
+prescriptions,subject_id,integer,Foreign key. Identifies the patient.
+prescriptions,hadm_id,integer,Foreign key. Identifies the hospital stay.
+prescriptions,icustay_id,integer,Foreign key. Identifies the ICU stay.
+prescriptions,startdate,timestamp without time zone,Date when the prescription started.
+prescriptions,enddate,timestamp without time zone,Date when the prescription ended.
+prescriptions,drug_type,character varying,Type of drug.
+prescriptions,drug,character varying,Name of the drug.
+prescriptions,drug_name_poe,character varying,Name of the drug on the Provider Order Entry interface.
+prescriptions,drug_name_generic,character varying,Generic drug name.
+prescriptions,formulary_drug_cd,character varying,Formulary drug code.
+prescriptions,gsn,character varying,Generic Sequence Number.
+prescriptions,ndc,character varying,National Drug Code.
+prescriptions,prod_strength,character varying,Strength of the drug (product).
+prescriptions,dose_val_rx,character varying,Dose of the drug prescribed.
+prescriptions,dose_unit_rx,character varying,Unit of measurement associated with the dose.
+prescriptions,form_val_disp,character varying,Amount of the formulation dispensed.
+prescriptions,form_unit_disp,character varying,Unit of measurement associated with the formulation.
+prescriptions,route,character varying,"Route of administration, for example intravenous or oral."
+prescriptions,id,integer,""
+prescriptions,dose,text,""
+prescriptions,online_consultationsid,integer,""
+prescriptions_items,id,bigint,""
+prescriptions_items,drug,text,""
+prescriptions_items,dose_val_rx,text,""
+prescriptions_items,dose_unit_rx,text,""
+prescriptions_items,route,text,""
+prescriptions_items,valid_from,timestamp with time zone,""
+prescriptions_items,valid_to,timestamp with time zone,""
+prescriptions_items,drug_v11,text,""
+prescriptions_items,dose_val_rx_v11,text,""
+prescriptions_items,dose_unit_rx_v11,text,""
+prescriptions_items,route_v11,text,""
+prescriptions_items,drug_v10,text,""
+prescriptions_items,dose_val_rx_v10,text,""
+prescriptions_items,dose_unit_rx_v10,text,""
+prescriptions_items,route_v10,text,""
+prescriptions_items,drug_v9,text,""
+prescriptions_items,dose_val_rx_v9,text,""
+prescriptions_items,dose_unit_rx_v9,text,""
+prescriptions_items,route_v9,text,""
+privacy,id,integer,""
+privacy,profile_visibility,integer,""
+privacy,post_visibility,integer,""
+procedureevents_mv,row_id,integer,""
+procedureevents_mv,subject_id,integer,""
+procedureevents_mv,hadm_id,integer,""
+procedureevents_mv,icustay_id,integer,""
+procedureevents_mv,starttime,timestamp without time zone,""
+procedureevents_mv,endtime,timestamp without time zone,""
+procedureevents_mv,itemid,integer,""
+procedureevents_mv,value,double precision,""
+procedureevents_mv,valueuom,character varying,""
+procedureevents_mv,location,character varying,""
+procedureevents_mv,locationcategory,character varying,""
+procedureevents_mv,storetime,timestamp without time zone,""
+procedureevents_mv,cgid,integer,""
+procedureevents_mv,orderid,integer,""
+procedureevents_mv,linkorderid,integer,""
+procedureevents_mv,ordercategoryname,character varying,""
+procedureevents_mv,secondaryordercategoryname,character varying,""
+procedureevents_mv,ordercategorydescription,character varying,""
+procedureevents_mv,isopenbag,smallint,""
+procedureevents_mv,continueinnextdept,smallint,""
+procedureevents_mv,cancelreason,smallint,""
+procedureevents_mv,statusdescription,character varying,""
+procedureevents_mv,comments_editedby,character varying,""
+procedureevents_mv,comments_canceledby,character varying,""
+procedureevents_mv,comments_date,timestamp without time zone,""
+procedures_icd,row_id,integer,Unique row identifier.
+procedures_icd,subject_id,integer,Foreign key. Identifies the patient.
+procedures_icd,hadm_id,integer,Foreign key. Identifies the hospital stay.
+procedures_icd,seq_num,integer,Lower procedure numbers occurred earlier.
+procedures_icd,icd9_code,character varying,ICD9 code associated with the procedure.
+procedures_icd_items,id,bigint,""
+procedures_icd_items,seq_num,bigint,""
+procedures_icd_items,icd9_code,text,""
+procedures_icd_items,d_icd_procedures_id,text,""
+procedures_icd_items,valid_from,timestamp with time zone,""
+procedures_icd_items,valid_to,timestamp with time zone,""
+procedures_icd_items,seq_num_v5,bigint,""
+procedures_icd_items,icd9_code_v5,text,""
+procedures_icd_items,d_icd_procedures_id_v5,text,""
+procedures_icd_items,seq_num_v4,bigint,""
+procedures_icd_items,icd9_code_v4,text,""
+procedures_icd_items,d_icd_procedures_id_v4,text,""
+procedures_icd_items,seq_num_v3,bigint,""
+procedures_icd_items,icd9_code_v3,text,""
+procedures_icd_items,d_icd_procedures_id_v3,text,""
+profile,id,integer,""
+profile,age,integer,""
+profile,gender,text,""
+profile,userid,integer,""
+purchases,id,integer,""
+purchases,item,text,""
+purchases,price,real,""
+purchases,date,text,""
+purchases,userid,integer,""
+services,row_id,integer,Unique row identifier.
+services,subject_id,integer,Foreign key. Identifies the patient.
+services,hadm_id,integer,Foreign key. Identifies the hospital stay.
+services,transfertime,timestamp without time zone,Time when the transfer occured.
+services,prev_service,character varying,Previous service type.
+services,curr_service,character varying,Current service type.
+settings,id,integer,""
+transfers,row_id,integer,Unique row identifier.
+transfers,subject_id,integer,Foreign key. Identifies the patient.
+transfers,hadm_id,integer,Foreign key. Identifies the hospital stay.
+transfers,icustay_id,integer,Foreign key. Identifies the ICU stay.
+transfers,dbsource,character varying,Source database of the item.
+transfers,eventtype,character varying,"Type of event, for example admission or transfer."
+transfers,prev_careunit,character varying,Previous careunit.
+transfers,curr_careunit,character varying,Current careunit.
+transfers,prev_wardid,smallint,Identifier for the previous ward the patient was located in.
+transfers,curr_wardid,smallint,Identifier for the current ward the patient is located in.
+transfers,intime,timestamp without time zone,Time when the patient was transferred into the unit.
+transfers,outtime,timestamp without time zone,Time when the patient was transferred out of the unit.
+transfers,los,double precision,Length of stay in the unit in minutes.
+user,id,integer,""
+user,name,text,""
+user,email,text,""
+user,password,text,""
+user,is_admin_2,integer,""
+user,userid,text,""

@@ -1,0 +1,215 @@
+{
+  "version": "1.0",
+  "metadata": {
+    "name": "E-Commerce Schema",
+    "description": "Simple e-commerce data model",
+    "author": "Test User",
+    "created_at": "2024-01-15"
+  },
+  "entities": [
+    {
+      "name": "Customer",
+      "description": "Customer entity representing users who make purchases",
+      "attributes": [
+        {
+          "name": "id",
+          "type": "uuid",
+          "required": true,
+          "description": "Unique customer identifier"
+        },
+        {
+          "name": "email",
+          "type": "string",
+          "required": true,
+          "description": "Customer email address",
+          "constraints": {
+            "unique": true,
+            "format": "email"
+          }
+        },
+        {
+          "name": "first_name",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "last_name",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "phone",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp",
+          "required": true
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "Product",
+      "description": "Product catalog item",
+      "attributes": [
+        {
+          "name": "id",
+          "type": "uuid",
+          "required": true
+        },
+        {
+          "name": "sku",
+          "type": "string",
+          "required": true,
+          "constraints": {
+            "unique": true
+          }
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "price",
+          "type": "decimal",
+          "required": true,
+          "constraints": {
+            "min": 0
+          }
+        },
+        {
+          "name": "stock_quantity",
+          "type": "integer",
+          "required": true,
+          "constraints": {
+            "min": 0
+          }
+        },
+        {
+          "name": "is_active",
+          "type": "boolean",
+          "required": true
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "Order",
+      "description": "Customer order",
+      "attributes": [
+        {
+          "name": "id",
+          "type": "uuid",
+          "required": true
+        },
+        {
+          "name": "customer_id",
+          "type": "uuid",
+          "required": true
+        },
+        {
+          "name": "order_number",
+          "type": "string",
+          "required": true,
+          "constraints": {
+            "unique": true
+          }
+        },
+        {
+          "name": "total_amount",
+          "type": "decimal",
+          "required": true
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "required": true,
+          "constraints": {
+            "enum": ["pending", "processing", "shipped", "delivered", "cancelled"]
+          }
+        },
+        {
+          "name": "order_date",
+          "type": "timestamp",
+          "required": true
+        },
+        {
+          "name": "shipped_date",
+          "type": "timestamp",
+          "required": false
+        }
+      ],
+      "relationships": [
+        {
+          "type": "belongsTo",
+          "entity": "Customer",
+          "key": "customer_id"
+        }
+      ]
+    },
+    {
+      "name": "OrderItem",
+      "description": "Line items in an order",
+      "attributes": [
+        {
+          "name": "id",
+          "type": "uuid",
+          "required": true
+        },
+        {
+          "name": "order_id",
+          "type": "uuid",
+          "required": true
+        },
+        {
+          "name": "product_id",
+          "type": "uuid",
+          "required": true
+        },
+        {
+          "name": "quantity",
+          "type": "integer",
+          "required": true
+        },
+        {
+          "name": "unit_price",
+          "type": "decimal",
+          "required": true
+        },
+        {
+          "name": "subtotal",
+          "type": "decimal",
+          "required": true
+        }
+      ],
+      "relationships": [
+        {
+          "type": "belongsTo",
+          "entity": "Order",
+          "key": "order_id"
+        },
+        {
+          "type": "belongsTo",
+          "entity": "Product",
+          "key": "product_id"
+        }
+      ]
+    }
+  ]
+}
