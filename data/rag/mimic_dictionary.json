@@ -1,0 +1,134 @@
+{
+  "PATIENTS.SUBJECT_ID": {
+    "description": "Unique identifier for each patient",
+    "synonyms": [
+      "patient_id",
+      "subject",
+      "person_id"
+    ],
+    "units": null,
+    "value_profile": {
+      "type": "integer",
+      "unique": true
+    }
+  },
+  "PATIENTS.GENDER": {
+    "description": "Patient gender (M/F)",
+    "synonyms": [
+      "sex",
+      "gender_code"
+    ],
+    "units": null,
+    "value_profile": {
+      "type": "categorical",
+      "values": [
+        "M",
+        "F"
+      ]
+    }
+  },
+  "ADMISSIONS.HADM_ID": {
+    "description": "Unique identifier for each admission",
+    "synonyms": [
+      "admission_id",
+      "visit_id",
+      "encounter_id"
+    ],
+    "units": null,
+    "value_profile": {
+      "type": "integer",
+      "unique": true
+    }
+  },
+  "ADMISSIONS.ADMITTIME": {
+    "description": "Date and time of hospital admission",
+    "synonyms": [
+      "admission_time",
+      "admit_time",
+      "start_time"
+    ],
+    "units": "timestamp",
+    "value_profile": {
+      "type": "datetime",
+      "format": "YYYY-MM-DD HH:MM:SS"
+    }
+  },
+  "CHARTEVENTS.ITEMID": {
+    "description": "Identifier for the measurement type",
+    "synonyms": [
+      "measurement_id",
+      "chart_item",
+      "observation_id"
+    ],
+    "units": null,
+    "value_profile": {
+      "type": "integer",
+      "coded": true
+    }
+  },
+  "CHARTEVENTS.VALUENUM": {
+    "description": "Numeric value of the measurement",
+    "synonyms": [
+      "numeric_value",
+      "value",
+      "measurement_value"
+    ],
+    "units": "varies",
+    "value_profile": {
+      "type": "numeric",
+      "nullable": true
+    }
+  },
+  "CHARTEVENTS.VALUEUOM": {
+    "description": "Unit of measurement",
+    "synonyms": [
+      "unit",
+      "measurement_unit",
+      "uom"
+    ],
+    "units": null,
+    "value_profile": {
+      "type": "text",
+      "categorical": true
+    }
+  },
+  "LABEVENTS.VALUENUM": {
+    "description": "Numeric value of the laboratory test",
+    "synonyms": [
+      "lab_value",
+      "test_result",
+      "numeric_result"
+    ],
+    "units": "varies",
+    "value_profile": {
+      "type": "numeric",
+      "nullable": true
+    }
+  },
+  "DIAGNOSES_ICD.ICD9_CODE": {
+    "description": "ICD-9 diagnosis code",
+    "synonyms": [
+      "diagnosis_code",
+      "icd_code",
+      "dx_code"
+    ],
+    "units": null,
+    "value_profile": {
+      "type": "code",
+      "format": "ICD9"
+    }
+  },
+  "PRESCRIPTIONS.DRUG": {
+    "description": "Name of the prescribed drug",
+    "synonyms": [
+      "medication",
+      "drug_name",
+      "prescription"
+    ],
+    "units": null,
+    "value_profile": {
+      "type": "text",
+      "free_text": true
+    }
+  }
+}

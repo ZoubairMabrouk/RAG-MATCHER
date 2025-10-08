@@ -8,6 +8,7 @@ import uuid
 
 from src.application.dtos.evolution_dto import EvolutionRequest
 from src.infrastructure.di_container import DIContainer
+from src.presentation.api.rag_endpoints import router as rag_router
 
 
 # Pydantic models for API
@@ -60,16 +61,24 @@ def create_app() -> FastAPI:
         allow_headers=["*"],
     )
     
+    # Include RAG router
+    app.include_router(rag_router)
+    
     @app.get("/")
     def root():
         """Root endpoint."""
         return {
             "name": "Database Evolution System",
             "version": "1.0.0",
+            "features": ["Schema Evolution", "RAG Schema Matching"],
             "endpoints": {
                 "analyze": "/api/v1/analyze",
                 "introspect": "/api/v1/introspect",
-                "jobs": "/api/v1/jobs/{job_id}"
+                "jobs": "/api/v1/jobs/{job_id}",
+                "rag_match": "/api/v1/rag/match/single",
+                "rag_batch": "/api/v1/rag/match/batch",
+                "rag_search": "/api/v1/rag/search/semantic",
+                "rag_stats": "/api/v1/rag/statistics"
             }
         }
     
