@@ -1,0 +1,516 @@
+"""
+RAG-based Schema Matcher for Virtual Renaming.
+
+This module provides semantic matching between U-Schema entities/attributes
+and existing database schema objects using RAG (Retrieval-Augmented Generation).
+
+Key Features:
+- Builds knowledge base from current schema metadata
+- Uses embeddings + FAISS for semantic similarity search
+- Optional LLM validation for confidence scoring
+- Returns MatchResult with target name, confidence, and rationale
+- No physical RENAME operations - only virtual aliasing
+"""
+
+from typing import List, Dict, Optional, Tuple, Any
+import logging
+import json
+import os
+from dataclasses import dataclass
+
+import numpy as np
+
+from src.domain.entities.schema import SchemaMetadata, Table, Column
+from src.domain.entities.rag_schema import KnowledgeBaseDocument
+from src.infrastructure.rag.embedding_service import EmbeddingService
+from src.infrastructure.rag.vector_store import RAGVectorStore
+from src.infrastructure.llm.llm_client import OpenAILLMClient
+
+logger = logging.getLogger(__name__)
+
+
+@dataclass
+class MatchResult:
+    """
+    Result of a semantic matching operation.
+    
+    Attributes:
+        target_name: The name of the matched table/column (None if no match)
+        confidence: Confidence score (0.0 to 1.0)
+        rationale: Human-readable explanation of the match decision
+        extra: Additional metadata (source, method, etc.)
+    """
+    target_name: Optional[str]
+    confidence: float
+    rationale: str
+    extra: Dict[str, Any]
+
+
+class RAGSchemaMatcher:
+    """
+    RAG-based semantic matcher for schema objects.
+    
+    Single Responsibility: Semantic matching of U-Schema entities/attributes
+    to existing database schema objects using embeddings and optional LLM validation.
+    """
+    
+    def __init__(
+        self,
+        embedding_service: EmbeddingService,
+        vector_store: RAGVectorStore,
+        llm_client: Optional[OpenAILLMClient] = None,
+        table_accept_threshold: float = 0.62,
+        column_accept_threshold: float = 0.68,
+        top_k_search: int = 5
+    ):
+        """
+        Initialize the RAG schema matcher.
+        
+        Args:
+            embedding_service: Service for generating embeddings
+            vector_store: Vector store for similarity search
+            llm_client: Optional LLM client for validation
+            table_accept_threshold: Minimum confidence for table matching
+            column_accept_threshold: Minimum confidence for column matching
+            top_k_search: Number of candidates to retrieve from vector search
+        """
+        self._embedding_service = embedding_service
+        self._vector_store = vector_store
+        self._llm_client = llm_client
+        self._table_threshold = table_accept_threshold
+        self._column_threshold = column_accept_threshold
+        self._top_k = top_k_search
+        
+        # Knowledge base state
+        self._kb_built = False
+        self._schema_metadata: Optional[SchemaMetadata] = None
+        
+        logger.info(f"[RAGSchemaMatcher] Initialized with thresholds: table={table_accept_threshold}, column={column_accept_threshold}")
+    
+    def build_kb(self, schema: SchemaMetadata) -> List[KnowledgeBaseDocument]:
+        """
+        Build knowledge base documents from schema metadata.
+        
+        Args:
+            schema: Current database schema metadata
+            
+        Returns:
+            List of knowledge base documents for tables and columns
+        """
+        logger.info(f"[RAGSchemaMatcher] Building KB from schema with {len(schema.tables)} tables")
+        
+        documents = []
+        
+        for table in schema.tables:
+            # Create table-level document
+            table_doc = self._create_table_document(table)
+            documents.append(table_doc)
+            
+            # Create column-level documents
+            for column in table.columns:
+                column_doc = self._create_column_document(table, column)
+                documents.append(column_doc)
+        
+        logger.info(f"[RAGSchemaMatcher] Created {len(documents)} KB documents")
+        return documents
+    
+    def index_kb(self, documents: List[KnowledgeBaseDocument]) -> None:
+        """
+        Index knowledge base documents in vector store.
+        
+        Args:
+            documents: Knowledge base documents to index
+        """
+        if not documents:
+            logger.warning("[RAGSchemaMatcher] No documents to index")
+            return
+        
+        logger.info(f"[RAGSchemaMatcher] Indexing {len(documents)} documents")
+        
+        # Generate embeddings for all documents
+        texts = [doc.to_text() for doc in documents]
+        embeddings = self._embedding_service.embed(texts)
+        
+        # Convert to numpy array
+        embeddings_array = np.array(embeddings, dtype='float32')
+        
+        # Add to vector store
+        self._vector_store.add_documents(documents, embeddings_array)
+        
+        self._kb_built = True
+        logger.info("[RAGSchemaMatcher] KB indexing completed")
+    
+    def match_table(
+        self, 
+        entity_name: str, 
+        attributes: List[str],
+        hints: Optional[List[str]] = None
+    ) -> MatchResult:
+        """
+        Find the best matching table for a U-Schema entity.
+        
+        Args:
+            entity_name: Name of the U-Schema entity
+            attributes: List of attribute names in the entity
+            hints: Optional hints for better matching
+            
+        Returns:
+            MatchResult with target table name and confidence
+        """
+        if not self._kb_built:
+            logger.warning("[RAGSchemaMatcher] KB not built, returning no match")
+            return MatchResult(None, 0.0, "Knowledge base not built", {})
+        
+        # Build query text for table matching
+        query_text = self._build_table_query(entity_name, attributes, hints or [])
+        
+        # Generate query embedding
+        query_embedding = np.array(self._embedding_service.embed([query_text])[0], dtype='float32')
+        
+        # Search for similar tables
+        candidates = self._vector_store.search(
+            query_embedding, 
+            top_k=self._top_k,
+            filters={"type": "table"}
+        )
+        
+        if not candidates:
+            return MatchResult(None, 0.0, "No table candidates found", {})
+        
+        # Get best candidate
+        best_doc, retrieval_score = candidates[0]
+        
+        # Apply LLM validation if available
+        if self._llm_client:
+            llm_result = self._llm_validate_table(entity_name, attributes, best_doc, candidates)
+            final_confidence = max(retrieval_score, llm_result["confidence"])
+            rationale = llm_result["rationale"]
+        else:
+            final_confidence = retrieval_score
+            rationale = f"Retrieval-based match: {best_doc.table} (score: {retrieval_score:.3f})"
+        
+        # Check threshold
+        if final_confidence >= self._table_threshold:
+            target_name = best_doc.table
+            logger.info(f"[RAGSchemaMatcher] Table match: {entity_name} -> {target_name} (conf: {final_confidence:.3f})")
+        else:
+            target_name = None
+            rationale = f"Below threshold: {rationale}"
+        
+        return MatchResult(
+            target_name=target_name,
+            confidence=final_confidence,
+            rationale=rationale,
+            extra={
+                "method": "llm" if self._llm_client else "retrieval",
+                "retrieval_score": retrieval_score,
+                "candidates_count": len(candidates)
+            }
+        )
+    
+    def match_column(
+        self, 
+        table_name: str, 
+        attr_name: str, 
+        attr_type: str,
+        hints: Optional[List[str]] = None
+    ) -> MatchResult:
+        """
+        Find the best matching column for a U-Schema attribute.
+        
+        Args:
+            table_name: Name of the target table
+            attr_name: Name of the U-Schema attribute
+            attr_type: Data type of the attribute
+            hints: Optional hints for better matching
+            
+        Returns:
+            MatchResult with target column name and confidence
+        """
+        if not self._kb_built:
+            logger.warning("[RAGSchemaMatcher] KB not built, returning no match")
+            return MatchResult(None, 0.0, "Knowledge base not built", {})
+        
+        # Build query text for column matching
+        query_text = self._build_column_query(table_name, attr_name, attr_type, hints or [])
+        
+        # Generate query embedding
+        query_embedding = np.array(self._embedding_service.embed([query_text])[0], dtype='float32')
+        
+        # Search for similar columns in the specific table
+        candidates = self._vector_store.search(
+            query_embedding, 
+            top_k=self._top_k,
+            filters={"table": table_name}
+        )
+        
+        if not candidates:
+            return MatchResult(None, 0.0, f"No column candidates found in table {table_name}", {})
+        
+        # Get best candidate
+        best_doc, retrieval_score = candidates[0]
+        
+        # Apply LLM validation if available
+        if self._llm_client:
+            llm_result = self._llm_validate_column(attr_name, attr_type, best_doc, candidates)
+            final_confidence = max(retrieval_score, llm_result["confidence"])
+            rationale = llm_result["rationale"]
+        else:
+            final_confidence = retrieval_score
+            rationale = f"Retrieval-based match: {best_doc.id} (score: {retrieval_score:.3f})"
+        
+        # Check threshold
+        if final_confidence >= self._column_threshold:
+            # Extract column name from document ID (format: table.column)
+            target_name = best_doc.id.split('.')[-1] if '.' in best_doc.id else best_doc.id
+            logger.info(f"[RAGSchemaMatcher] Column match: {attr_name} -> {target_name} (conf: {final_confidence:.3f})")
+        else:
+            target_name = None
+            rationale = f"Below threshold: {rationale}"
+        
+        return MatchResult(
+            target_name=target_name,
+            confidence=final_confidence,
+            rationale=rationale,
+            extra={
+                "method": "llm" if self._llm_client else "retrieval",
+                "retrieval_score": retrieval_score,
+                "table": table_name,
+                "candidates_count": len(candidates)
+            }
+        )
+    
+    # ---- Private methods --------------------------------------------------------
+    
+    def _create_table_document(self, table: Table) -> KnowledgeBaseDocument:
+        """Create a knowledge base document for a table."""
+        # Build rich description
+        columns_info = []
+        for col in table.columns:
+            col_desc = f"{col.name} ({col.data_type})"
+            if col.primary_key:
+                col_desc += " [PK]"
+            if hasattr(col, 'foreign_key') and col.foreign_key:
+                col_desc += " [FK]"
+            if not col.nullable:
+                col_desc += " [NOT NULL]"
+            columns_info.append(col_desc)
+        
+        description = f"Table: {table.name}. Columns: {', '.join(columns_info)}"
+        
+        return KnowledgeBaseDocument(
+            id=table.name,
+            table=table.name,
+            text=description,
+            metadata={
+                "type": "table",
+                "column_count": len(table.columns),
+                "columns": [col.name for col in table.columns],
+                "primary_keys": [col.name for col in table.columns if col.primary_key],
+                "foreign_keys": [col.name for col in table.columns if hasattr(col, 'foreign_key') and col.foreign_key]
+            }
+        )
+    
+    def _create_column_document(self, table: Table, column: Column) -> KnowledgeBaseDocument:
+        """Create a knowledge base document for a column."""
+        # Build rich description
+        constraints = []
+        if column.primary_key:
+            constraints.append("PRIMARY KEY")
+        if hasattr(column, 'foreign_key') and column.foreign_key:
+            constraints.append("FOREIGN KEY")
+        if not column.nullable:
+            constraints.append("NOT NULL")
+        
+        constraints_str = f" [{', '.join(constraints)}]" if constraints else ""
+        
+        description = f"Column: {table.name}.{column.name}. Type: {column.data_type}{constraints_str}"
+        
+        return KnowledgeBaseDocument(
+            id=f"{table.name}.{column.name}",
+            table=table.name,
+            text=description,
+            metadata={
+                "type": "column",
+                "data_type": column.data_type,
+                "is_primary_key": column.primary_key,
+                "is_foreign_key": hasattr(column, 'foreign_key') and column.foreign_key,
+                "is_nullable": column.nullable,
+                "default_value": column.default_value
+            }
+        )
+    
+    def _build_table_query(self, entity_name: str, attributes: List[str], hints: List[str]) -> str:
+        """Build query text for table matching."""
+        parts = [
+            f"Entity: {entity_name}",
+            f"Attributes: {', '.join(attributes)}"
+        ]
+        
+        if hints:
+            parts.append(f"Hints: {', '.join(hints)}")
+        
+        return ". ".join(parts)
+    
+    def _build_column_query(self, table_name: str, attr_name: str, attr_type: str, hints: List[str]) -> str:
+        """Build query text for column matching."""
+        parts = [
+            f"Table: {table_name}",
+            f"Attribute: {attr_name}",
+            f"Type: {attr_type}"
+        ]
+        
+        if hints:
+            parts.append(f"Hints: {', '.join(hints)}")
+        
+        return ". ".join(parts)
+    
+    def _llm_validate_table(
+        self, 
+        entity_name: str, 
+        attributes: List[str], 
+        best_candidate: KnowledgeBaseDocument,
+        all_candidates: List[Tuple[KnowledgeBaseDocument, float]]
+    ) -> Dict[str, Any]:
+        """Use LLM to validate table matching decision."""
+        if not self._llm_client:
+            return {"confidence": 0.0, "rationale": "No LLM client available"}
+        
+        # Build context
+        candidates_text = []
+        for doc, score in all_candidates[:3]:  # Top 3 candidates
+            candidates_text.append(f"- {doc.table}: {doc.text} (score: {score:.3f})")
+        
+        prompt = f"""
+You are a database schema expert. Given a U-Schema entity and existing database tables, 
+determine the best semantic match.
+
+Entity to match:
+- Name: {entity_name}
+- Attributes: {', '.join(attributes)}
+
+Candidate tables:
+{chr(10).join(candidates_text)}
+
+Respond with a JSON object:
+{{
+    "match": "table_name" or null,
+    "confidence": 0.0-1.0,
+    "why": "brief explanation"
+}}
+
+Consider:
+- Semantic similarity of names (items vs products)
+- Column overlap and similarity
+- Business domain context
+"""
+        
+        try:
+            response = self._llm_client.generate(prompt, max_tokens=200)
+            result = json.loads(response.strip())
+            
+            return {
+                "confidence": float(result.get("confidence", 0.0)),
+                "rationale": f"LLM validation: {result.get('why', 'No explanation')}"
+            }
+        except Exception as e:
+            logger.warning(f"[RAGSchemaMatcher] LLM validation failed: {e}")
+            return {"confidence": 0.0, "rationale": f"LLM validation failed: {e}"}
+    
+    def _llm_validate_column(
+        self, 
+        attr_name: str, 
+        attr_type: str, 
+        best_candidate: KnowledgeBaseDocument,
+        all_candidates: List[Tuple[KnowledgeBaseDocument, float]]
+    ) -> Dict[str, Any]:
+        """Use LLM to validate column matching decision."""
+        if not self._llm_client:
+            return {"confidence": 0.0, "rationale": "No LLM client available"}
+        
+        # Build context
+        candidates_text = []
+        for doc, score in all_candidates[:3]:  # Top 3 candidates
+            col_name = doc.id.split('.')[-1] if '.' in doc.id else doc.id
+            candidates_text.append(f"- {col_name}: {doc.text} (score: {score:.3f})")
+        
+        prompt = f"""
+You are a database schema expert. Given a U-Schema attribute and existing database columns, 
+determine the best semantic match.
+
+Attribute to match:
+- Name: {attr_name}
+- Type: {attr_type}
+
+Candidate columns:
+{chr(10).join(candidates_text)}
+
+Respond with a JSON object:
+{{
+    "match": "column_name" or null,
+    "confidence": 0.0-1.0,
+    "why": "brief explanation"
+}}
+
+Consider:
+- Semantic similarity of names (qte vs quantity)
+- Type compatibility
+- Business domain context
+"""
+        
+        try:
+            response = self._llm_client.generate(prompt, max_tokens=200)
+            result = json.loads(response.strip())
+            
+            return {
+                "confidence": float(result.get("confidence", 0.0)),
+                "rationale": f"LLM validation: {result.get('why', 'No explanation')}"
+            }
+        except Exception as e:
+            logger.warning(f"[RAGSchemaMatcher] LLM validation failed: {e}")
+            return {"confidence": 0.0, "rationale": f"LLM validation failed: {e}"}
+    
+    def get_statistics(self) -> Dict[str, Any]:
+        """Get matcher statistics."""
+        return {
+            "kb_built": self._kb_built,
+            "table_threshold": self._table_threshold,
+            "column_threshold": self._column_threshold,
+            "llm_enabled": self._llm_client is not None,
+            "vector_store_stats": self._vector_store.get_statistics()
+        }
+
+
+# Factory function for easy creation
+def create_rag_schema_matcher(
+    embedding_service: EmbeddingService,
+    vector_store: RAGVectorStore,
+    use_llm: bool = False,
+    llm_client: Optional[OpenAILLMClient] = None,
+    table_threshold: float = 0.62,
+    column_threshold: float = 0.68
+) -> RAGSchemaMatcher:
+    """
+    Factory function to create a RAG schema matcher.
+    
+    Args:
+        embedding_service: Embedding service instance
+        vector_store: Vector store instance
+        use_llm: Whether to enable LLM validation
+        llm_client: LLM client (required if use_llm=True)
+        table_threshold: Table matching threshold
+        column_threshold: Column matching threshold
+        
+    Returns:
+        Configured RAGSchemaMatcher instance
+    """
+    if use_llm and not llm_client:
+        raise ValueError("LLM client required when use_llm=True")
+    
+    return RAGSchemaMatcher(
+        embedding_service=embedding_service,
+        vector_store=vector_store,
+        llm_client=llm_client if use_llm else None,
+        table_accept_threshold=table_threshold,
+        column_accept_threshold=column_threshold
+    )

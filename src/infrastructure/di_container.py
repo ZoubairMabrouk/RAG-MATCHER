@@ -2,6 +2,9 @@
 
 from typing import Optional
 import os
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class DIContainer:
@@ -43,8 +46,11 @@ class DIContainer:
     def get_vector_store(self):
         """Get vector store."""
         if "vector_store" not in self._services:
-            from src.infrastructure.rag.vector_store import FAISSVectorStore
-            self._services["vector_store"] = FAISSVectorStore(dimension=1536)
+            from src.infrastructure.rag.vector_store import RAGVectorStore
+            # Get dimension from embedding service
+            embedding_service = self.get_embedding_service()
+            dimension = embedding_service.dimension
+            self._services["vector_store"] = RAGVectorStore(dimension=dimension)
         
         return self._services["vector_store"]
     
@@ -58,6 +64,40 @@ class DIContainer:
         
         return self._services["llm_client"]
     
+    def get_rag_schema_matcher(self):
+        """Get RAG schema matcher."""
+        if "rag_schema_matcher" not in self._services:
+            from src.infrastructure.rag.rag_schema_matcher import RAGSchemaMatcher
+            
+            # Get dependencies
+            embedding_service = self.get_embedding_service()
+            vector_store = self.get_vector_store()
+            
+            # Check if LLM should be used
+            use_llm = os.getenv("RAG_USE_LLM", "0") == "1"
+            llm_client = self.get_llm_client() if use_llm else None
+            
+            # Create matcher
+            matcher = RAGSchemaMatcher(
+                embedding_service=embedding_service,
+                vector_store=vector_store,
+                llm_client=llm_client
+            )
+            
+            # Build knowledge base from current schema
+            try:
+                inspector = self.get_inspector()
+                schema = inspector.inspect()
+                kb_docs = matcher.build_kb(schema)
+                matcher.index_kb(kb_docs)
+                logger.info(f"[DIContainer] Built RAG knowledge base with {len(kb_docs)} documents")
+            except Exception as e:
+                logger.warning(f"[DIContainer] Failed to build RAG knowledge base: {e}")
+            
+            self._services["rag_schema_matcher"] = matcher
+        
+        return self._services["rag_schema_matcher"]
+    
     def get_diff_engine(self):
         """Get diff engine."""
         if "diff_engine" not in self._services:
@@ -65,7 +105,8 @@ class DIContainer:
             from src.domain.entities.rules import NamingConvention
             
             naming = NamingConvention()
-            self._services["diff_engine"] = DiffEngine(naming)
+            matcher = self.get_rag_schema_matcher()
+            self._services["diff_engine"] = DiffEngine(naming, rag_matcher=matcher)
         
         return self._services["diff_engine"]
     

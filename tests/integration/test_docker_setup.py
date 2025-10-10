@@ -12,8 +12,20 @@ def postgres_container():
 
 @pytest.fixture
 def db_connection(postgres_container):
-    """Get database connection."""
-    conn = psycopg2.connect(postgres_container.get_connection_url())
+    """Get database connection with psycopg2-friendly params."""
+    host = postgres_container.get_container_host_ip()
+    port = postgres_container.get_exposed_port(postgres_container.port)
+    user = postgres_container.username
+    password = postgres_container.password
+    dbname = postgres_container.dbname
+
+    conn = psycopg2.connect(
+        host=host,
+        port=int(port),
+        user=user,
+        password=password,
+        dbname=dbname,
+    )
     yield conn
     conn.close()
 

@@ -22,6 +22,14 @@ LLM-powered database schema evolution with advanced RAG (Retrieval-Augmented Gen
 - 🔄 **Human-in-the-Loop**: Review workflow for uncertain matches
 - 🔒 **Privacy-First**: Zero PHI, synthetic data only
 
+### RAG-based Virtual Renaming (NEW!)
+- 🎯 **Semantic Matching**: Uses embeddings to understand relationships between U-Schema entities and existing tables
+- 🔄 **Virtual Renaming**: Maps entities to existing tables without physical `RENAME` operations
+- 🧠 **LLM Validation**: Optional OpenAI integration for enhanced confidence scoring
+- 📊 **Confidence Scoring**: Configurable thresholds for table (0.62) and column (0.68) matching
+- 🔄 **Fallback Support**: Falls back to heuristic matching if RAG unavailable
+- 🚫 **No Physical Renames**: Never emits `ALTER TABLE ... RENAME TO ...` statements
+
 ## Architecture
 
 ```
@@ -103,7 +111,23 @@ curl -X POST http://localhost:8000/api/v1/rag/match/batch \
   }'
 ```
 
-### 3. Traditional Schema Evolution
+### 3. RAG Virtual Renaming (NEW!)
+
+```bash
+# Setup RAG environment
+python scripts/setup_rag_environment.py --llm --api-key YOUR_KEY
+
+# Validate implementation
+python scripts/validate_rag_implementation.py
+
+# Run demo with virtual renaming
+python examples/run_rag_virtual_rename_demo.py
+
+# Test specific scenarios
+python examples/test_rag_virtual_rename.py
+```
+
+### 4. Traditional Schema Evolution
 
 ```bash
 # Analyze schema evolution (existing functionality)

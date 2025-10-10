@@ -22,8 +22,25 @@ def main():
                     {"name": "id", "type": "uuid", "required": True},
                     {"name": "name", "type": "string", "required": True},
                     {"name": "price", "type": "decimal", "required": True},
+                    {"name": "qte", "type": "integer", "required": True},
+                    {"name": "ref", "type": "string", "required": False},
+                    
                 ],
-            }
+                "aggregates" : {
+                          "name": "contact",
+                          "target": "Contact",
+                          "lowerBound": 0,
+                          "upperBound": 1
+                        }
+            },
+            {
+                "name":"customer",
+                    "attributes": [
+                      { "name": "cgid", "type": "integer", "iskey": True },
+                      { "name": "label", "type": "string" },
+                      { "name": "description", "type": "string" }
+            ]
+                    } 
         ]
     }
 

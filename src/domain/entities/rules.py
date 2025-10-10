@@ -11,6 +11,22 @@ class NamingConvention:
     fk_suffix: str = "_id"
     index_prefix: str = "idx_"
     constraint_prefix: str = "fk_"
+    
+    def table_name(self, entity_name: str) -> str:
+        """Convert entity name to table name (snake_case + plural)."""
+        import re
+        # Convert PascalCase to snake_case
+        snake = re.sub(r'(?<!^)(?=[A-Z])', '_', entity_name).lower()
+        # Simple pluralization (production would use inflect library)
+        if not snake.endswith('s'):
+            snake += 's'
+        return snake
+    
+    def column_name(self, attr_name: str) -> str:
+        """Convert attribute name to column name (snake_case)."""
+        import re
+        # Convert PascalCase to snake_case
+        return re.sub(r'(?<!^)(?=[A-Z])', '_', attr_name).lower()
 
 
 @dataclass(frozen=True)

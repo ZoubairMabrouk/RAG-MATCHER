@@ -51,8 +51,8 @@ class SQLValidator:
         warnings = []
         
         # Check for destructive operations
-        if change.change_type in [ChangeType.DROP_TABLE, ChangeType.DROP_COLUMN]:
-            warnings.append(f"Destructive operation: {change.change_type.value}")
+        # if change.change_type in [ChangeType.DROP_TABLE, ChangeType.DROP_COLUMN]:
+        #     warnings.append(f"Destructive operation: {change.change_type.value}")
         
         # Check for NOT NULL on existing column
         if change.change_type == ChangeType.ADD_COLUMN:

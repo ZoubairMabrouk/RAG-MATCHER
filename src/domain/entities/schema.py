@@ -19,16 +19,16 @@ class DataType(Enum):
 class ChangeType(Enum):
     """Types of schema changes."""
     CREATE_TABLE = "create_table"
-    DROP_TABLE = "drop_table"
+    #DROP_TABLE = "drop_table"
     ADD_COLUMN = "add_column"
-    DROP_COLUMN = "drop_column"
+    #DROP_COLUMN = "drop_column"
     MODIFY_COLUMN = "modify_column"
     ADD_INDEX = "add_index"
-    DROP_INDEX = "drop_index"
+    #DROP_INDEX = "drop_index"
     ADD_CONSTRAINT = "add_constraint"
-    DROP_CONSTRAINT = "drop_constraint"
+    #DROP_CONSTRAINT = "drop_constraint"
     CREATE_VIEW = "create_view"
-    DROP_VIEW = "drop_view"
+    #DROP_VIEW = "drop_view"
 
 
 @dataclass(frozen=True)
