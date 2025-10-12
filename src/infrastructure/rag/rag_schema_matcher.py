@@ -115,31 +115,22 @@ class RAGSchemaMatcher:
         return documents
     
     def index_kb(self, documents: List[KnowledgeBaseDocument]) -> None:
-        """
-        Index knowledge base documents in vector store.
-        
-        Args:
-            documents: Knowledge base documents to index
-        """
         if not documents:
             logger.warning("[RAGSchemaMatcher] No documents to index")
             return
-        
+
         logger.info(f"[RAGSchemaMatcher] Indexing {len(documents)} documents")
-        
-        # Generate embeddings for all documents
-        texts = [doc.to_text() for doc in documents]
+
+        texts = [doc.to_text() for doc in documents]     # <-- PAS .text ni .content direct
         embeddings = self._embedding_service.embed(texts)
-        
-        # Convert to numpy array
-        embeddings_array = np.array(embeddings, dtype='float32')
-        
-        # Add to vector store
+        embeddings_array = np.asarray(embeddings, dtype="float32")
+
+        # Idéalement, le store sait garder les docs
         self._vector_store.add_documents(documents, embeddings_array)
-        
+
         self._kb_built = True
         logger.info("[RAGSchemaMatcher] KB indexing completed")
-    
+        
     def match_table(
         self, 
         entity_name: str, 
@@ -171,7 +162,7 @@ class RAGSchemaMatcher:
         candidates = self._vector_store.search(
             query_embedding, 
             top_k=self._top_k,
-            filters={"type": "table"}
+            filters={"kind": "table"}
         )
         
         if not candidates:
@@ -241,7 +232,7 @@ class RAGSchemaMatcher:
         candidates = self._vector_store.search(
             query_embedding, 
             top_k=self._top_k,
-            filters={"table": table_name}
+            filters={"table": table_name, "kind" : "column"}
         )
         
         if not candidates:
@@ -283,62 +274,62 @@ class RAGSchemaMatcher:
     # ---- Private methods --------------------------------------------------------
     
     def _create_table_document(self, table: Table) -> KnowledgeBaseDocument:
-        """Create a knowledge base document for a table."""
-        # Build rich description
-        columns_info = []
+        cols_desc = []
         for col in table.columns:
-            col_desc = f"{col.name} ({col.data_type})"
-            if col.primary_key:
-                col_desc += " [PK]"
-            if hasattr(col, 'foreign_key') and col.foreign_key:
-                col_desc += " [FK]"
-            if not col.nullable:
-                col_desc += " [NOT NULL]"
-            columns_info.append(col_desc)
-        
-        description = f"Table: {table.name}. Columns: {', '.join(columns_info)}"
-        
+            parts = [f"{col.name} ({col.data_type})"]
+            if getattr(col, "primary_key", False):
+                parts.append("[PK]")
+            if getattr(col, "foreign_key", None):
+                parts.append("[FK]")
+            if not getattr(col, "nullable", True):
+                parts.append("[NOT NULL]")
+            cols_desc.append(" ".join(parts))
+
+        description = f"Table {table.name}. Columns: {', '.join(cols_desc)}."
+
         return KnowledgeBaseDocument(
-            id=table.name,
+            id=f"table::{table.name}",     # <-- OBLIGATOIRE
             table=table.name,
-            text=description,
+            column="*",
+            content=description,
             metadata={
-                "type": "table",
+                "kind": "table",
                 "column_count": len(table.columns),
-                "columns": [col.name for col in table.columns],
-                "primary_keys": [col.name for col in table.columns if col.primary_key],
-                "foreign_keys": [col.name for col in table.columns if hasattr(col, 'foreign_key') and col.foreign_key]
-            }
+                "columns": [c.name for c in table.columns],
+                "primary_keys": [c.name for c in table.columns if getattr(c, "primary_key", False)],
+                "foreign_keys": [c.name for c in table.columns if getattr(c, "foreign_key", None)],
+            },
         )
-    
+
+
+
     def _create_column_document(self, table: Table, column: Column) -> KnowledgeBaseDocument:
-        """Create a knowledge base document for a column."""
-        # Build rich description
-        constraints = []
-        if column.primary_key:
-            constraints.append("PRIMARY KEY")
-        if hasattr(column, 'foreign_key') and column.foreign_key:
-            constraints.append("FOREIGN KEY")
-        if not column.nullable:
-            constraints.append("NOT NULL")
-        
-        constraints_str = f" [{', '.join(constraints)}]" if constraints else ""
-        
-        description = f"Column: {table.name}.{column.name}. Type: {column.data_type}{constraints_str}"
-        
+        flags = []
+        if getattr(column, "primary_key", False):
+            flags.append("PRIMARY KEY")
+        if getattr(column, "foreign_key", None):
+            flags.append("FOREIGN KEY")
+        if not getattr(column, "nullable", True):
+            flags.append("NOT NULL")
+
+        constraints = f" [{', '.join(flags)}]" if flags else ""
+        description = f"Column {table.name}.{column.name}. Type: {column.data_type}{constraints}."
+
         return KnowledgeBaseDocument(
-            id=f"{table.name}.{column.name}",
+            id=f"column::{table.name}.{column.name}",   # <-- OBLIGATOIRE
             table=table.name,
-            text=description,
+            column=column.name,
+            content=description,
             metadata={
-                "type": "column",
+                "kind": "column",
                 "data_type": column.data_type,
-                "is_primary_key": column.primary_key,
-                "is_foreign_key": hasattr(column, 'foreign_key') and column.foreign_key,
-                "is_nullable": column.nullable,
-                "default_value": column.default_value
-            }
+                "is_primary_key": getattr(column, "primary_key", False),
+                "is_foreign_key": bool(getattr(column, "foreign_key", None)),
+                "is_nullable": getattr(column, "nullable", True),
+                "default_value": getattr(column, "default_value", None),
+            },
         )
+
     
     def _build_table_query(self, entity_name: str, attributes: List[str], hints: List[str]) -> str:
         """Build query text for table matching."""

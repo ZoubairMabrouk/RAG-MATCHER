@@ -141,17 +141,33 @@ def demo_rag_schema_matcher():
     else:
         logger.info("Using retrieval-only mode")
     
-    # Initialize container
-    container = DIContainer()
-    container.configure("postgresql://demo:demo@localhost:5432/demo")
-    
     try:
-        # Get matcher
-        matcher = container.get_rag_schema_matcher()
+        # Create RAG matcher directly with demo data (no DB connection needed)
+        from src.infrastructure.rag.embedding_service import EmbeddingService, LocalEmbeddingProvider
+        from src.infrastructure.rag.vector_store import RAGVectorStore
+        from src.infrastructure.rag.rag_schema_matcher import RAGSchemaMatcher
+        
+        # Create components
+        provider = LocalEmbeddingProvider()
+        embedding_service = EmbeddingService(provider)
+        vector_store = RAGVectorStore(dimension=provider.dimension)
+        
+        # Create matcher
+        matcher = RAGSchemaMatcher(
+            embedding_service=embedding_service,
+            vector_store=vector_store,
+            llm_client=None  # No LLM for demo
+        )
+        
+        # Build knowledge base from demo schema
+        current_schema = create_demo_current_schema()
+        kb_docs = matcher.build_kb(current_schema)
+        matcher.index_kb(kb_docs)
+        
+        logger.info(f"Built knowledge base with {len(kb_docs)} documents")
         
         # Test table matching for each entity
         uschema = create_demo_uschema()
-        current_schema = create_demo_current_schema()
         
         logger.info("\n📊 Table Matching Results:")
         for entity in uschema.entities:
@@ -195,17 +211,35 @@ def demo_diff_engine():
     """Demo the DiffEngine with RAG-based virtual renaming."""
     logger.info("\n🔄 Demo: DiffEngine with RAG Virtual Renaming")
     
-    # Initialize container
-    container = DIContainer()
-    container.configure("postgresql://demo:demo@localhost:5432/demo")
-    
     try:
-        # Get diff engine
-        diff_engine = container.get_diff_engine()
+        # Create RAG matcher directly with demo data
+        from src.infrastructure.rag.embedding_service import EmbeddingService, LocalEmbeddingProvider
+        from src.infrastructure.rag.vector_store import RAGVectorStore
+        from src.infrastructure.rag.rag_schema_matcher import RAGSchemaMatcher
+        from src.domain.services.diff_engine import DiffEngine
+        from src.domain.entities.rules import NamingConvention
+        
+        # Create components
+        provider = LocalEmbeddingProvider()
+        embedding_service = EmbeddingService(provider)
+        vector_store = RAGVectorStore(dimension=provider.dimension)
+        
+        # Create matcher and build knowledge base
+        matcher = RAGSchemaMatcher(
+            embedding_service=embedding_service,
+            vector_store=vector_store,
+            llm_client=None  # No LLM for demo
+        )
+        
+        current_schema = create_demo_current_schema()
+        kb_docs = matcher.build_kb(current_schema)
+        matcher.index_kb(kb_docs)
+        
+        # Create diff engine with RAG matcher
+        diff_engine = DiffEngine(NamingConvention(), rag_matcher=matcher)
         
         # Create test data
         uschema = create_demo_uschema()
-        current_schema = create_demo_current_schema()
         
         # Compute differences
         changes = diff_engine.compute_diff(uschema, current_schema)
@@ -260,11 +294,11 @@ def demo_migration_builder(changes):
     """Demo the MigrationBuilder generating SQL."""
     logger.info("\n🏗️  Demo: MigrationBuilder")
     
-    # Initialize container
-    container = DIContainer()
-    migration_builder = container.get_migration_builder()
-    
     try:
+        # Create migration builder directly
+        from src.domain.services.migration_builder import MigrationBuilder
+        migration_builder = MigrationBuilder("postgresql")
+        
         # Generate SQL
         sql_statements = migration_builder.build_migration(changes)
         

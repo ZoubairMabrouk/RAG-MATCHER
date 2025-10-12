@@ -76,7 +76,7 @@ def test_rag_schema_matcher():
     
     # Initialize DI container
     container = DIContainer()
-    container.configure("postgresql://test:test@localhost:55432/test")
+    container.configure("postgresql://test:test@localhost:5432/test")
     
     try:
         # Get RAG schema matcher
@@ -118,7 +118,7 @@ def test_diff_engine_with_rag():
     
     # Initialize DI container
     container = DIContainer()
-    container.configure("postgresql://test:test@localhost:55432/test")
+    container.configure("postgresql://test:test@localhost:5432/test")
     
     try:
         # Get diff engine with RAG matcher

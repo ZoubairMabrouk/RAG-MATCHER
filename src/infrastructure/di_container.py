@@ -87,7 +87,7 @@ class DIContainer:
             # Build knowledge base from current schema
             try:
                 inspector = self.get_inspector()
-                schema = inspector.inspect()
+                schema = inspector.introspect_schema()
                 kb_docs = matcher.build_kb(schema)
                 matcher.index_kb(kb_docs)
                 logger.info(f"[DIContainer] Built RAG knowledge base with {len(kb_docs)} documents")

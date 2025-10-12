@@ -97,7 +97,7 @@ class KnowledgeBaseDocument(BaseModel):
     
     def to_text(self) -> str:
         """Convert to searchable text format."""
-        return f"{self.table}.{self.column}: {self.content}"
+        return  self.content
 
 
 class RetrievalQuery(BaseModel):
