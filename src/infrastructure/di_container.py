@@ -50,7 +50,7 @@ class DIContainer:
             # Get dimension from embedding service
             embedding_service = self.get_embedding_service()
             dimension = embedding_service.dimension
-            self._services["vector_store"] = RAGVectorStore(dimension=dimension)
+            self._services["vector_store"] = RAGVectorStore(dimension=dimension, index_type='auto')
         
         return self._services["vector_store"]
     

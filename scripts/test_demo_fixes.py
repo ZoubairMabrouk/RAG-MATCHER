@@ -73,7 +73,7 @@ def test_rag_matcher_with_demo_data():
         # Create components
         provider = LocalEmbeddingProvider()
         embedding_service = EmbeddingService(provider)
-        vector_store = RAGVectorStore(dimension=provider.dimension, force_flat=True)
+        vector_store = RAGVectorStore(dimension=provider.dimension, index_type='auto')
         
         # Create matcher
         matcher = RAGSchemaMatcher(

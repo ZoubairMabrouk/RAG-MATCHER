@@ -38,6 +38,7 @@ class USchemaAttribute:
     data_type: DataType
     required: bool = False
     description: Optional[str] = None
+    is_key: bool = False
     constraints: Dict[str, Any] = field(default_factory=dict)
 
 
