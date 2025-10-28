@@ -1,0 +1,365 @@
+{
+  "uSchemaModel": {
+    "name": "NoSQL-medical-Data-2",
+    "entities": [
+      {
+        "EntityType": {
+          "name": "case",
+          "root": true,
+          "variations": [
+            {
+              "StructuralVariation": {
+                "variationId": 1,
+                "properties": [
+                  {
+                    "Attribute": [
+                      {
+                        "name": "patient_id",
+                        "type": "Null|String",
+                        "iskey": true
+                      },
+                      {
+                        "name": "name",
+                        "type": "Boolean"
+                      },
+                      {
+                        "name": "gender",
+                        "type": "Boolean"
+                      },
+                      {
+                        "name": "dob",
+                        "type": "Array<String>"
+                      },
+                      {
+                        "name": "deceased",
+                        "type": "String",
+                        "optional": true
+                      },
+                      {
+                        "name": "allergies",
+                        "type": "Null|String"
+                      },
+                      {
+                        "name": "Caregiver",
+                        "type": "String"
+                      }
+                    ]
+                  },
+                  {
+                    "aggregates": [
+                      {
+                        "Aggregation": {
+                          "name": "contact",
+                          "target": "Contact",
+                          "lowerBound": 0,
+                          "upperBound": 1
+                        }
+                      },
+                      {
+                        "Aggregation": {
+                          "name": "admissions",
+                          "target": "Admission",
+                          "lowerBound": 0,
+                          "upperBound": "*"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "references": [
+                      {
+                        "Reference": {
+                          "name": "Caregiver",
+                          "target": "caregivers",
+                          "lowerBound": 0,
+                          "upperBound": "*"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "EntityType": {
+          "name": "nurse",
+          "root": true,
+          "variations": [
+            {
+              "StructuralVariation": {
+                "variationId": 1,
+                "properties": [
+                  {
+                    "Attribute": [
+                      {
+                        "name": "cgid",
+                        "type": "Number",
+                        "iskey": true
+                      },
+                      {
+                        "name": "label",
+                        "type": "Null|String"
+                      },
+                      {
+                        "name": "description",
+                        "type": "Number"
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "EntityType": {
+          "name": "contact",
+          "root": false,
+          "variations": [
+            {
+              "StructuralVariation": {
+                "variationId": 1,
+                "properties": [
+                  {
+                    "Attribute": {
+                      "name": "phone",
+                      "type": "Null|String"
+                    }
+                  }
+                ],
+                "aggregates": [
+                  {
+                    "Aggregation": {
+                      "name": "address",
+                      "target": "Address",
+                      "lowerBound": 0,
+                      "upperBound": 1
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "EntityType": {
+          "name": "location",
+          "root": false,
+          "variations": [
+            {
+              "StructuralVariation": {
+                "variationId": 1,
+                "properties": [
+                  {
+                    "Attribute": {
+                      "name": "line1",
+                      "type": "Boolean"
+                    }
+                  },
+                  {
+                    "Attribute": {
+                      "name": "city",
+                      "type": "Null|String"
+                    }
+                  },
+                  {
+                    "Attribute": {
+                      "name": "country",
+                      "type": "Array<String>"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "EntityType": {
+          "name": "entry",
+          "root": false,
+          "variations": [
+            {
+              "StructuralVariation": {
+                "variationId": 1,
+                "properties": [
+                  {
+                    "Attribute": {
+                      "name": "admission_id",
+                      "type": "Null|String"
+                    }
+                  },
+                  {
+                    "Attribute": {
+                      "name": "admission_type",
+                      "type": "Null|String"
+                    }
+                  },
+                  {
+                    "Attribute": {
+                      "name": "admit_time",
+                      "type": "Boolean"
+                    }
+                  },
+                  {
+                    "Attribute": {
+                      "name": "discharge_time",
+                      "type": "Array<String>"
+                    }
+                  },
+                  {
+                    "Attribute": {
+                      "name": "telemedicine_flag",
+                      "type": "Array<String>"
+                    }
+                  },
+                  {
+                    "Attribute": {
+                      "name": "visit_mode",
+                      "type": "Boolean"
+                    }
+                  }
+                ],
+                "keys": [
+                  {
+                    "Key": {
+                      "attributes": [
+                        "admission_id"
+                      ]
+                    }
+                  }
+                ],
+                "aggregates": [
+                  {
+                    "Aggregation": {
+                      "name": "prescriptions",
+                      "target": "Prescription",
+                      "lowerBound": 0,
+                      "upperBound": "*"
+                    }
+                  },
+                  {
+                    "Aggregation": {
+                      "name": "imaging",
+                      "target": "Imaging",
+                      "lowerBound": 0,
+                      "upperBound": 1
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "EntityType": {
+          "name": "therapy",
+          "root": false,
+          "variations": [
+            {
+              "StructuralVariation": {
+                "variationId": 1,
+                "properties": [
+                  {
+                    "Attribute": {
+                      "name": "drug",
+                      "type": "Boolean"
+                    }
+                  },
+                  {
+                    "Attribute": {
+                      "name": "dose",
+                      "type": "Null|String"
+                    }
+                  },
+                  {
+                    "Attribute": {
+                      "name": "route",
+                      "type": "Boolean"
+                    }
+                  },
+                  {
+                    "Attribute": {
+                      "name": "frequency",
+                      "type": "String"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "EntityType": {
+          "name": "scan",
+          "root": false,
+          "variations": [
+            {
+              "StructuralVariation": {
+                "variationId": 1,
+                "properties": [
+                  {
+                    "Attribute": {
+                      "name": "modality",
+                      "type": "Array<String>"
+                    }
+                  },
+                  {
+                    "Attribute": {
+                      "name": "body_site",
+                      "type": "Number"
+                    }
+                  }
+                ],
+                "aggregates": [
+                  {
+                    "Aggregation": {
+                      "name": "ai_annotations",
+                      "target": "AiAnnotation",
+                      "lowerBound": 0,
+                      "upperBound": "*"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "EntityType": {
+          "name": "finding",
+          "root": false,
+          "variations": [
+            {
+              "StructuralVariation": {
+                "variationId": 1,
+                "properties": [
+                  {
+                    "Attribute": {
+                      "name": "label",
+                      "type": "Array<String>"
+                    }
+                  },
+                  {
+                    "Attribute": {
+                      "name": "assurance",
+                      "type": "Boolean"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

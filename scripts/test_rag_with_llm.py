@@ -1,37 +1,14 @@
 #!/usr/bin/env python3
 """
-Dynamic RAG Virtual Rename runner
+Dynamic RAG Virtual Rename runner - Enhanced Version
 
-What it does
-------------
-1) Loads U-Schema (JSON) from --uschema-file (or stdin).
-2) Introspects the current relational schema dynamically from your DI container
-   using the provided --db-url (or $DATABASE_URL) and --dialect.
-3) Builds a semantic KB from the current schema and indexes it in a FAISS store.
-4) Runs RAG-based matching:
-   - entity -> existing table (virtual rename)
-   - attribute -> existing column (virtual rename)
-5) Computes a migration plan with DiffEngine (using the matcher) and prints SQL
-   statements (no physical RENAME operations).
-6) Emits a JSON mapping report to stdout (optional file via --out).
-
-Usage
------
-python scripts/run_rag_virtual_rename.py \
-  --uschema-file path/to/uschema.json \
-  --db-url postgresql://user:pass@localhost:5432/db \
-  --dialect postgresql \
-  --index-type auto \
-  --table-threshold 0.35 \
-  --column-threshold 0.35 \
-  --top-k 5 \
-  --out artifacts/rag_mapping.json
-
-Notes
------
-- For tiny schemas (few docs), start with low thresholds (0.25–0.40).
-- The script **never** generates physical RENAME statements; it relies on
-  virtual mapping when computing the plan.
+Enhancements:
+-------------
+1) Builds rich textual descriptions for each entity, including all attributes,
+   aggregates, and references for improved RAG matching.
+2) Uses LLM fallback for ambiguous matches.
+3) Handles small schemas with adjustable thresholds.
+4) Outputs detailed mapping report and evolution plan (no physical renames).
 """
 
 import os
@@ -42,13 +19,12 @@ import logging
 from pathlib import Path
 from typing import Dict, Any, List
 
-# project imports
+# Project imports
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
 from src.infrastructure.di_container import DIContainer
 from src.domain.entities.schema import (
-    USchema, USchemaEntity, USchemaAttribute, DataType,
-    SchemaMetadata
+    USchema, USchemaEntity, USchemaAttribute, DataType, SchemaMetadata
 )
 from src.domain.entities.rules import NamingConvention
 from src.domain.entities.evolution import ChangeType
@@ -58,8 +34,7 @@ from src.domain.services.migration_builder import MigrationBuilder
 from src.infrastructure.rag.embedding_service import EmbeddingService, LocalEmbeddingProvider
 from src.infrastructure.rag.vector_store import RAGVectorStore
 from src.infrastructure.rag.rag_schema_matcher import RAGSchemaMatcher
-from src.infrastructure.llm.llm_client import OpenAILLMClient, LLMClient, AnthropicLLMClient,BaseLLMClient
-
+from src.infrastructure.llm.llm_client import BaseLLMClient
 
 # -------------------- logging --------------------
 logging.basicConfig(
@@ -67,7 +42,6 @@ logging.basicConfig(
     format="%(asctime)s - %(levelname)s - %(message)s",
 )
 log = logging.getLogger("run_rag_virtual_rename")
-
 
 # -------------------- helpers --------------------
 _STR2DT = {
@@ -92,6 +66,7 @@ def _to_datatype(val: str) -> DataType:
     return _STR2DT.get(key, DataType.STRING)
 
 def load_uschema(uschema_json: Dict[str, Any]) -> USchema:
+    """Load U-Schema JSON into USchema model."""
     entities = []
 
     for e in uschema_json.get("uSchemaModel", {}).get("entities", []):
@@ -102,6 +77,7 @@ def load_uschema(uschema_json: Dict[str, Any]) -> USchema:
         for variation in et.get("variations", []):
             sv = variation.get("StructuralVariation", {})
 
+            # Process properties
             for prop_block in sv.get("properties", []):
                 attr_list = prop_block.get("Attribute") or []
                 if isinstance(attr_list, dict):
@@ -117,6 +93,7 @@ def load_uschema(uschema_json: Dict[str, Any]) -> USchema:
                             is_key=iskey
                         ))
 
+            # Process aggregates
             for agg_block in sv.get("aggregates", []):
                 agg = agg_block.get("Aggregation")
                 if agg:
@@ -126,6 +103,7 @@ def load_uschema(uschema_json: Dict[str, Any]) -> USchema:
                         is_key=False
                     ))
 
+            # Process references
             for ref_block in sv.get("references", []):
                 ref = ref_block.get("Reference")
                 if ref:
@@ -139,14 +117,23 @@ def load_uschema(uschema_json: Dict[str, Any]) -> USchema:
 
     return USchema(entities=entities)
 
-
+def entity_to_text(entity: USchemaEntity) -> str:
+    """
+    Converts an entity to a rich textual description
+    for RAG matching.
+    """
+    lines = [f"Entity: {entity.name}"]
+    for attr in entity.attributes:
+        dtype = attr.data_type.value
+        key = " (key)" if attr.is_key else ""
+        lines.append(f"- Attribute: {attr.name} [{dtype}]{key}")
+    return "\n".join(lines)
 
 def pretty_changes(changes):
     grouped: Dict[str, List] = {}
     for c in changes:
         grouped.setdefault(c.change_type.value, []).append(c)
     return grouped
-
 
 def build_matcher(index_type: str, table_thr: float, col_thr: float, top_k: int) -> RAGSchemaMatcher:
     provider = LocalEmbeddingProvider()
@@ -163,20 +150,19 @@ def build_matcher(index_type: str, table_thr: float, col_thr: float, top_k: int)
     )
     return matcher
 
-
 def build_kb_and_index(matcher: RAGSchemaMatcher, schema: SchemaMetadata, kb_file: str = None):
+    """Build KB from current schema and optional external KB."""
     kb_docs = matcher.build_kb(schema)
     if kb_file and Path(kb_file).exists():
         log.info(f"Loading external KB from: {kb_file}")
         with open(kb_file, "r", encoding="utf-8") as f:
             for line in f:
                 doc = json.loads(line)
-                #print(doc["content"])
-                kb_docs.append(doc["content"])
+                kb_docs.append(doc.get("content", ""))
     matcher.index_kb(kb_docs)
     log.info(f"KB built & indexed: {len(kb_docs)} documents")
 
-
+# -------------------- main runner --------------------
 def run(args) -> int:
     # 1) Load U-Schema JSON
     if args.uschema_file and args.uschema_file != "-":
@@ -186,16 +172,13 @@ def run(args) -> int:
         uschema_json = json.load(sys.stdin)
 
     uschema = load_uschema(uschema_json)
-    # if not uschema.entities:
-    #     log.error("U-Schema is empty: no entities found")
-    #     return 2
+    log.info(f"Loaded U-Schema with {len(uschema.entities)} entities")
 
-    # 2) Configure DI and introspect current schema dynamically
+    # 2) Configure DI and introspect current schema
     db_url = args.db_url or os.getenv("DATABASE_URL")
     if not db_url:
         db_url="postgresql://test:test@localhost:55432/test"
-        # log.error("Missing --db-url and $DATABASE_URL")
-        # return 2
+        log.warning("No DB URL provided; using default test URL")
 
     container = DIContainer()
     container.configure(db_url, args.dialect)
@@ -207,7 +190,7 @@ def run(args) -> int:
     matcher = build_matcher(args.index_type, args.table_threshold, args.column_threshold, args.top_k)
     build_kb_and_index(matcher, current_schema, kb_file=args.kb_file)
 
-    # 4) Do semantic mapping (entity->table, attribute->column)
+    # 4) Semantic mapping
     mapping_report: Dict[str, Any] = {
         "db_url": db_url,
         "dialect": args.dialect,
@@ -216,12 +199,14 @@ def run(args) -> int:
         "entities": [],
     }
 
-    # For DiffEngine: inject matcher to do virtual rename logic
     diff = DiffEngine(NamingConvention(), rag_matcher=matcher)
-    print(uschema)
+
     for entity in uschema.entities:
+        description = entity_to_text(entity)
         attr_names = [a.name for a in entity.attributes]
-        t_res = matcher.match_table(entity.name, attr_names)
+
+        # Match table using rich description
+        t_res = matcher.match_table(description, attr_names)
         entity_map = {
             "entity": entity.name,
             "matched_table": t_res.target_name,
@@ -230,12 +215,10 @@ def run(args) -> int:
             "attributes": [],
         }
 
-        # If a table was found, try each attribute → column
+        # Match attributes
         if t_res.target_name:
             for a in entity.attributes:
-                c_res = matcher.match_column(
-                    t_res.target_name,
-                    a.name,
+                sql_type = (
                     "INTEGER" if a.data_type == DataType.INTEGER else
                     "DECIMAL(10,2)" if a.data_type == DataType.DECIMAL else
                     "TIMESTAMP" if a.data_type == DataType.TIMESTAMP else
@@ -244,15 +227,18 @@ def run(args) -> int:
                     "UUID" if a.data_type == DataType.UUID else
                     "VARCHAR(255)"
                 )
+                c_res = matcher.match_column(
+                    t_res.target_name,
+                    a.name,
+                    sql_type
+                )
                 entity_map["attributes"].append({
                     "name": a.name,
                     "target_column": c_res.target_name,
                     "confidence": c_res.confidence,
                     "rationale": c_res.rationale,
                 })
-
         else:
-            # No table mapping — attributes will be treated as new columns on new table
             for a in entity.attributes:
                 entity_map["attributes"].append({
                     "name": a.name,
@@ -263,25 +249,24 @@ def run(args) -> int:
 
         mapping_report["entities"].append(entity_map)
 
-        # 5) Compute evolution plan WITHOUT physical renames
+    # 5) Compute evolution plan
     changes = diff.compute_diff(uschema, current_schema)
     grouped = pretty_changes(changes)
 
-    # 6) Build SQL (no renames generated by builder)
+    # 6) Build SQL (no renames)
     builder = MigrationBuilder(args.dialect)
     sql_statements = builder.build_migration(changes)
 
     # 7) Print summary
     log.info("\n=== Semantic Mapping Summary ===")
     for emap in mapping_report["entities"]:
-        ent = emap["entity"]
         tgt = emap["matched_table"] or "(new table)"
-        log.info(f"- {ent} -> {tgt} (conf={emap['table_confidence']:.3f})")
+        log.info(f"- {emap['entity']} -> {tgt} (conf={emap['table_confidence']:.3f})")
         for attr in emap["attributes"]:
             col = attr["target_column"] or "(new column)"
             log.info(f"    · {attr['name']} -> {col} (conf={attr['confidence']:.3f})")
 
-    log.info("\n=== Evolution Plan (by type) ===")
+    log.info("\n=== Evolution Plan ===")
     for k, v in grouped.items():
         log.info(f"{k}: {len(v)}")
 
@@ -292,7 +277,7 @@ def run(args) -> int:
         for i, stmt in enumerate(sql_statements, 1):
             log.info(f"{i:02d}. {stmt}")
 
-    # 8) Optional JSON output
+    # 8) Optional JSON report
     if args.out:
         out_path = Path(args.out)
         out_path.parent.mkdir(parents=True, exist_ok=True)
@@ -311,37 +296,22 @@ def run(args) -> int:
         }
         with open(out_path, "w", encoding="utf-8") as f:
             json.dump(payload, f, ensure_ascii=False, indent=2)
-        log.info(f"\nSaved report to: {out_path}")
+        log.info(f"Saved report to: {out_path}")
 
-    # Return non-zero if we created new tables that should have been mapped
-    # (heuristic: if many entities mapped to None, you may want to adjust thresholds)
     return 0
 
-
 def parse_args():
-    p = argparse.ArgumentParser(description="Dynamic RAG virtual rename runner")
-    p.add_argument("--uschema-file", default="./uschema.json",
-                   help="Path to U-Schema JSON (use '-' to read from stdin)")
-    p.add_argument("--db-url", default=os.getenv("DATABASE_URL"),
-                   help="Database URL (overrides $DATABASE_URL if provided)")
-    p.add_argument("--dialect", default="postgresql",
-                   choices=["postgresql", "mysql", "sqlite"],
-                   help="SQL dialect for SQL generation")
-    p.add_argument("--index-type", default="auto",
-                   choices=["auto", "Flat", "IVF_PQ"],
-                   help="Vector index type (use 'auto' or 'Flat' for tiny schemas)")
-    p.add_argument("--table-threshold", type=float, default=0.35,
-                   help="Accept threshold for table matching")
-    p.add_argument("--column-threshold", type=float, default=0.35,
-                   help="Accept threshold for column matching")
-    p.add_argument("--top-k", type=int, default=5,
-                   help="Top-K candidates to retrieve")
-    p.add_argument("--out", default=None,
-                   help="Optional path to write a JSON report")
-    p.add_argument("--kb-file", default="./data/rag/knowledge_base_enriched.jsonl",
-                   help="Optional external KB file to augment RAG knowledge base")
+    p = argparse.ArgumentParser(description="Enhanced Dynamic RAG Virtual Rename Runner")
+    p.add_argument("--uschema-file", default="./uschema.json", help="Path to U-Schema JSON (use '-' for stdin)")
+    p.add_argument("--db-url", default=os.getenv("DATABASE_URL"), help="Database URL")
+    p.add_argument("--dialect", default="postgresql", choices=["postgresql", "mysql", "sqlite"], help="SQL dialect")
+    p.add_argument("--index-type", default="auto", choices=["auto", "Flat", "IVF_PQ"], help="Vector index type")
+    p.add_argument("--table-threshold", type=float, default=0.30, help="Table match threshold")
+    p.add_argument("--column-threshold", type=float, default=0.25, help="Column match threshold")
+    p.add_argument("--top-k", type=int, default=5, help="Top-K candidates")
+    p.add_argument("--out", default=None, help="Path to JSON report")
+    p.add_argument("--kb-file", default="./data/rag/knowledge_base_enriched.jsonl", help="Optional external KB")
     return p.parse_args()
-
 
 if __name__ == "__main__":
     sys.exit(run(parse_args()))

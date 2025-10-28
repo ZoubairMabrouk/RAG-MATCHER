@@ -18,13 +18,14 @@ import json
 import os
 from dataclasses import dataclass
 
+from click import prompt
 import numpy as np
 
 from src.domain.entities.schema import SchemaMetadata, Table, Column
 from src.domain.entities.rag_schema import KnowledgeBaseDocument
 from src.infrastructure.rag.embedding_service import EmbeddingService
 from src.infrastructure.rag.vector_store import RAGVectorStore
-from src.infrastructure.llm.llm_client import OpenAILLMClient
+from src.infrastructure.llm.llm_client import OpenAILLMClient,LLMClient
 
 logger = logging.getLogger(__name__)
 
@@ -120,8 +121,13 @@ class RAGSchemaMatcher:
             return
 
         logger.info(f"[RAGSchemaMatcher] Indexing {len(documents)} documents")
+        
+        for i, doc in enumerate(documents):
+            if isinstance(doc, str):
+                documents[i] = KnowledgeBaseDocument.from_text(doc)
 
-        texts = [doc.to_text() for doc in documents]     # <-- PAS .text ni .content direct
+# Now you can safely call to_text
+        texts = [doc.to_text() for doc in documents]# <-- PAS .text ni .content direct
         embeddings = self._embedding_service.embed(texts)
         embeddings_array = np.asarray(embeddings, dtype="float32")
 
@@ -369,8 +375,8 @@ class RAGSchemaMatcher:
         
         # Build context
         candidates_text = []
-        for doc, score in all_candidates[:3]:  # Top 3 candidates
-            candidates_text.append(f"- {doc.table}: {doc.text} (score: {score:.3f})")
+        for doc, score in all_candidates[:5]:  # Top k candidates
+            candidates_text.append(f"- {doc.table}: {doc.content} (score: {score:.3f})")
         
         prompt = f"""
 You are a database schema expert. Given a U-Schema entity and existing database tables, 
@@ -395,19 +401,37 @@ Consider:
 - Column overlap and similarity
 - Business domain context
 """
-        
         try:
-            response = self._llm_client.generate(prompt, max_tokens=200)
-            result = json.loads(response.strip())
-            
+            response = self._llm_client._call_llm(prompt)
+            clean = response.strip()
+
+            # Remove Markdown fences like ```json ... ```
+            if clean.startswith("```"):
+                clean = clean.strip("`")
+                if "json" in clean[:10].lower():
+                    clean = clean[clean.lower().find("json") + 4:].strip()
+                # Remove trailing ```
+                if "```" in clean:
+                    clean = clean.split("```")[0].strip()
+
+            # Parse JSON safely
+            result = json.loads(clean)
+
+            # Adapted return
             return {
                 "confidence": float(result.get("confidence", 0.0)),
-                "rationale": f"LLM validation: {result.get('why', 'No explanation')}"
+                "rationale": result.get("why", "No explanation"),
+                "match": result.get("match", None)
             }
+
         except Exception as e:
             logger.warning(f"[RAGSchemaMatcher] LLM validation failed: {e}")
-            return {"confidence": 0.0, "rationale": f"LLM validation failed: {e}"}
-    
+            return {
+                "confidence": 0.0,
+                "rationale": f"LLM validation failed: {e}",
+                "match": None
+            }
+
     def _llm_validate_column(
         self, 
         attr_name: str, 
@@ -450,16 +474,36 @@ Consider:
 """
         
         try:
-            response = self._llm_client.generate(prompt, max_tokens=200)
-            result = json.loads(response.strip())
-            
+            response = self._llm_client._call_llm(prompt)
+            clean = response.strip()
+
+            # Remove Markdown fences like ```json ... ```
+            if clean.startswith("```"):
+                clean = clean.strip("`")
+                if "json" in clean[:10].lower():
+                    clean = clean[clean.lower().find("json") + 4:].strip()
+                # Remove trailing ```
+                if "```" in clean:
+                    clean = clean.split("```")[0].strip()
+
+            # Parse JSON safely
+            result = json.loads(clean)
+
+            # Adapted return
             return {
                 "confidence": float(result.get("confidence", 0.0)),
-                "rationale": f"LLM validation: {result.get('why', 'No explanation')}"
+                "rationale": result.get("why", "No explanation"),
+                "match": result.get("match", None)
             }
+
         except Exception as e:
             logger.warning(f"[RAGSchemaMatcher] LLM validation failed: {e}")
-            return {"confidence": 0.0, "rationale": f"LLM validation failed: {e}"}
+            return {
+                "confidence": 0.0,
+                "rationale": f"LLM validation failed: {e}",
+                "match": None
+            }
+
     
     def get_statistics(self) -> Dict[str, Any]:
         """Get matcher statistics."""
@@ -472,7 +516,7 @@ Consider:
         }
 
 
-# Factory function for easy creation
+# Factory function for easy creation    
 def create_rag_schema_matcher(
     embedding_service: EmbeddingService,
     vector_store: RAGVectorStore,

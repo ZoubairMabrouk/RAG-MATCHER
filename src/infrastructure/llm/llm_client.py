@@ -2,7 +2,7 @@
 
 import json
 from typing import Dict, Any, Optional
-import openai
+from openai import OpenAI
 import anthropic
 from src.domain.repositeries.interfaces import ILLMClient
 from src.domain.entities.evolution import EvolutionPlan,SchemaChange
@@ -14,9 +14,11 @@ class BaseLLMClient(ILLMClient):
     def __init__(self, model: str, temperature: float = 0.1):
         self._model = model
         self._temperature = temperature
+        self._client = OpenAI(base_url="http://localhost:11434/v1", api_key="ollama")
     
     def _build_evolution_prompt(self, context: Dict[str, Any]) -> str:
         """Build prompt for evolution plan generation."""
+        print("prompt building...")
         prompt = """You are a database schema evolution expert. Analyze the following:
 
 U-Schema (Target):
@@ -114,7 +116,53 @@ Return ONLY the SQL statement, nothing else."""
     
     def _call_llm(self, prompt: str) -> str:
         """Call LLM API (to be implemented by subclasses)."""
-        raise NotImplementedError
+        
+        response = self._client.chat.completions.create(
+            model=self._model,
+            messages=[{"role": "user", "content": prompt}],
+            temperature=self._temperature
+        )
+        print(response)
+        return response.choices[0].message.content
+    def choose_best_match(self, source: Dict[str, Any], candidates: list[Dict[str, Any]], context: Optional[str] = None) -> Dict[str, Any]:
+        """
+        Ask LLM to pick the best matching candidate from top-K retrieved.
+        """
+        prompt = f"""
+    You are a schema alignment expert.
+
+    Given the following U-Schema element:
+    {json.dumps(source, indent=2)}
+
+    And these top candidate matches from the database:
+    {json.dumps(candidates, indent=2)}
+
+    Contextual info:
+    {context or "No extra context."}
+
+    Task:
+    - Select the *single best matching candidate*.
+    - Explain briefly why you chose it.
+    - Return valid JSON in the format:
+    {{
+    "best_match": "candidate_name",
+    "confidence": "high|medium|low",
+    "reason": "your reasoning"
+    }}
+    """
+        response = self._call_llm(prompt)
+
+        try:
+            result = json.loads(response)
+            return result
+        except Exception as e:
+            print(f"⚠️ Failed to parse LLM response: {e}")
+            # fallback: pick top candidate
+            return {
+                "best_match": candidates[0]["name"],
+                "confidence": "low",
+                "reason": "Fallback to top similarity score."
+            }
 
 
 class OpenAILLMClient(BaseLLMClient):
@@ -123,11 +171,12 @@ class OpenAILLMClient(BaseLLMClient):
     def __init__(self, api_key: str, model: str = "gpt-4-turbo-preview"):
         super().__init__(model)
         self._api_key = api_key
+        self._client = OpenAI(base_url="http://localhost:11434/v1", api_key="ollama")
     
     def _call_llm(self, prompt: str) -> str:
         """Call OpenAI API."""
         # Implementation would use openai library
-        response = openai.ChatCompletion.create(
+        response = self._client.chat.completions.create(
             model=self._model,
             messages=[{"role": "user", "content": prompt}],
             temperature=self._temperature
@@ -155,3 +204,38 @@ class AnthropicLLMClient(BaseLLMClient):
         )
         return response.content[0].text
         
+        
+class LLMClient:
+    def __init__(self, base_url: str = "http://localhost:11434/v1", api_key: str = "ollama", model: str = "phi3:mini"):
+        self.client = OpenAI(base_url=base_url, api_key=api_key)
+        self.model = model
+
+    def ask(self, prompt: str, temperature: float = 0.0, max_tokens: int = 256) -> str:
+        resp = self.client.chat.completions.create(
+            model=self.model,
+            messages=[
+                {"role": "system", "content": "You are an expert in database schema matching and mapping."},
+                {"role": "user", "content": prompt},
+            ],
+            temperature=temperature,
+            max_tokens=max_tokens,
+        )
+        return resp.choices[0].message.content.strip()
+
+    def ask_json(self, prompt: str, temperature: float = 0.0, max_tokens: int = 256) -> Dict[str, Any]:
+        """Ask LLM and parse JSON. Caller should handle exceptions/fallbacks."""
+        text = self.ask(prompt, temperature=temperature, max_tokens=max_tokens)
+        # Robust parse: try json.loads, else try to extract JSON substring
+        try:
+            return json.loads(text)
+        except Exception:
+            # attempt to salvage JSON-like section
+            import re
+            m = re.search(r"(\{[\s\S]*\})", text)
+            if m:
+                try:
+                    return json.loads(m.group(1))
+                except Exception:
+                    pass
+            # If still failing, return a fallback mapping
+            return {"selected": None, "confidence": 0.0, "rationale": text}

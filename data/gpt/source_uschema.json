@@ -1,0 +1,253 @@
+{
+  "uSchemaModel": {
+    "name": "NoSQL-medical-Data",
+    "entities": [
+      {
+        "EntityType": {
+          "name": "patient",
+          "root": true,
+          "variations": [
+            {
+              "StructuralVariation": {
+                "variationId": 1,
+                "properties": [
+                  {
+                    "Attribute": [
+                      { "name": "patient_id", "type": "Number", "iskey": true },
+                      { "name": "name", "type": "String" },
+                      { "name": "gender", "type": "String" },
+                      { "name": "dob", "type": "String" },
+                      {
+                        "name": "deceased",
+                        "type": "Null|Boolean|String",
+                        "optional": true
+                      },
+                      { "name": "allergies", "type": "Array<String>" },
+                      { "name": "Caregiver", "type": "Array<String>" }
+                    ]
+                  },
+                  {
+                    "aggregates": [
+                      {
+                        "Aggregation": {
+                          "name": "contact",
+                          "target": "Contact",
+                          "lowerBound": 0,
+                          "upperBound": 1
+                        }
+                      },
+                      {
+                        "Aggregation": {
+                          "name": "admissions",
+                          "target": "Admission",
+                          "lowerBound": 0,
+                          "upperBound": "*"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "references": [
+                      {
+                        "Reference": {
+                          "name": "Caregiver",
+                          "target": "caregivers",
+                          "lowerBound": 0,
+                          "upperBound": "*"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+
+      {
+        "EntityType": {
+          "name": "caregivers",
+          "root": true,
+          "variations": [
+            {
+              "StructuralVariation": {
+                "variationId": 1,
+                "properties": [
+                  {
+                    "Attribute": [
+                      { "name": "cgid", "type": "Number", "iskey": true },
+                      { "name": "label", "type": "String" },
+                      { "name": "description", "type": "String" }
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "EntityType": {
+          "name": "Contact",
+          "root": false,
+          "variations": [
+            {
+              "StructuralVariation": {
+                "variationId": 1,
+                "properties": [
+                  { "Attribute": { "name": "phone", "type": "String" } }
+                ],
+                "aggregates": [
+                  {
+                    "Aggregation": {
+                      "name": "address",
+                      "target": "Address",
+                      "lowerBound": 0,
+                      "upperBound": 1
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+
+      {
+        "EntityType": {
+          "name": "Address",
+          "root": false,
+          "variations": [
+            {
+              "StructuralVariation": {
+                "variationId": 1,
+                "properties": [
+                  { "Attribute": { "name": "line1", "type": "String" } },
+                  { "Attribute": { "name": "city", "type": "String" } },
+                  { "Attribute": { "name": "country", "type": "String" } }
+                ]
+              }
+            }
+          ]
+        }
+      },
+
+      {
+        "EntityType": {
+          "name": "Admission",
+          "root": false,
+          "variations": [
+            {
+              "StructuralVariation": {
+                "variationId": 1,
+                "properties": [
+                  { "Attribute": { "name": "admission_id", "type": "Number" } },
+                  {
+                    "Attribute": { "name": "admission_type", "type": "String" }
+                  },
+                  { "Attribute": { "name": "admit_time", "type": "String" } },
+                  {
+                    "Attribute": { "name": "discharge_time", "type": "String" }
+                  },
+                  {
+                    "Attribute": {
+                      "name": "telemedicine_flag",
+                      "type": "Boolean"
+                    }
+                  },
+                  { "Attribute": { "name": "visit_mode", "type": "String" } }
+                ],
+                "keys": [{ "Key": { "attributes": ["admission_id"] } }],
+                "aggregates": [
+                  {
+                    "Aggregation": {
+                      "name": "prescriptions",
+                      "target": "Prescription",
+                      "lowerBound": 0,
+                      "upperBound": "*"
+                    }
+                  },
+                  {
+                    "Aggregation": {
+                      "name": "imaging",
+                      "target": "Imaging",
+                      "lowerBound": 0,
+                      "upperBound": 1
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+
+      {
+        "EntityType": {
+          "name": "Prescription",
+          "root": false,
+          "variations": [
+            {
+              "StructuralVariation": {
+                "variationId": 1,
+                "properties": [
+                  { "Attribute": { "name": "drug", "type": "String" } },
+                  { "Attribute": { "name": "dose", "type": "String" } },
+                  { "Attribute": { "name": "route", "type": "String" } },
+                  { "Attribute": { "name": "frequency", "type": "String" } }
+                ]
+              }
+            }
+          ]
+        }
+      },
+
+      {
+        "EntityType": {
+          "name": "Imaging",
+          "root": false,
+          "variations": [
+            {
+              "StructuralVariation": {
+                "variationId": 1,
+                "properties": [
+                  { "Attribute": { "name": "modality", "type": "String" } },
+                  { "Attribute": { "name": "body_site", "type": "String" } }
+                ],
+                "aggregates": [
+                  {
+                    "Aggregation": {
+                      "name": "ai_annotations",
+                      "target": "AiAnnotation",
+                      "lowerBound": 0,
+                      "upperBound": "*"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+
+      {
+        "EntityType": {
+          "name": "AiAnnotation",
+          "root": false,
+          "variations": [
+            {
+              "StructuralVariation": {
+                "variationId": 1,
+                "properties": [
+                  { "Attribute": { "name": "label", "type": "String" } },
+                  { "Attribute": { "name": "confidence", "type": "Number" } }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

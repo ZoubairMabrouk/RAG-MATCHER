@@ -69,7 +69,7 @@ class LocalEmbeddingProvider:
     Offline embeddings via sentence-transformers.
     Default model: all-MiniLM-L6-v2 (384 dims).
     """
-    def __init__(self, model: str = "all-MiniLM-L6-v2"):
+    def __init__(self, model: str = "dmis-lab/biobert-base-cased-v1.2"):
         logger.info(f"[LocalEmbeddingProvider] Loading model: {model}")
         self.model = model
         self._encoder = SentenceTransformer(model)
@@ -129,7 +129,7 @@ class RAGEmbeddingService:
 
     def __init__(
         self,
-        bi_encoder_model: str = "all-MiniLM-L6-v2",
+        bi_encoder_model: str = "dmis-lab/biobert-base-cased-v1.2",
         cross_encoder_model: str = "cross-encoder/ms-marco-MiniLM-L-6-v2",
         show_progress: bool = False,
     ):
@@ -317,7 +317,7 @@ def build_default_provider() -> EmbeddingProvider:
         model = os.getenv("EMBEDDING_MODEL", "text-embedding-3-small")
         return OpenAIEmbeddingProvider(api_key=api_key, model=model)
     else:
-        model = os.getenv("LOCAL_EMBEDDING_MODEL", "all-MiniLM-L6-v2")
+        model = os.getenv("LOCAL_EMBEDDING_MODEL", "dmis-lab/biobert-base-cased-v1.2")
         return LocalEmbeddingProvider(model=model)
 
 

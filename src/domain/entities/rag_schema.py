@@ -99,6 +99,11 @@ class KnowledgeBaseDocument(BaseModel):
         """Convert to searchable text format."""
         return  self.content
 
+    @classmethod
+    def from_text(cls, text: str) -> "KnowledgeBaseDocument":
+        """Create from searchable text format."""
+        return cls(id="", table="", column="", content=text)
+
 
 class RetrievalQuery(BaseModel):
     """Query object for retrieval."""
