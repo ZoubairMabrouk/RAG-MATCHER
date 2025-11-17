@@ -34,7 +34,7 @@ from src.domain.services.migration_builder import MigrationBuilder
 from src.infrastructure.rag.embedding_service import EmbeddingService, LocalEmbeddingProvider
 from src.infrastructure.rag.vector_store import RAGVectorStore
 from src.infrastructure.rag.rag_schema_matcher import RAGSchemaMatcher
-from src.infrastructure.llm.llm_client import BaseLLMClient
+from src.infrastructure.llm.llm_client import BaseLLMClient, OpenAILLMClient
 
 # -------------------- logging --------------------
 logging.basicConfig(
@@ -139,7 +139,7 @@ def build_matcher(index_type: str, table_thr: float, col_thr: float, top_k: int)
     provider = LocalEmbeddingProvider()
     emb = EmbeddingService(provider)
     store = RAGVectorStore(dimension=provider.dimension, index_type=index_type)
-    llm_client = BaseLLMClient(model="phi3:mini")
+    llm_client = OpenAILLMClient(model_name="gpt-3.5-turbo", api_key="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")
     matcher = RAGSchemaMatcher(
         embedding_service=emb,
         vector_store=store,

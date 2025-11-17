@@ -116,14 +116,18 @@ Return ONLY the SQL statement, nothing else."""
     
     def _call_llm(self, prompt: str) -> str:
         """Call LLM API (to be implemented by subclasses)."""
-        
-        response = self._client.chat.completions.create(
-            model=self._model,
-            messages=[{"role": "user", "content": prompt}],
-            temperature=self._temperature
-        )
-        print(response)
-        return response.choices[0].message.content
+        try:
+            response = self._client.chat.completions.create(
+                model=self._model,
+                messages=[{"role": "user", "content": prompt}],
+                temperature=self._temperature
+            )
+            print(response)
+            return response.choices[0].message.content
+        except Exception as e:
+            print(f"LLM API call failed: {e}")
+            return ""
+
     def choose_best_match(self, source: Dict[str, Any], candidates: list[Dict[str, Any]], context: Optional[str] = None) -> Dict[str, Any]:
         """
         Ask LLM to pick the best matching candidate from top-K retrieved.
@@ -171,18 +175,21 @@ class OpenAILLMClient(BaseLLMClient):
     def __init__(self, api_key: str, model: str = "gpt-4-turbo-preview"):
         super().__init__(model)
         self._api_key = api_key
-        self._client = OpenAI(base_url="http://localhost:11434/v1", api_key="ollama")
+        self._client = OpenAI(api_key=self._api_key, base_url="https://api.openai.com/v1")
     
     def _call_llm(self, prompt: str) -> str:
         """Call OpenAI API."""
         # Implementation would use openai library
-        response = self._client.chat.completions.create(
-            model=self._model,
-            messages=[{"role": "user", "content": prompt}],
-            temperature=self._temperature
-        )
-        return response.choices[0].message.content
-        
+        try:
+            response = self._client.chat.completions.create(
+                model=self._model,
+                messages=[{"role": "user", "content": prompt}],
+                temperature=self._temperature
+            )
+            return response.choices[0].message.content
+        except Exception as e:
+            print(f"OpenAI API call failed: {e}")
+            return ""    
         # Placeholder
         #return '{"description": "Sample", "changes": [], "risk_level": "low"}'
 
@@ -210,7 +217,7 @@ class LLMClient:
         self.client = OpenAI(base_url=base_url, api_key=api_key)
         self.model = model
 
-    def ask(self, prompt: str, temperature: float = 0.0, max_tokens: int = 256) -> str:
+    def _call_llm(self, prompt: str, temperature: float = 0.0, max_tokens: int = 256) -> str:
         resp = self.client.chat.completions.create(
             model=self.model,
             messages=[

@@ -152,7 +152,7 @@ def build_matcher(index_type: str, table_thr: float, col_thr: float, top_k: int)
     provider = LocalEmbeddingProvider()
     emb = EmbeddingService(provider)
     store = RAGVectorStore(dimension=provider.dimension, index_type=index_type)
-    llm_client = BaseLLMClient(model="phi3:mini")
+    llm_client = BaseLLMClient(model="phi:2.7b")
     matcher = RAGSchemaMatcher(
         embedding_service=emb,
         vector_store=store,
@@ -221,6 +221,7 @@ def run(args) -> int:
     print(uschema)
     for entity in uschema.entities:
         attr_names = [a.name for a in entity.attributes]
+        print("Uschema entities are : ",entity)
         t_res = matcher.match_table(entity.name, attr_names)
         entity_map = {
             "entity": entity.name,
@@ -330,9 +331,9 @@ def parse_args():
     p.add_argument("--index-type", default="auto",
                    choices=["auto", "Flat", "IVF_PQ"],
                    help="Vector index type (use 'auto' or 'Flat' for tiny schemas)")
-    p.add_argument("--table-threshold", type=float, default=0.35,
+    p.add_argument("--table-threshold", type=float, default=0.0,
                    help="Accept threshold for table matching")
-    p.add_argument("--column-threshold", type=float, default=0.35,
+    p.add_argument("--column-threshold", type=float, default=0.0,
                    help="Accept threshold for column matching")
     p.add_argument("--top-k", type=int, default=5,
                    help="Top-K candidates to retrieve")

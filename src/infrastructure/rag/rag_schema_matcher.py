@@ -12,10 +12,13 @@ Key Features:
 - No physical RENAME operations - only virtual aliasing
 """
 
+import gc
 from typing import List, Dict, Optional, Tuple, Any
 import logging
 import json
 import os
+import re
+from time import sleep
 from dataclasses import dataclass
 
 from click import prompt
@@ -87,6 +90,41 @@ class RAGSchemaMatcher:
         self._schema_metadata: Optional[SchemaMetadata] = None
         
         logger.info(f"[RAGSchemaMatcher] Initialized with thresholds: table={table_accept_threshold}, column={column_accept_threshold}")
+    
+    def match_all_entities(self, entities: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+        """
+        Batched matching: sends all entities/attributes to the LLM in one request.
+        Each entity dict should have 'name' and 'attributes' list.
+        Returns mapping report [{entity, matched_table, table_confidence, attributes:[{name, target_column, confidence}]}]
+        """
+        if not self._llm_client:
+            raise RuntimeError("LLM client required for batched matching")
+
+        # 1. Build a single batched prompt
+        prompt = "You are a database schema expert. Match each entity and its attributes to the best table and columns.\n"
+        prompt += "Return a JSON array like [{\"entity\":..., \"matched_table\":..., \"table_confidence\":..., \"attributes\": [{\"name\":..., \"target_column\":..., \"confidence\":...}]}]\n\n"
+        for e in entities:
+            prompt += f"Entity: {e['name']}\nAttributes: {', '.join(e['attributes'])}\n\n"
+        # 2. Call LLM once
+        try:
+            response_text = self._llm_client._call_llm(prompt)
+            if not response_text or not response_text.strip():
+                logger.warning("[RAGSchemaMatcher] Empty LLM response, retrying...")
+                sleep(2)
+                gc.collect()
+                response_text = self._llm_client._call_llm(prompt)
+            sleep(2)
+        except Exception as e:
+            logger.warning(f"[RAGSchemaMatcher] LLM call failed: {e}")
+            return []
+
+        # 3. Parse JSON safely
+        try:
+            mapping_report = json.loads(response_text)
+        except json.JSONDecodeError:
+            mapping_report = self._safe_json_extract(response_text)
+
+        return mapping_report
     
     def build_kb(self, schema: SchemaMetadata) -> List[KnowledgeBaseDocument]:
         """
@@ -172,10 +210,24 @@ class RAGSchemaMatcher:
         )
         
         if not candidates:
-            return MatchResult(None, 0.0, "No table candidates found", {})
-        
+            logger.info(f"[RAGSchemaMatcher] No table candidates found for {entity_name}")
+        # if not candidates:
+        #     logger.info(f"[FORCE LLM] No retrieval candidates for {entity_name}, still invoking LLM validation")
+        #     dummy_doc = type("DummyDoc", (), {"table": "N/A"})()
+        #     llm_result = self._llm_validate_table(entity_name, attributes, dummy_doc, [])
+        #     return MatchResult(
+        #         target_name=None,
+        #         confidence=llm_result.get("confidence", 0.0),
+        #         rationale="Forced LLM validation (no retrieval candidates)",
+        #         extra={"method": "llm-only", "retrieval_score": 0.0, "candidates_count": 0}
+        #     )
+
         # Get best candidate
-        best_doc, retrieval_score = candidates[0]
+        if candidates:
+            best_doc, retrieval_score = candidates[0]
+        else:
+            best_doc = type("DummyDoc", (), {"table": "N/A"})()
+            retrieval_score = 0.0
         
         # Apply LLM validation if available
         if self._llm_client:
@@ -362,6 +414,45 @@ class RAGSchemaMatcher:
         
         return ". ".join(parts)
     
+    
+    def _safe_json_extract(text: str) -> dict:
+        """Extracts a JSON-like dict from possibly non-JSON LLM output."""
+        if not text:
+            return {}
+
+        text = text.strip()
+
+        # Remove markdown fences (```json ... ```)
+        text = re.sub(r"^```(json)?", "", text, flags=re.IGNORECASE).strip("` \n")
+        text = re.sub(r"```$", "", text).strip()
+
+        # Try to isolate first {...} block
+        match = re.search(r"\{.*\}", text, re.DOTALL)
+        if match:
+            json_text = match.group(0)
+            try:
+                return json.loads(json_text)
+            except Exception:
+                logger.warning(f"[RAGSchemaMatcher] JSON parse failed. Raw block: {json_text[:120]}")
+                return {}
+
+        # 🔁 If no JSON found — fallback to heuristic parsing
+        # Example: “The best semantic match for the entity "admission" is the table "products".”
+        m = re.search(r'table\s+"?(\w+)"?', text, re.IGNORECASE)
+        match_name = m.group(1) if m else None
+
+        conf = 0.8 if "confidence" not in text.lower() else 0.0
+        m_conf = re.search(r'(\d\.\d+)', text)
+        if m_conf:
+            conf = float(m_conf.group(1))
+            conf = min(max(conf, 0.0), 1.0)
+
+        return {
+            "match": match_name,
+            "confidence": conf,
+            "why": text[:250]  # keep original explanation
+        }
+        
     def _llm_validate_table(
         self, 
         entity_name: str, 
@@ -379,45 +470,54 @@ class RAGSchemaMatcher:
             candidates_text.append(f"- {doc.table}: {doc.content} (score: {score:.3f})")
         
         prompt = f"""
-You are a database schema expert. Given a U-Schema entity and existing database tables, 
-determine the best semantic match.
+                You are a database schema expert. Given a U-Schema entity and existing database tables, 
+                determine the best semantic match.
 
-Entity to match:
-- Name: {entity_name}
-- Attributes: {', '.join(attributes)}
+                Entity to match:
+                - Name: {entity_name}
+                - Attributes: {', '.join(attributes)}
 
-Candidate tables:
-{chr(10).join(candidates_text)}
+                Candidate tables:
+                {chr(10).join(candidates_text)}
 
-Respond with a JSON object:
-{{
-    "match": "table_name" or null,
-    "confidence": 0.0-1.0,
-    "why": "brief explanation"
-}}
+                Respond with a JSON object:
+                {{
+                    "match": "table_name" or null,
+                    "confidence": 0.0-1.0,
+                    "why": "brief explanation"
+                }}
 
-Consider:
-- Semantic similarity of names (items vs products)
-- Column overlap and similarity
-- Business domain context
-"""
+                Consider:
+                - Semantic similarity of names (items vs products)
+                - Column overlap and similarity
+                - Business domain context
+                """
         try:
+            #logger.info(f"[LLM DEBUG] Sending prompt for {entity_name}: {prompt}")
             response = self._llm_client._call_llm(prompt)
-            clean = response.strip()
+            if not response or not response.strip():
+                logger.warning(f"[LLM DEBUG] Empty response for {entity_name}, retrying after short delay...")
+                sleep(5)
+                gc.collect()
+                response = self._llm_client._call_llm(prompt)
+            sleep(5)
+            result = RAGSchemaMatcher._safe_json_extract(response)
+            # clean = response.strip()
 
-            # Remove Markdown fences like ```json ... ```
-            if clean.startswith("```"):
-                clean = clean.strip("`")
-                if "json" in clean[:10].lower():
-                    clean = clean[clean.lower().find("json") + 4:].strip()
-                # Remove trailing ```
-                if "```" in clean:
-                    clean = clean.split("```")[0].strip()
+            # # Remove Markdown fences like ```json ... ```
+            # if clean.startswith("```"):
+            #     clean = clean.strip("`")
+            #     if "json" in clean[:10].lower():
+            #         clean = clean[clean.lower().find("json") + 4:].strip()
+            #     # Remove trailing ```
+            #     if "```" in clean:
+            #         clean = clean.split("```")[0].strip()
 
-            # Parse JSON safely
-            result = json.loads(clean)
+            # # Parse JSON safely
+            # result = json.loads(clean)
 
             # Adapted return
+            
             return {
                 "confidence": float(result.get("confidence", 0.0)),
                 "rationale": result.get("why", "No explanation"),
@@ -475,21 +575,30 @@ Consider:
         
         try:
             response = self._llm_client._call_llm(prompt)
-            clean = response.strip()
+            if not response or not response.strip():
+                logger.warning(f"[LLM DEBUG] Empty response for {attr_name}, retrying after short delay...")
+                sleep(5)
+                gc.collect()
+                response = self._llm_client._call_llm(prompt)
+            sleep(5)
+            result = RAGSchemaMatcher._safe_json_extract(response)
+            
+            # clean = response.strip()
 
-            # Remove Markdown fences like ```json ... ```
-            if clean.startswith("```"):
-                clean = clean.strip("`")
-                if "json" in clean[:10].lower():
-                    clean = clean[clean.lower().find("json") + 4:].strip()
-                # Remove trailing ```
-                if "```" in clean:
-                    clean = clean.split("```")[0].strip()
+            # # Remove Markdown fences like ```json ... ```
+            # if clean.startswith("```"):
+            #     clean = clean.strip("`")
+            #     if "json" in clean[:10].lower():
+            #         clean = clean[clean.lower().find("json") + 4:].strip()
+            #     # Remove trailing ```
+            #     if "```" in clean:
+            #         clean = clean.split("```")[0].strip()
 
-            # Parse JSON safely
-            result = json.loads(clean)
+            # # Parse JSON safely
+            # result = json.loads(clean)
 
             # Adapted return
+            
             return {
                 "confidence": float(result.get("confidence", 0.0)),
                 "rationale": result.get("why", "No explanation"),
@@ -503,6 +612,7 @@ Consider:
                 "rationale": f"LLM validation failed: {e}",
                 "match": None
             }
+            
 
     
     def get_statistics(self) -> Dict[str, Any]:
