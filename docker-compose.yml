@@ -1,44 +1,58 @@
-version: '3.8'
+version: "3.9"
 
 services:
+
   db:
     image: postgres:15
+    container_name: rag_db
     restart: unless-stopped
     environment:
       POSTGRES_USER: test
       POSTGRES_PASSWORD: test
       POSTGRES_DB: test
-    volumes:
-      - pgdata:/var/lib/postgresql/data
     ports:
       - "5432:5432"
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U $POSTGRES_USER -d $POSTGRES_DB"]
-      interval: 10s
-      timeout: 5s
-      retries: 6
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  ollama:
+    container_name: rag_ollama
+    image: ollama/ollama:latest
+    restart: unless-stopped
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_models:/root/.ollama
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [gpu]   # Utilisé SEULEMENT si GPU dispo
+    environment:
+      OLLAMA_HOST: "0.0.0.0"
 
   app:
+    container_name: rag_app
     build:
       context: .
-      dockerfile: dockerfile
+      dockerfile: Dockerfile
     restart: on-failure
     depends_on:
-      db:
-        condition: service_healthy
+      - db
+      - ollama
     environment:
-      DATABASE_URL: postgres://test:test@db:5432/test
-      PYTHONUNBUFFERED: '1'
-      PYTHONDONTWRITEBYTECODE: '1'
+      DATABASE_URL: "postgres://test:test@rag_db:5432/test"
+      OLLAMA_HOST: "http://rag_ollama:11434"
+      PYTHONUNBUFFERED: "1"
+      PYTHONDONTWRITEBYTECODE: "1"
     volumes:
-      - .:/app:delegated
-    # The Dockerfile's CMD runs pytest by default; override if you need a different command
-    # command: ["pytest", "-v"]
+      - .:/app:cached
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [gpu]   # App utilisera FAISS GPU si dispo
 
 volumes:
   pgdata:
-    driver: local
-
-networks:
-  default:
-    name: rag_default
+  ollama_models:

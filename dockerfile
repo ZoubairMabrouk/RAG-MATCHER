@@ -1,13 +1,13 @@
-# =========
-# Stage 1: builder (compile wheels so the final image stays slim)
-# =========
+# ===========================================================
+# STAGE 1 — BUILDER
+# ===========================================================
 FROM python:3.12-slim AS builder
 
 ENV PIP_NO_CACHE_DIR=1 \
     PIP_DISABLE_PIP_VERSION_CHECK=1 \
     PYTHONDONTWRITEBYTECODE=1
 
-# System deps to build wheels for packages like psycopg2
+# Build dependencies for psycopg2, faiss-cpu, pydantic, etc.
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     libpq-dev \
@@ -15,45 +15,46 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 WORKDIR /app
 
-# Only copy requirement files first to leverage Docker layer caching
-COPY requirements.txt ./
+# Copy only dependencies first to leverage cache
+COPY requirements.txt .
 
-# Build wheels for all deps
+# Prebuild wheels for all packages
 RUN python -m pip install --upgrade pip wheel \
- && pip wheel --wheel-dir=/wheels -r requirements.txt
+ && pip wheel --no-cache-dir --wheel-dir=/wheels -r requirements.txt
 
-# =========
-# Stage 2: runtime
-# =========
+
+# ===========================================================
+# STAGE 2 — RUNTIME
+# ===========================================================
 FROM python:3.12-slim
 
 ENV PIP_NO_CACHE_DIR=1 \
     PIP_DISABLE_PIP_VERSION_CHECK=1 \
     PYTHONDONTWRITEBYTECODE=1 \
-    # Allows Testcontainers to find the Docker daemon via the default socket
+    PYTHONUNBUFFERED=1 \
     DOCKER_HOST=unix:///var/run/docker.sock
 
-# Runtime libs for psycopg2
+# Runtime libraries only
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libpq5 \
-    ca-certificates \
     curl \
+    ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
-# Copy app source
-COPY . /app
+# Copy project source
+COPY . .
 
-# Copy prebuilt wheels and install
+# Install wheels built in STAGE 1
 COPY --from=builder /wheels /wheels
-RUN python -m pip install --upgrade pip \
- && pip install --no-index --find-links=/wheels -r requirements.txt \
- && pip install pytest pytest-cov
+RUN python -m pip install --no-cache-dir -r requirements.txt
 
-# Optional: drop privileges
+# Add a non-root user
 RUN useradd -m appuser
 USER appuser
 
-# Default command runs tests; override as needed (e.g., `docker run ... pytest -k yourtest`)
-CMD ["pytest", "-v", "--maxfail=1", "--disable-warnings"]
+# Optional healthcheck (always OK)
+HEALTHCHECK CMD python -c "import sys; sys.exit(0)"
+
+CMD ["python", "run_rag_virtual_rename.py"]
