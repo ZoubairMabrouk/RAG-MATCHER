@@ -33,6 +33,7 @@ services:
 
   app:
     container_name: rag_app
+    runtime: nvidia
     build:
       context: .
       dockerfile: Dockerfile
@@ -41,6 +42,7 @@ services:
       - db
       - ollama
     environment:
+      NVIDIA_VISIBLE_DEVICES: all
       DATABASE_URL: "postgres://test:test@rag_db:5432/test"
       OLLAMA_HOST: "http://rag_ollama:11434"
       PYTHONUNBUFFERED: "1"
