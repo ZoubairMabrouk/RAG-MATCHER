@@ -23,17 +23,11 @@ services:
       - "11434:11434"
     volumes:
       - ollama_models:/root/.ollama
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - capabilities: [gpu]   # Utilisé SEULEMENT si GPU dispo
     environment:
       OLLAMA_HOST: "0.0.0.0"
 
   app:
     container_name: rag_app
-    runtime: nvidia
     build:
       context: .
       dockerfile: Dockerfile
@@ -42,18 +36,12 @@ services:
       - db
       - ollama
     environment:
-      NVIDIA_VISIBLE_DEVICES: all
       DATABASE_URL: "postgres://test:test@rag_db:5432/test"
       OLLAMA_HOST: "http://rag_ollama:11434"
       PYTHONUNBUFFERED: "1"
       PYTHONDONTWRITEBYTECODE: "1"
     volumes:
       - .:/app:cached
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - capabilities: [gpu]   # App utilisera FAISS GPU si dispo
 
 volumes:
   pgdata:
