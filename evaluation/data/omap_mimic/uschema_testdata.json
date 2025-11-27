@@ -1,0 +1,1431 @@
+{
+  "uSchemaModel": {
+    "entities": [
+      {
+        "EntityType": {
+          "name": "person",
+          "variations": [
+            {
+              "StructuralVariation": {
+                "properties": [
+                  {
+                    "Attribute": [
+                      {
+                        "name": "birth_datetime",
+                        "type": "string"
+                      },
+                      {
+                        "name": "care_site_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "day_of_birth",
+                        "type": "string"
+                      },
+                      {
+                        "name": "death_datetime",
+                        "type": "string"
+                      },
+                      {
+                        "name": "ethnicity_concept_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "ethnicity_source_concept_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "ethnicity_source_value",
+                        "type": "string"
+                      },
+                      {
+                        "name": "gender_concept_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "gender_source_concept_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "gender_source_value",
+                        "type": "string"
+                      },
+                      {
+                        "name": "location_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "month_of_birth",
+                        "type": "string"
+                      },
+                      {
+                        "name": "person_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "person_source_value",
+                        "type": "string"
+                      },
+                      {
+                        "name": "provider_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "race_concept_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "race_source_concept_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "race_source_value",
+                        "type": "string"
+                      },
+                      {
+                        "name": "year_of_birth",
+                        "type": "string"
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "EntityType": {
+          "name": "visit_occurrence",
+          "variations": [
+            {
+              "StructuralVariation": {
+                "properties": [
+                  {
+                    "Attribute": [
+                      {
+                        "name": "admitted_from_concept_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "admitted_from_source_value",
+                        "type": "string"
+                      },
+                      {
+                        "name": "care_site_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "discharge_to_concept_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "discharge_to_source_value",
+                        "type": "string"
+                      },
+                      {
+                        "name": "person_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "preceding_visit_occurrence_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "provider_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "visit_concept_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "visit_end_date",
+                        "type": "string"
+                      },
+                      {
+                        "name": "visit_end_datetime",
+                        "type": "string"
+                      },
+                      {
+                        "name": "visit_occurrence_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "visit_source_concept_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "visit_source_value",
+                        "type": "string"
+                      },
+                      {
+                        "name": "visit_start_date",
+                        "type": "string"
+                      },
+                      {
+                        "name": "visit_start_datetime",
+                        "type": "string"
+                      },
+                      {
+                        "name": "visit_type_concept_id",
+                        "type": "string"
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "EntityType": {
+          "name": "visit_detail",
+          "variations": [
+            {
+              "StructuralVariation": {
+                "properties": [
+                  {
+                    "Attribute": [
+                      {
+                        "name": "admitted_from_concept_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "admitted_from_source_value",
+                        "type": "string"
+                      },
+                      {
+                        "name": "care_site_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "discharge_to_concept_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "discharge_to_source_value",
+                        "type": "string"
+                      },
+                      {
+                        "name": "person_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "preceding_visit_detail_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "provider_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "visit_detail_concept_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "visit_detail_end_date",
+                        "type": "string"
+                      },
+                      {
+                        "name": "visit_detail_end_datetime",
+                        "type": "string"
+                      },
+                      {
+                        "name": "visit_detail_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "visit_detail_parent_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "visit_detail_source_concept_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "visit_detail_source_value",
+                        "type": "string"
+                      },
+                      {
+                        "name": "visit_detail_start_date",
+                        "type": "string"
+                      },
+                      {
+                        "name": "visit_detail_start_datetime",
+                        "type": "string"
+                      },
+                      {
+                        "name": "visit_detail_type_concept_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "visit_occurrence_id",
+                        "type": "string"
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "EntityType": {
+          "name": "specimen",
+          "variations": [
+            {
+              "StructuralVariation": {
+                "properties": [
+                  {
+                    "Attribute": [
+                      {
+                        "name": "anatomic_site_concept_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "anatomic_site_source_value",
+                        "type": "string"
+                      },
+                      {
+                        "name": "disease_status_concept_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "disease_status_source_value",
+                        "type": "string"
+                      },
+                      {
+                        "name": "person_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "quantity",
+                        "type": "string"
+                      },
+                      {
+                        "name": "specimen_concept_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "specimen_date",
+                        "type": "string"
+                      },
+                      {
+                        "name": "specimen_datetime",
+                        "type": "string"
+                      },
+                      {
+                        "name": "specimen_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "specimen_source_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "specimen_source_value",
+                        "type": "string"
+                      },
+                      {
+                        "name": "specimen_type_concept_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "unit_concept_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "unit_source_value",
+                        "type": "string"
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "EntityType": {
+          "name": "measurement",
+          "variations": [
+            {
+              "StructuralVariation": {
+                "properties": [
+                  {
+                    "Attribute": [
+                      {
+                        "name": "measurement_concept_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "measurement_date",
+                        "type": "string"
+                      },
+                      {
+                        "name": "measurement_datetime",
+                        "type": "string"
+                      },
+                      {
+                        "name": "measurement_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "measurement_source_concept_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "measurement_source_value",
+                        "type": "string"
+                      },
+                      {
+                        "name": "measurement_time",
+                        "type": "string"
+                      },
+                      {
+                        "name": "measurement_type_concept_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "operator_concept_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "person_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "provider_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "range_high",
+                        "type": "string"
+                      },
+                      {
+                        "name": "range_low",
+                        "type": "string"
+                      },
+                      {
+                        "name": "unit_concept_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "unit_source_value",
+                        "type": "string"
+                      },
+                      {
+                        "name": "value_as_concept_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "value_as_number",
+                        "type": "string"
+                      },
+                      {
+                        "name": "value_source_value",
+                        "type": "string"
+                      },
+                      {
+                        "name": "visit_detail_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "visit_occurrence_id",
+                        "type": "string"
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "EntityType": {
+          "name": "procedure_occurrence",
+          "variations": [
+            {
+              "StructuralVariation": {
+                "properties": [
+                  {
+                    "Attribute": [
+                      {
+                        "name": "modifier_concept_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "modifier_source_value",
+                        "type": "string"
+                      },
+                      {
+                        "name": "person_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "procedure_concept_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "procedure_date",
+                        "type": "string"
+                      },
+                      {
+                        "name": "procedure_datetime",
+                        "type": "string"
+                      },
+                      {
+                        "name": "procedure_occurrence_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "procedure_source_concept_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "procedure_source_value",
+                        "type": "string"
+                      },
+                      {
+                        "name": "procedure_type_concept_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "provider_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "quantity",
+                        "type": "string"
+                      },
+                      {
+                        "name": "visit_detail_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "visit_occurrence_id",
+                        "type": "string"
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "EntityType": {
+          "name": "condition_occurrence",
+          "variations": [
+            {
+              "StructuralVariation": {
+                "properties": [
+                  {
+                    "Attribute": [
+                      {
+                        "name": "condition_concept_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "condition_end_date",
+                        "type": "string"
+                      },
+                      {
+                        "name": "condition_end_datetime",
+                        "type": "string"
+                      },
+                      {
+                        "name": "condition_occurrence_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "condition_source_concept_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "condition_source_value",
+                        "type": "string"
+                      },
+                      {
+                        "name": "condition_start_date",
+                        "type": "string"
+                      },
+                      {
+                        "name": "condition_start_datetime",
+                        "type": "string"
+                      },
+                      {
+                        "name": "condition_status_concept_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "condition_status_source_value",
+                        "type": "string"
+                      },
+                      {
+                        "name": "condition_type_concept_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "person_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "provider_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "stop_reason",
+                        "type": "string"
+                      },
+                      {
+                        "name": "visit_detail_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "visit_occurrence_id",
+                        "type": "string"
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "EntityType": {
+          "name": "death",
+          "variations": [
+            {
+              "StructuralVariation": {
+                "properties": [
+                  {
+                    "Attribute": [
+                      {
+                        "name": "cause_concept_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "cause_source_concept_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "cause_source_value",
+                        "type": "string"
+                      },
+                      {
+                        "name": "death_date",
+                        "type": "string"
+                      },
+                      {
+                        "name": "death_datetime",
+                        "type": "string"
+                      },
+                      {
+                        "name": "death_type_concept_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "person_id",
+                        "type": "string"
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "EntityType": {
+          "name": "location",
+          "variations": [
+            {
+              "StructuralVariation": {
+                "properties": [
+                  {
+                    "Attribute": [
+                      {
+                        "name": "address_1",
+                        "type": "string"
+                      },
+                      {
+                        "name": "address_2",
+                        "type": "string"
+                      },
+                      {
+                        "name": "city",
+                        "type": "string"
+                      },
+                      {
+                        "name": "county",
+                        "type": "string"
+                      },
+                      {
+                        "name": "location_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "location_source_value",
+                        "type": "string"
+                      },
+                      {
+                        "name": "state",
+                        "type": "string"
+                      },
+                      {
+                        "name": "zip",
+                        "type": "string"
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "EntityType": {
+          "name": "observation",
+          "variations": [
+            {
+              "StructuralVariation": {
+                "properties": [
+                  {
+                    "Attribute": [
+                      {
+                        "name": "obs_event_field_concept_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "observation_concept_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "observation_date",
+                        "type": "string"
+                      },
+                      {
+                        "name": "observation_datetime",
+                        "type": "string"
+                      },
+                      {
+                        "name": "observation_event_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "observation_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "observation_source_concept_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "observation_source_value",
+                        "type": "string"
+                      },
+                      {
+                        "name": "observation_type_concept_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "person_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "provider_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "qualifier_concept_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "qualifier_source_value",
+                        "type": "string"
+                      },
+                      {
+                        "name": "unit_concept_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "unit_source_value",
+                        "type": "string"
+                      },
+                      {
+                        "name": "value_as_concept_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "value_as_datetime",
+                        "type": "string"
+                      },
+                      {
+                        "name": "value_as_number",
+                        "type": "string"
+                      },
+                      {
+                        "name": "value_as_string",
+                        "type": "string"
+                      },
+                      {
+                        "name": "visit_detail_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "visit_occurrence_id",
+                        "type": "string"
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "EntityType": {
+          "name": "observation_period",
+          "variations": [
+            {
+              "StructuralVariation": {
+                "properties": [
+                  {
+                    "Attribute": [
+                      {
+                        "name": "observation_period_end_date",
+                        "type": "string"
+                      },
+                      {
+                        "name": "observation_period_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "observation_period_start_date",
+                        "type": "string"
+                      },
+                      {
+                        "name": "period_type_concept_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "person_id",
+                        "type": "string"
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "EntityType": {
+          "name": "drug_exposure",
+          "variations": [
+            {
+              "StructuralVariation": {
+                "properties": [
+                  {
+                    "Attribute": [
+                      {
+                        "name": "days_supply",
+                        "type": "string"
+                      },
+                      {
+                        "name": "dose_unit_source_value",
+                        "type": "string"
+                      },
+                      {
+                        "name": "drug_concept_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "drug_exposure_end_date",
+                        "type": "string"
+                      },
+                      {
+                        "name": "drug_exposure_end_datetime",
+                        "type": "string"
+                      },
+                      {
+                        "name": "drug_exposure_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "drug_exposure_start_date",
+                        "type": "string"
+                      },
+                      {
+                        "name": "drug_exposure_start_datetime",
+                        "type": "string"
+                      },
+                      {
+                        "name": "drug_source_concept_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "drug_source_value",
+                        "type": "string"
+                      },
+                      {
+                        "name": "drug_type_concept_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "lot_number",
+                        "type": "string"
+                      },
+                      {
+                        "name": "person_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "provider_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "quantity",
+                        "type": "string"
+                      },
+                      {
+                        "name": "refills",
+                        "type": "string"
+                      },
+                      {
+                        "name": "route_concept_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "route_source_value",
+                        "type": "string"
+                      },
+                      {
+                        "name": "sig",
+                        "type": "string"
+                      },
+                      {
+                        "name": "stop_reason",
+                        "type": "string"
+                      },
+                      {
+                        "name": "verbatim_end_date",
+                        "type": "string"
+                      },
+                      {
+                        "name": "visit_detail_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "visit_occurrence_id",
+                        "type": "string"
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "EntityType": {
+          "name": "device_exposure",
+          "variations": [
+            {
+              "StructuralVariation": {
+                "properties": [
+                  {
+                    "Attribute": [
+                      {
+                        "name": "device_concept_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "device_exposure_end_date",
+                        "type": "string"
+                      },
+                      {
+                        "name": "device_exposure_end_datetime",
+                        "type": "string"
+                      },
+                      {
+                        "name": "device_exposure_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "device_exposure_start_date",
+                        "type": "string"
+                      },
+                      {
+                        "name": "device_exposure_start_datetime",
+                        "type": "string"
+                      },
+                      {
+                        "name": "device_source_concept_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "device_source_value",
+                        "type": "string"
+                      },
+                      {
+                        "name": "device_type_concept_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "person_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "provider_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "quantity",
+                        "type": "string"
+                      },
+                      {
+                        "name": "unique_device_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "visit_detail_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "visit_occurrence_id",
+                        "type": "string"
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "EntityType": {
+          "name": "note",
+          "variations": [
+            {
+              "StructuralVariation": {
+                "properties": [
+                  {
+                    "Attribute": [
+                      {
+                        "name": "encoding_concept_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "language_concept_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "note_class_concept_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "note_date",
+                        "type": "string"
+                      },
+                      {
+                        "name": "note_datetime",
+                        "type": "string"
+                      },
+                      {
+                        "name": "note_event_field_concept_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "note_event_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "note_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "note_source_value",
+                        "type": "string"
+                      },
+                      {
+                        "name": "note_text",
+                        "type": "string"
+                      },
+                      {
+                        "name": "note_title",
+                        "type": "string"
+                      },
+                      {
+                        "name": "note_type_concept_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "person_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "provider_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "visit_detail_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "visit_occurrence_id",
+                        "type": "string"
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "EntityType": {
+          "name": "fact_relationship",
+          "variations": [
+            {
+              "StructuralVariation": {
+                "properties": [
+                  {
+                    "Attribute": [
+                      {
+                        "name": "domain_concept_id_1",
+                        "type": "string"
+                      },
+                      {
+                        "name": "domain_concept_id_2",
+                        "type": "string"
+                      },
+                      {
+                        "name": "fact_id_1",
+                        "type": "string"
+                      },
+                      {
+                        "name": "fact_id_2",
+                        "type": "string"
+                      },
+                      {
+                        "name": "relationship_concept_id",
+                        "type": "string"
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "EntityType": {
+          "name": "payer_plan_period",
+          "variations": [
+            {
+              "StructuralVariation": {
+                "properties": [
+                  {
+                    "Attribute": [
+                      {
+                        "name": "family_source_value",
+                        "type": "string"
+                      },
+                      {
+                        "name": "payer_plan_period_end_date",
+                        "type": "string"
+                      },
+                      {
+                        "name": "payer_plan_period_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "payer_plan_period_start_date",
+                        "type": "string"
+                      },
+                      {
+                        "name": "payer_source_value",
+                        "type": "string"
+                      },
+                      {
+                        "name": "person_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "plan_source_value",
+                        "type": "string"
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "EntityType": {
+          "name": "cdm_source",
+          "variations": [
+            {
+              "StructuralVariation": {
+                "properties": [
+                  {
+                    "Attribute": [
+                      {
+                        "name": "cdm_etl_reference",
+                        "type": "string"
+                      },
+                      {
+                        "name": "cdm_holder",
+                        "type": "string"
+                      },
+                      {
+                        "name": "cdm_release_date",
+                        "type": "string"
+                      },
+                      {
+                        "name": "cdm_source_abbreviation",
+                        "type": "string"
+                      },
+                      {
+                        "name": "cdm_source_name",
+                        "type": "string"
+                      },
+                      {
+                        "name": "cdm_version",
+                        "type": "string"
+                      },
+                      {
+                        "name": "source_description",
+                        "type": "string"
+                      },
+                      {
+                        "name": "source_documentation_reference",
+                        "type": "string"
+                      },
+                      {
+                        "name": "source_release_date",
+                        "type": "string"
+                      },
+                      {
+                        "name": "vocabulary_version",
+                        "type": "string"
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "EntityType": {
+          "name": "care_site",
+          "variations": [
+            {
+              "StructuralVariation": {
+                "properties": [
+                  {
+                    "Attribute": [
+                      {
+                        "name": "care_site_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "care_site_name",
+                        "type": "string"
+                      },
+                      {
+                        "name": "care_site_source_value",
+                        "type": "string"
+                      },
+                      {
+                        "name": "location_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "place_of_service_concept_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "place_of_service_source_value",
+                        "type": "string"
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "EntityType": {
+          "name": "cohort",
+          "variations": [
+            {
+              "StructuralVariation": {
+                "properties": [
+                  {
+                    "Attribute": [
+                      {
+                        "name": "cohort_definition_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "cohort_end_date",
+                        "type": "string"
+                      },
+                      {
+                        "name": "cohort_start_date",
+                        "type": "string"
+                      },
+                      {
+                        "name": "subject_id",
+                        "type": "string"
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "EntityType": {
+          "name": "cohort_definition",
+          "variations": [
+            {
+              "StructuralVariation": {
+                "properties": [
+                  {
+                    "Attribute": [
+                      {
+                        "name": "cohort_definition_description",
+                        "type": "string"
+                      },
+                      {
+                        "name": "cohort_definition_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "cohort_definition_name",
+                        "type": "string"
+                      },
+                      {
+                        "name": "cohort_definition_syntax",
+                        "type": "string"
+                      },
+                      {
+                        "name": "cohort_initiation_date",
+                        "type": "string"
+                      },
+                      {
+                        "name": "definition_type_concept_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "subject_concept_id",
+                        "type": "string"
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "EntityType": {
+          "name": "provider",
+          "variations": [
+            {
+              "StructuralVariation": {
+                "properties": [
+                  {
+                    "Attribute": [
+                      {
+                        "name": "care_site_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "dea",
+                        "type": "string"
+                      },
+                      {
+                        "name": "gender_concept_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "gender_source_concept_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "gender_source_value",
+                        "type": "string"
+                      },
+                      {
+                        "name": "npi",
+                        "type": "string"
+                      },
+                      {
+                        "name": "provider_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "provider_name",
+                        "type": "string"
+                      },
+                      {
+                        "name": "provider_source_value",
+                        "type": "string"
+                      },
+                      {
+                        "name": "specialty_concept_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "specialty_source_concept_id",
+                        "type": "string"
+                      },
+                      {
+                        "name": "specialty_source_value",
+                        "type": "string"
+                      },
+                      {
+                        "name": "year_of_birth",
+                        "type": "string"
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+}
