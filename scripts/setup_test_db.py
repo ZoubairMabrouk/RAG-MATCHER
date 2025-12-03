@@ -156,7 +156,7 @@ def build_matcher(index_type: str, table_thr: float, col_thr: float, top_k: int)
     provider = LocalEmbeddingProvider()
     emb = EmbeddingService(provider)
     store = RAGVectorStore(dimension=provider.dimension, index_type=index_type)
-    llm_client = BaseLLMClient(model="phi:2.7b")
+    llm_client = BaseLLMClient(model="phi3")
     matcher = RAGSchemaMatcher(
         embedding_service=emb,
         vector_store=store,
@@ -179,13 +179,27 @@ def build_kb_and_index(matcher: RAGSchemaMatcher, schema: SchemaMetadata, kb_fil
                 kb_docs.append(doc["content"])
     matcher.index_kb(kb_docs)
     log.info(f"KB built & indexed: {len(kb_docs)} documents")
+    
+def load_gold_omap_xlsx(path: str) -> pd.DataFrame:
+    df = pd.read_excel(path, dtype=str).fillna("")
 
-def evaluate_mapping(mapping_json_path, gold_csv_path):
-    if not gold_csv_path:
+    # --- Split OMOP entity + attribute ---
+    df[["entity", "attribute"]] = df["omop"].str.split("-", n=1, expand=True)
+
+    # --- Split MIMIC table + column ---
+    df[["gold_table", "gold_column"]] = df["table"].str.split("-", n=1, expand=True)
+
+    # Keep only needed columns
+    df = df[["entity", "attribute", "gold_table", "gold_column", "label"]]
+
+    return df
+
+def evaluate_mapping(mapping_json_path, gold_file_path):
+    if not gold_file_path:
         log.info("No gold file provided — skipping evaluation.")
         return
 
-    log.info(f"\n=== Running Evaluation using GOLD dataset: {gold_csv_path} ===")
+    log.info(f"\n=== Running Evaluation using GOLD dataset: {gold_file_path} ===")
 
     # ---- Load predictions ----
     with open(mapping_json_path, "r", encoding="utf-8") as f:
@@ -194,7 +208,16 @@ def evaluate_mapping(mapping_json_path, gold_csv_path):
     pred_entities = pred["mapping"]
 
     # ---- Load gold ----
-    gold = pd.read_csv(gold_csv_path, dtype=str)
+    file_ext = gold_file_path.split(".")[-1].lower()
+
+    if file_ext == "xlsx":
+        raw = pd.read_excel(gold_file_path, dtype=str).fillna("")
+        gold = load_gold_omap_xlsx(gold_file_path)
+    elif file_ext == "csv":
+        gold = pd.read_csv(gold_file_path, dtype=str)
+    else:
+        raise ValueError(f"Unsupported gold file type: {file_ext}")
+    
     gold["entity"] = gold["entity"].str.lower()
     gold["attribute"] = gold["attribute"].str.lower()
     gold["gold_table"] = gold["gold_table"].str.lower()
@@ -410,7 +433,7 @@ def run(args) -> int:
             json.dump(payload, f, ensure_ascii=False, indent=2)
         log.info(f"\nSaved report to: {out_path}")
         # 9) Optional evaluation if gold provided
-    evaluate_mapping(str(out_path), args.gold_file)
+    evaluate_mapping(str(out_path), "evaluation/data/omap/omop_mimic_data.xlsx")
     # Return non-zero if we created new tables that should have been mapped
     # (heuristic: if many entities mapped to None, you may want to adjust thresholds)
     return 0
@@ -434,7 +457,7 @@ def parse_args():
                    help="Accept threshold for column matching")
     p.add_argument("--top-k", type=int, default=5,
                    help="Top-K candidates to retrieve")
-    p.add_argument("--out", default=None,
+    p.add_argument("--out", default="mapping_report.json",
                    help="Optional path to write a JSON report")
     p.add_argument("--kb-file", default="./data/rag/knowledge_base_enriched.jsonl",
                    help="Optional external KB file to augment RAG knowledge base")
