@@ -547,7 +547,7 @@ class RAGSchemaMatcher:
         candidates_text = []
         for doc, score in all_candidates[:3]:  # Top 3 candidates
             col_name = doc.id.split('.')[-1] if '.' in doc.id else doc.id
-            candidates_text.append(f"- {col_name}: {doc.text} (score: {score:.3f})")
+            candidates_text.append(f"- {col_name}: {doc.content} (score: {score:.3f})")
         
         prompt = f"""
 You are a database schema expert. Given a U-Schema attribute and existing database columns, 
