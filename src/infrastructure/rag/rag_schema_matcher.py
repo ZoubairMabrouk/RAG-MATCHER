@@ -232,30 +232,38 @@ class RAGSchemaMatcher:
         # Apply LLM validation if available
         if self._llm_client:
             llm_result = self._llm_validate_table(entity_name, attributes, best_doc, candidates)
-            final_confidence = max(retrieval_score, llm_result["confidence"])
-            rationale = llm_result["rationale"]
-        else:
-            final_confidence = retrieval_score
-            rationale = f"Retrieval-based match: {best_doc.table} (score: {retrieval_score:.3f})"
-        
-        # Check threshold
-        if final_confidence >= self._table_threshold:
-            target_name = best_doc.table
-            logger.info(f"[RAGSchemaMatcher] Table match: {entity_name} -> {target_name} (conf: {final_confidence:.3f})")
-        else:
-            target_name = None
-            rationale = f"Below threshold: {rationale}"
-        
-        return MatchResult(
-            target_name=target_name,
-            confidence=final_confidence,
-            rationale=rationale,
-            extra={
-                "method": "llm" if self._llm_client else "retrieval",
-                "retrieval_score": retrieval_score,
-                "candidates_count": len(candidates)
-            }
-        )
+            llm_match = llm_result.get("match")
+            llm_conf  = float(llm_result.get("confidence", 0.0))
+
+            # ---- Apply decision rule ----
+            if llm_match and llm_conf >= self._table_threshold:
+                target_name = llm_match
+                final_confidence = llm_conf
+                rationale = f"LLM match accepted: {llm_result.get('rationale', '')}"
+
+                return MatchResult(
+                    target_name=target_name,
+                    confidence=final_confidence,
+                    rationale=rationale,
+                    extra={
+                        "method": "llm",
+                        "retrieval_score": retrieval_score,
+                        "candidates_count": len(candidates)
+                    }
+                )
+
+            else:
+                # LLM did not produce a strong enough match
+                return MatchResult(
+                    target_name=None,
+                    confidence=llm_conf,
+                    rationale=f"LLM rejected (match={llm_match}, conf={llm_conf:.3f})",
+                    extra={
+                        "method": "llm",
+                        "retrieval_score": retrieval_score,
+                        "candidates_count": len(candidates)
+                    }
+                )
     
     def match_column(
         self, 
@@ -302,16 +310,13 @@ class RAGSchemaMatcher:
         # Apply LLM validation if available
         if self._llm_client:
             llm_result = self._llm_validate_column(attr_name, attr_type, best_doc, candidates)
-            final_confidence = max(retrieval_score, llm_result["confidence"])
+            match_name = llm_result.get("match")
+            final_confidence = llm_result["confidence"]
             rationale = llm_result["rationale"]
-        else:
-            final_confidence = retrieval_score
-            rationale = f"Retrieval-based match: {best_doc.id} (score: {retrieval_score:.3f})"
-        
         # Check threshold
-        if final_confidence >= self._column_threshold:
+        if llm_result and final_confidence >= self._column_threshold:
             # Extract column name from document ID (format: table.column)
-            target_name = best_doc.id.split('.')[-1] if '.' in best_doc.id else best_doc.id
+            target_name = match_name
             logger.info(f"[RAGSchemaMatcher] Column match: {attr_name} -> {target_name} (conf: {final_confidence:.3f})")
         else:
             target_name = None
@@ -466,7 +471,7 @@ class RAGSchemaMatcher:
         
         # Build context
         candidates_text = []
-        for doc, score in all_candidates[:5]:  # Top k candidates
+        for doc, score in all_candidates[:10]:  # Top k candidates
             candidates_text.append(f"- {doc.table}: {doc.content} (score: {score:.3f})")
         
         prompt = f"""
@@ -599,7 +604,7 @@ Respond with a JSON object ONLY:
         
         # Build context
         candidates_text = []
-        for doc, score in all_candidates[:3]:  # Top 3 candidates
+        for doc, score in all_candidates[:10]:  # Top 3 candidates
             col_name = doc.id.split('.')[-1] if '.' in doc.id else doc.id
             candidates_text.append(f"- {col_name}: {doc.content} (score: {score:.3f})")
         

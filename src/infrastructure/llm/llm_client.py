@@ -2,7 +2,7 @@
 
 import json
 from typing import Dict, Any, Optional
-from openai import OpenAI
+from openai import OpenAI, api_key, base_url
 import anthropic
 from src.domain.repositeries.interfaces import ILLMClient
 from src.domain.entities.evolution import EvolutionPlan,SchemaChange
@@ -246,3 +246,4 @@ class LLMClient:
                     pass
             # If still failing, return a fallback mapping
             return {"selected": None, "confidence": 0.0, "rationale": text}
+     
