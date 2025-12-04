@@ -433,7 +433,7 @@ def run(args) -> int:
             json.dump(payload, f, ensure_ascii=False, indent=2)
         log.info(f"\nSaved report to: {out_path}")
         # 9) Optional evaluation if gold provided
-    evaluate_mapping(str(out_path), "evaluation/data/omap/omop_mimic_data.xlsx")
+    evaluate_mapping(str(out_path), "evaluation/data/omap_mimic/omop_mimic_data.xlsx")
     # Return non-zero if we created new tables that should have been mapped
     # (heuristic: if many entities mapped to None, you may want to adjust thresholds)
     return 0

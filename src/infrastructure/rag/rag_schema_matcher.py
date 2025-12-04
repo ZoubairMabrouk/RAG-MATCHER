@@ -470,28 +470,82 @@ class RAGSchemaMatcher:
             candidates_text.append(f"- {doc.table}: {doc.content} (score: {score:.3f})")
         
         prompt = f"""
-                You are a database schema expert. Given a U-Schema entity and existing database tables, 
-                determine the best semantic match.
+You are an advanced database schema alignment engine, specialized in semantic schema matching for healthcare databases within the database MIMIC-III with there 26 tables. 
+Your goal is to determine whether a U-Schema entity corresponds semantically 
+to one of the candidate database tables retrieved by a RAG system.
 
-                Entity to match:
-                - Name: {entity_name}
-                - Attributes: {', '.join(attributes)}
+===========================
+TASK CONTEXT
+===========================
+You are given:
+1. A U-Schema entity (conceptual object) with a name and a list of attributes.
+2. A list of candidate database tables produced by a similarity-search retriever.
+   Each candidate includes:
+   - table name
+   - semantic description
+   - column names and datatypes
+   - retrieval similarity score
+3. You must validate the retriever’s ranking and identify the BEST table match.
 
-                Candidate tables:
-                {chr(10).join(candidates_text)}
+Your job is to evaluate:
+- The conceptual meaning of the entity.
+- Whether its attributes logically belong in a table with the given columns.
+- Whether the table plays the expected business/domain role.
+- Whether the retriever's top suggestion is semantically reasonable.
 
-                Respond with a JSON object:
-                {{
-                    "match": "table_name" or null,
-                    "confidence": 0.0-1.0,
-                    "why": "brief explanation"
-                }}
+===========================
+ENTITY TO MATCH
+===========================
+- Name: {entity_name}
+- Attributes: {', '.join(attributes)}
 
-                Consider:
-                - Semantic similarity of names (items vs products)
-                - Column overlap and similarity
-                - Business domain context
-                """
+===========================
+CANDIDATE TABLES (TOP-K)
+===========================
+The following tables were retrieved as possible matches, sorted by relevance:
+{chr(10).join(candidates_text)}
+
+===========================
+MATCHING CRITERIA
+===========================
+When determining the correct table:
+1. **Domain/Conceptual Alignment**
+   - Compare the entity name to the table name conceptually.
+   - Use synonyms, business meaning, typical domain conventions.
+
+2. **Attribute → Column Compatibility**
+   - Do the entity attributes logically fit the columns in the table?
+   - Are datatypes compatible (id→integer, date→timestamp, name→text)?
+   - Do naming variations match? (e.g., "qty" ≈ "quantity", "price" ≈ "unit_price")
+
+3. **Grouping Coherence**
+   - Does the table appear to represent the same business object as the entity?
+   - Are attributes naturally belonging together in that table?
+
+4. **Structural Indicators**
+   - Tables storing entities usually have identifiers (id, code,…)
+   - Relationship or junction tables have FK pairs (e.g., order_id, product_id)
+   - Avoid matching a conceptual entity to a junction or log table unless appropriate.
+
+5. **Retriever Validation**
+   - The retrieval score is *not enough*. Confirm or override using reasoning.
+
+===========================
+STRICT OUTPUT FORMAT
+===========================
+Respond with a JSON object ONLY:
+
+{{
+    "match": "<best_table_name_or_null>",
+    "confidence": <0.0-1.0>,
+    "why": "Short rationale explaining the semantic decision"
+}}
+
+- Return `null` when no candidate is appropriate.
+- Confidence must reflect reasoning quality, not retrieval score.
+- No text outside of the JSON is allowed.
+"""
+
         try:
             #logger.info(f"[LLM DEBUG] Sending prompt for {entity_name}: {prompt}")
             response = self._llm_client._call_llm(prompt)
@@ -521,7 +575,7 @@ class RAGSchemaMatcher:
             return {
                 "confidence": float(result.get("confidence", 0.0)),
                 "rationale": result.get("why", "No explanation"),
-                "match": result.get("match", None)
+                "target_name": result.get("match", None)
             }
 
         except Exception as e:
@@ -529,7 +583,7 @@ class RAGSchemaMatcher:
             return {
                 "confidence": 0.0,
                 "rationale": f"LLM validation failed: {e}",
-                "match": None
+                "target_name": None
             }
 
     def _llm_validate_column(
@@ -550,28 +604,91 @@ class RAGSchemaMatcher:
             candidates_text.append(f"- {col_name}: {doc.content} (score: {score:.3f})")
         
         prompt = f"""
-You are a database schema expert. Given a U-Schema attribute and existing database columns, 
-determine the best semantic match.
+You are an advanced database schema alignment engine. 
+Your task is to match a single U-Schema attribute to the BEST column among
+the candidate columns retrieved by a vector-based semantic search system.
 
-Attribute to match:
+===========================
+TASK CONTEXT
+===========================
+You are given:
+1. An attribute from a conceptual U-Schema entity.
+2. The attribute name and datatype.
+3. A list of candidate database columns retrieved by a RAG system.
+   Each candidate includes:
+   - the column name
+   - the table it belongs to
+   - column description (datatype, constraints, PK/FK, etc.)
+   - retrieval similarity score
+
+Your goal is to validate the retriever’s ranking and pick the column that 
+best matches the semantic meaning of the attribute.
+
+===========================
+ATTRIBUTE TO MATCH
+===========================
 - Name: {attr_name}
 - Type: {attr_type}
 
-Candidate columns:
+===========================
+CANDIDATE COLUMNS (TOP-K)
+===========================
+These columns were retrieved as potential matches:
 {chr(10).join(candidates_text)}
 
-Respond with a JSON object:
+===========================
+MATCHING CRITERIA
+===========================
+Evaluate each candidate based on:
+
+1. **Semantic Meaning**
+   - Compare the attribute name to the column name conceptually.
+   - Recognize common abbreviations and synonyms:
+     qty ≈ quantity, desc ≈ description, tel ≈ phone_number, dob ≈ date_of_birth, etc.
+
+2. **Datatype Compatibility (Very Important)**
+   - String attributes align with VARCHAR/TEXT columns.
+   - Numeric attributes align with INT/DECIMAL columns.
+   - Boolean attributes match BIT/BOOLEAN.
+   - Date attributes match DATE/DATETIME/TIMESTAMP.
+   A column with incompatible datatype should receive low confidence.
+
+3. **Business + Domain Context**
+   - Determine whether the column fits the likely domain role:
+     - Identifiers → *_id, code, reference
+     - Monetary values → price, amount, total
+     - Quantities → qty, quantity, count
+     - Dates → created_at, updated_at, birth_date
+     - Status → status, state, flag
+
+4. **Structural Hints**
+   - PK/FK columns may be identifiers.
+   - NOT NULL often indicates required fields.
+
+5. **Retriever Validation**
+   - Use retrieval score as a clue, not a decision.
+   - Override it when semantic or type incompatibility is obvious.
+
+===========================
+STRICT OUTPUT REQUIREMENTS
+===========================
+Respond ONLY with a JSON object:
+
 {{
-    "match": "column_name" or null,
-    "confidence": 0.0-1.0,
-    "why": "brief explanation"
+    "match": "<best_column_name_or_null>",
+    "confidence": <0.0-1.0>,
+    "why": "Short, concise explanation for the decision"
 }}
 
-Consider:
-- Semantic similarity of names (qte vs quantity)
-- Type compatibility
-- Business domain context
+Rules:
+- If none of the candidates is appropriate, return null.
+- Do NOT invent columns.
+- Do NOT include text outside the JSON.
+- Confidence must reflect how well the attribute semantically + structurally 
+  aligns with the matched column.
+
 """
+
         
         try:
             response = self._llm_client._call_llm(prompt)

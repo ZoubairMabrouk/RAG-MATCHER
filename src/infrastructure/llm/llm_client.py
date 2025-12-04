@@ -122,7 +122,7 @@ Return ONLY the SQL statement, nothing else."""
                 messages=[{"role": "user", "content": prompt}],
                 temperature=self._temperature
             )
-            print(response)
+            print(response.choices[0].message.content)
             return response.choices[0].message.content
         except Exception as e:
             print(f"LLM API call failed: {e}")
