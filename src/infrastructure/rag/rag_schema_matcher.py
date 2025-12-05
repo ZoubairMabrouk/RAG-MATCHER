@@ -236,12 +236,13 @@ class RAGSchemaMatcher:
             llm_conf  = float(llm_result.get("confidence", 0.0))
 
             # ---- Apply decision rule ----
-            if llm_match and llm_conf >= self._table_threshold:
+            if llm_match:
                 target_name = llm_match
                 final_confidence = llm_conf
                 rationale = f"LLM match accepted: {llm_result.get('rationale', '')}"
 
                 return MatchResult(
+                    entity_name=entity_name,
                     target_name=target_name,
                     confidence=final_confidence,
                     rationale=rationale,
@@ -314,7 +315,7 @@ class RAGSchemaMatcher:
             final_confidence = llm_result["confidence"]
             rationale = llm_result["rationale"]
         # Check threshold
-        if llm_result and final_confidence >= self._column_threshold:
+        if llm_result:
             # Extract column name from document ID (format: table.column)
             target_name = match_name
             logger.info(f"[RAGSchemaMatcher] Column match: {attr_name} -> {target_name} (conf: {final_confidence:.3f})")
@@ -323,6 +324,8 @@ class RAGSchemaMatcher:
             rationale = f"Below threshold: {rationale}"
         
         return MatchResult(
+            entity_name=table_name,
+            attr_name=attr_name,
             target_name=target_name,
             confidence=final_confidence,
             rationale=rationale,

@@ -196,10 +196,10 @@ def load_gold_omap_xlsx(path: str) -> pd.DataFrame:
 
 def evaluate_mapping(mapping_json_path, gold_file_path):
     if not gold_file_path:
-        log.info("No gold file provided — skipping evaluation.")
+        print("No gold file provided — skipping evaluation.")
         return
 
-    log.info(f"\n=== Running Evaluation using GOLD dataset: {gold_file_path} ===")
+    print(f"\n=== Running Evaluation using GOLD dataset: {gold_file_path} ===")
 
     # ---- Load predictions ----
     with open(mapping_json_path, "r", encoding="utf-8") as f:
@@ -211,25 +211,28 @@ def evaluate_mapping(mapping_json_path, gold_file_path):
     file_ext = gold_file_path.split(".")[-1].lower()
 
     if file_ext == "xlsx":
-        raw = pd.read_excel(gold_file_path, dtype=str).fillna("")
         gold = load_gold_omap_xlsx(gold_file_path)
     elif file_ext == "csv":
         gold = pd.read_csv(gold_file_path, dtype=str)
     else:
         raise ValueError(f"Unsupported gold file type: {file_ext}")
-    
+
+    # Normalize fields
     gold["entity"] = gold["entity"].str.lower()
     gold["attribute"] = gold["attribute"].str.lower()
     gold["gold_table"] = gold["gold_table"].str.lower()
     gold["gold_column"] = gold["gold_column"].str.lower()
 
+    # Convert label to int if needed
+    gold["label"] = gold["label"].astype(int)
+
     # ---- Build prediction DF ----
     rows = []
     for ent in pred_entities:
         e = ent["entity"].lower()
-        matched_table = ent.get("matched_table") or ""
+        matched_table = (ent.get("matched_table") or "").lower()
 
-        # Table-level prediction
+        # Table-level prediction row
         rows.append({
             "entity": e,
             "attribute": None,
@@ -237,63 +240,94 @@ def evaluate_mapping(mapping_json_path, gold_file_path):
             "pred_column": None
         })
 
+        # Attribute-level prediction rows
         for attr in ent["attributes"]:
             rows.append({
                 "entity": e,
                 "attribute": attr["name"].lower(),
                 "pred_table": matched_table,
-                "pred_column": (attr.get("target_column") or "")
+                "pred_column": (attr.get("target_column") or "").lower()
             })
 
     pred_df = pd.DataFrame(rows)
 
-    # ---- Table-level join ----
-    gold_tables = gold[["entity", "gold_table"]].drop_duplicates()
+    # ============================================================
+    # TABLE-LEVEL BINARY EVALUATION
+    # ============================================================
+
+    gold_tables = gold[["entity", "gold_table", "label"]].drop_duplicates()
+
     table_eval = gold_tables.merge(
         pred_df[pred_df["attribute"].isna()],
-        on="entity", how="left"
+        on="entity",
+        how="left"
     )
-    table_eval["y_true"] = table_eval["gold_table"]
-    table_eval["y_pred"] = table_eval["pred_table"]
 
-    # ---- Column-level join ----
+    # y_true = gold label
+    table_eval["y_true"] = table_eval["label"]
+
+    # y_pred = 1 if predicted_table == gold_table else 0
+    table_eval["y_pred"] = (table_eval["pred_table"] == table_eval["gold_table"]).astype(int)
+
+    print("\n>>> TABLE-LEVEL METRICS (Binary)")
+    table_report = classification_report(
+        table_eval["y_true"], table_eval["y_pred"],
+        digits=4, zero_division=0
+    )
+    print(table_report)
+
+    table_cm = confusion_matrix(table_eval["y_true"], table_eval["y_pred"])
+    print("Table Confusion Matrix:\n", table_cm)
+
+
+    # ============================================================
+    # COLUMN-LEVEL BINARY EVALUATION
+    # ============================================================
+
     gold_cols = gold.dropna(subset=["attribute"])
+
     col_eval = gold_cols.merge(
         pred_df[pred_df["attribute"].notna()],
-        on=["entity", "attribute"], how="left"
+        on=["entity", "attribute"],
+        how="left"
     )
-    col_eval["y_true"] = col_eval["gold_column"]
-    col_eval["y_pred"] = col_eval["pred_column"]
 
-    # ---- Metrics ----
-    log.info("\n>>> TABLE-LEVEL METRICS")
-    table_report = classification_report(table_eval["y_true"], table_eval["y_pred"], zero_division=0)
-    log.info("\n" + table_report)
-    table_cm = confusion_matrix(table_eval["y_true"], table_eval["y_pred"])
-    log.info(f"Table-level Confusion Matrix:\n{table_cm}")
+    # y_true = gold label
+    col_eval["y_true"] = col_eval["label"]
 
-    log.info("\n>>> COLUMN-LEVEL METRICS")
-    col_report = classification_report(col_eval["y_true"], col_eval["y_pred"], zero_division=0)
-    log.info("\n" + col_report)
+    # y_pred = 1 if predicted_column == gold_column else 0
+    col_eval["y_pred"] = (col_eval["pred_column"] == col_eval["gold_column"]).astype(int)
+
+    print("\n>>> COLUMN-LEVEL METRICS (Binary)")
+    col_report = classification_report(
+        col_eval["y_true"], col_eval["y_pred"],
+        digits=4, zero_division=0
+    )
+    print(col_report)
+
     col_cm = confusion_matrix(col_eval["y_true"], col_eval["y_pred"])
-    log.info(f"Column-level Confusion Matrix:\n{col_cm}")
+    print("Column Confusion Matrix:\n", col_cm)
 
-    # ---- Save evaluation artifacts ----
+
+    # ============================================================
+    # SAVE ARTIFACTS
+    # ============================================================
+
     eval_dir = Path("artifacts/evaluation")
     eval_dir.mkdir(parents=True, exist_ok=True)
 
-    table_eval.to_csv(eval_dir/"table_eval.csv", index=False)
-    col_eval.to_csv(eval_dir/"column_eval.csv", index=False)
+    table_eval.to_csv(eval_dir / "table_eval_binary.csv", index=False)
+    col_eval.to_csv(eval_dir / "column_eval_binary.csv", index=False)
 
-    with open(eval_dir/"report.json", "w", encoding="utf-8") as f:
+    with open(eval_dir / "binary_report.json", "w", encoding="utf-8") as f:
         json.dump({
-            "table_classification_report": table_report,
+            "table_report": table_report,
             "table_confusion_matrix": table_cm.tolist(),
-            "column_classification_report": col_report,
+            "column_report": col_report,
             "column_confusion_matrix": col_cm.tolist(),
         }, f, indent=2)
 
-    log.info(f"\nSaved evaluation results in: {eval_dir}")
+    print(f"\nSaved evaluation results to: {eval_dir}")
 
 def run(args) -> int:
     # 1) Load U-Schema JSON
@@ -365,6 +399,8 @@ def run(args) -> int:
                 )
                 entity_map["attributes"].append({
                     "name": a.name,
+                    "attr_name": c_res.attr_name,
+                    "entity_name": c_res.entity_name,
                     "target_column": c_res.target_name,
                     "confidence": c_res.confidence,
                     "rationale": c_res.rationale,
