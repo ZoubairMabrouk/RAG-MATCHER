@@ -44,7 +44,7 @@ class MatchResult:
         rationale: Human-readable explanation of the match decision
         extra: Additional metadata (source, method, etc.)
     """
-    target_name: Optional[str]
+    target_name: Optional[str] = None
     confidence: float
     rationale: str
     extra: Dict[str, Any]
@@ -232,7 +232,7 @@ class RAGSchemaMatcher:
         # Apply LLM validation if available
         if self._llm_client:
             llm_result = self._llm_validate_table(entity_name, attributes, best_doc, candidates)
-            llm_match = llm_result.get("match")
+            llm_match = llm_result.get("target_name")
             llm_conf  = float(llm_result.get("confidence", 0.0))
 
             # ---- Apply decision rule ----
@@ -242,7 +242,6 @@ class RAGSchemaMatcher:
                 rationale = f"LLM match accepted: {llm_result.get('rationale', '')}"
 
                 return MatchResult(
-                    entity_name=entity_name,
                     target_name=target_name,
                     confidence=final_confidence,
                     rationale=rationale,
@@ -324,8 +323,6 @@ class RAGSchemaMatcher:
             rationale = f"Below threshold: {rationale}"
         
         return MatchResult(
-            entity_name=table_name,
-            attr_name=attr_name,
             target_name=target_name,
             confidence=final_confidence,
             rationale=rationale,

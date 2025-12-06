@@ -399,8 +399,6 @@ def run(args) -> int:
                 )
                 entity_map["attributes"].append({
                     "name": a.name,
-                    "attr_name": c_res.attr_name,
-                    "entity_name": c_res.entity_name,
                     "target_column": c_res.target_name,
                     "confidence": c_res.confidence,
                     "rationale": c_res.rationale,
