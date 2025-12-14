@@ -1,0 +1,2015 @@
+{
+  "config": {
+    "db_url": "postgres://test:test@rag_db:5432/test",
+    "dialect": "postgresql",
+    "index_type": "auto",
+    "table_threshold": 0.85,
+    "column_threshold": 0.0,
+    "top_k": 10
+  },
+  "mapping": [
+    {
+      "entity": "person",
+      "matched_table": "person",
+      "table_confidence": 1.0,
+      "table_rationale": "Auto-imputed (score=1.000)",
+      "attributes": [
+        {
+          "name": "birth_datetime",
+          "target_column": "birth_datetime",
+          "confidence": 1.0,
+          "rationale": "Auto-imputed using semantic/name similarity (score=1.000)"
+        },
+        {
+          "name": "care_site_id",
+          "target_column": "person_id",
+          "confidence": 0.3631,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.363)"
+        },
+        {
+          "name": "day_of_birth",
+          "target_column": "birth_datetime",
+          "confidence": 0.3173,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.317)"
+        },
+        {
+          "name": "death_datetime",
+          "target_column": "birth_datetime",
+          "confidence": 0.5595,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.560)"
+        },
+        {
+          "name": "ethnicity_concept_id",
+          "target_column": "ethnicity",
+          "confidence": 0.477,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.477)"
+        },
+        {
+          "name": "ethnicity_source_concept_id",
+          "target_column": "ethnicity",
+          "confidence": 0.375,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.375)"
+        },
+        {
+          "name": "ethnicity_source_value",
+          "target_column": "ethnicity",
+          "confidence": 0.457,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.457)"
+        },
+        {
+          "name": "gender_concept_id",
+          "target_column": "gender",
+          "confidence": 0.4275,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.428)"
+        },
+        {
+          "name": "gender_source_concept_id",
+          "target_column": "person_id",
+          "confidence": 0.3424,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.342)"
+        },
+        {
+          "name": "gender_source_value",
+          "target_column": "gender",
+          "confidence": 0.4067,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.407)"
+        },
+        {
+          "name": "location_id",
+          "target_column": "person_id",
+          "confidence": 0.4167,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.417)"
+        },
+        {
+          "name": "month_of_birth",
+          "target_column": "birth_datetime",
+          "confidence": 0.3036,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.304)"
+        },
+        {
+          "name": "person_id",
+          "target_column": "person_id",
+          "confidence": 1.0,
+          "rationale": "Auto-imputed using semantic/name similarity (score=1.000)"
+        },
+        {
+          "name": "person_source_value",
+          "target_column": "person_id",
+          "confidence": 0.375,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.375)"
+        },
+        {
+          "name": "provider_id",
+          "target_column": "person_id",
+          "confidence": 0.4667,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.467)"
+        },
+        {
+          "name": "race_concept_id",
+          "target_column": "race",
+          "confidence": 0.3772,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.377)"
+        },
+        {
+          "name": "race_source_concept_id",
+          "target_column": "person_id",
+          "confidence": 0.3258,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.326)"
+        },
+        {
+          "name": "race_source_value",
+          "target_column": "race",
+          "confidence": 0.3571,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.357)"
+        },
+        {
+          "name": "year_of_birth",
+          "target_column": "birth_datetime",
+          "confidence": 0.3102,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.310)"
+        }
+      ]
+    },
+    {
+      "entity": "visit_occurrence",
+      "matched_table": "admissions",
+      "table_confidence": 0.1731,
+      "table_rationale": "Auto-imputed (score=0.173)",
+      "attributes": [
+        {
+          "name": "admitted_from_concept_id",
+          "target_column": "hadm_id",
+          "confidence": 0.2935,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.294)"
+        },
+        {
+          "name": "admitted_from_source_value",
+          "target_column": "admittime",
+          "confidence": 0.2,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.200)"
+        },
+        {
+          "name": "care_site_id",
+          "target_column": "hadm_id",
+          "confidence": 0.3355,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.336)"
+        },
+        {
+          "name": "discharge_to_concept_id",
+          "target_column": "hadm_id",
+          "confidence": 0.2667,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.267)"
+        },
+        {
+          "name": "discharge_to_source_value",
+          "target_column": "dischtime",
+          "confidence": 0.1765,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.176)"
+        },
+        {
+          "name": "person_id",
+          "target_column": "hadm_id",
+          "confidence": 0.3542,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.354)"
+        },
+        {
+          "name": "preceding_visit_occurrence_id",
+          "target_column": "hadm_id",
+          "confidence": 0.2111,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.211)"
+        },
+        {
+          "name": "provider_id",
+          "target_column": "hadm_id",
+          "confidence": 0.3889,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.389)"
+        },
+        {
+          "name": "visit_concept_id",
+          "target_column": "hadm_id",
+          "confidence": 0.2554,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.255)"
+        },
+        {
+          "name": "visit_end_date",
+          "target_column": "dischtime",
+          "confidence": 0.1739,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.174)"
+        },
+        {
+          "name": "visit_end_datetime",
+          "target_column": "admittime",
+          "confidence": 0.2222,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.222)"
+        },
+        {
+          "name": "visit_occurrence_id",
+          "target_column": "hadm_id",
+          "confidence": 0.2404,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.240)"
+        },
+        {
+          "name": "visit_source_concept_id",
+          "target_column": "hadm_id",
+          "confidence": 0.2,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.200)"
+        },
+        {
+          "name": "visit_source_value",
+          "target_column": "dischtime",
+          "confidence": 0.1481,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.148)"
+        },
+        {
+          "name": "visit_start_date",
+          "target_column": "admittime",
+          "confidence": 0.16,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.160)"
+        },
+        {
+          "name": "visit_start_datetime",
+          "target_column": "admittime",
+          "confidence": 0.2069,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.207)"
+        },
+        {
+          "name": "visit_type_concept_id",
+          "target_column": "hadm_id",
+          "confidence": 0.2071,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.207)"
+        }
+      ]
+    },
+    {
+      "entity": "visit_detail",
+      "matched_table": "admissions",
+      "table_confidence": 0.1227,
+      "table_rationale": "Auto-imputed (score=0.123)",
+      "attributes": [
+        {
+          "name": "admitted_from_concept_id",
+          "target_column": "hadm_id",
+          "confidence": 0.2935,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.294)"
+        },
+        {
+          "name": "admitted_from_source_value",
+          "target_column": "admittime",
+          "confidence": 0.2,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.200)"
+        },
+        {
+          "name": "care_site_id",
+          "target_column": "hadm_id",
+          "confidence": 0.3355,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.336)"
+        },
+        {
+          "name": "discharge_to_concept_id",
+          "target_column": "hadm_id",
+          "confidence": 0.2667,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.267)"
+        },
+        {
+          "name": "discharge_to_source_value",
+          "target_column": "dischtime",
+          "confidence": 0.1765,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.176)"
+        },
+        {
+          "name": "person_id",
+          "target_column": "hadm_id",
+          "confidence": 0.3542,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.354)"
+        },
+        {
+          "name": "preceding_visit_detail_id",
+          "target_column": "hadm_id",
+          "confidence": 0.225,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.225)"
+        },
+        {
+          "name": "provider_id",
+          "target_column": "hadm_id",
+          "confidence": 0.3889,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.389)"
+        },
+        {
+          "name": "visit_detail_concept_id",
+          "target_column": "hadm_id",
+          "confidence": 0.2333,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.233)"
+        },
+        {
+          "name": "visit_detail_end_date",
+          "target_column": "dischtime",
+          "confidence": 0.1333,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.133)"
+        },
+        {
+          "name": "visit_detail_end_datetime",
+          "target_column": "admittime",
+          "confidence": 0.1765,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.176)"
+        },
+        {
+          "name": "visit_detail_id",
+          "target_column": "hadm_id",
+          "confidence": 0.3068,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.307)"
+        },
+        {
+          "name": "visit_detail_parent_id",
+          "target_column": "hadm_id",
+          "confidence": 0.2379,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.238)"
+        },
+        {
+          "name": "visit_detail_source_concept_id",
+          "target_column": "hadm_id",
+          "confidence": 0.1914,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.191)"
+        },
+        {
+          "name": "visit_detail_source_value",
+          "target_column": "dischtime",
+          "confidence": 0.1176,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.118)"
+        },
+        {
+          "name": "visit_detail_start_date",
+          "target_column": "dischtime",
+          "confidence": 0.125,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.125)"
+        },
+        {
+          "name": "visit_detail_start_datetime",
+          "target_column": "admittime",
+          "confidence": 0.1667,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.167)"
+        },
+        {
+          "name": "visit_detail_type_concept_id",
+          "target_column": "hadm_id",
+          "confidence": 0.1976,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.198)"
+        },
+        {
+          "name": "visit_occurrence_id",
+          "target_column": "hadm_id",
+          "confidence": 0.2404,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.240)"
+        }
+      ]
+    },
+    {
+      "entity": "specimen",
+      "matched_table": "patients",
+      "table_confidence": 0.225,
+      "table_rationale": "Auto-imputed (score=0.225)",
+      "attributes": [
+        {
+          "name": "anatomic_site_concept_id",
+          "target_column": "hadm_id",
+          "confidence": 0.2613,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.261)"
+        },
+        {
+          "name": "anatomic_site_source_value",
+          "target_column": "anchor_year",
+          "confidence": 0.1081,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.108)"
+        },
+        {
+          "name": "disease_status_concept_id",
+          "target_column": "subject_id",
+          "confidence": 0.3,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.300)"
+        },
+        {
+          "name": "disease_status_source_value",
+          "target_column": "gender",
+          "confidence": 0.0909,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.091)"
+        },
+        {
+          "name": "person_id",
+          "target_column": "subject_id",
+          "confidence": 0.3772,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.377)"
+        },
+        {
+          "name": "quantity",
+          "target_column": "subject_id",
+          "confidence": 0.1667,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.167)"
+        },
+        {
+          "name": "specimen_concept_id",
+          "target_column": "subject_id",
+          "confidence": 0.3664,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.366)"
+        },
+        {
+          "name": "specimen_date",
+          "target_column": "subject_id",
+          "confidence": 0.2174,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.217)"
+        },
+        {
+          "name": "specimen_datetime",
+          "target_column": "subject_id",
+          "confidence": 0.1852,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.185)"
+        },
+        {
+          "name": "specimen_id",
+          "target_column": "subject_id",
+          "confidence": 0.4524,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.452)"
+        },
+        {
+          "name": "specimen_source_id",
+          "target_column": "subject_id",
+          "confidence": 0.3393,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.339)"
+        },
+        {
+          "name": "specimen_source_value",
+          "target_column": "subject_id",
+          "confidence": 0.129,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.129)"
+        },
+        {
+          "name": "specimen_type_concept_id",
+          "target_column": "subject_id",
+          "confidence": 0.3059,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.306)"
+        },
+        {
+          "name": "unit_concept_id",
+          "target_column": "subject_id",
+          "confidence": 0.365,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.365)"
+        },
+        {
+          "name": "unit_source_value",
+          "target_column": "subject_id",
+          "confidence": 0.1111,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.111)"
+        }
+      ]
+    },
+    {
+      "entity": "measurement",
+      "matched_table": "patients",
+      "table_confidence": 0.1895,
+      "table_rationale": "Auto-imputed (score=0.189)",
+      "attributes": [
+        {
+          "name": "measurement_concept_id",
+          "target_column": "subject_id",
+          "confidence": 0.375,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.375)"
+        },
+        {
+          "name": "measurement_date",
+          "target_column": "subject_id",
+          "confidence": 0.2308,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.231)"
+        },
+        {
+          "name": "measurement_datetime",
+          "target_column": "subject_id",
+          "confidence": 0.2,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.200)"
+        },
+        {
+          "name": "measurement_id",
+          "target_column": "subject_id",
+          "confidence": 0.4583,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.458)"
+        },
+        {
+          "name": "measurement_source_concept_id",
+          "target_column": "subject_id",
+          "confidence": 0.3051,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.305)"
+        },
+        {
+          "name": "measurement_source_value",
+          "target_column": "subject_id",
+          "confidence": 0.1471,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.147)"
+        },
+        {
+          "name": "measurement_time",
+          "target_column": "subject_id",
+          "confidence": 0.2308,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.231)"
+        },
+        {
+          "name": "measurement_type_concept_id",
+          "target_column": "subject_id",
+          "confidence": 0.3162,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.316)"
+        },
+        {
+          "name": "operator_concept_id",
+          "target_column": "subject_id",
+          "confidence": 0.3319,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.332)"
+        },
+        {
+          "name": "person_id",
+          "target_column": "subject_id",
+          "confidence": 0.3772,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.377)"
+        },
+        {
+          "name": "provider_id",
+          "target_column": "hadm_id",
+          "confidence": 0.3889,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.389)"
+        },
+        {
+          "name": "range_high",
+          "target_column": "hadm_id",
+          "confidence": 0.1765,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.176)"
+        },
+        {
+          "name": "range_low",
+          "target_column": "anchor_year",
+          "confidence": 0.15,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.150)"
+        },
+        {
+          "name": "unit_concept_id",
+          "target_column": "subject_id",
+          "confidence": 0.365,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.365)"
+        },
+        {
+          "name": "unit_source_value",
+          "target_column": "subject_id",
+          "confidence": 0.1111,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.111)"
+        },
+        {
+          "name": "value_as_concept_id",
+          "target_column": "subject_id",
+          "confidence": 0.3414,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.341)"
+        },
+        {
+          "name": "value_as_number",
+          "target_column": "gender",
+          "confidence": 0.1905,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.190)"
+        },
+        {
+          "name": "value_source_value",
+          "target_column": "subject_id",
+          "confidence": 0.1071,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.107)"
+        },
+        {
+          "name": "visit_detail_id",
+          "target_column": "subject_id",
+          "confidence": 0.325,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.325)"
+        },
+        {
+          "name": "visit_occurrence_id",
+          "target_column": "subject_id",
+          "confidence": 0.2974,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.297)"
+        }
+      ]
+    },
+    {
+      "entity": "procedure_occurrence",
+      "matched_table": "person",
+      "table_confidence": 0.1385,
+      "table_rationale": "Auto-imputed (score=0.138)",
+      "attributes": [
+        {
+          "name": "modifier_concept_id",
+          "target_column": "person_id",
+          "confidence": 0.375,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.375)"
+        },
+        {
+          "name": "modifier_source_value",
+          "target_column": "person_id",
+          "confidence": 0.1667,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.167)"
+        },
+        {
+          "name": "person_id",
+          "target_column": "person_id",
+          "confidence": 1.0,
+          "rationale": "Auto-imputed using semantic/name similarity (score=1.000)"
+        },
+        {
+          "name": "procedure_concept_id",
+          "target_column": "person_id",
+          "confidence": 0.3664,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.366)"
+        },
+        {
+          "name": "procedure_date",
+          "target_column": "birth_datetime",
+          "confidence": 0.2143,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.214)"
+        },
+        {
+          "name": "procedure_datetime",
+          "target_column": "birth_datetime",
+          "confidence": 0.4792,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.479)"
+        },
+        {
+          "name": "procedure_occurrence_id",
+          "target_column": "person_id",
+          "confidence": 0.3438,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.344)"
+        },
+        {
+          "name": "procedure_source_concept_id",
+          "target_column": "person_id",
+          "confidence": 0.3222,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.322)"
+        },
+        {
+          "name": "procedure_source_value",
+          "target_column": "person_id",
+          "confidence": 0.1613,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.161)"
+        },
+        {
+          "name": "procedure_type_concept_id",
+          "target_column": "person_id",
+          "confidence": 0.3059,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.306)"
+        },
+        {
+          "name": "provider_id",
+          "target_column": "person_id",
+          "confidence": 0.4667,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.467)"
+        },
+        {
+          "name": "quantity",
+          "target_column": "ethnicity",
+          "confidence": 0.2353,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.235)"
+        },
+        {
+          "name": "visit_detail_id",
+          "target_column": "person_id",
+          "confidence": 0.2917,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.292)"
+        },
+        {
+          "name": "visit_occurrence_id",
+          "target_column": "person_id",
+          "confidence": 0.3393,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.339)"
+        }
+      ]
+    },
+    {
+      "entity": "condition_occurrence",
+      "matched_table": "admissions",
+      "table_confidence": 0.15,
+      "table_rationale": "Auto-imputed (score=0.150)",
+      "attributes": [
+        {
+          "name": "condition_concept_id",
+          "target_column": "hadm_id",
+          "confidence": 0.2731,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.273)"
+        },
+        {
+          "name": "condition_end_date",
+          "target_column": "admittime",
+          "confidence": 0.1852,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.185)"
+        },
+        {
+          "name": "condition_end_datetime",
+          "target_column": "admittime",
+          "confidence": 0.2258,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.226)"
+        },
+        {
+          "name": "condition_occurrence_id",
+          "target_column": "hadm_id",
+          "confidence": 0.2583,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.258)"
+        },
+        {
+          "name": "condition_source_concept_id",
+          "target_column": "hadm_id",
+          "confidence": 0.2176,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.218)"
+        },
+        {
+          "name": "condition_source_value",
+          "target_column": "admittime",
+          "confidence": 0.1613,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.161)"
+        },
+        {
+          "name": "condition_start_date",
+          "target_column": "admittime",
+          "confidence": 0.1724,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.172)"
+        },
+        {
+          "name": "condition_start_datetime",
+          "target_column": "admittime",
+          "confidence": 0.2121,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.212)"
+        },
+        {
+          "name": "condition_status_concept_id",
+          "target_column": "hadm_id",
+          "confidence": 0.2176,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.218)"
+        },
+        {
+          "name": "condition_status_source_value",
+          "target_column": "admittime",
+          "confidence": 0.1316,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.132)"
+        },
+        {
+          "name": "condition_type_concept_id",
+          "target_column": "hadm_id",
+          "confidence": 0.225,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.225)"
+        },
+        {
+          "name": "person_id",
+          "target_column": "hadm_id",
+          "confidence": 0.3542,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.354)"
+        },
+        {
+          "name": "provider_id",
+          "target_column": "hadm_id",
+          "confidence": 0.3889,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.389)"
+        },
+        {
+          "name": "stop_reason",
+          "target_column": "dischtime",
+          "confidence": 0.15,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.150)"
+        },
+        {
+          "name": "visit_detail_id",
+          "target_column": "hadm_id",
+          "confidence": 0.3068,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.307)"
+        },
+        {
+          "name": "visit_occurrence_id",
+          "target_column": "hadm_id",
+          "confidence": 0.2404,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.240)"
+        }
+      ]
+    },
+    {
+      "entity": "death",
+      "matched_table": "patients",
+      "table_confidence": 0.1385,
+      "table_rationale": "Auto-imputed (score=0.138)",
+      "attributes": [
+        {
+          "name": "cause_concept_id",
+          "target_column": "subject_id",
+          "confidence": 0.3173,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.317)"
+        },
+        {
+          "name": "cause_source_concept_id",
+          "target_column": "subject_id",
+          "confidence": 0.2515,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.252)"
+        },
+        {
+          "name": "cause_source_value",
+          "target_column": "anchor_year",
+          "confidence": 0.1034,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.103)"
+        },
+        {
+          "name": "death_date",
+          "target_column": "hadm_id",
+          "confidence": 0.1765,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.176)"
+        },
+        {
+          "name": "death_datetime",
+          "target_column": "hadm_id",
+          "confidence": 0.1429,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.143)"
+        },
+        {
+          "name": "death_type_concept_id",
+          "target_column": "subject_id",
+          "confidence": 0.2935,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.294)"
+        },
+        {
+          "name": "person_id",
+          "target_column": "subject_id",
+          "confidence": 0.3772,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.377)"
+        }
+      ]
+    },
+    {
+      "entity": "location",
+      "matched_table": "patients",
+      "table_confidence": 0.225,
+      "table_rationale": "Auto-imputed (score=0.225)",
+      "attributes": [
+        {
+          "name": "address_1",
+          "target_column": "hadm_id",
+          "confidence": 0.1875,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.188)"
+        },
+        {
+          "name": "address_2",
+          "target_column": "hadm_id",
+          "confidence": 0.1875,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.188)"
+        },
+        {
+          "name": "city",
+          "target_column": "subject_id",
+          "confidence": 0.1429,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.143)"
+        },
+        {
+          "name": "county",
+          "target_column": "anchor_year",
+          "confidence": 0.1765,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.176)"
+        },
+        {
+          "name": "location_id",
+          "target_column": "subject_id",
+          "confidence": 0.4048,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.405)"
+        },
+        {
+          "name": "location_source_value",
+          "target_column": "subject_id",
+          "confidence": 0.0968,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.097)"
+        },
+        {
+          "name": "state",
+          "target_column": "subject_id",
+          "confidence": 0.1333,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.133)"
+        },
+        {
+          "name": "zip",
+          "target_column": "hadm_id",
+          "confidence": 0.1,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.100)"
+        }
+      ]
+    },
+    {
+      "entity": "observation",
+      "matched_table": "person",
+      "table_confidence": 0.2118,
+      "table_rationale": "Auto-imputed (score=0.212)",
+      "attributes": [
+        {
+          "name": "obs_event_field_concept_id",
+          "target_column": "person_id",
+          "confidence": 0.2548,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.255)"
+        },
+        {
+          "name": "observation_concept_id",
+          "target_column": "person_id",
+          "confidence": 0.3508,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.351)"
+        },
+        {
+          "name": "observation_date",
+          "target_column": "birth_datetime",
+          "confidence": 0.2667,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.267)"
+        },
+        {
+          "name": "observation_datetime",
+          "target_column": "birth_datetime",
+          "confidence": 0.5196,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.520)"
+        },
+        {
+          "name": "observation_event_id",
+          "target_column": "person_id",
+          "confidence": 0.3664,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.366)"
+        },
+        {
+          "name": "observation_id",
+          "target_column": "person_id",
+          "confidence": 0.471,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.471)"
+        },
+        {
+          "name": "observation_source_concept_id",
+          "target_column": "person_id",
+          "confidence": 0.2842,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.284)"
+        },
+        {
+          "name": "observation_source_value",
+          "target_column": "birth_datetime",
+          "confidence": 0.1579,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.158)"
+        },
+        {
+          "name": "observation_type_concept_id",
+          "target_column": "person_id",
+          "confidence": 0.2944,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.294)"
+        },
+        {
+          "name": "person_id",
+          "target_column": "person_id",
+          "confidence": 1.0,
+          "rationale": "Auto-imputed using semantic/name similarity (score=1.000)"
+        },
+        {
+          "name": "provider_id",
+          "target_column": "person_id",
+          "confidence": 0.4667,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.467)"
+        },
+        {
+          "name": "qualifier_concept_id",
+          "target_column": "person_id",
+          "confidence": 0.3664,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.366)"
+        },
+        {
+          "name": "qualifier_source_value",
+          "target_column": "person_id",
+          "confidence": 0.1613,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.161)"
+        },
+        {
+          "name": "unit_concept_id",
+          "target_column": "person_id",
+          "confidence": 0.3333,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.333)"
+        },
+        {
+          "name": "unit_source_value",
+          "target_column": "birth_datetime",
+          "confidence": 0.1613,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.161)"
+        },
+        {
+          "name": "value_as_concept_id",
+          "target_column": "person_id",
+          "confidence": 0.35,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.350)"
+        },
+        {
+          "name": "value_as_datetime",
+          "target_column": "birth_datetime",
+          "confidence": 0.4153,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.415)"
+        },
+        {
+          "name": "value_as_number",
+          "target_column": "gender",
+          "confidence": 0.1905,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.190)"
+        },
+        {
+          "name": "value_as_string",
+          "target_column": "birth_datetime",
+          "confidence": 0.1379,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.138)"
+        },
+        {
+          "name": "visit_detail_id",
+          "target_column": "person_id",
+          "confidence": 0.2917,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.292)"
+        },
+        {
+          "name": "visit_occurrence_id",
+          "target_column": "person_id",
+          "confidence": 0.3393,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.339)"
+        }
+      ]
+    },
+    {
+      "entity": "observation_period",
+      "matched_table": "person",
+      "table_confidence": 0.15,
+      "table_rationale": "Auto-imputed (score=0.150)",
+      "attributes": [
+        {
+          "name": "observation_period_end_date",
+          "target_column": "birth_datetime",
+          "confidence": 0.1951,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.195)"
+        },
+        {
+          "name": "observation_period_id",
+          "target_column": "person_id",
+          "confidence": 0.3583,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.358)"
+        },
+        {
+          "name": "observation_period_start_date",
+          "target_column": "birth_datetime",
+          "confidence": 0.2093,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.209)"
+        },
+        {
+          "name": "period_type_concept_id",
+          "target_column": "person_id",
+          "confidence": 0.3581,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.358)"
+        },
+        {
+          "name": "person_id",
+          "target_column": "person_id",
+          "confidence": 1.0,
+          "rationale": "Auto-imputed using semantic/name similarity (score=1.000)"
+        }
+      ]
+    },
+    {
+      "entity": "drug_exposure",
+      "matched_table": "admissions",
+      "table_confidence": 0.1174,
+      "table_rationale": "Auto-imputed (score=0.117)",
+      "attributes": [
+        {
+          "name": "days_supply",
+          "target_column": "diagnosis",
+          "confidence": 0.2,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.200)"
+        },
+        {
+          "name": "dose_unit_source_value",
+          "target_column": "diagnosis",
+          "confidence": 0.1613,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.161)"
+        },
+        {
+          "name": "drug_concept_id",
+          "target_column": "hadm_id",
+          "confidence": 0.3068,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.307)"
+        },
+        {
+          "name": "drug_exposure_end_date",
+          "target_column": "diagnosis",
+          "confidence": 0.129,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.129)"
+        },
+        {
+          "name": "drug_exposure_end_datetime",
+          "target_column": "admittime",
+          "confidence": 0.1714,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.171)"
+        },
+        {
+          "name": "drug_exposure_id",
+          "target_column": "hadm_id",
+          "confidence": 0.2989,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.299)"
+        },
+        {
+          "name": "drug_exposure_start_date",
+          "target_column": "diagnosis",
+          "confidence": 0.1515,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.152)"
+        },
+        {
+          "name": "drug_exposure_start_datetime",
+          "target_column": "admittime",
+          "confidence": 0.1622,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.162)"
+        },
+        {
+          "name": "drug_source_concept_id",
+          "target_column": "hadm_id",
+          "confidence": 0.2379,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.238)"
+        },
+        {
+          "name": "drug_source_value",
+          "target_column": "dischtime",
+          "confidence": 0.1538,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.154)"
+        },
+        {
+          "name": "drug_type_concept_id",
+          "target_column": "hadm_id",
+          "confidence": 0.2481,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.248)"
+        },
+        {
+          "name": "lot_number",
+          "target_column": "admittime",
+          "confidence": 0.1579,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.158)"
+        },
+        {
+          "name": "person_id",
+          "target_column": "hadm_id",
+          "confidence": 0.3542,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.354)"
+        },
+        {
+          "name": "provider_id",
+          "target_column": "hadm_id",
+          "confidence": 0.3889,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.389)"
+        },
+        {
+          "name": "quantity",
+          "target_column": "admittime",
+          "confidence": 0.1765,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.176)"
+        },
+        {
+          "name": "refills",
+          "target_column": "diagnosis",
+          "confidence": 0.125,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.125)"
+        },
+        {
+          "name": "route_concept_id",
+          "target_column": "hadm_id",
+          "confidence": 0.2554,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.255)"
+        },
+        {
+          "name": "route_source_value",
+          "target_column": "admittime",
+          "confidence": 0.0741,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.074)"
+        },
+        {
+          "name": "sig",
+          "target_column": "dischtime",
+          "confidence": 0.1667,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.167)"
+        },
+        {
+          "name": "stop_reason",
+          "target_column": "dischtime",
+          "confidence": 0.15,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.150)"
+        },
+        {
+          "name": "verbatim_end_date",
+          "target_column": "admittime",
+          "confidence": 0.1923,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.192)"
+        },
+        {
+          "name": "visit_detail_id",
+          "target_column": "hadm_id",
+          "confidence": 0.3068,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.307)"
+        },
+        {
+          "name": "visit_occurrence_id",
+          "target_column": "hadm_id",
+          "confidence": 0.2404,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.240)"
+        }
+      ]
+    },
+    {
+      "entity": "device_exposure",
+      "matched_table": "admissions",
+      "table_confidence": 0.144,
+      "table_rationale": "Auto-imputed (score=0.144)",
+      "attributes": [
+        {
+          "name": "device_concept_id",
+          "target_column": "hadm_id",
+          "confidence": 0.2917,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.292)"
+        },
+        {
+          "name": "device_exposure_end_date",
+          "target_column": "diagnosis",
+          "confidence": 0.1212,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.121)"
+        },
+        {
+          "name": "device_exposure_end_datetime",
+          "target_column": "admittime",
+          "confidence": 0.1892,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.189)"
+        },
+        {
+          "name": "device_exposure_id",
+          "target_column": "hadm_id",
+          "confidence": 0.285,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.285)"
+        },
+        {
+          "name": "device_exposure_start_date",
+          "target_column": "diagnosis",
+          "confidence": 0.1429,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.143)"
+        },
+        {
+          "name": "device_exposure_start_datetime",
+          "target_column": "admittime",
+          "confidence": 0.1795,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.179)"
+        },
+        {
+          "name": "device_source_concept_id",
+          "target_column": "hadm_id",
+          "confidence": 0.229,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.229)"
+        },
+        {
+          "name": "device_source_value",
+          "target_column": "diagnosis",
+          "confidence": 0.1071,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.107)"
+        },
+        {
+          "name": "device_type_concept_id",
+          "target_column": "hadm_id",
+          "confidence": 0.2379,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.238)"
+        },
+        {
+          "name": "person_id",
+          "target_column": "hadm_id",
+          "confidence": 0.3542,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.354)"
+        },
+        {
+          "name": "provider_id",
+          "target_column": "hadm_id",
+          "confidence": 0.3889,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.389)"
+        },
+        {
+          "name": "quantity",
+          "target_column": "admittime",
+          "confidence": 0.1765,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.176)"
+        },
+        {
+          "name": "unique_device_id",
+          "target_column": "hadm_id",
+          "confidence": 0.2989,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.299)"
+        },
+        {
+          "name": "visit_detail_id",
+          "target_column": "hadm_id",
+          "confidence": 0.3068,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.307)"
+        },
+        {
+          "name": "visit_occurrence_id",
+          "target_column": "hadm_id",
+          "confidence": 0.2404,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.240)"
+        }
+      ]
+    },
+    {
+      "entity": "note",
+      "matched_table": "patients",
+      "table_confidence": 0.15,
+      "table_rationale": "Auto-imputed (score=0.150)",
+      "attributes": [
+        {
+          "name": "encoding_concept_id",
+          "target_column": "subject_id",
+          "confidence": 0.3319,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.332)"
+        },
+        {
+          "name": "language_concept_id",
+          "target_column": "subject_id",
+          "confidence": 0.3664,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.366)"
+        },
+        {
+          "name": "note_class_concept_id",
+          "target_column": "subject_id",
+          "confidence": 0.2935,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.294)"
+        },
+        {
+          "name": "note_date",
+          "target_column": "anchor_year",
+          "confidence": 0.2,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.200)"
+        },
+        {
+          "name": "note_datetime",
+          "target_column": "anchor_year",
+          "confidence": 0.1667,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.167)"
+        },
+        {
+          "name": "note_event_field_concept_id",
+          "target_column": "subject_id",
+          "confidence": 0.2455,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.245)"
+        },
+        {
+          "name": "note_event_id",
+          "target_column": "subject_id",
+          "confidence": 0.3424,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.342)"
+        },
+        {
+          "name": "note_id",
+          "target_column": "subject_id",
+          "confidence": 0.402,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.402)"
+        },
+        {
+          "name": "note_source_value",
+          "target_column": "anchor_year",
+          "confidence": 0.1429,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.143)"
+        },
+        {
+          "name": "note_text",
+          "target_column": "anchor_year",
+          "confidence": 0.15,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.150)"
+        },
+        {
+          "name": "note_title",
+          "target_column": "subject_id",
+          "confidence": 0.15,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.150)"
+        },
+        {
+          "name": "note_type_concept_id",
+          "target_column": "subject_id",
+          "confidence": 0.3,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.300)"
+        },
+        {
+          "name": "person_id",
+          "target_column": "subject_id",
+          "confidence": 0.3772,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.377)"
+        },
+        {
+          "name": "provider_id",
+          "target_column": "hadm_id",
+          "confidence": 0.3889,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.389)"
+        },
+        {
+          "name": "visit_detail_id",
+          "target_column": "subject_id",
+          "confidence": 0.325,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.325)"
+        },
+        {
+          "name": "visit_occurrence_id",
+          "target_column": "subject_id",
+          "confidence": 0.2974,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.297)"
+        }
+      ]
+    },
+    {
+      "entity": "fact_relationship",
+      "matched_table": "patients",
+      "table_confidence": 0.18,
+      "table_rationale": "Auto-imputed (score=0.180)",
+      "attributes": [
+        {
+          "name": "domain_concept_id_1",
+          "target_column": "hadm_id",
+          "confidence": 0.2923,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.292)"
+        },
+        {
+          "name": "domain_concept_id_2",
+          "target_column": "hadm_id",
+          "confidence": 0.2923,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.292)"
+        },
+        {
+          "name": "fact_id_1",
+          "target_column": "subject_id",
+          "confidence": 0.3882,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.388)"
+        },
+        {
+          "name": "fact_id_2",
+          "target_column": "subject_id",
+          "confidence": 0.3882,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.388)"
+        },
+        {
+          "name": "relationship_concept_id",
+          "target_column": "subject_id",
+          "confidence": 0.3068,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.307)"
+        }
+      ]
+    },
+    {
+      "entity": "payer_plan_period",
+      "matched_table": "person",
+      "table_confidence": 0.1565,
+      "table_rationale": "Auto-imputed (score=0.157)",
+      "attributes": [
+        {
+          "name": "family_source_value",
+          "target_column": "race",
+          "confidence": 0.1304,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.130)"
+        },
+        {
+          "name": "payer_plan_period_end_date",
+          "target_column": "birth_datetime",
+          "confidence": 0.15,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.150)"
+        },
+        {
+          "name": "payer_plan_period_id",
+          "target_column": "person_id",
+          "confidence": 0.3414,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.341)"
+        },
+        {
+          "name": "payer_plan_period_start_date",
+          "target_column": "birth_datetime",
+          "confidence": 0.1905,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.190)"
+        },
+        {
+          "name": "payer_source_value",
+          "target_column": "person_id",
+          "confidence": 0.2222,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.222)"
+        },
+        {
+          "name": "person_id",
+          "target_column": "person_id",
+          "confidence": 1.0,
+          "rationale": "Auto-imputed using semantic/name similarity (score=1.000)"
+        },
+        {
+          "name": "plan_source_value",
+          "target_column": "race",
+          "confidence": 0.1429,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.143)"
+        }
+      ]
+    },
+    {
+      "entity": "cdm_source",
+      "matched_table": "admissions",
+      "table_confidence": 0.18,
+      "table_rationale": "Auto-imputed (score=0.180)",
+      "attributes": [
+        {
+          "name": "cdm_etl_reference",
+          "target_column": "hadm_id",
+          "confidence": 0.125,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.125)"
+        },
+        {
+          "name": "cdm_holder",
+          "target_column": "hadm_id",
+          "confidence": 0.2353,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.235)"
+        },
+        {
+          "name": "cdm_release_date",
+          "target_column": "hadm_id",
+          "confidence": 0.1739,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.174)"
+        },
+        {
+          "name": "cdm_source_abbreviation",
+          "target_column": "admittime",
+          "confidence": 0.1562,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.156)"
+        },
+        {
+          "name": "cdm_source_name",
+          "target_column": "admittime",
+          "confidence": 0.1667,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.167)"
+        },
+        {
+          "name": "cdm_version",
+          "target_column": "hadm_id",
+          "confidence": 0.2222,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.222)"
+        },
+        {
+          "name": "source_description",
+          "target_column": "dischtime",
+          "confidence": 0.1852,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.185)"
+        },
+        {
+          "name": "source_documentation_reference",
+          "target_column": "dischtime",
+          "confidence": 0.1026,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.103)"
+        },
+        {
+          "name": "source_release_date",
+          "target_column": "dischtime",
+          "confidence": 0.1071,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.107)"
+        },
+        {
+          "name": "vocabulary_version",
+          "target_column": "hadm_id",
+          "confidence": 0.12,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.120)"
+        }
+      ]
+    },
+    {
+      "entity": "care_site",
+      "matched_table": "patients",
+      "table_confidence": 0.1588,
+      "table_rationale": "Auto-imputed (score=0.159)",
+      "attributes": [
+        {
+          "name": "care_site_id",
+          "target_column": "subject_id",
+          "confidence": 0.3523,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.352)"
+        },
+        {
+          "name": "care_site_name",
+          "target_column": "hadm_id",
+          "confidence": 0.1429,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.143)"
+        },
+        {
+          "name": "care_site_source_value",
+          "target_column": "hadm_id",
+          "confidence": 0.1034,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.103)"
+        },
+        {
+          "name": "location_id",
+          "target_column": "subject_id",
+          "confidence": 0.4048,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.405)"
+        },
+        {
+          "name": "place_of_service_concept_id",
+          "target_column": "subject_id",
+          "confidence": 0.2185,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.218)"
+        },
+        {
+          "name": "place_of_service_source_value",
+          "target_column": "anchor_year",
+          "confidence": 0.1,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.100)"
+        }
+      ]
+    },
+    {
+      "entity": "cohort",
+      "matched_table": "person",
+      "table_confidence": 0.075,
+      "table_rationale": "Auto-imputed (score=0.075)",
+      "attributes": [
+        {
+          "name": "cohort_definition_id",
+          "target_column": "person_id",
+          "confidence": 0.3319,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.332)"
+        },
+        {
+          "name": "cohort_end_date",
+          "target_column": "birth_datetime",
+          "confidence": 0.2414,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.241)"
+        },
+        {
+          "name": "cohort_start_date",
+          "target_column": "birth_datetime",
+          "confidence": 0.2258,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.226)"
+        },
+        {
+          "name": "subject_id",
+          "target_column": "person_id",
+          "confidence": 0.3772,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.377)"
+        }
+      ]
+    },
+    {
+      "entity": "cohort_definition",
+      "matched_table": "admissions",
+      "table_confidence": 0.1667,
+      "table_rationale": "Auto-imputed (score=0.167)",
+      "attributes": [
+        {
+          "name": "cohort_definition_description",
+          "target_column": "admittime",
+          "confidence": 0.1316,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.132)"
+        },
+        {
+          "name": "cohort_definition_id",
+          "target_column": "hadm_id",
+          "confidence": 0.3102,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.310)"
+        },
+        {
+          "name": "cohort_definition_name",
+          "target_column": "admittime",
+          "confidence": 0.1935,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.194)"
+        },
+        {
+          "name": "cohort_definition_syntax",
+          "target_column": "admittime",
+          "confidence": 0.1212,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.121)"
+        },
+        {
+          "name": "cohort_initiation_date",
+          "target_column": "admittime",
+          "confidence": 0.1613,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.161)"
+        },
+        {
+          "name": "definition_type_concept_id",
+          "target_column": "hadm_id",
+          "confidence": 0.2212,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.221)"
+        },
+        {
+          "name": "subject_concept_id",
+          "target_column": "hadm_id",
+          "confidence": 0.245,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.245)"
+        }
+      ]
+    },
+    {
+      "entity": "provider",
+      "matched_table": "person",
+      "table_confidence": 0.1929,
+      "table_rationale": "Auto-imputed (score=0.193)",
+      "attributes": [
+        {
+          "name": "care_site_id",
+          "target_column": "person_id",
+          "confidence": 0.3631,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.363)"
+        },
+        {
+          "name": "dea",
+          "target_column": "gender",
+          "confidence": 0.2222,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.222)"
+        },
+        {
+          "name": "gender_concept_id",
+          "target_column": "gender",
+          "confidence": 0.4275,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.428)"
+        },
+        {
+          "name": "gender_source_concept_id",
+          "target_column": "person_id",
+          "confidence": 0.3424,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.342)"
+        },
+        {
+          "name": "gender_source_value",
+          "target_column": "gender",
+          "confidence": 0.4067,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.407)"
+        },
+        {
+          "name": "npi",
+          "target_column": "person_id",
+          "confidence": 0.1667,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.167)"
+        },
+        {
+          "name": "provider_id",
+          "target_column": "person_id",
+          "confidence": 0.4667,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.467)"
+        },
+        {
+          "name": "provider_name",
+          "target_column": "person_id",
+          "confidence": 0.2273,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.227)"
+        },
+        {
+          "name": "provider_source_value",
+          "target_column": "person_id",
+          "confidence": 0.1667,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.167)"
+        },
+        {
+          "name": "specialty_concept_id",
+          "target_column": "person_id",
+          "confidence": 0.3664,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.366)"
+        },
+        {
+          "name": "specialty_source_concept_id",
+          "target_column": "person_id",
+          "confidence": 0.3222,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.322)"
+        },
+        {
+          "name": "specialty_source_value",
+          "target_column": "person_id",
+          "confidence": 0.1613,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.161)"
+        },
+        {
+          "name": "year_of_birth",
+          "target_column": "birth_datetime",
+          "confidence": 0.3102,
+          "rationale": "Auto-imputed using semantic/name similarity (score=0.310)"
+        }
+      ]
+    }
+  ],
+  "plan": [
+    {
+      "change_type": "create_table",
+      "target_table": "persons",
+      "target_column": null,
+      "definition": "birth_datetime VARCHAR(255), care_site_id VARCHAR(255), day_of_birth VARCHAR(255), death_datetime VARCHAR(255), ethnicity_concept_id VARCHAR(255), ethnicity_source_concept_id VARCHAR(255), ethnicity_source_value VARCHAR(255), gender_concept_id VARCHAR(255), gender_source_concept_id VARCHAR(255), gender_source_value VARCHAR(255), location_id VARCHAR(255), month_of_birth VARCHAR(255), person_id VARCHAR(255), person_source_value VARCHAR(255), provider_id VARCHAR(255), race_concept_id VARCHAR(255), race_source_concept_id VARCHAR(255), race_source_value VARCHAR(255), year_of_birth VARCHAR(255)",
+      "reason": "Entity 'person' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium"
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "visit_occurrences",
+      "target_column": null,
+      "definition": "admitted_from_concept_id VARCHAR(255), admitted_from_source_value VARCHAR(255), care_site_id VARCHAR(255), discharge_to_concept_id VARCHAR(255), discharge_to_source_value VARCHAR(255), person_id VARCHAR(255), preceding_visit_occurrence_id VARCHAR(255), provider_id VARCHAR(255), visit_concept_id VARCHAR(255), visit_end_date VARCHAR(255), visit_end_datetime VARCHAR(255), visit_occurrence_id VARCHAR(255), visit_source_concept_id VARCHAR(255), visit_source_value VARCHAR(255), visit_start_date VARCHAR(255), visit_start_datetime VARCHAR(255), visit_type_concept_id VARCHAR(255)",
+      "reason": "Entity 'visit_occurrence' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium"
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "visit_details",
+      "target_column": null,
+      "definition": "admitted_from_concept_id VARCHAR(255), admitted_from_source_value VARCHAR(255), care_site_id VARCHAR(255), discharge_to_concept_id VARCHAR(255), discharge_to_source_value VARCHAR(255), person_id VARCHAR(255), preceding_visit_detail_id VARCHAR(255), provider_id VARCHAR(255), visit_detail_concept_id VARCHAR(255), visit_detail_end_date VARCHAR(255), visit_detail_end_datetime VARCHAR(255), visit_detail_id VARCHAR(255), visit_detail_parent_id VARCHAR(255), visit_detail_source_concept_id VARCHAR(255), visit_detail_source_value VARCHAR(255), visit_detail_start_date VARCHAR(255), visit_detail_start_datetime VARCHAR(255), visit_detail_type_concept_id VARCHAR(255), visit_occurrence_id VARCHAR(255)",
+      "reason": "Entity 'visit_detail' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium"
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "specimens",
+      "target_column": null,
+      "definition": "anatomic_site_concept_id VARCHAR(255), anatomic_site_source_value VARCHAR(255), disease_status_concept_id VARCHAR(255), disease_status_source_value VARCHAR(255), person_id VARCHAR(255), quantity VARCHAR(255), specimen_concept_id VARCHAR(255), specimen_date VARCHAR(255), specimen_datetime VARCHAR(255), specimen_id VARCHAR(255), specimen_source_id VARCHAR(255), specimen_source_value VARCHAR(255), specimen_type_concept_id VARCHAR(255), unit_concept_id VARCHAR(255), unit_source_value VARCHAR(255)",
+      "reason": "Entity 'specimen' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium"
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "measurements",
+      "target_column": null,
+      "definition": "measurement_concept_id VARCHAR(255), measurement_date VARCHAR(255), measurement_datetime VARCHAR(255), measurement_id VARCHAR(255), measurement_source_concept_id VARCHAR(255), measurement_source_value VARCHAR(255), measurement_time VARCHAR(255), measurement_type_concept_id VARCHAR(255), operator_concept_id VARCHAR(255), person_id VARCHAR(255), provider_id VARCHAR(255), range_high VARCHAR(255), range_low VARCHAR(255), unit_concept_id VARCHAR(255), unit_source_value VARCHAR(255), value_as_concept_id VARCHAR(255), value_as_number VARCHAR(255), value_source_value VARCHAR(255), visit_detail_id VARCHAR(255), visit_occurrence_id VARCHAR(255)",
+      "reason": "Entity 'measurement' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium"
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "procedure_occurrences",
+      "target_column": null,
+      "definition": "modifier_concept_id VARCHAR(255), modifier_source_value VARCHAR(255), person_id VARCHAR(255), procedure_concept_id VARCHAR(255), procedure_date VARCHAR(255), procedure_datetime VARCHAR(255), procedure_occurrence_id VARCHAR(255), procedure_source_concept_id VARCHAR(255), procedure_source_value VARCHAR(255), procedure_type_concept_id VARCHAR(255), provider_id VARCHAR(255), quantity VARCHAR(255), visit_detail_id VARCHAR(255), visit_occurrence_id VARCHAR(255)",
+      "reason": "Entity 'procedure_occurrence' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium"
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "condition_occurrences",
+      "target_column": null,
+      "definition": "condition_concept_id VARCHAR(255), condition_end_date VARCHAR(255), condition_end_datetime VARCHAR(255), condition_occurrence_id VARCHAR(255), condition_source_concept_id VARCHAR(255), condition_source_value VARCHAR(255), condition_start_date VARCHAR(255), condition_start_datetime VARCHAR(255), condition_status_concept_id VARCHAR(255), condition_status_source_value VARCHAR(255), condition_type_concept_id VARCHAR(255), person_id VARCHAR(255), provider_id VARCHAR(255), stop_reason VARCHAR(255), visit_detail_id VARCHAR(255), visit_occurrence_id VARCHAR(255)",
+      "reason": "Entity 'condition_occurrence' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium"
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "deaths",
+      "target_column": null,
+      "definition": "cause_concept_id VARCHAR(255), cause_source_concept_id VARCHAR(255), cause_source_value VARCHAR(255), death_date VARCHAR(255), death_datetime VARCHAR(255), death_type_concept_id VARCHAR(255), person_id VARCHAR(255)",
+      "reason": "Entity 'death' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium"
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "locations",
+      "target_column": null,
+      "definition": "address_1 VARCHAR(255), address_2 VARCHAR(255), city VARCHAR(255), county VARCHAR(255), location_id VARCHAR(255), location_source_value VARCHAR(255), state VARCHAR(255), zip VARCHAR(255)",
+      "reason": "Entity 'location' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium"
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "observations",
+      "target_column": null,
+      "definition": "obs_event_field_concept_id VARCHAR(255), observation_concept_id VARCHAR(255), observation_date VARCHAR(255), observation_datetime VARCHAR(255), observation_event_id VARCHAR(255), observation_id VARCHAR(255), observation_source_concept_id VARCHAR(255), observation_source_value VARCHAR(255), observation_type_concept_id VARCHAR(255), person_id VARCHAR(255), provider_id VARCHAR(255), qualifier_concept_id VARCHAR(255), qualifier_source_value VARCHAR(255), unit_concept_id VARCHAR(255), unit_source_value VARCHAR(255), value_as_concept_id VARCHAR(255), value_as_datetime VARCHAR(255), value_as_number VARCHAR(255), value_as_string VARCHAR(255), visit_detail_id VARCHAR(255), visit_occurrence_id VARCHAR(255)",
+      "reason": "Entity 'observation' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium"
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "observation_periods",
+      "target_column": null,
+      "definition": "observation_period_end_date VARCHAR(255), observation_period_id VARCHAR(255), observation_period_start_date VARCHAR(255), period_type_concept_id VARCHAR(255), person_id VARCHAR(255)",
+      "reason": "Entity 'observation_period' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium"
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "drug_exposures",
+      "target_column": null,
+      "definition": "days_supply VARCHAR(255), dose_unit_source_value VARCHAR(255), drug_concept_id VARCHAR(255), drug_exposure_end_date VARCHAR(255), drug_exposure_end_datetime VARCHAR(255), drug_exposure_id VARCHAR(255), drug_exposure_start_date VARCHAR(255), drug_exposure_start_datetime VARCHAR(255), drug_source_concept_id VARCHAR(255), drug_source_value VARCHAR(255), drug_type_concept_id VARCHAR(255), lot_number VARCHAR(255), person_id VARCHAR(255), provider_id VARCHAR(255), quantity VARCHAR(255), refills VARCHAR(255), route_concept_id VARCHAR(255), route_source_value VARCHAR(255), sig VARCHAR(255), stop_reason VARCHAR(255), verbatim_end_date VARCHAR(255), visit_detail_id VARCHAR(255), visit_occurrence_id VARCHAR(255)",
+      "reason": "Entity 'drug_exposure' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium"
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "device_exposures",
+      "target_column": null,
+      "definition": "device_concept_id VARCHAR(255), device_exposure_end_date VARCHAR(255), device_exposure_end_datetime VARCHAR(255), device_exposure_id VARCHAR(255), device_exposure_start_date VARCHAR(255), device_exposure_start_datetime VARCHAR(255), device_source_concept_id VARCHAR(255), device_source_value VARCHAR(255), device_type_concept_id VARCHAR(255), person_id VARCHAR(255), provider_id VARCHAR(255), quantity VARCHAR(255), unique_device_id VARCHAR(255), visit_detail_id VARCHAR(255), visit_occurrence_id VARCHAR(255)",
+      "reason": "Entity 'device_exposure' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium"
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "notes",
+      "target_column": null,
+      "definition": "encoding_concept_id VARCHAR(255), language_concept_id VARCHAR(255), note_class_concept_id VARCHAR(255), note_date VARCHAR(255), note_datetime VARCHAR(255), note_event_field_concept_id VARCHAR(255), note_event_id VARCHAR(255), note_id VARCHAR(255), note_source_value VARCHAR(255), note_text VARCHAR(255), note_title VARCHAR(255), note_type_concept_id VARCHAR(255), person_id VARCHAR(255), provider_id VARCHAR(255), visit_detail_id VARCHAR(255), visit_occurrence_id VARCHAR(255)",
+      "reason": "Entity 'note' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium"
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "fact_relationships",
+      "target_column": null,
+      "definition": "domain_concept_id_1 VARCHAR(255), domain_concept_id_2 VARCHAR(255), fact_id_1 VARCHAR(255), fact_id_2 VARCHAR(255), relationship_concept_id VARCHAR(255)",
+      "reason": "Entity 'fact_relationship' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium"
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "payer_plan_periods",
+      "target_column": null,
+      "definition": "family_source_value VARCHAR(255), payer_plan_period_end_date VARCHAR(255), payer_plan_period_id VARCHAR(255), payer_plan_period_start_date VARCHAR(255), payer_source_value VARCHAR(255), person_id VARCHAR(255), plan_source_value VARCHAR(255)",
+      "reason": "Entity 'payer_plan_period' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium"
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "cdm_sources",
+      "target_column": null,
+      "definition": "cdm_etl_reference VARCHAR(255), cdm_holder VARCHAR(255), cdm_release_date VARCHAR(255), cdm_source_abbreviation VARCHAR(255), cdm_source_name VARCHAR(255), cdm_version VARCHAR(255), source_description VARCHAR(255), source_documentation_reference VARCHAR(255), source_release_date VARCHAR(255), vocabulary_version VARCHAR(255)",
+      "reason": "Entity 'cdm_source' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium"
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "care_sites",
+      "target_column": null,
+      "definition": "care_site_id VARCHAR(255), care_site_name VARCHAR(255), care_site_source_value VARCHAR(255), location_id VARCHAR(255), place_of_service_concept_id VARCHAR(255), place_of_service_source_value VARCHAR(255)",
+      "reason": "Entity 'care_site' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium"
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "cohorts",
+      "target_column": null,
+      "definition": "cohort_definition_id VARCHAR(255), cohort_end_date VARCHAR(255), cohort_start_date VARCHAR(255), subject_id VARCHAR(255)",
+      "reason": "Entity 'cohort' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium"
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "cohort_definitions",
+      "target_column": null,
+      "definition": "cohort_definition_description VARCHAR(255), cohort_definition_id VARCHAR(255), cohort_definition_name VARCHAR(255), cohort_definition_syntax VARCHAR(255), cohort_initiation_date VARCHAR(255), definition_type_concept_id VARCHAR(255), subject_concept_id VARCHAR(255)",
+      "reason": "Entity 'cohort_definition' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium"
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "providers",
+      "target_column": null,
+      "definition": "care_site_id VARCHAR(255), dea VARCHAR(255), gender_concept_id VARCHAR(255), gender_source_concept_id VARCHAR(255), gender_source_value VARCHAR(255), npi VARCHAR(255), provider_id VARCHAR(255), provider_name VARCHAR(255), provider_source_value VARCHAR(255), specialty_concept_id VARCHAR(255), specialty_source_concept_id VARCHAR(255), specialty_source_value VARCHAR(255), year_of_birth VARCHAR(255)",
+      "reason": "Entity 'provider' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium"
+    }
+  ]
+}

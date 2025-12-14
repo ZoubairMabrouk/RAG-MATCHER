@@ -1,0 +1,2038 @@
+{
+  "config": {
+    "db_url": "postgres://test:test@rag_db:5432/test",
+    "dialect": "postgresql",
+    "index_type": "auto",
+    "table_threshold": 0.85,
+    "column_threshold": 0.85,
+    "top_k": 10
+  },
+  "mapping": [
+    {
+      "entity": "person",
+      "matched_table": "patients",
+      "table_confidence": 0.9,
+      "table_rationale": "LLM rejected (match=None, conf=0.900)",
+      "attributes": [
+        {
+          "name": "birth_datetime",
+          "target_column": "dob",
+          "confidence": 0.67,
+          "rationale": "No table match"
+        },
+        {
+          "name": "care_site_id",
+          "target_column": null,
+          "confidence": 0.56,
+          "rationale": "No table match"
+        },
+        {
+          "name": "day_of_birth",
+          "target_column": "dob",
+          "confidence": 0.98,
+          "rationale": "No table match"
+        },
+        {
+          "name": "death_datetime",
+          "target_column": "dod",
+          "confidence": 0.98,
+          "rationale": "No table match"
+        },
+        {
+          "name": "ethnicity_concept_id",
+          "target_column": null,
+          "confidence": 0.21,
+          "rationale": "No table match"
+        },
+        {
+          "name": "ethnicity_source_concept_id",
+          "target_column": null,
+          "confidence": 0.45,
+          "rationale": "No table match"
+        },
+        {
+          "name": "ethnicity_source_value",
+          "target_column": null,
+          "confidence": 0.54,
+          "rationale": "No table match"
+        },
+        {
+          "name": "gender_concept_id",
+          "target_column": null,
+          "confidence": 0.69,
+          "rationale": "No table match"
+        },
+        {
+          "name": "gender_source_concept_id",
+          "target_column": null,
+          "confidence": 0.63,
+          "rationale": "No table match"
+        },
+        {
+          "name": "gender_source_value",
+          "target_column": null,
+          "confidence": 0.66,
+          "rationale": "No table match"
+        },
+        {
+          "name": "location_id",
+          "target_column": null,
+          "confidence": 0.85,
+          "rationale": "No table match"
+        },
+        {
+          "name": "month_of_birth",
+          "target_column": "dob",
+          "confidence": 0.78,
+          "rationale": "No table match"
+        },
+        {
+          "name": "person_id",
+          "target_column": "subject_id",
+          "confidence": 0.88,
+          "rationale": "No table match"
+        },
+        {
+          "name": "person_source_value",
+          "target_column": null,
+          "confidence": 0.71,
+          "rationale": "No table match"
+        },
+        {
+          "name": "provider_id",
+          "target_column": null,
+          "confidence": 0.71,
+          "rationale": "No table match"
+        },
+        {
+          "name": "race_concept_id",
+          "target_column": null,
+          "confidence": 0.71,
+          "rationale": "No table match"
+        },
+        {
+          "name": "race_source_concept_id",
+          "target_column": null,
+          "confidence": 0.7,
+          "rationale": "No table match"
+        },
+        {
+          "name": "race_source_value",
+          "target_column": "ethnicity",
+          "confidence": 0.9,
+          "rationale": "No table match"
+        },
+        {
+          "name": "year_of_birth",
+          "target_column": "dob",
+          "confidence": 0.98,
+          "rationale": "No table match"
+        }
+      ]
+    },
+    {
+      "entity": "visit_occurrence",
+      "matched_table": "admissions",
+      "table_confidence": 0.95,
+      "table_rationale": "LLM rejected (match=None, conf=0.950)",
+      "attributes": [
+        {
+          "name": "admitted_from_concept_id",
+          "target_column": null,
+          "confidence": 0.98,
+          "rationale": "No table match"
+        },
+        {
+          "name": "admitted_from_source_value",
+          "target_column": "admission_location",
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "care_site_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "discharge_to_concept_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "discharge_to_source_value",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "person_id",
+          "target_column": "subject_id",
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "preceding_visit_occurrence_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "provider_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "visit_concept_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "visit_end_date",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "visit_end_datetime",
+          "target_column": "dischtime",
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "visit_occurrence_id",
+          "target_column": "hamd_id",
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "visit_source_concept_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "visit_source_value",
+          "target_column": "admission-type",
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "visit_start_date",
+          "target_column": "admitime",
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "visit_start_datetime",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "visit_type_concept_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        }
+      ]
+    },
+    {
+      "entity": "visit_detail",
+      "matched_table": "services",
+      "table_confidence": 0.95,
+      "table_rationale": "LLM rejected (match=None, conf=0.950)",
+      "attributes": [
+        {
+          "name": "admitted_from_concept_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "admitted_from_source_value",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "care_site_id",
+          "target_column": "curr_careunit",
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "discharge_to_concept_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "discharge_to_source_value",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "person_id",
+          "target_column": "subject_id",
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "preceding_visit_detail_id",
+          "target_column": "hadm_id",
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "provider_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "visit_detail_concept_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "visit_detail_end_date",
+          "target_column": "outtime",
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "visit_detail_end_datetime",
+          "target_column": "transfertime",
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "visit_detail_id",
+          "target_column": "row_id",
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "visit_detail_parent_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "visit_detail_source_concept_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "visit_detail_source_value",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "visit_detail_start_date",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "visit_detail_start_datetime",
+          "target_column": "transfertime",
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "visit_detail_type_concept_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "visit_occurrence_id",
+          "target_column": "hadm_id",
+          "confidence": 0.93,
+          "rationale": "No table match"
+        }
+      ]
+    },
+    {
+      "entity": "specimen",
+      "matched_table": "chartevents",
+      "table_confidence": 0.9,
+      "table_rationale": "LLM rejected (match=None, conf=0.900)",
+      "attributes": [
+        {
+          "name": "anatomic_site_concept_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "anatomic_site_source_value",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "disease_status_concept_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "disease_status_source_value",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "person_id",
+          "target_column": "subject_id",
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "quantity",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "specimen_concept_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "specimen_date",
+          "target_column": "charttime",
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "specimen_datetime",
+          "target_column": "charttime",
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "specimen_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "specimen_source_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "specimen_source_value",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "specimen_type_concept_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "unit_concept_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "unit_source_value",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        }
+      ]
+    },
+    {
+      "entity": "measurement",
+      "matched_table": "labevents",
+      "table_confidence": 0.9,
+      "table_rationale": "LLM rejected (match=None, conf=0.900)",
+      "attributes": [
+        {
+          "name": "measurement_concept_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "measurement_date",
+          "target_column": "mv_starttime",
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "measurement_datetime",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "measurement_id",
+          "target_column": "row_id",
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "measurement_source_concept_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "measurement_source_value",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "measurement_time",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "measurement_type_concept_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "operator_concept_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "person_id",
+          "target_column": "subject_id",
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "provider_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "range_high",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "range_low",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "unit_concept_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "unit_source_value",
+          "target_column": "valueuom",
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "value_as_concept_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "value_as_number",
+          "target_column": "patientweight",
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "value_source_value",
+          "target_column": "value",
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "visit_detail_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "visit_occurrence_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        }
+      ]
+    },
+    {
+      "entity": "procedure_occurrence",
+      "matched_table": "cptevents",
+      "table_confidence": 0.9,
+      "table_rationale": "LLM rejected (match=None, conf=0.900)",
+      "attributes": [
+        {
+          "name": "modifier_concept_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "modifier_source_value",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "person_id",
+          "target_column": "subject_id",
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "procedure_concept_id",
+          "target_column": "labevents_id",
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "procedure_date",
+          "target_column": "dischtime",
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "procedure_datetime",
+          "target_column": "chartdate",
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "procedure_occurrence_id",
+          "target_column": "row_id",
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "procedure_source_concept_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "procedure_source_value",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "procedure_type_concept_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "provider_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "quantity",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "visit_detail_id",
+          "target_column": "service_id",
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "visit_occurrence_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        }
+      ]
+    },
+    {
+      "entity": "condition_occurrence",
+      "matched_table": null,
+      "table_confidence": 0.9,
+      "table_rationale": "LLM rejected (match=None, conf=0.900)",
+      "attributes": [
+        {
+          "name": "condition_concept_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "condition_end_date",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "condition_end_datetime",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "condition_occurrence_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "condition_source_concept_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "condition_source_value",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "condition_start_date",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "condition_start_datetime",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "condition_status_concept_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "condition_status_source_value",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "condition_type_concept_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "person_id",
+          "target_column": "subject_id",
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "provider_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "stop_reason",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "visit_detail_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "visit_occurrence_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        }
+      ]
+    },
+    {
+      "entity": "death",
+      "matched_table": null,
+      "table_confidence": 0.85,
+      "table_rationale": "LLM rejected (match=None, conf=0.850)",
+      "attributes": [
+        {
+          "name": "cause_concept_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "cause_source_concept_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "cause_source_value",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "death_date",
+          "target_column": "dod",
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "death_datetime",
+          "target_column": "dod",
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "death_type_concept_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "person_id",
+          "target_column": "subject_id",
+          "confidence": 0.93,
+          "rationale": "No table match"
+        }
+      ]
+    },
+    {
+      "entity": "location",
+      "matched_table": null,
+      "table_confidence": 0.9,
+      "table_rationale": "LLM rejected (match=None, conf=0.900)",
+      "attributes": [
+        {
+          "name": "address_1",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "address_2",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "city",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "county",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "location_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "location_source_value",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "state",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "zip",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        }
+      ]
+    },
+    {
+      "entity": "observation",
+      "matched_table": null,
+      "table_confidence": 0.95,
+      "table_rationale": "LLM rejected (match=None, conf=0.950)",
+      "attributes": [
+        {
+          "name": "obs_event_field_concept_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "observation_concept_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "observation_date",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "observation_datetime",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "observation_event_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "observation_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "observation_source_concept_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "observation_source_value",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "observation_type_concept_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "person_id",
+          "target_column": "subject_id",
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "provider_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "qualifier_concept_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "qualifier_source_value",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "unit_concept_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "unit_source_value",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "value_as_concept_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "value_as_datetime",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "value_as_number",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "value_as_string",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "visit_detail_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "visit_occurrence_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        }
+      ]
+    },
+    {
+      "entity": "observation_period",
+      "matched_table": null,
+      "table_confidence": 0.9,
+      "table_rationale": "LLM rejected (match=None, conf=0.900)",
+      "attributes": [
+        {
+          "name": "observation_period_end_date",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "observation_period_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "observation_period_start_date",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "period_type_concept_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "person_id",
+          "target_column": "subject_id",
+          "confidence": 0.93,
+          "rationale": "No table match"
+        }
+      ]
+    },
+    {
+      "entity": "drug_exposure",
+      "matched_table": "prescriptions",
+      "table_confidence": 0.95,
+      "table_rationale": "LLM rejected (match=None, conf=0.950)",
+      "attributes": [
+        {
+          "name": "days_supply",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "dose_unit_source_value",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "drug_concept_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "drug_exposure_end_date",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "drug_exposure_end_datetime",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "drug_exposure_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "drug_exposure_start_date",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "drug_exposure_start_datetime",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "drug_source_concept_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "drug_source_value",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "drug_type_concept_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "lot_number",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "person_id",
+          "target_column": "subject_id",
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "provider_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "quantity",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "refills",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "route_concept_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "route_source_value",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "sig",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "stop_reason",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "verbatim_end_date",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "visit_detail_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "visit_occurrence_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        }
+      ]
+    },
+    {
+      "entity": "device_exposure",
+      "matched_table": "prescriptions",
+      "table_confidence": 0.9,
+      "table_rationale": "LLM rejected (match=None, conf=0.900)",
+      "attributes": [
+        {
+          "name": "device_concept_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "device_exposure_end_date",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "device_exposure_end_datetime",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "device_exposure_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "device_exposure_start_date",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "device_exposure_start_datetime",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "device_source_concept_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "device_source_value",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "device_type_concept_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "person_id",
+          "target_column": "subject_id",
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "provider_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "quantity",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "unique_device_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "visit_detail_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "visit_occurrence_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        }
+      ]
+    },
+    {
+      "entity": "note",
+      "matched_table": "notes",
+      "table_confidence": 0.95,
+      "table_rationale": "LLM rejected (match=None, conf=0.950)",
+      "attributes": [
+        {
+          "name": "encoding_concept_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "language_concept_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "note_class_concept_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "note_date",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "note_datetime",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "note_event_field_concept_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "note_event_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "note_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "note_source_value",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "note_text",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "note_title",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "note_type_concept_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "person_id",
+          "target_column": "subject_id",
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "provider_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "visit_detail_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "visit_occurrence_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        }
+      ]
+    },
+    {
+      "entity": "fact_relationship",
+      "matched_table": null,
+      "table_confidence": 0.9,
+      "table_rationale": "LLM rejected (match=None, conf=0.900)",
+      "attributes": [
+        {
+          "name": "domain_concept_id_1",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "domain_concept_id_2",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "fact_id_1",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "fact_id_2",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "relationship_concept_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        }
+      ]
+    },
+    {
+      "entity": "payer_plan_period",
+      "matched_table": null,
+      "table_confidence": 0.9,
+      "table_rationale": "LLM rejected (match=None, conf=0.900)",
+      "attributes": [
+        {
+          "name": "family_source_value",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "payer_plan_period_end_date",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "payer_plan_period_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "payer_plan_period_start_date",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "payer_source_value",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "person_id",
+          "target_column": "subject_id",
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "plan_source_value",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        }
+      ]
+    },
+    {
+      "entity": "cdm_source",
+      "matched_table": null,
+      "table_confidence": 0.9,
+      "table_rationale": "LLM rejected (match=None, conf=0.900)",
+      "attributes": [
+        {
+          "name": "cdm_etl_reference",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "cdm_holder",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "cdm_release_date",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "cdm_source_abbreviation",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "cdm_source_name",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "cdm_version",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "source_description",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "source_documentation_reference",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "source_release_date",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "vocabulary_version",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        }
+      ]
+    },
+    {
+      "entity": "care_site",
+      "matched_table": null,
+      "table_confidence": 0.9,
+      "table_rationale": "LLM rejected (match=None, conf=0.900)",
+      "attributes": [
+        {
+          "name": "care_site_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "care_site_name",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "care_site_source_value",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "location_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "place_of_service_concept_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "place_of_service_source_value",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        }
+      ]
+    },
+    {
+      "entity": "cohort",
+      "matched_table": null,
+      "table_confidence": 0.9,
+      "table_rationale": "LLM rejected (match=None, conf=0.900)",
+      "attributes": [
+        {
+          "name": "cohort_definition_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "cohort_end_date",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "cohort_start_date",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "subject_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        }
+      ]
+    },
+    {
+      "entity": "cohort_definition",
+      "matched_table": null,
+      "table_confidence": 0.95,
+      "table_rationale": "LLM rejected (match=None, conf=0.950)",
+      "attributes": [
+        {
+          "name": "cohort_definition_description",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "cohort_definition_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "cohort_definition_name",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "cohort_definition_syntax",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "cohort_initiation_date",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "definition_type_concept_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "subject_concept_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        }
+      ]
+    },
+    {
+      "entity": "provider",
+      "matched_table": null,
+      "table_confidence": 0.95,
+      "table_rationale": "LLM rejected (match=None, conf=0.950)",
+      "attributes": [
+        {
+          "name": "care_site_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "dea",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "gender_concept_id",
+          "target_column": "gender",
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "gender_source_concept_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "gender_source_value",
+          "target_column": "gender",
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "npi",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "provider_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "provider_name",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "provider_source_value",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "specialty_concept_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "specialty_source_concept_id",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "specialty_source_value",
+          "target_column": null,
+          "confidence": 0.93,
+          "rationale": "No table match"
+        },
+        {
+          "name": "year_of_birth",
+          "target_column": "dob",
+          "confidence": 0.93,
+          "rationale": "No table match"
+        }
+      ]
+    }
+  ],
+  "plan": [
+    {
+      "change_type": "create_table",
+      "target_table": "persons",
+      "target_column": "dob",
+      "definition": "birth_datetime VARCHAR(255), care_site_id VARCHAR(255), day_of_birth VARCHAR(255), death_datetime VARCHAR(255), ethnicity_concept_id VARCHAR(255), ethnicity_source_concept_id VARCHAR(255), ethnicity_source_value VARCHAR(255), gender_concept_id VARCHAR(255), gender_source_concept_id VARCHAR(255), gender_source_value VARCHAR(255), location_id VARCHAR(255), month_of_birth VARCHAR(255), person_id VARCHAR(255), person_source_value VARCHAR(255), provider_id VARCHAR(255), race_concept_id VARCHAR(255), race_source_concept_id VARCHAR(255), race_source_value VARCHAR(255), year_of_birth VARCHAR(255)",
+      "reason": "Entity 'person' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium"
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "visit_occurrences",
+      "target_column": null,
+      "definition": "admitted_from_concept_id VARCHAR(255), admitted_from_source_value VARCHAR(255), care_site_id VARCHAR(255), discharge_to_concept_id VARCHAR(255), discharge_to_source_value VARCHAR(255), person_id VARCHAR(255), preceding_visit_occurrence_id VARCHAR(255), provider_id VARCHAR(255), visit_concept_id VARCHAR(255), visit_end_date VARCHAR(255), visit_end_datetime VARCHAR(255), visit_occurrence_id VARCHAR(255), visit_source_concept_id VARCHAR(255), visit_source_value VARCHAR(255), visit_start_date VARCHAR(255), visit_start_datetime VARCHAR(255), visit_type_concept_id VARCHAR(255)",
+      "reason": "Entity 'visit_occurrence' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium"
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "visit_details",
+      "target_column": null,
+      "definition": "admitted_from_concept_id VARCHAR(255), admitted_from_source_value VARCHAR(255), care_site_id VARCHAR(255), discharge_to_concept_id VARCHAR(255), discharge_to_source_value VARCHAR(255), person_id VARCHAR(255), preceding_visit_detail_id VARCHAR(255), provider_id VARCHAR(255), visit_detail_concept_id VARCHAR(255), visit_detail_end_date VARCHAR(255), visit_detail_end_datetime VARCHAR(255), visit_detail_id VARCHAR(255), visit_detail_parent_id VARCHAR(255), visit_detail_source_concept_id VARCHAR(255), visit_detail_source_value VARCHAR(255), visit_detail_start_date VARCHAR(255), visit_detail_start_datetime VARCHAR(255), visit_detail_type_concept_id VARCHAR(255), visit_occurrence_id VARCHAR(255)",
+      "reason": "Entity 'visit_detail' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium"
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "specimens",
+      "target_column": null,
+      "definition": "anatomic_site_concept_id VARCHAR(255), anatomic_site_source_value VARCHAR(255), disease_status_concept_id VARCHAR(255), disease_status_source_value VARCHAR(255), person_id VARCHAR(255), quantity VARCHAR(255), specimen_concept_id VARCHAR(255), specimen_date VARCHAR(255), specimen_datetime VARCHAR(255), specimen_id VARCHAR(255), specimen_source_id VARCHAR(255), specimen_source_value VARCHAR(255), specimen_type_concept_id VARCHAR(255), unit_concept_id VARCHAR(255), unit_source_value VARCHAR(255)",
+      "reason": "Entity 'specimen' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium"
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "measurements",
+      "target_column": null,
+      "definition": "measurement_concept_id VARCHAR(255), measurement_date VARCHAR(255), measurement_datetime VARCHAR(255), measurement_id VARCHAR(255), measurement_source_concept_id VARCHAR(255), measurement_source_value VARCHAR(255), measurement_time VARCHAR(255), measurement_type_concept_id VARCHAR(255), operator_concept_id VARCHAR(255), person_id VARCHAR(255), provider_id VARCHAR(255), range_high VARCHAR(255), range_low VARCHAR(255), unit_concept_id VARCHAR(255), unit_source_value VARCHAR(255), value_as_concept_id VARCHAR(255), value_as_number VARCHAR(255), value_source_value VARCHAR(255), visit_detail_id VARCHAR(255), visit_occurrence_id VARCHAR(255)",
+      "reason": "Entity 'measurement' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium"
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "procedure_occurrences",
+      "target_column": null,
+      "definition": "modifier_concept_id VARCHAR(255), modifier_source_value VARCHAR(255), person_id VARCHAR(255), procedure_concept_id VARCHAR(255), procedure_date VARCHAR(255), procedure_datetime VARCHAR(255), procedure_occurrence_id VARCHAR(255), procedure_source_concept_id VARCHAR(255), procedure_source_value VARCHAR(255), procedure_type_concept_id VARCHAR(255), provider_id VARCHAR(255), quantity VARCHAR(255), visit_detail_id VARCHAR(255), visit_occurrence_id VARCHAR(255)",
+      "reason": "Entity 'procedure_occurrence' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium"
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "condition_occurrences",
+      "target_column": null,
+      "definition": "condition_concept_id VARCHAR(255), condition_end_date VARCHAR(255), condition_end_datetime VARCHAR(255), condition_occurrence_id VARCHAR(255), condition_source_concept_id VARCHAR(255), condition_source_value VARCHAR(255), condition_start_date VARCHAR(255), condition_start_datetime VARCHAR(255), condition_status_concept_id VARCHAR(255), condition_status_source_value VARCHAR(255), condition_type_concept_id VARCHAR(255), person_id VARCHAR(255), provider_id VARCHAR(255), stop_reason VARCHAR(255), visit_detail_id VARCHAR(255), visit_occurrence_id VARCHAR(255)",
+      "reason": "Entity 'condition_occurrence' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium"
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "deaths",
+      "target_column": null,
+      "definition": "cause_concept_id VARCHAR(255), cause_source_concept_id VARCHAR(255), cause_source_value VARCHAR(255), death_date VARCHAR(255), death_datetime VARCHAR(255), death_type_concept_id VARCHAR(255), person_id VARCHAR(255)",
+      "reason": "Entity 'death' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium"
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "locations",
+      "target_column": null,
+      "definition": "address_1 VARCHAR(255), address_2 VARCHAR(255), city VARCHAR(255), county VARCHAR(255), location_id VARCHAR(255), location_source_value VARCHAR(255), state VARCHAR(255), zip VARCHAR(255)",
+      "reason": "Entity 'location' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium"
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "observations",
+      "target_column": null,
+      "definition": "obs_event_field_concept_id VARCHAR(255), observation_concept_id VARCHAR(255), observation_date VARCHAR(255), observation_datetime VARCHAR(255), observation_event_id VARCHAR(255), observation_id VARCHAR(255), observation_source_concept_id VARCHAR(255), observation_source_value VARCHAR(255), observation_type_concept_id VARCHAR(255), person_id VARCHAR(255), provider_id VARCHAR(255), qualifier_concept_id VARCHAR(255), qualifier_source_value VARCHAR(255), unit_concept_id VARCHAR(255), unit_source_value VARCHAR(255), value_as_concept_id VARCHAR(255), value_as_datetime VARCHAR(255), value_as_number VARCHAR(255), value_as_string VARCHAR(255), visit_detail_id VARCHAR(255), visit_occurrence_id VARCHAR(255)",
+      "reason": "Entity 'observation' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium"
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "observation_periods",
+      "target_column": null,
+      "definition": "observation_period_end_date VARCHAR(255), observation_period_id VARCHAR(255), observation_period_start_date VARCHAR(255), period_type_concept_id VARCHAR(255), person_id VARCHAR(255)",
+      "reason": "Entity 'observation_period' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium"
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "drug_exposures",
+      "target_column": null,
+      "definition": "days_supply VARCHAR(255), dose_unit_source_value VARCHAR(255), drug_concept_id VARCHAR(255), drug_exposure_end_date VARCHAR(255), drug_exposure_end_datetime VARCHAR(255), drug_exposure_id VARCHAR(255), drug_exposure_start_date VARCHAR(255), drug_exposure_start_datetime VARCHAR(255), drug_source_concept_id VARCHAR(255), drug_source_value VARCHAR(255), drug_type_concept_id VARCHAR(255), lot_number VARCHAR(255), person_id VARCHAR(255), provider_id VARCHAR(255), quantity VARCHAR(255), refills VARCHAR(255), route_concept_id VARCHAR(255), route_source_value VARCHAR(255), sig VARCHAR(255), stop_reason VARCHAR(255), verbatim_end_date VARCHAR(255), visit_detail_id VARCHAR(255), visit_occurrence_id VARCHAR(255)",
+      "reason": "Entity 'drug_exposure' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium"
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "device_exposures",
+      "target_column": null,
+      "definition": "device_concept_id VARCHAR(255), device_exposure_end_date VARCHAR(255), device_exposure_end_datetime VARCHAR(255), device_exposure_id VARCHAR(255), device_exposure_start_date VARCHAR(255), device_exposure_start_datetime VARCHAR(255), device_source_concept_id VARCHAR(255), device_source_value VARCHAR(255), device_type_concept_id VARCHAR(255), person_id VARCHAR(255), provider_id VARCHAR(255), quantity VARCHAR(255), unique_device_id VARCHAR(255), visit_detail_id VARCHAR(255), visit_occurrence_id VARCHAR(255)",
+      "reason": "Entity 'device_exposure' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium"
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "notes",
+      "target_column": null,
+      "definition": "encoding_concept_id VARCHAR(255), language_concept_id VARCHAR(255), note_class_concept_id VARCHAR(255), note_date VARCHAR(255), note_datetime VARCHAR(255), note_event_field_concept_id VARCHAR(255), note_event_id VARCHAR(255), note_id VARCHAR(255), note_source_value VARCHAR(255), note_text VARCHAR(255), note_title VARCHAR(255), note_type_concept_id VARCHAR(255), person_id VARCHAR(255), provider_id VARCHAR(255), visit_detail_id VARCHAR(255), visit_occurrence_id VARCHAR(255)",
+      "reason": "Entity 'note' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium"
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "fact_relationships",
+      "target_column": null,
+      "definition": "domain_concept_id_1 VARCHAR(255), domain_concept_id_2 VARCHAR(255), fact_id_1 VARCHAR(255), fact_id_2 VARCHAR(255), relationship_concept_id VARCHAR(255)",
+      "reason": "Entity 'fact_relationship' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium"
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "payer_plan_periods",
+      "target_column": null,
+      "definition": "family_source_value VARCHAR(255), payer_plan_period_end_date VARCHAR(255), payer_plan_period_id VARCHAR(255), payer_plan_period_start_date VARCHAR(255), payer_source_value VARCHAR(255), person_id VARCHAR(255), plan_source_value VARCHAR(255)",
+      "reason": "Entity 'payer_plan_period' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium"
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "cdm_sources",
+      "target_column": null,
+      "definition": "cdm_etl_reference VARCHAR(255), cdm_holder VARCHAR(255), cdm_release_date VARCHAR(255), cdm_source_abbreviation VARCHAR(255), cdm_source_name VARCHAR(255), cdm_version VARCHAR(255), source_description VARCHAR(255), source_documentation_reference VARCHAR(255), source_release_date VARCHAR(255), vocabulary_version VARCHAR(255)",
+      "reason": "Entity 'cdm_source' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium"
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "care_sites",
+      "target_column": null,
+      "definition": "care_site_id VARCHAR(255), care_site_name VARCHAR(255), care_site_source_value VARCHAR(255), location_id VARCHAR(255), place_of_service_concept_id VARCHAR(255), place_of_service_source_value VARCHAR(255)",
+      "reason": "Entity 'care_site' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium"
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "cohorts",
+      "target_column": null,
+      "definition": "cohort_definition_id VARCHAR(255), cohort_end_date VARCHAR(255), cohort_start_date VARCHAR(255), subject_id VARCHAR(255)",
+      "reason": "Entity 'cohort' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium"
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "cohort_definitions",
+      "target_column": null,
+      "definition": "cohort_definition_description VARCHAR(255), cohort_definition_id VARCHAR(255), cohort_definition_name VARCHAR(255), cohort_definition_syntax VARCHAR(255), cohort_initiation_date VARCHAR(255), definition_type_concept_id VARCHAR(255), subject_concept_id VARCHAR(255)",
+      "reason": "Entity 'cohort_definition' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium"
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "providers",
+      "target_column": null,
+      "definition": "care_site_id VARCHAR(255), dea VARCHAR(255), gender_concept_id VARCHAR(255), gender_source_concept_id VARCHAR(255), gender_source_value VARCHAR(255), npi VARCHAR(255), provider_id VARCHAR(255), provider_name VARCHAR(255), provider_source_value VARCHAR(255), specialty_concept_id VARCHAR(255), specialty_source_concept_id VARCHAR(255), specialty_source_value VARCHAR(255), year_of_birth VARCHAR(255)",
+      "reason": "Entity 'provider' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium"
+    }
+  ],
+  "sql": [
+    "CREATE TABLE persons (birth_datetime VARCHAR(255), care_site_id VARCHAR(255), day_of_birth VARCHAR(255), death_datetime VARCHAR(255), ethnicity_concept_id VARCHAR(255), ethnicity_source_concept_id VARCHAR(255), ethnicity_source_value VARCHAR(255), gender_concept_id VARCHAR(255), gender_source_concept_id VARCHAR(255), gender_source_value VARCHAR(255), location_id VARCHAR(255), month_of_birth VARCHAR(255), person_id VARCHAR(255), person_source_value VARCHAR(255), provider_id VARCHAR(255), race_concept_id VARCHAR(255), race_source_concept_id VARCHAR(255), race_source_value VARCHAR(255), year_of_birth VARCHAR(255));",
+    "CREATE TABLE visit_occurrences (admitted_from_concept_id VARCHAR(255), admitted_from_source_value VARCHAR(255), care_site_id VARCHAR(255), discharge_to_concept_id VARCHAR(255), discharge_to_source_value VARCHAR(255), person_id VARCHAR(255), preceding_visit_occurrence_id VARCHAR(255), provider_id VARCHAR(255), visit_concept_id VARCHAR(255), visit_end_date VARCHAR(255), visit_end_datetime VARCHAR(255), visit_occurrence_id VARCHAR(255), visit_source_concept_id VARCHAR(255), visit_source_value VARCHAR(255), visit_start_date VARCHAR(255), visit_start_datetime VARCHAR(255), visit_type_concept_id VARCHAR(255));",
+    "CREATE TABLE visit_details (admitted_from_concept_id VARCHAR(255), admitted_from_source_value VARCHAR(255), care_site_id VARCHAR(255), discharge_to_concept_id VARCHAR(255), discharge_to_source_value VARCHAR(255), person_id VARCHAR(255), preceding_visit_detail_id VARCHAR(255), provider_id VARCHAR(255), visit_detail_concept_id VARCHAR(255), visit_detail_end_date VARCHAR(255), visit_detail_end_datetime VARCHAR(255), visit_detail_id VARCHAR(255), visit_detail_parent_id VARCHAR(255), visit_detail_source_concept_id VARCHAR(255), visit_detail_source_value VARCHAR(255), visit_detail_start_date VARCHAR(255), visit_detail_start_datetime VARCHAR(255), visit_detail_type_concept_id VARCHAR(255), visit_occurrence_id VARCHAR(255));",
+    "CREATE TABLE specimens (anatomic_site_concept_id VARCHAR(255), anatomic_site_source_value VARCHAR(255), disease_status_concept_id VARCHAR(255), disease_status_source_value VARCHAR(255), person_id VARCHAR(255), quantity VARCHAR(255), specimen_concept_id VARCHAR(255), specimen_date VARCHAR(255), specimen_datetime VARCHAR(255), specimen_id VARCHAR(255), specimen_source_id VARCHAR(255), specimen_source_value VARCHAR(255), specimen_type_concept_id VARCHAR(255), unit_concept_id VARCHAR(255), unit_source_value VARCHAR(255));",
+    "CREATE TABLE measurements (measurement_concept_id VARCHAR(255), measurement_date VARCHAR(255), measurement_datetime VARCHAR(255), measurement_id VARCHAR(255), measurement_source_concept_id VARCHAR(255), measurement_source_value VARCHAR(255), measurement_time VARCHAR(255), measurement_type_concept_id VARCHAR(255), operator_concept_id VARCHAR(255), person_id VARCHAR(255), provider_id VARCHAR(255), range_high VARCHAR(255), range_low VARCHAR(255), unit_concept_id VARCHAR(255), unit_source_value VARCHAR(255), value_as_concept_id VARCHAR(255), value_as_number VARCHAR(255), value_source_value VARCHAR(255), visit_detail_id VARCHAR(255), visit_occurrence_id VARCHAR(255));",
+    "CREATE TABLE procedure_occurrences (modifier_concept_id VARCHAR(255), modifier_source_value VARCHAR(255), person_id VARCHAR(255), procedure_concept_id VARCHAR(255), procedure_date VARCHAR(255), procedure_datetime VARCHAR(255), procedure_occurrence_id VARCHAR(255), procedure_source_concept_id VARCHAR(255), procedure_source_value VARCHAR(255), procedure_type_concept_id VARCHAR(255), provider_id VARCHAR(255), quantity VARCHAR(255), visit_detail_id VARCHAR(255), visit_occurrence_id VARCHAR(255));",
+    "CREATE TABLE condition_occurrences (condition_concept_id VARCHAR(255), condition_end_date VARCHAR(255), condition_end_datetime VARCHAR(255), condition_occurrence_id VARCHAR(255), condition_source_concept_id VARCHAR(255), condition_source_value VARCHAR(255), condition_start_date VARCHAR(255), condition_start_datetime VARCHAR(255), condition_status_concept_id VARCHAR(255), condition_status_source_value VARCHAR(255), condition_type_concept_id VARCHAR(255), person_id VARCHAR(255), provider_id VARCHAR(255), stop_reason VARCHAR(255), visit_detail_id VARCHAR(255), visit_occurrence_id VARCHAR(255));",
+    "CREATE TABLE deaths (cause_concept_id VARCHAR(255), cause_source_concept_id VARCHAR(255), cause_source_value VARCHAR(255), death_date VARCHAR(255), death_datetime VARCHAR(255), death_type_concept_id VARCHAR(255), person_id VARCHAR(255));",
+    "CREATE TABLE locations (address_1 VARCHAR(255), address_2 VARCHAR(255), city VARCHAR(255), county VARCHAR(255), location_id VARCHAR(255), location_source_value VARCHAR(255), state VARCHAR(255), zip VARCHAR(255));",
+    "CREATE TABLE observations (obs_event_field_concept_id VARCHAR(255), observation_concept_id VARCHAR(255), observation_date VARCHAR(255), observation_datetime VARCHAR(255), observation_event_id VARCHAR(255), observation_id VARCHAR(255), observation_source_concept_id VARCHAR(255), observation_source_value VARCHAR(255), observation_type_concept_id VARCHAR(255), person_id VARCHAR(255), provider_id VARCHAR(255), qualifier_concept_id VARCHAR(255), qualifier_source_value VARCHAR(255), unit_concept_id VARCHAR(255), unit_source_value VARCHAR(255), value_as_concept_id VARCHAR(255), value_as_datetime VARCHAR(255), value_as_number VARCHAR(255), value_as_string VARCHAR(255), visit_detail_id VARCHAR(255), visit_occurrence_id VARCHAR(255));",
+    "CREATE TABLE observation_periods (observation_period_end_date VARCHAR(255), observation_period_id VARCHAR(255), observation_period_start_date VARCHAR(255), period_type_concept_id VARCHAR(255), person_id VARCHAR(255));",
+    "CREATE TABLE drug_exposures (days_supply VARCHAR(255), dose_unit_source_value VARCHAR(255), drug_concept_id VARCHAR(255), drug_exposure_end_date VARCHAR(255), drug_exposure_end_datetime VARCHAR(255), drug_exposure_id VARCHAR(255), drug_exposure_start_date VARCHAR(255), drug_exposure_start_datetime VARCHAR(255), drug_source_concept_id VARCHAR(255), drug_source_value VARCHAR(255), drug_type_concept_id VARCHAR(255), lot_number VARCHAR(255), person_id VARCHAR(255), provider_id VARCHAR(255), quantity VARCHAR(255), refills VARCHAR(255), route_concept_id VARCHAR(255), route_source_value VARCHAR(255), sig VARCHAR(255), stop_reason VARCHAR(255), verbatim_end_date VARCHAR(255), visit_detail_id VARCHAR(255), visit_occurrence_id VARCHAR(255));",
+    "CREATE TABLE device_exposures (device_concept_id VARCHAR(255), device_exposure_end_date VARCHAR(255), device_exposure_end_datetime VARCHAR(255), device_exposure_id VARCHAR(255), device_exposure_start_date VARCHAR(255), device_exposure_start_datetime VARCHAR(255), device_source_concept_id VARCHAR(255), device_source_value VARCHAR(255), device_type_concept_id VARCHAR(255), person_id VARCHAR(255), provider_id VARCHAR(255), quantity VARCHAR(255), unique_device_id VARCHAR(255), visit_detail_id VARCHAR(255), visit_occurrence_id VARCHAR(255));",
+    "CREATE TABLE notes (encoding_concept_id VARCHAR(255), language_concept_id VARCHAR(255), note_class_concept_id VARCHAR(255), note_date VARCHAR(255), note_datetime VARCHAR(255), note_event_field_concept_id VARCHAR(255), note_event_id VARCHAR(255), note_id VARCHAR(255), note_source_value VARCHAR(255), note_text VARCHAR(255), note_title VARCHAR(255), note_type_concept_id VARCHAR(255), person_id VARCHAR(255), provider_id VARCHAR(255), visit_detail_id VARCHAR(255), visit_occurrence_id VARCHAR(255));",
+    "CREATE TABLE fact_relationships (domain_concept_id_1 VARCHAR(255), domain_concept_id_2 VARCHAR(255), fact_id_1 VARCHAR(255), fact_id_2 VARCHAR(255), relationship_concept_id VARCHAR(255));",
+    "CREATE TABLE payer_plan_periods (family_source_value VARCHAR(255), payer_plan_period_end_date VARCHAR(255), payer_plan_period_id VARCHAR(255), payer_plan_period_start_date VARCHAR(255), payer_source_value VARCHAR(255), person_id VARCHAR(255), plan_source_value VARCHAR(255));",
+    "CREATE TABLE cdm_sources (cdm_etl_reference VARCHAR(255), cdm_holder VARCHAR(255), cdm_release_date VARCHAR(255), cdm_source_abbreviation VARCHAR(255), cdm_source_name VARCHAR(255), cdm_version VARCHAR(255), source_description VARCHAR(255), source_documentation_reference VARCHAR(255), source_release_date VARCHAR(255), vocabulary_version VARCHAR(255));",
+    "CREATE TABLE care_sites (care_site_id VARCHAR(255), care_site_name VARCHAR(255), care_site_source_value VARCHAR(255), location_id VARCHAR(255), place_of_service_concept_id VARCHAR(255), place_of_service_source_value VARCHAR(255));",
+    "CREATE TABLE cohorts (cohort_definition_id VARCHAR(255), cohort_end_date VARCHAR(255), cohort_start_date VARCHAR(255), subject_id VARCHAR(255));",
+    "CREATE TABLE cohort_definitions (cohort_definition_description VARCHAR(255), cohort_definition_id VARCHAR(255), cohort_definition_name VARCHAR(255), cohort_definition_syntax VARCHAR(255), cohort_initiation_date VARCHAR(255), definition_type_concept_id VARCHAR(255), subject_concept_id VARCHAR(255));",
+    "CREATE TABLE providers (care_site_id VARCHAR(255), dea VARCHAR(255), gender_concept_id VARCHAR(255), gender_source_concept_id VARCHAR(255), gender_source_value VARCHAR(255), npi VARCHAR(255), provider_id VARCHAR(255), provider_name VARCHAR(255), provider_source_value VARCHAR(255), specialty_concept_id VARCHAR(255), specialty_source_concept_id VARCHAR(255), specialty_source_value VARCHAR(255), year_of_birth VARCHAR(255));"
+  ]
+}

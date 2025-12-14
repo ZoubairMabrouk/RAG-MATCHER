@@ -44,7 +44,7 @@ class MatchResult:
         rationale: Human-readable explanation of the match decision
         extra: Additional metadata (source, method, etc.)
     """
-    target_name: Optional[str] = None
+    target_name: Optional[str]
     confidence: float
     rationale: str
     extra: Dict[str, Any]
