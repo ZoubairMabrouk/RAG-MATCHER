@@ -211,7 +211,51 @@ class AnthropicLLMClient(BaseLLMClient):
         )
         return response.content[0].text
         
-        
+class GeminiLLMClient(BaseLLMClient):
+    """Google Gemini LLM client implementation."""
+
+    GEMINI_BASE_URL = "https://generativelanguage.googleapis.com/v1beta/openai/"
+
+    def __init__(
+        self,
+        api_key: str,
+        model: str = "gemini-3.7-flash",
+        temperature: float = 0.1,
+    ):
+        super().__init__(model=model, temperature=temperature)
+
+        self._api_key = api_key
+
+        self._client = OpenAI(
+            api_key=self._api_key,
+            base_url=self.GEMINI_BASE_URL,
+        )
+
+    def _call_llm(self, prompt: str) -> str:
+        """Call Google Gemini API."""
+
+        try:
+            response = self._client.chat.completions.create(
+                model=self._model,
+                messages=[
+                    {
+                        "role": "user",
+                        "content": prompt,
+                    }
+                ],
+                temperature=self._temperature,
+            )
+
+            content = response.choices[0].message.content
+
+            if not content:
+                raise ValueError("Gemini returned an empty response.")
+
+            return content
+
+        except Exception as e:
+            print(f"Gemini API call failed: {e}")
+            raise
 class LLMClient:
     def __init__(self, base_url: str = "http://localhost:11434/v1", api_key: str = "ollama", model: str = "phi3:mini"):
         self.client = OpenAI(base_url=base_url, api_key=api_key)
@@ -231,7 +275,7 @@ class LLMClient:
 
     def ask_json(self, prompt: str, temperature: float = 0.0, max_tokens: int = 256) -> Dict[str, Any]:
         """Ask LLM and parse JSON. Caller should handle exceptions/fallbacks."""
-        text = self.ask(prompt, temperature=temperature, max_tokens=max_tokens)
+        text = self._call_llm(prompt, temperature=temperature, max_tokens=max_tokens)
         # Robust parse: try json.loads, else try to extract JSON substring
         try:
             return json.loads(text)

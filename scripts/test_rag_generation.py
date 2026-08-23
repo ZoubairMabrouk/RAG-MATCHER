@@ -58,7 +58,7 @@ from src.domain.services.migration_builder import MigrationBuilder
 from src.infrastructure.rag.embedding_service import EmbeddingService, LocalEmbeddingProvider
 from src.infrastructure.rag.vector_store import RAGVectorStore
 from src.infrastructure.rag.rag_schema_matcher import RAGSchemaMatcher
-from src.infrastructure.llm.llm_client import OpenAILLMClient, LLMClient, AnthropicLLMClient,BaseLLMClient
+from src.infrastructure.llm.llm_client import OpenAILLMClient, LLMClient, AnthropicLLMClient,BaseLLMClient, GeminiLLMClient
 
 
 # -------------------- logging --------------------

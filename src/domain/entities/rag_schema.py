@@ -113,11 +113,24 @@ class RetrievalQuery(BaseModel):
 
 
 class ScoringWeights(BaseModel):
-    """Weights for hybrid scoring."""
+    """
+    Weights for hybrid scoring.
+
+    STEP 4.3 extension: semantic_similarity/type_compatibility/unit_compatibility
+    used to be hardcoded (0.05/0.03/0.02) inside HybridScoringSystem.compute_hybrid_score
+    instead of being part of this configurable model. They are now first-class
+    fields here so every component of the score is configurable, per the brief's
+    explicit requirement ("tous les poids doivent être configurables").
+    The default values below reproduce the previous hardcoded behavior exactly,
+    so existing behavior is preserved unless a caller supplies new weights.
+    """
     bi_encoder: float = Field(0.45, description="Bi-encoder similarity weight")
     cross_encoder: float = Field(0.35, description="Cross-encoder reranking weight")
     llm_confidence: float = Field(0.15, description="LLM confidence weight")
     constraints: float = Field(0.05, description="Constraints validation weight")
+    semantic_similarity: float = Field(0.05, description="Extra semantic-similarity weight (was hardcoded 0.05)")
+    type_compatibility: float = Field(0.03, description="Extra type-compatibility weight (was hardcoded 0.03)")
+    unit_compatibility: float = Field(0.02, description="Extra unit-compatibility weight (was hardcoded 0.02)")
 
 
 class ScoringThresholds(BaseModel):
@@ -135,4 +148,3 @@ class MIMICSchemaMetadata(BaseModel):
     relationships: Dict[str, List[Dict[str, str]]] = Field(default_factory=dict, description="Table relationships")
     ontologies: Dict[str, List[str]] = Field(default_factory=dict, description="Medical ontologies and synonyms")
     value_domains: Dict[str, Dict[str, Any]] = Field(default_factory=dict, description="Value domain constraints")
-

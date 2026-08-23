@@ -86,15 +86,19 @@ class HybridScoringSystem:
         # Add additional features
         feature_scores.update(additional_features)
         
-        # Compute weighted score
+        # Compute weighted score.
+        # STEP 4.3: all terms now come from self._weights (ScoringWeights) --
+        # no hardcoded literals. Defaults on ScoringWeights reproduce the
+        # previous behavior (0.05/0.03/0.02) exactly when weights aren't
+        # explicitly overridden.
         final_score = (
             self._weights.bi_encoder * feature_scores["bi_encoder"] +
             self._weights.cross_encoder * feature_scores["cross_encoder"] +
             self._weights.llm_confidence * feature_scores["llm_confidence"] +
             self._weights.constraints * feature_scores["constraints"] +
-            0.05 * feature_scores["semantic_similarity"] +  # Additional weight
-            0.03 * feature_scores["type_compatibility"] +
-            0.02 * feature_scores["unit_compatibility"]
+            self._weights.semantic_similarity * feature_scores["semantic_similarity"] +
+            self._weights.type_compatibility * feature_scores["type_compatibility"] +
+            self._weights.unit_compatibility * feature_scores["unit_compatibility"]
         )
         
         # Apply calibration if available
@@ -449,4 +453,3 @@ class HybridScoringSystem:
         """Update decision thresholds."""
         self._thresholds = new_thresholds
         logger.info("Updated decision thresholds")
-

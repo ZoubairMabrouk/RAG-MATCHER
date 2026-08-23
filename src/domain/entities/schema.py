@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import List, Optional, Dict, Any
+from typing import List, Optional, Dict, Any, Tuple
 from enum import Enum
 from datetime import datetime
 
@@ -29,17 +29,52 @@ class ChangeType(Enum):
     #DROP_CONSTRAINT = "drop_constraint"
     CREATE_VIEW = "create_view"
     #DROP_VIEW = "drop_view"
+    # STEP 7 additions (EvolutionPlanner): kept distinct from ADD_CONSTRAINT so
+    # evolution reports can tell "generic constraint" apart from "FK introduced
+    # by an EVOLVE decision" and "new association/junction table introduced by
+    # an EVOLVE decision". MigrationBuilder still lowers these to SQL DDL.
+    ADD_FOREIGN_KEY = "add_foreign_key"
+    ADD_ASSOCIATION_TABLE = "add_association_table"
 
 
 @dataclass(frozen=True)
 class USchemaAttribute:
-    """Represents an attribute in U-Schema."""
+    """Represents an attribute in U-Schema.
+
+    STEP 5.2 extension (see docs/experimental_architecture.md, section 3):
+    added structural fields required by MDEValidator to distinguish
+    object/array/scalar and nesting, without breaking DataType or any
+    existing positional instantiation (`USchemaAttribute(name, data_type, required)`
+    still works everywhere in the repo since new fields all have defaults
+    and are appended after the existing ones).
+    """
     name: str
     data_type: DataType
     required: bool = False
     description: Optional[str] = None
     is_key: bool = False
     constraints: Dict[str, Any] = field(default_factory=dict)
+    # --- structural metadata (new, additive) ---
+    is_object: bool = False
+    """True if this attribute represents a nested object (not a leaf scalar)."""
+    is_array: bool = False
+    """True if this attribute represents an array/list of values or objects."""
+    nesting_path: Tuple[str, ...] = field(default_factory=tuple)
+    """Full dotted path from the entity root, e.g. ('patient', 'device', 'id')."""
+    parent_path: Optional[str] = None
+    """Dotted path of the immediate parent object, e.g. 'patient.device'. None if top-level."""
+    structural_role: Optional[str] = None
+    """Optional free-form role hint: 'identifier', 'foreign_reference', 'measure', etc."""
+
+    @property
+    def is_scalar(self) -> bool:
+        """True if this attribute is a leaf scalar value (not object/array)."""
+        return not self.is_object and not self.is_array
+
+    @property
+    def depth(self) -> int:
+        """Nesting depth (0 = top-level attribute)."""
+        return max(len(self.nesting_path) - 1, 0)
 
 
 @dataclass(frozen=True)

@@ -38,7 +38,9 @@ class MigrationBuilder:
             ChangeType.ADD_COLUMN: 2,
             ChangeType.MODIFY_COLUMN: 3,
             ChangeType.ADD_INDEX: 4,
-            ChangeType.ADD_CONSTRAINT: 5
+            ChangeType.ADD_CONSTRAINT: 5,
+            ChangeType.ADD_FOREIGN_KEY: 6,
+            ChangeType.ADD_ASSOCIATION_TABLE: 1,  # like CREATE_TABLE, must exist before FKs reference it
             # ChangeType.DROP_CONSTRAINT: 6,
             # ChangeType.DROP_INDEX: 7,
             # ChangeType.DROP_COLUMN: 8,
@@ -98,6 +100,8 @@ class MigrationBuilder:
             #ChangeType.DROP_COLUMN: self._gen_drop_column,
             ChangeType.ADD_INDEX: self._gen_add_index,
             ChangeType.ADD_CONSTRAINT: self._gen_add_constraint,
+            ChangeType.ADD_FOREIGN_KEY: self._gen_add_foreign_key,
+            ChangeType.ADD_ASSOCIATION_TABLE: self._gen_create_table,
         }
         
         generator = generators.get(change.change_type)
@@ -147,3 +151,21 @@ class MigrationBuilder:
         """Generate ALTER TABLE ADD CONSTRAINT statement."""
         constraint_name = f"fk_{change.target_table}_{change.target_column}"
         return f"ALTER TABLE {change.target_table} ADD CONSTRAINT {constraint_name} {change.definition};"
+
+    def _gen_add_foreign_key(self, change: SchemaChange) -> str:
+        """Generate ALTER TABLE ADD CONSTRAINT ... FOREIGN KEY statement.
+
+        Introduced for STEP 7 (EvolutionPlanner). Uses change.foreign_key
+        ("referenced_table.referenced_column") when change.definition is not
+        already a full constraint clause.
+        """
+        constraint_name = f"fk_{change.target_table}_{change.target_column}"
+        if change.definition:
+            return f"ALTER TABLE {change.target_table} ADD CONSTRAINT {constraint_name} {change.definition};"
+        if change.foreign_key and "." in change.foreign_key:
+            ref_table, ref_column = change.foreign_key.split(".", 1)
+            return (
+                f"ALTER TABLE {change.target_table} ADD CONSTRAINT {constraint_name} "
+                f"FOREIGN KEY ({change.target_column}) REFERENCES {ref_table}({ref_column});"
+            )
+        return None
