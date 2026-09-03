@@ -1,0 +1,2173 @@
+{
+  "config": {
+    "db_url": "postgresql://odoo:odoo@localhost:5432/mimic",
+    "dialect": "postgresql",
+    "index_type": "auto",
+    "table_threshold": 0.0,
+    "column_threshold": 0.0,
+    "top_k": 5
+  },
+  "mapping": [
+    {
+      "entity": "person",
+      "matched_table": "patients",
+      "table_confidence": 0.6912,
+      "table_rationale": "Hybrid score=0.691, margin=0.020.",
+      "attributes": [
+        {
+          "name": "birth_datetime",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column candidates found in table patients"
+        },
+        {
+          "name": "care_site_id",
+          "target_column": "subject_id",
+          "confidence": 0.3823,
+          "rationale": "Hybrid column score=0.382 for table patients."
+        },
+        {
+          "name": "day_of_birth",
+          "target_column": "expire_flag",
+          "confidence": 0.2474,
+          "rationale": "Hybrid column score=0.247 for table patients."
+        },
+        {
+          "name": "death_datetime",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column candidates found in table patients"
+        },
+        {
+          "name": "ethnicity_concept_id",
+          "target_column": "id",
+          "confidence": 0.3409,
+          "rationale": "Hybrid column score=0.341 for table patients."
+        },
+        {
+          "name": "ethnicity_source_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column candidates found in table patients"
+        },
+        {
+          "name": "ethnicity_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column candidates found in table patients"
+        },
+        {
+          "name": "gender_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column candidates found in table patients"
+        },
+        {
+          "name": "gender_source_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column candidates found in table patients"
+        },
+        {
+          "name": "gender_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column candidates found in table patients"
+        },
+        {
+          "name": "location_id",
+          "target_column": "patients_id",
+          "confidence": 0.4767,
+          "rationale": "Hybrid column score=0.477 for table patients."
+        },
+        {
+          "name": "month_of_birth",
+          "target_column": "patients_id_v11",
+          "confidence": 0.25,
+          "rationale": "Hybrid column score=0.250 for table patients."
+        },
+        {
+          "name": "person_id",
+          "target_column": "row_id",
+          "confidence": 0.4767,
+          "rationale": "Hybrid column score=0.477 for table patients."
+        },
+        {
+          "name": "person_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column candidates found in table patients"
+        },
+        {
+          "name": "provider_id",
+          "target_column": "row_id",
+          "confidence": 0.4547,
+          "rationale": "Hybrid column score=0.455 for table patients."
+        },
+        {
+          "name": "race_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column candidates found in table patients"
+        },
+        {
+          "name": "race_source_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column candidates found in table patients"
+        },
+        {
+          "name": "race_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column candidates found in table patients"
+        },
+        {
+          "name": "year_of_birth",
+          "target_column": "expire_flag",
+          "confidence": 0.2667,
+          "rationale": "Hybrid column score=0.267 for table patients."
+        }
+      ]
+    },
+    {
+      "entity": "visit_occurrence",
+      "matched_table": "patients",
+      "table_confidence": 0.6701,
+      "table_rationale": "Hybrid score=0.670, margin=0.004.",
+      "attributes": [
+        {
+          "name": "admitted_from_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column candidates found in table patients"
+        },
+        {
+          "name": "admitted_from_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column candidates found in table patients"
+        },
+        {
+          "name": "care_site_id",
+          "target_column": "subject_id",
+          "confidence": 0.3823,
+          "rationale": "Hybrid column score=0.382 for table patients."
+        },
+        {
+          "name": "discharge_to_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column candidates found in table patients"
+        },
+        {
+          "name": "discharge_to_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column candidates found in table patients"
+        },
+        {
+          "name": "person_id",
+          "target_column": "row_id",
+          "confidence": 0.4767,
+          "rationale": "Hybrid column score=0.477 for table patients."
+        },
+        {
+          "name": "preceding_visit_occurrence_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column candidates found in table patients"
+        },
+        {
+          "name": "provider_id",
+          "target_column": "row_id",
+          "confidence": 0.4547,
+          "rationale": "Hybrid column score=0.455 for table patients."
+        },
+        {
+          "name": "visit_concept_id",
+          "target_column": "subject_id",
+          "confidence": 0.3627,
+          "rationale": "Hybrid column score=0.363 for table patients."
+        },
+        {
+          "name": "visit_end_date",
+          "target_column": "patients_id",
+          "confidence": 0.29,
+          "rationale": "Hybrid column score=0.290 for table patients."
+        },
+        {
+          "name": "visit_end_datetime",
+          "target_column": "patients_id",
+          "confidence": 0.29,
+          "rationale": "Hybrid column score=0.290 for table patients."
+        },
+        {
+          "name": "visit_occurrence_id",
+          "target_column": "patients_id",
+          "confidence": 0.3709,
+          "rationale": "Hybrid column score=0.371 for table patients."
+        },
+        {
+          "name": "visit_source_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column candidates found in table patients"
+        },
+        {
+          "name": "visit_source_value",
+          "target_column": "subject_id_v1",
+          "confidence": 0.2403,
+          "rationale": "Hybrid column score=0.240 for table patients."
+        },
+        {
+          "name": "visit_start_date",
+          "target_column": "patients_id_v11",
+          "confidence": 0.2807,
+          "rationale": "Hybrid column score=0.281 for table patients."
+        },
+        {
+          "name": "visit_start_datetime",
+          "target_column": "patients_id_v11",
+          "confidence": 0.2653,
+          "rationale": "Hybrid column score=0.265 for table patients."
+        },
+        {
+          "name": "visit_type_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column candidates found in table patients"
+        }
+      ]
+    },
+    {
+      "entity": "visit_detail",
+      "matched_table": "diagnoses_icd_items",
+      "table_confidence": 0.6601,
+      "table_rationale": "Hybrid score=0.660, margin=0.001.",
+      "attributes": [
+        {
+          "name": "admitted_from_concept_id",
+          "target_column": "valid_from",
+          "confidence": 0.3493,
+          "rationale": "Hybrid column score=0.349 for table diagnoses_icd_items."
+        },
+        {
+          "name": "admitted_from_source_value",
+          "target_column": "valid_from",
+          "confidence": 0.3584,
+          "rationale": "Hybrid column score=0.358 for table diagnoses_icd_items."
+        },
+        {
+          "name": "care_site_id",
+          "target_column": "id",
+          "confidence": 0.37,
+          "rationale": "Hybrid column score=0.370 for table diagnoses_icd_items."
+        },
+        {
+          "name": "discharge_to_concept_id",
+          "target_column": "d_icd_diagnoses_id",
+          "confidence": 0.336,
+          "rationale": "Hybrid column score=0.336 for table diagnoses_icd_items."
+        },
+        {
+          "name": "discharge_to_source_value",
+          "target_column": "valid_to",
+          "confidence": 0.3358,
+          "rationale": "Hybrid column score=0.336 for table diagnoses_icd_items."
+        },
+        {
+          "name": "person_id",
+          "target_column": "id",
+          "confidence": 0.4618,
+          "rationale": "Hybrid column score=0.462 for table diagnoses_icd_items."
+        },
+        {
+          "name": "preceding_visit_detail_id",
+          "target_column": "d_icd_diagnoses_id_v3",
+          "confidence": 0.3021,
+          "rationale": "Hybrid column score=0.302 for table diagnoses_icd_items."
+        },
+        {
+          "name": "provider_id",
+          "target_column": "id",
+          "confidence": 0.4462,
+          "rationale": "Hybrid column score=0.446 for table diagnoses_icd_items."
+        },
+        {
+          "name": "visit_detail_concept_id",
+          "target_column": "d_icd_diagnoses_id_v3",
+          "confidence": 0.3197,
+          "rationale": "Hybrid column score=0.320 for table diagnoses_icd_items."
+        },
+        {
+          "name": "visit_detail_end_date",
+          "target_column": "d_icd_diagnoses_id_v3",
+          "confidence": 0.2729,
+          "rationale": "Hybrid column score=0.273 for table diagnoses_icd_items."
+        },
+        {
+          "name": "visit_detail_end_datetime",
+          "target_column": "d_icd_diagnoses_id_v3",
+          "confidence": 0.262,
+          "rationale": "Hybrid column score=0.262 for table diagnoses_icd_items."
+        },
+        {
+          "name": "visit_detail_id",
+          "target_column": "id",
+          "confidence": 0.3559,
+          "rationale": "Hybrid column score=0.356 for table diagnoses_icd_items."
+        },
+        {
+          "name": "visit_detail_parent_id",
+          "target_column": "d_icd_diagnoses_id_v3",
+          "confidence": 0.3092,
+          "rationale": "Hybrid column score=0.309 for table diagnoses_icd_items."
+        },
+        {
+          "name": "visit_detail_source_concept_id",
+          "target_column": "d_icd_diagnoses_id_v3",
+          "confidence": 0.2975,
+          "rationale": "Hybrid column score=0.297 for table diagnoses_icd_items."
+        },
+        {
+          "name": "visit_detail_source_value",
+          "target_column": "valid_to",
+          "confidence": 0.2688,
+          "rationale": "Hybrid column score=0.269 for table diagnoses_icd_items."
+        },
+        {
+          "name": "visit_detail_start_date",
+          "target_column": "d_icd_diagnoses_id_v3",
+          "confidence": 0.2542,
+          "rationale": "Hybrid column score=0.254 for table diagnoses_icd_items."
+        },
+        {
+          "name": "visit_detail_start_datetime",
+          "target_column": "d_icd_diagnoses_id_v3",
+          "confidence": 0.2453,
+          "rationale": "Hybrid column score=0.245 for table diagnoses_icd_items."
+        },
+        {
+          "name": "visit_detail_type_concept_id",
+          "target_column": "d_icd_diagnoses_id_v3",
+          "confidence": 0.3017,
+          "rationale": "Hybrid column score=0.302 for table diagnoses_icd_items."
+        },
+        {
+          "name": "visit_occurrence_id",
+          "target_column": "id",
+          "confidence": 0.3433,
+          "rationale": "Hybrid column score=0.343 for table diagnoses_icd_items."
+        }
+      ]
+    },
+    {
+      "entity": "specimen",
+      "matched_table": "patients",
+      "table_confidence": 0.6878,
+      "table_rationale": "Hybrid score=0.688, margin=0.013.",
+      "attributes": [
+        {
+          "name": "anatomic_site_concept_id",
+          "target_column": "subject_id",
+          "confidence": 0.3164,
+          "rationale": "Hybrid column score=0.316 for table patients."
+        },
+        {
+          "name": "anatomic_site_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column candidates found in table patients"
+        },
+        {
+          "name": "disease_status_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column candidates found in table patients"
+        },
+        {
+          "name": "disease_status_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column candidates found in table patients"
+        },
+        {
+          "name": "person_id",
+          "target_column": "row_id",
+          "confidence": 0.4767,
+          "rationale": "Hybrid column score=0.477 for table patients."
+        },
+        {
+          "name": "quantity",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column candidates found in table patients"
+        },
+        {
+          "name": "specimen_concept_id",
+          "target_column": "patients_id",
+          "confidence": 0.3902,
+          "rationale": "Hybrid column score=0.390 for table patients."
+        },
+        {
+          "name": "specimen_date",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column candidates found in table patients"
+        },
+        {
+          "name": "specimen_datetime",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column candidates found in table patients"
+        },
+        {
+          "name": "specimen_id",
+          "target_column": "patients_id",
+          "confidence": 0.4767,
+          "rationale": "Hybrid column score=0.477 for table patients."
+        },
+        {
+          "name": "specimen_source_id",
+          "target_column": "subject_id",
+          "confidence": 0.395,
+          "rationale": "Hybrid column score=0.395 for table patients."
+        },
+        {
+          "name": "specimen_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column candidates found in table patients"
+        },
+        {
+          "name": "specimen_type_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column candidates found in table patients"
+        },
+        {
+          "name": "unit_concept_id",
+          "target_column": "subject_id",
+          "confidence": 0.367,
+          "rationale": "Hybrid column score=0.367 for table patients."
+        },
+        {
+          "name": "unit_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column candidates found in table patients"
+        }
+      ]
+    },
+    {
+      "entity": "measurement",
+      "matched_table": "patients",
+      "table_confidence": 0.689,
+      "table_rationale": "Hybrid score=0.689, margin=0.022.",
+      "attributes": [
+        {
+          "name": "measurement_concept_id",
+          "target_column": "subject_id",
+          "confidence": 0.3775,
+          "rationale": "Hybrid column score=0.378 for table patients."
+        },
+        {
+          "name": "measurement_date",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column candidates found in table patients"
+        },
+        {
+          "name": "measurement_datetime",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column candidates found in table patients"
+        },
+        {
+          "name": "measurement_id",
+          "target_column": "subject_id",
+          "confidence": 0.4533,
+          "rationale": "Hybrid column score=0.453 for table patients."
+        },
+        {
+          "name": "measurement_source_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column candidates found in table patients"
+        },
+        {
+          "name": "measurement_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column candidates found in table patients"
+        },
+        {
+          "name": "measurement_time",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column candidates found in table patients"
+        },
+        {
+          "name": "measurement_type_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column candidates found in table patients"
+        },
+        {
+          "name": "operator_concept_id",
+          "target_column": "patients_id",
+          "confidence": 0.3709,
+          "rationale": "Hybrid column score=0.371 for table patients."
+        },
+        {
+          "name": "person_id",
+          "target_column": "row_id",
+          "confidence": 0.4767,
+          "rationale": "Hybrid column score=0.477 for table patients."
+        },
+        {
+          "name": "provider_id",
+          "target_column": "row_id",
+          "confidence": 0.4547,
+          "rationale": "Hybrid column score=0.455 for table patients."
+        },
+        {
+          "name": "range_high",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column candidates found in table patients"
+        },
+        {
+          "name": "range_low",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column candidates found in table patients"
+        },
+        {
+          "name": "unit_concept_id",
+          "target_column": "subject_id",
+          "confidence": 0.367,
+          "rationale": "Hybrid column score=0.367 for table patients."
+        },
+        {
+          "name": "unit_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column candidates found in table patients"
+        },
+        {
+          "name": "value_as_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column candidates found in table patients"
+        },
+        {
+          "name": "value_as_number",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column candidates found in table patients"
+        },
+        {
+          "name": "value_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column candidates found in table patients"
+        },
+        {
+          "name": "visit_detail_id",
+          "target_column": "subject_id",
+          "confidence": 0.367,
+          "rationale": "Hybrid column score=0.367 for table patients."
+        },
+        {
+          "name": "visit_occurrence_id",
+          "target_column": "patients_id",
+          "confidence": 0.3709,
+          "rationale": "Hybrid column score=0.371 for table patients."
+        }
+      ]
+    },
+    {
+      "entity": "procedure_occurrence",
+      "matched_table": "procedures_icd_items",
+      "table_confidence": 0.7369,
+      "table_rationale": "Hybrid score=0.737, margin=0.050.",
+      "attributes": [
+        {
+          "name": "modifier_concept_id",
+          "target_column": "id",
+          "confidence": 0.3433,
+          "rationale": "Hybrid column score=0.343 for table procedures_icd_items."
+        },
+        {
+          "name": "modifier_source_value",
+          "target_column": "seq_num_v5",
+          "confidence": 0.2584,
+          "rationale": "Hybrid column score=0.258 for table procedures_icd_items."
+        },
+        {
+          "name": "person_id",
+          "target_column": "id",
+          "confidence": 0.4618,
+          "rationale": "Hybrid column score=0.462 for table procedures_icd_items."
+        },
+        {
+          "name": "procedure_concept_id",
+          "target_column": "d_icd_procedures_id",
+          "confidence": 0.5243,
+          "rationale": "Hybrid column score=0.524 for table procedures_icd_items."
+        },
+        {
+          "name": "procedure_date",
+          "target_column": "d_icd_procedures_id",
+          "confidence": 0.4265,
+          "rationale": "Hybrid column score=0.426 for table procedures_icd_items."
+        },
+        {
+          "name": "procedure_datetime",
+          "target_column": "d_icd_procedures_id",
+          "confidence": 0.4207,
+          "rationale": "Hybrid column score=0.421 for table procedures_icd_items."
+        },
+        {
+          "name": "procedure_occurrence_id",
+          "target_column": "d_icd_procedures_id",
+          "confidence": 0.4819,
+          "rationale": "Hybrid column score=0.482 for table procedures_icd_items."
+        },
+        {
+          "name": "procedure_source_concept_id",
+          "target_column": "d_icd_procedures_id",
+          "confidence": 0.4642,
+          "rationale": "Hybrid column score=0.464 for table procedures_icd_items."
+        },
+        {
+          "name": "procedure_source_value",
+          "target_column": "d_icd_procedures_id_v5",
+          "confidence": 0.3533,
+          "rationale": "Hybrid column score=0.353 for table procedures_icd_items."
+        },
+        {
+          "name": "procedure_type_concept_id",
+          "target_column": "d_icd_procedures_id",
+          "confidence": 0.4723,
+          "rationale": "Hybrid column score=0.472 for table procedures_icd_items."
+        },
+        {
+          "name": "provider_id",
+          "target_column": "id",
+          "confidence": 0.4462,
+          "rationale": "Hybrid column score=0.446 for table procedures_icd_items."
+        },
+        {
+          "name": "quantity",
+          "target_column": "valid_to",
+          "confidence": 0.22,
+          "rationale": "Hybrid column score=0.220 for table procedures_icd_items."
+        },
+        {
+          "name": "visit_detail_id",
+          "target_column": "id",
+          "confidence": 0.3559,
+          "rationale": "Hybrid column score=0.356 for table procedures_icd_items."
+        },
+        {
+          "name": "visit_occurrence_id",
+          "target_column": "d_icd_procedures_id_v5",
+          "confidence": 0.35,
+          "rationale": "Hybrid column score=0.350 for table procedures_icd_items."
+        }
+      ]
+    },
+    {
+      "entity": "condition_occurrence",
+      "matched_table": "procedures_icd_items",
+      "table_confidence": 0.6833,
+      "table_rationale": "Hybrid score=0.683, margin=0.013.",
+      "attributes": [
+        {
+          "name": "condition_concept_id",
+          "target_column": "id",
+          "confidence": 0.3409,
+          "rationale": "Hybrid column score=0.341 for table procedures_icd_items."
+        },
+        {
+          "name": "condition_end_date",
+          "target_column": "icd9_code",
+          "confidence": 0.2744,
+          "rationale": "Hybrid column score=0.274 for table procedures_icd_items."
+        },
+        {
+          "name": "condition_end_datetime",
+          "target_column": "icd9_code",
+          "confidence": 0.2584,
+          "rationale": "Hybrid column score=0.258 for table procedures_icd_items."
+        },
+        {
+          "name": "condition_occurrence_id",
+          "target_column": "d_icd_procedures_id",
+          "confidence": 0.3702,
+          "rationale": "Hybrid column score=0.370 for table procedures_icd_items."
+        },
+        {
+          "name": "condition_source_concept_id",
+          "target_column": "d_icd_procedures_id",
+          "confidence": 0.3344,
+          "rationale": "Hybrid column score=0.334 for table procedures_icd_items."
+        },
+        {
+          "name": "condition_source_value",
+          "target_column": "seq_num_v5",
+          "confidence": 0.255,
+          "rationale": "Hybrid column score=0.255 for table procedures_icd_items."
+        },
+        {
+          "name": "condition_start_date",
+          "target_column": "icd9_code",
+          "confidence": 0.2466,
+          "rationale": "Hybrid column score=0.247 for table procedures_icd_items."
+        },
+        {
+          "name": "condition_start_datetime",
+          "target_column": "icd9_code",
+          "confidence": 0.2348,
+          "rationale": "Hybrid column score=0.235 for table procedures_icd_items."
+        },
+        {
+          "name": "condition_status_concept_id",
+          "target_column": "d_icd_procedures_id",
+          "confidence": 0.2991,
+          "rationale": "Hybrid column score=0.299 for table procedures_icd_items."
+        },
+        {
+          "name": "condition_status_source_value",
+          "target_column": "icd9_code_v5",
+          "confidence": 0.248,
+          "rationale": "Hybrid column score=0.248 for table procedures_icd_items."
+        },
+        {
+          "name": "condition_type_concept_id",
+          "target_column": "d_icd_procedures_id",
+          "confidence": 0.3142,
+          "rationale": "Hybrid column score=0.314 for table procedures_icd_items."
+        },
+        {
+          "name": "person_id",
+          "target_column": "id",
+          "confidence": 0.4618,
+          "rationale": "Hybrid column score=0.462 for table procedures_icd_items."
+        },
+        {
+          "name": "provider_id",
+          "target_column": "id",
+          "confidence": 0.4462,
+          "rationale": "Hybrid column score=0.446 for table procedures_icd_items."
+        },
+        {
+          "name": "stop_reason",
+          "target_column": "seq_num",
+          "confidence": 0.2433,
+          "rationale": "Hybrid column score=0.243 for table procedures_icd_items."
+        },
+        {
+          "name": "visit_detail_id",
+          "target_column": "id",
+          "confidence": 0.3559,
+          "rationale": "Hybrid column score=0.356 for table procedures_icd_items."
+        },
+        {
+          "name": "visit_occurrence_id",
+          "target_column": "d_icd_procedures_id_v5",
+          "confidence": 0.35,
+          "rationale": "Hybrid column score=0.350 for table procedures_icd_items."
+        }
+      ]
+    },
+    {
+      "entity": "death",
+      "matched_table": "d_icd_diagnoses",
+      "table_confidence": 0.6574,
+      "table_rationale": "Hybrid score=0.657, margin=0.001.",
+      "attributes": [
+        {
+          "name": "cause_concept_id",
+          "target_column": "row_id",
+          "confidence": 0.3059,
+          "rationale": "Hybrid column score=0.306 for table d_icd_diagnoses."
+        },
+        {
+          "name": "cause_source_concept_id",
+          "target_column": "row_id",
+          "confidence": 0.3112,
+          "rationale": "Hybrid column score=0.311 for table d_icd_diagnoses."
+        },
+        {
+          "name": "cause_source_value",
+          "target_column": "short_title_v2",
+          "confidence": 0.2375,
+          "rationale": "Hybrid column score=0.237 for table d_icd_diagnoses."
+        },
+        {
+          "name": "death_date",
+          "target_column": "icd9_code",
+          "confidence": 0.2679,
+          "rationale": "Hybrid column score=0.268 for table d_icd_diagnoses."
+        },
+        {
+          "name": "death_datetime",
+          "target_column": "short_title_v2",
+          "confidence": 0.25,
+          "rationale": "Hybrid column score=0.250 for table d_icd_diagnoses."
+        },
+        {
+          "name": "death_type_concept_id",
+          "target_column": "row_id",
+          "confidence": 0.2962,
+          "rationale": "Hybrid column score=0.296 for table d_icd_diagnoses."
+        },
+        {
+          "name": "person_id",
+          "target_column": "row_id",
+          "confidence": 0.4767,
+          "rationale": "Hybrid column score=0.477 for table d_icd_diagnoses."
+        }
+      ]
+    },
+    {
+      "entity": "location",
+      "matched_table": "location",
+      "table_confidence": 0.8186,
+      "table_rationale": "Hybrid score=0.819, margin=0.136.",
+      "attributes": [
+        {
+          "name": "address_1",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column candidates found in table location"
+        },
+        {
+          "name": "address_2",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column candidates found in table location"
+        },
+        {
+          "name": "city",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column candidates found in table location"
+        },
+        {
+          "name": "county",
+          "target_column": "city",
+          "confidence": 0.318,
+          "rationale": "Hybrid column score=0.318 for table location."
+        },
+        {
+          "name": "location_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column candidates found in table location"
+        },
+        {
+          "name": "location_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column candidates found in table location"
+        },
+        {
+          "name": "state",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column candidates found in table location"
+        },
+        {
+          "name": "zip",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column candidates found in table location"
+        }
+      ]
+    },
+    {
+      "entity": "observation",
+      "matched_table": "labevents_items",
+      "table_confidence": 0.6798,
+      "table_rationale": "Hybrid score=0.680, margin=0.001.",
+      "attributes": [
+        {
+          "name": "obs_event_field_concept_id",
+          "target_column": "d_labitems_id",
+          "confidence": 0.3008,
+          "rationale": "Hybrid column score=0.301 for table labevents_items."
+        },
+        {
+          "name": "observation_concept_id",
+          "target_column": "id",
+          "confidence": 0.3367,
+          "rationale": "Hybrid column score=0.337 for table labevents_items."
+        },
+        {
+          "name": "observation_date",
+          "target_column": "valid_to",
+          "confidence": 0.2667,
+          "rationale": "Hybrid column score=0.267 for table labevents_items."
+        },
+        {
+          "name": "observation_datetime",
+          "target_column": "charttime_v9",
+          "confidence": 0.29,
+          "rationale": "Hybrid column score=0.290 for table labevents_items."
+        },
+        {
+          "name": "observation_event_id",
+          "target_column": "id",
+          "confidence": 0.3409,
+          "rationale": "Hybrid column score=0.341 for table labevents_items."
+        },
+        {
+          "name": "observation_id",
+          "target_column": "id",
+          "confidence": 0.43,
+          "rationale": "Hybrid column score=0.430 for table labevents_items."
+        },
+        {
+          "name": "observation_source_concept_id",
+          "target_column": "d_labitems_id",
+          "confidence": 0.302,
+          "rationale": "Hybrid column score=0.302 for table labevents_items."
+        },
+        {
+          "name": "observation_source_value",
+          "target_column": "value",
+          "confidence": 0.3866,
+          "rationale": "Hybrid column score=0.387 for table labevents_items."
+        },
+        {
+          "name": "observation_type_concept_id",
+          "target_column": "d_labitems_id",
+          "confidence": 0.3062,
+          "rationale": "Hybrid column score=0.306 for table labevents_items."
+        },
+        {
+          "name": "person_id",
+          "target_column": "id",
+          "confidence": 0.4618,
+          "rationale": "Hybrid column score=0.462 for table labevents_items."
+        },
+        {
+          "name": "provider_id",
+          "target_column": "id",
+          "confidence": 0.4462,
+          "rationale": "Hybrid column score=0.446 for table labevents_items."
+        },
+        {
+          "name": "qualifier_concept_id",
+          "target_column": "d_labitems_id",
+          "confidence": 0.3565,
+          "rationale": "Hybrid column score=0.356 for table labevents_items."
+        },
+        {
+          "name": "qualifier_source_value",
+          "target_column": "value",
+          "confidence": 0.3937,
+          "rationale": "Hybrid column score=0.394 for table labevents_items."
+        },
+        {
+          "name": "unit_concept_id",
+          "target_column": "d_labitems_id",
+          "confidence": 0.3584,
+          "rationale": "Hybrid column score=0.358 for table labevents_items."
+        },
+        {
+          "name": "unit_source_value",
+          "target_column": "value",
+          "confidence": 0.4173,
+          "rationale": "Hybrid column score=0.417 for table labevents_items."
+        },
+        {
+          "name": "value_as_concept_id",
+          "target_column": "value",
+          "confidence": 0.3767,
+          "rationale": "Hybrid column score=0.377 for table labevents_items."
+        },
+        {
+          "name": "value_as_datetime",
+          "target_column": "value",
+          "confidence": 0.4233,
+          "rationale": "Hybrid column score=0.423 for table labevents_items."
+        },
+        {
+          "name": "value_as_number",
+          "target_column": "value",
+          "confidence": 0.4374,
+          "rationale": "Hybrid column score=0.437 for table labevents_items."
+        },
+        {
+          "name": "value_as_string",
+          "target_column": "value",
+          "confidence": 0.4374,
+          "rationale": "Hybrid column score=0.437 for table labevents_items."
+        },
+        {
+          "name": "visit_detail_id",
+          "target_column": "d_labitems_id",
+          "confidence": 0.3792,
+          "rationale": "Hybrid column score=0.379 for table labevents_items."
+        },
+        {
+          "name": "visit_occurrence_id",
+          "target_column": "id",
+          "confidence": 0.3433,
+          "rationale": "Hybrid column score=0.343 for table labevents_items."
+        }
+      ]
+    },
+    {
+      "entity": "observation_period",
+      "matched_table": "online_consultations",
+      "table_confidence": 0.6516,
+      "table_rationale": "Hybrid score=0.652, margin=0.009.",
+      "attributes": [
+        {
+          "name": "observation_period_end_date",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column candidates found in table online_consultations"
+        },
+        {
+          "name": "observation_period_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column candidates found in table online_consultations"
+        },
+        {
+          "name": "observation_period_start_date",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column candidates found in table online_consultations"
+        },
+        {
+          "name": "period_type_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column candidates found in table online_consultations"
+        },
+        {
+          "name": "person_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column candidates found in table online_consultations"
+        }
+      ]
+    },
+    {
+      "entity": "drug_exposure",
+      "matched_table": "prescriptions_items",
+      "table_confidence": 0.6741,
+      "table_rationale": "Hybrid score=0.674, margin=0.016.",
+      "attributes": [
+        {
+          "name": "days_supply",
+          "target_column": "drug",
+          "confidence": 0.23,
+          "rationale": "Hybrid column score=0.230 for table prescriptions_items."
+        },
+        {
+          "name": "dose_unit_source_value",
+          "target_column": "dose_unit_rx",
+          "confidence": 0.4992,
+          "rationale": "Hybrid column score=0.499 for table prescriptions_items."
+        },
+        {
+          "name": "drug_concept_id",
+          "target_column": "drug",
+          "confidence": 0.4079,
+          "rationale": "Hybrid column score=0.408 for table prescriptions_items."
+        },
+        {
+          "name": "drug_exposure_end_date",
+          "target_column": "drug",
+          "confidence": 0.3412,
+          "rationale": "Hybrid column score=0.341 for table prescriptions_items."
+        },
+        {
+          "name": "drug_exposure_end_datetime",
+          "target_column": "drug",
+          "confidence": 0.3297,
+          "rationale": "Hybrid column score=0.330 for table prescriptions_items."
+        },
+        {
+          "name": "drug_exposure_id",
+          "target_column": "drug",
+          "confidence": 0.402,
+          "rationale": "Hybrid column score=0.402 for table prescriptions_items."
+        },
+        {
+          "name": "drug_exposure_start_date",
+          "target_column": "drug",
+          "confidence": 0.335,
+          "rationale": "Hybrid column score=0.335 for table prescriptions_items."
+        },
+        {
+          "name": "drug_exposure_start_datetime",
+          "target_column": "drug",
+          "confidence": 0.325,
+          "rationale": "Hybrid column score=0.325 for table prescriptions_items."
+        },
+        {
+          "name": "drug_source_concept_id",
+          "target_column": "drug",
+          "confidence": 0.3412,
+          "rationale": "Hybrid column score=0.341 for table prescriptions_items."
+        },
+        {
+          "name": "drug_source_value",
+          "target_column": "drug",
+          "confidence": 0.3967,
+          "rationale": "Hybrid column score=0.397 for table prescriptions_items."
+        },
+        {
+          "name": "drug_type_concept_id",
+          "target_column": "drug",
+          "confidence": 0.3483,
+          "rationale": "Hybrid column score=0.348 for table prescriptions_items."
+        },
+        {
+          "name": "lot_number",
+          "target_column": "route",
+          "confidence": 0.262,
+          "rationale": "Hybrid column score=0.262 for table prescriptions_items."
+        },
+        {
+          "name": "person_id",
+          "target_column": "id",
+          "confidence": 0.4618,
+          "rationale": "Hybrid column score=0.462 for table prescriptions_items."
+        },
+        {
+          "name": "provider_id",
+          "target_column": "id",
+          "confidence": 0.4462,
+          "rationale": "Hybrid column score=0.446 for table prescriptions_items."
+        },
+        {
+          "name": "quantity",
+          "target_column": "dose_unit_rx",
+          "confidence": 0.262,
+          "rationale": "Hybrid column score=0.262 for table prescriptions_items."
+        },
+        {
+          "name": "refills",
+          "target_column": "route",
+          "confidence": 0.2518,
+          "rationale": "Hybrid column score=0.252 for table prescriptions_items."
+        },
+        {
+          "name": "route_concept_id",
+          "target_column": "route",
+          "confidence": 0.4233,
+          "rationale": "Hybrid column score=0.423 for table prescriptions_items."
+        },
+        {
+          "name": "route_source_value",
+          "target_column": "route",
+          "confidence": 0.4117,
+          "rationale": "Hybrid column score=0.412 for table prescriptions_items."
+        },
+        {
+          "name": "sig",
+          "target_column": "id",
+          "confidence": 0.262,
+          "rationale": "Hybrid column score=0.262 for table prescriptions_items."
+        },
+        {
+          "name": "stop_reason",
+          "target_column": "route_v9",
+          "confidence": 0.2384,
+          "rationale": "Hybrid column score=0.238 for table prescriptions_items."
+        },
+        {
+          "name": "verbatim_end_date",
+          "target_column": "dose_val_rx",
+          "confidence": 0.27,
+          "rationale": "Hybrid column score=0.270 for table prescriptions_items."
+        },
+        {
+          "name": "visit_detail_id",
+          "target_column": "id",
+          "confidence": 0.3559,
+          "rationale": "Hybrid column score=0.356 for table prescriptions_items."
+        },
+        {
+          "name": "visit_occurrence_id",
+          "target_column": "id",
+          "confidence": 0.3433,
+          "rationale": "Hybrid column score=0.343 for table prescriptions_items."
+        }
+      ]
+    },
+    {
+      "entity": "device_exposure",
+      "matched_table": "procedures_icd_items",
+      "table_confidence": 0.6856,
+      "table_rationale": "Hybrid score=0.686, margin=0.013.",
+      "attributes": [
+        {
+          "name": "device_concept_id",
+          "target_column": "id",
+          "confidence": 0.3489,
+          "rationale": "Hybrid column score=0.349 for table procedures_icd_items."
+        },
+        {
+          "name": "device_exposure_end_date",
+          "target_column": "d_icd_procedures_id",
+          "confidence": 0.2833,
+          "rationale": "Hybrid column score=0.283 for table procedures_icd_items."
+        },
+        {
+          "name": "device_exposure_end_datetime",
+          "target_column": "d_icd_procedures_id",
+          "confidence": 0.2717,
+          "rationale": "Hybrid column score=0.272 for table procedures_icd_items."
+        },
+        {
+          "name": "device_exposure_id",
+          "target_column": "id",
+          "confidence": 0.346,
+          "rationale": "Hybrid column score=0.346 for table procedures_icd_items."
+        },
+        {
+          "name": "device_exposure_start_date",
+          "target_column": "d_icd_procedures_id_v5",
+          "confidence": 0.2572,
+          "rationale": "Hybrid column score=0.257 for table procedures_icd_items."
+        },
+        {
+          "name": "device_exposure_start_datetime",
+          "target_column": "d_icd_procedures_id_v5",
+          "confidence": 0.2488,
+          "rationale": "Hybrid column score=0.249 for table procedures_icd_items."
+        },
+        {
+          "name": "device_source_concept_id",
+          "target_column": "d_icd_procedures_id",
+          "confidence": 0.3567,
+          "rationale": "Hybrid column score=0.357 for table procedures_icd_items."
+        },
+        {
+          "name": "device_source_value",
+          "target_column": "d_icd_procedures_id_v5",
+          "confidence": 0.276,
+          "rationale": "Hybrid column score=0.276 for table procedures_icd_items."
+        },
+        {
+          "name": "device_type_concept_id",
+          "target_column": "d_icd_procedures_id",
+          "confidence": 0.336,
+          "rationale": "Hybrid column score=0.336 for table procedures_icd_items."
+        },
+        {
+          "name": "person_id",
+          "target_column": "id",
+          "confidence": 0.4618,
+          "rationale": "Hybrid column score=0.462 for table procedures_icd_items."
+        },
+        {
+          "name": "provider_id",
+          "target_column": "id",
+          "confidence": 0.4462,
+          "rationale": "Hybrid column score=0.446 for table procedures_icd_items."
+        },
+        {
+          "name": "quantity",
+          "target_column": "valid_to",
+          "confidence": 0.22,
+          "rationale": "Hybrid column score=0.220 for table procedures_icd_items."
+        },
+        {
+          "name": "unique_device_id",
+          "target_column": "d_icd_procedures_id",
+          "confidence": 0.3682,
+          "rationale": "Hybrid column score=0.368 for table procedures_icd_items."
+        },
+        {
+          "name": "visit_detail_id",
+          "target_column": "id",
+          "confidence": 0.3559,
+          "rationale": "Hybrid column score=0.356 for table procedures_icd_items."
+        },
+        {
+          "name": "visit_occurrence_id",
+          "target_column": "d_icd_procedures_id_v5",
+          "confidence": 0.35,
+          "rationale": "Hybrid column score=0.350 for table procedures_icd_items."
+        }
+      ]
+    },
+    {
+      "entity": "note",
+      "matched_table": "patients",
+      "table_confidence": 0.6851,
+      "table_rationale": "Hybrid score=0.685, margin=0.013.",
+      "attributes": [
+        {
+          "name": "encoding_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column candidates found in table patients"
+        },
+        {
+          "name": "language_concept_id",
+          "target_column": "subject_id",
+          "confidence": 0.3516,
+          "rationale": "Hybrid column score=0.352 for table patients."
+        },
+        {
+          "name": "note_class_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column candidates found in table patients"
+        },
+        {
+          "name": "note_date",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column candidates found in table patients"
+        },
+        {
+          "name": "note_datetime",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column candidates found in table patients"
+        },
+        {
+          "name": "note_event_field_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column candidates found in table patients"
+        },
+        {
+          "name": "note_event_id",
+          "target_column": "row_id",
+          "confidence": 0.3729,
+          "rationale": "Hybrid column score=0.373 for table patients."
+        },
+        {
+          "name": "note_id",
+          "target_column": "id",
+          "confidence": 0.4844,
+          "rationale": "Hybrid column score=0.484 for table patients."
+        },
+        {
+          "name": "note_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column candidates found in table patients"
+        },
+        {
+          "name": "note_text",
+          "target_column": "name_v1",
+          "confidence": 0.255,
+          "rationale": "Hybrid column score=0.255 for table patients."
+        },
+        {
+          "name": "note_title",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column candidates found in table patients"
+        },
+        {
+          "name": "note_type_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column candidates found in table patients"
+        },
+        {
+          "name": "person_id",
+          "target_column": "row_id",
+          "confidence": 0.4767,
+          "rationale": "Hybrid column score=0.477 for table patients."
+        },
+        {
+          "name": "provider_id",
+          "target_column": "row_id",
+          "confidence": 0.4547,
+          "rationale": "Hybrid column score=0.455 for table patients."
+        },
+        {
+          "name": "visit_detail_id",
+          "target_column": "subject_id",
+          "confidence": 0.367,
+          "rationale": "Hybrid column score=0.367 for table patients."
+        },
+        {
+          "name": "visit_occurrence_id",
+          "target_column": "patients_id",
+          "confidence": 0.3709,
+          "rationale": "Hybrid column score=0.371 for table patients."
+        }
+      ]
+    },
+    {
+      "entity": "fact_relationship",
+      "matched_table": "patients",
+      "table_confidence": 0.6465,
+      "table_rationale": "Hybrid score=0.647, margin=0.001.",
+      "attributes": [
+        {
+          "name": "domain_concept_id_1",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column candidates found in table patients"
+        },
+        {
+          "name": "domain_concept_id_2",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column candidates found in table patients"
+        },
+        {
+          "name": "fact_id_1",
+          "target_column": "id",
+          "confidence": 0.3918,
+          "rationale": "Hybrid column score=0.392 for table patients."
+        },
+        {
+          "name": "fact_id_2",
+          "target_column": "id",
+          "confidence": 0.3918,
+          "rationale": "Hybrid column score=0.392 for table patients."
+        },
+        {
+          "name": "relationship_concept_id",
+          "target_column": "patients_id",
+          "confidence": 0.3738,
+          "rationale": "Hybrid column score=0.374 for table patients."
+        }
+      ]
+    },
+    {
+      "entity": "payer_plan_period",
+      "matched_table": "patients",
+      "table_confidence": 0.64,
+      "table_rationale": "Hybrid score=0.640, margin=0.001.",
+      "attributes": [
+        {
+          "name": "family_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column candidates found in table patients"
+        },
+        {
+          "name": "payer_plan_period_end_date",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column candidates found in table patients"
+        },
+        {
+          "name": "payer_plan_period_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column candidates found in table patients"
+        },
+        {
+          "name": "payer_plan_period_start_date",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column candidates found in table patients"
+        },
+        {
+          "name": "payer_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column candidates found in table patients"
+        },
+        {
+          "name": "person_id",
+          "target_column": "row_id",
+          "confidence": 0.4767,
+          "rationale": "Hybrid column score=0.477 for table patients."
+        },
+        {
+          "name": "plan_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column candidates found in table patients"
+        }
+      ]
+    },
+    {
+      "entity": "cdm_source",
+      "matched_table": "d_icd_procedures",
+      "table_confidence": 0.6793,
+      "table_rationale": "Hybrid score=0.679, margin=0.017.",
+      "attributes": [
+        {
+          "name": "cdm_etl_reference",
+          "target_column": "long_title",
+          "confidence": 0.233,
+          "rationale": "Hybrid column score=0.233 for table d_icd_procedures."
+        },
+        {
+          "name": "cdm_holder",
+          "target_column": "short_title",
+          "confidence": 0.2567,
+          "rationale": "Hybrid column score=0.257 for table d_icd_procedures."
+        },
+        {
+          "name": "cdm_release_date",
+          "target_column": "long_title",
+          "confidence": 0.2362,
+          "rationale": "Hybrid column score=0.236 for table d_icd_procedures."
+        },
+        {
+          "name": "cdm_source_abbreviation",
+          "target_column": "icd9_code",
+          "confidence": 0.22,
+          "rationale": "Hybrid column score=0.220 for table d_icd_procedures."
+        },
+        {
+          "name": "cdm_source_name",
+          "target_column": "row_id",
+          "confidence": 0.23,
+          "rationale": "Hybrid column score=0.230 for table d_icd_procedures."
+        },
+        {
+          "name": "cdm_version",
+          "target_column": "row_id",
+          "confidence": 0.2818,
+          "rationale": "Hybrid column score=0.282 for table d_icd_procedures."
+        },
+        {
+          "name": "source_description",
+          "target_column": "short_title",
+          "confidence": 0.2466,
+          "rationale": "Hybrid column score=0.247 for table d_icd_procedures."
+        },
+        {
+          "name": "source_documentation_reference",
+          "target_column": "long_title_v4",
+          "confidence": 0.2281,
+          "rationale": "Hybrid column score=0.228 for table d_icd_procedures."
+        },
+        {
+          "name": "source_release_date",
+          "target_column": "row_id",
+          "confidence": 0.2396,
+          "rationale": "Hybrid column score=0.240 for table d_icd_procedures."
+        },
+        {
+          "name": "vocabulary_version",
+          "target_column": "long_title",
+          "confidence": 0.23,
+          "rationale": "Hybrid column score=0.230 for table d_icd_procedures."
+        }
+      ]
+    },
+    {
+      "entity": "care_site",
+      "matched_table": "d_icd_diagnoses",
+      "table_confidence": 0.6547,
+      "table_rationale": "Hybrid score=0.655, margin=0.009.",
+      "attributes": [
+        {
+          "name": "care_site_id",
+          "target_column": "row_id",
+          "confidence": 0.3483,
+          "rationale": "Hybrid column score=0.348 for table d_icd_diagnoses."
+        },
+        {
+          "name": "care_site_name",
+          "target_column": "short_title",
+          "confidence": 0.262,
+          "rationale": "Hybrid column score=0.262 for table d_icd_diagnoses."
+        },
+        {
+          "name": "care_site_source_value",
+          "target_column": "short_title_v2",
+          "confidence": 0.2589,
+          "rationale": "Hybrid column score=0.259 for table d_icd_diagnoses."
+        },
+        {
+          "name": "location_id",
+          "target_column": "row_id",
+          "confidence": 0.4218,
+          "rationale": "Hybrid column score=0.422 for table d_icd_diagnoses."
+        },
+        {
+          "name": "place_of_service_concept_id",
+          "target_column": "row_id",
+          "confidence": 0.2879,
+          "rationale": "Hybrid column score=0.288 for table d_icd_diagnoses."
+        },
+        {
+          "name": "place_of_service_source_value",
+          "target_column": "long_title_v2",
+          "confidence": 0.23,
+          "rationale": "Hybrid column score=0.230 for table d_icd_diagnoses."
+        }
+      ]
+    },
+    {
+      "entity": "cohort",
+      "matched_table": "online_consultations",
+      "table_confidence": 0.6322,
+      "table_rationale": "Hybrid score=0.632, margin=0.014.",
+      "attributes": [
+        {
+          "name": "cohort_definition_id",
+          "target_column": "consult_id",
+          "confidence": 0.367,
+          "rationale": "Hybrid column score=0.367 for table online_consultations."
+        },
+        {
+          "name": "cohort_end_date",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column candidates found in table online_consultations"
+        },
+        {
+          "name": "cohort_start_date",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column candidates found in table online_consultations"
+        },
+        {
+          "name": "subject_id",
+          "target_column": "subject_id",
+          "confidence": 0.85,
+          "rationale": "Hybrid column score=0.850 for table online_consultations."
+        }
+      ]
+    },
+    {
+      "entity": "cohort_definition",
+      "matched_table": "d_icd_diagnoses",
+      "table_confidence": 0.6513,
+      "table_rationale": "Hybrid score=0.651, margin=0.013.",
+      "attributes": [
+        {
+          "name": "cohort_definition_description",
+          "target_column": "short_title",
+          "confidence": 0.262,
+          "rationale": "Hybrid column score=0.262 for table d_icd_diagnoses."
+        },
+        {
+          "name": "cohort_definition_id",
+          "target_column": "row_id",
+          "confidence": 0.2981,
+          "rationale": "Hybrid column score=0.298 for table d_icd_diagnoses."
+        },
+        {
+          "name": "cohort_definition_name",
+          "target_column": "short_title",
+          "confidence": 0.2858,
+          "rationale": "Hybrid column score=0.286 for table d_icd_diagnoses."
+        },
+        {
+          "name": "cohort_definition_syntax",
+          "target_column": "short_title_v2",
+          "confidence": 0.2679,
+          "rationale": "Hybrid column score=0.268 for table d_icd_diagnoses."
+        },
+        {
+          "name": "cohort_initiation_date",
+          "target_column": "short_title",
+          "confidence": 0.2858,
+          "rationale": "Hybrid column score=0.286 for table d_icd_diagnoses."
+        },
+        {
+          "name": "definition_type_concept_id",
+          "target_column": "row_id",
+          "confidence": 0.2865,
+          "rationale": "Hybrid column score=0.286 for table d_icd_diagnoses."
+        },
+        {
+          "name": "subject_concept_id",
+          "target_column": "row_id",
+          "confidence": 0.325,
+          "rationale": "Hybrid column score=0.325 for table d_icd_diagnoses."
+        }
+      ]
+    },
+    {
+      "entity": "provider",
+      "matched_table": "patients",
+      "table_confidence": 0.679,
+      "table_rationale": "Hybrid score=0.679, margin=0.016.",
+      "attributes": [
+        {
+          "name": "care_site_id",
+          "target_column": "subject_id",
+          "confidence": 0.3823,
+          "rationale": "Hybrid column score=0.382 for table patients."
+        },
+        {
+          "name": "dea",
+          "target_column": "gender",
+          "confidence": 0.2744,
+          "rationale": "Hybrid column score=0.274 for table patients."
+        },
+        {
+          "name": "gender_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column candidates found in table patients"
+        },
+        {
+          "name": "gender_source_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column candidates found in table patients"
+        },
+        {
+          "name": "gender_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column candidates found in table patients"
+        },
+        {
+          "name": "npi",
+          "target_column": "id",
+          "confidence": 0.262,
+          "rationale": "Hybrid column score=0.262 for table patients."
+        },
+        {
+          "name": "provider_id",
+          "target_column": "row_id",
+          "confidence": 0.4547,
+          "rationale": "Hybrid column score=0.455 for table patients."
+        },
+        {
+          "name": "provider_name",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column candidates found in table patients"
+        },
+        {
+          "name": "provider_source_value",
+          "target_column": "subject_id_v1",
+          "confidence": 0.2818,
+          "rationale": "Hybrid column score=0.282 for table patients."
+        },
+        {
+          "name": "specialty_concept_id",
+          "target_column": "subject_id",
+          "confidence": 0.3857,
+          "rationale": "Hybrid column score=0.386 for table patients."
+        },
+        {
+          "name": "specialty_source_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column candidates found in table patients"
+        },
+        {
+          "name": "specialty_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column candidates found in table patients"
+        },
+        {
+          "name": "year_of_birth",
+          "target_column": "expire_flag",
+          "confidence": 0.2667,
+          "rationale": "Hybrid column score=0.267 for table patients."
+        }
+      ]
+    }
+  ],
+  "plan": [
+    {
+      "change_type": "create_table",
+      "target_table": "patients",
+      "target_column": null,
+      "definition": "birth_datetime VARCHAR(255), care_site_id VARCHAR(255), day_of_birth VARCHAR(255), death_datetime VARCHAR(255), ethnicity_concept_id VARCHAR(255), ethnicity_source_concept_id VARCHAR(255), ethnicity_source_value VARCHAR(255), gender_concept_id VARCHAR(255), gender_source_concept_id VARCHAR(255), gender_source_value VARCHAR(255), location_id VARCHAR(255), month_of_birth VARCHAR(255), person_id VARCHAR(255), person_source_value VARCHAR(255), provider_id VARCHAR(255), race_concept_id VARCHAR(255), race_source_concept_id VARCHAR(255), race_source_value VARCHAR(255), year_of_birth VARCHAR(255)",
+      "reason": "Entity 'person' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium",
+      "data_type": null,
+      "primary_key": false,
+      "foreign_key": null,
+      "cardinality": null,
+      "dependencies": [],
+      "rationale": null,
+      "source_element": null
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "patients",
+      "target_column": null,
+      "definition": "admitted_from_concept_id VARCHAR(255), admitted_from_source_value VARCHAR(255), care_site_id VARCHAR(255), discharge_to_concept_id VARCHAR(255), discharge_to_source_value VARCHAR(255), person_id VARCHAR(255), preceding_visit_occurrence_id VARCHAR(255), provider_id VARCHAR(255), visit_concept_id VARCHAR(255), visit_end_date VARCHAR(255), visit_end_datetime VARCHAR(255), visit_occurrence_id VARCHAR(255), visit_source_concept_id VARCHAR(255), visit_source_value VARCHAR(255), visit_start_date VARCHAR(255), visit_start_datetime VARCHAR(255), visit_type_concept_id VARCHAR(255)",
+      "reason": "Entity 'visit_occurrence' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium",
+      "data_type": null,
+      "primary_key": false,
+      "foreign_key": null,
+      "cardinality": null,
+      "dependencies": [],
+      "rationale": null,
+      "source_element": null
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "diagnoses_icd_items",
+      "target_column": null,
+      "definition": "admitted_from_concept_id VARCHAR(255), admitted_from_source_value VARCHAR(255), care_site_id VARCHAR(255), discharge_to_concept_id VARCHAR(255), discharge_to_source_value VARCHAR(255), person_id VARCHAR(255), preceding_visit_detail_id VARCHAR(255), provider_id VARCHAR(255), visit_detail_concept_id VARCHAR(255), visit_detail_end_date VARCHAR(255), visit_detail_end_datetime VARCHAR(255), visit_detail_id VARCHAR(255), visit_detail_parent_id VARCHAR(255), visit_detail_source_concept_id VARCHAR(255), visit_detail_source_value VARCHAR(255), visit_detail_start_date VARCHAR(255), visit_detail_start_datetime VARCHAR(255), visit_detail_type_concept_id VARCHAR(255), visit_occurrence_id VARCHAR(255)",
+      "reason": "Entity 'visit_detail' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium",
+      "data_type": null,
+      "primary_key": false,
+      "foreign_key": null,
+      "cardinality": null,
+      "dependencies": [],
+      "rationale": null,
+      "source_element": null
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "patients",
+      "target_column": null,
+      "definition": "anatomic_site_concept_id VARCHAR(255), anatomic_site_source_value VARCHAR(255), disease_status_concept_id VARCHAR(255), disease_status_source_value VARCHAR(255), person_id VARCHAR(255), quantity VARCHAR(255), specimen_concept_id VARCHAR(255), specimen_date VARCHAR(255), specimen_datetime VARCHAR(255), specimen_id VARCHAR(255), specimen_source_id VARCHAR(255), specimen_source_value VARCHAR(255), specimen_type_concept_id VARCHAR(255), unit_concept_id VARCHAR(255), unit_source_value VARCHAR(255)",
+      "reason": "Entity 'specimen' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium",
+      "data_type": null,
+      "primary_key": false,
+      "foreign_key": null,
+      "cardinality": null,
+      "dependencies": [],
+      "rationale": null,
+      "source_element": null
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "patients",
+      "target_column": null,
+      "definition": "measurement_concept_id VARCHAR(255), measurement_date VARCHAR(255), measurement_datetime VARCHAR(255), measurement_id VARCHAR(255), measurement_source_concept_id VARCHAR(255), measurement_source_value VARCHAR(255), measurement_time VARCHAR(255), measurement_type_concept_id VARCHAR(255), operator_concept_id VARCHAR(255), person_id VARCHAR(255), provider_id VARCHAR(255), range_high VARCHAR(255), range_low VARCHAR(255), unit_concept_id VARCHAR(255), unit_source_value VARCHAR(255), value_as_concept_id VARCHAR(255), value_as_number VARCHAR(255), value_source_value VARCHAR(255), visit_detail_id VARCHAR(255), visit_occurrence_id VARCHAR(255)",
+      "reason": "Entity 'measurement' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium",
+      "data_type": null,
+      "primary_key": false,
+      "foreign_key": null,
+      "cardinality": null,
+      "dependencies": [],
+      "rationale": null,
+      "source_element": null
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "procedures_icd_items",
+      "target_column": null,
+      "definition": "modifier_concept_id VARCHAR(255), modifier_source_value VARCHAR(255), person_id VARCHAR(255), procedure_concept_id VARCHAR(255), procedure_date VARCHAR(255), procedure_datetime VARCHAR(255), procedure_occurrence_id VARCHAR(255), procedure_source_concept_id VARCHAR(255), procedure_source_value VARCHAR(255), procedure_type_concept_id VARCHAR(255), provider_id VARCHAR(255), quantity VARCHAR(255), visit_detail_id VARCHAR(255), visit_occurrence_id VARCHAR(255)",
+      "reason": "Entity 'procedure_occurrence' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium",
+      "data_type": null,
+      "primary_key": false,
+      "foreign_key": null,
+      "cardinality": null,
+      "dependencies": [],
+      "rationale": null,
+      "source_element": null
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "procedures_icd_items",
+      "target_column": null,
+      "definition": "condition_concept_id VARCHAR(255), condition_end_date VARCHAR(255), condition_end_datetime VARCHAR(255), condition_occurrence_id VARCHAR(255), condition_source_concept_id VARCHAR(255), condition_source_value VARCHAR(255), condition_start_date VARCHAR(255), condition_start_datetime VARCHAR(255), condition_status_concept_id VARCHAR(255), condition_status_source_value VARCHAR(255), condition_type_concept_id VARCHAR(255), person_id VARCHAR(255), provider_id VARCHAR(255), stop_reason VARCHAR(255), visit_detail_id VARCHAR(255), visit_occurrence_id VARCHAR(255)",
+      "reason": "Entity 'condition_occurrence' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium",
+      "data_type": null,
+      "primary_key": false,
+      "foreign_key": null,
+      "cardinality": null,
+      "dependencies": [],
+      "rationale": null,
+      "source_element": null
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "d_icd_diagnoses",
+      "target_column": null,
+      "definition": "cause_concept_id VARCHAR(255), cause_source_concept_id VARCHAR(255), cause_source_value VARCHAR(255), death_date VARCHAR(255), death_datetime VARCHAR(255), death_type_concept_id VARCHAR(255), person_id VARCHAR(255)",
+      "reason": "Entity 'death' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium",
+      "data_type": null,
+      "primary_key": false,
+      "foreign_key": null,
+      "cardinality": null,
+      "dependencies": [],
+      "rationale": null,
+      "source_element": null
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "location",
+      "target_column": null,
+      "definition": "address_1 VARCHAR(255), address_2 VARCHAR(255), city VARCHAR(255), county VARCHAR(255), location_id VARCHAR(255), location_source_value VARCHAR(255), state VARCHAR(255), zip VARCHAR(255)",
+      "reason": "Entity 'location' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium",
+      "data_type": null,
+      "primary_key": false,
+      "foreign_key": null,
+      "cardinality": null,
+      "dependencies": [],
+      "rationale": null,
+      "source_element": null
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "labevents_items",
+      "target_column": null,
+      "definition": "obs_event_field_concept_id VARCHAR(255), observation_concept_id VARCHAR(255), observation_date VARCHAR(255), observation_datetime VARCHAR(255), observation_event_id VARCHAR(255), observation_id VARCHAR(255), observation_source_concept_id VARCHAR(255), observation_source_value VARCHAR(255), observation_type_concept_id VARCHAR(255), person_id VARCHAR(255), provider_id VARCHAR(255), qualifier_concept_id VARCHAR(255), qualifier_source_value VARCHAR(255), unit_concept_id VARCHAR(255), unit_source_value VARCHAR(255), value_as_concept_id VARCHAR(255), value_as_datetime VARCHAR(255), value_as_number VARCHAR(255), value_as_string VARCHAR(255), visit_detail_id VARCHAR(255), visit_occurrence_id VARCHAR(255)",
+      "reason": "Entity 'observation' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium",
+      "data_type": null,
+      "primary_key": false,
+      "foreign_key": null,
+      "cardinality": null,
+      "dependencies": [],
+      "rationale": null,
+      "source_element": null
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "online_consultations",
+      "target_column": null,
+      "definition": "observation_period_end_date VARCHAR(255), observation_period_id VARCHAR(255), observation_period_start_date VARCHAR(255), period_type_concept_id VARCHAR(255), person_id VARCHAR(255)",
+      "reason": "Entity 'observation_period' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium",
+      "data_type": null,
+      "primary_key": false,
+      "foreign_key": null,
+      "cardinality": null,
+      "dependencies": [],
+      "rationale": null,
+      "source_element": null
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "prescriptions_items",
+      "target_column": null,
+      "definition": "days_supply VARCHAR(255), dose_unit_source_value VARCHAR(255), drug_concept_id VARCHAR(255), drug_exposure_end_date VARCHAR(255), drug_exposure_end_datetime VARCHAR(255), drug_exposure_id VARCHAR(255), drug_exposure_start_date VARCHAR(255), drug_exposure_start_datetime VARCHAR(255), drug_source_concept_id VARCHAR(255), drug_source_value VARCHAR(255), drug_type_concept_id VARCHAR(255), lot_number VARCHAR(255), person_id VARCHAR(255), provider_id VARCHAR(255), quantity VARCHAR(255), refills VARCHAR(255), route_concept_id VARCHAR(255), route_source_value VARCHAR(255), sig VARCHAR(255), stop_reason VARCHAR(255), verbatim_end_date VARCHAR(255), visit_detail_id VARCHAR(255), visit_occurrence_id VARCHAR(255)",
+      "reason": "Entity 'drug_exposure' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium",
+      "data_type": null,
+      "primary_key": false,
+      "foreign_key": null,
+      "cardinality": null,
+      "dependencies": [],
+      "rationale": null,
+      "source_element": null
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "procedures_icd_items",
+      "target_column": null,
+      "definition": "device_concept_id VARCHAR(255), device_exposure_end_date VARCHAR(255), device_exposure_end_datetime VARCHAR(255), device_exposure_id VARCHAR(255), device_exposure_start_date VARCHAR(255), device_exposure_start_datetime VARCHAR(255), device_source_concept_id VARCHAR(255), device_source_value VARCHAR(255), device_type_concept_id VARCHAR(255), person_id VARCHAR(255), provider_id VARCHAR(255), quantity VARCHAR(255), unique_device_id VARCHAR(255), visit_detail_id VARCHAR(255), visit_occurrence_id VARCHAR(255)",
+      "reason": "Entity 'device_exposure' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium",
+      "data_type": null,
+      "primary_key": false,
+      "foreign_key": null,
+      "cardinality": null,
+      "dependencies": [],
+      "rationale": null,
+      "source_element": null
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "patients",
+      "target_column": null,
+      "definition": "encoding_concept_id VARCHAR(255), language_concept_id VARCHAR(255), note_class_concept_id VARCHAR(255), note_date VARCHAR(255), note_datetime VARCHAR(255), note_event_field_concept_id VARCHAR(255), note_event_id VARCHAR(255), note_id VARCHAR(255), note_source_value VARCHAR(255), note_text VARCHAR(255), note_title VARCHAR(255), note_type_concept_id VARCHAR(255), person_id VARCHAR(255), provider_id VARCHAR(255), visit_detail_id VARCHAR(255), visit_occurrence_id VARCHAR(255)",
+      "reason": "Entity 'note' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium",
+      "data_type": null,
+      "primary_key": false,
+      "foreign_key": null,
+      "cardinality": null,
+      "dependencies": [],
+      "rationale": null,
+      "source_element": null
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "patients",
+      "target_column": null,
+      "definition": "domain_concept_id_1 VARCHAR(255), domain_concept_id_2 VARCHAR(255), fact_id_1 VARCHAR(255), fact_id_2 VARCHAR(255), relationship_concept_id VARCHAR(255)",
+      "reason": "Entity 'fact_relationship' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium",
+      "data_type": null,
+      "primary_key": false,
+      "foreign_key": null,
+      "cardinality": null,
+      "dependencies": [],
+      "rationale": null,
+      "source_element": null
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "patients",
+      "target_column": null,
+      "definition": "family_source_value VARCHAR(255), payer_plan_period_end_date VARCHAR(255), payer_plan_period_id VARCHAR(255), payer_plan_period_start_date VARCHAR(255), payer_source_value VARCHAR(255), person_id VARCHAR(255), plan_source_value VARCHAR(255)",
+      "reason": "Entity 'payer_plan_period' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium",
+      "data_type": null,
+      "primary_key": false,
+      "foreign_key": null,
+      "cardinality": null,
+      "dependencies": [],
+      "rationale": null,
+      "source_element": null
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "d_icd_procedures",
+      "target_column": null,
+      "definition": "cdm_etl_reference VARCHAR(255), cdm_holder VARCHAR(255), cdm_release_date VARCHAR(255), cdm_source_abbreviation VARCHAR(255), cdm_source_name VARCHAR(255), cdm_version VARCHAR(255), source_description VARCHAR(255), source_documentation_reference VARCHAR(255), source_release_date VARCHAR(255), vocabulary_version VARCHAR(255)",
+      "reason": "Entity 'cdm_source' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium",
+      "data_type": null,
+      "primary_key": false,
+      "foreign_key": null,
+      "cardinality": null,
+      "dependencies": [],
+      "rationale": null,
+      "source_element": null
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "d_icd_diagnoses",
+      "target_column": null,
+      "definition": "care_site_id VARCHAR(255), care_site_name VARCHAR(255), care_site_source_value VARCHAR(255), location_id VARCHAR(255), place_of_service_concept_id VARCHAR(255), place_of_service_source_value VARCHAR(255)",
+      "reason": "Entity 'care_site' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium",
+      "data_type": null,
+      "primary_key": false,
+      "foreign_key": null,
+      "cardinality": null,
+      "dependencies": [],
+      "rationale": null,
+      "source_element": null
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "online_consultations",
+      "target_column": null,
+      "definition": "cohort_definition_id VARCHAR(255), cohort_end_date VARCHAR(255), cohort_start_date VARCHAR(255), subject_id VARCHAR(255)",
+      "reason": "Entity 'cohort' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium",
+      "data_type": null,
+      "primary_key": false,
+      "foreign_key": null,
+      "cardinality": null,
+      "dependencies": [],
+      "rationale": null,
+      "source_element": null
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "d_icd_diagnoses",
+      "target_column": null,
+      "definition": "cohort_definition_description VARCHAR(255), cohort_definition_id VARCHAR(255), cohort_definition_name VARCHAR(255), cohort_definition_syntax VARCHAR(255), cohort_initiation_date VARCHAR(255), definition_type_concept_id VARCHAR(255), subject_concept_id VARCHAR(255)",
+      "reason": "Entity 'cohort_definition' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium",
+      "data_type": null,
+      "primary_key": false,
+      "foreign_key": null,
+      "cardinality": null,
+      "dependencies": [],
+      "rationale": null,
+      "source_element": null
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "patients",
+      "target_column": null,
+      "definition": "care_site_id VARCHAR(255), dea VARCHAR(255), gender_concept_id VARCHAR(255), gender_source_concept_id VARCHAR(255), gender_source_value VARCHAR(255), npi VARCHAR(255), provider_id VARCHAR(255), provider_name VARCHAR(255), provider_source_value VARCHAR(255), specialty_concept_id VARCHAR(255), specialty_source_concept_id VARCHAR(255), specialty_source_value VARCHAR(255), year_of_birth VARCHAR(255)",
+      "reason": "Entity 'provider' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium",
+      "data_type": null,
+      "primary_key": false,
+      "foreign_key": null,
+      "cardinality": null,
+      "dependencies": [],
+      "rationale": null,
+      "source_element": null
+    }
+  ],
+  "sql": [
+    "CREATE TABLE patients (measurement_concept_id VARCHAR(255), measurement_date VARCHAR(255), measurement_datetime VARCHAR(255), measurement_id VARCHAR(255), measurement_source_concept_id VARCHAR(255), measurement_source_value VARCHAR(255), measurement_time VARCHAR(255), measurement_type_concept_id VARCHAR(255), operator_concept_id VARCHAR(255), person_id VARCHAR(255), provider_id VARCHAR(255), range_high VARCHAR(255), range_low VARCHAR(255), unit_concept_id VARCHAR(255), unit_source_value VARCHAR(255), value_as_concept_id VARCHAR(255), value_as_number VARCHAR(255), value_source_value VARCHAR(255), visit_detail_id VARCHAR(255), visit_occurrence_id VARCHAR(255));",
+    "CREATE TABLE diagnoses_icd_items (admitted_from_concept_id VARCHAR(255), admitted_from_source_value VARCHAR(255), care_site_id VARCHAR(255), discharge_to_concept_id VARCHAR(255), discharge_to_source_value VARCHAR(255), person_id VARCHAR(255), preceding_visit_detail_id VARCHAR(255), provider_id VARCHAR(255), visit_detail_concept_id VARCHAR(255), visit_detail_end_date VARCHAR(255), visit_detail_end_datetime VARCHAR(255), visit_detail_id VARCHAR(255), visit_detail_parent_id VARCHAR(255), visit_detail_source_concept_id VARCHAR(255), visit_detail_source_value VARCHAR(255), visit_detail_start_date VARCHAR(255), visit_detail_start_datetime VARCHAR(255), visit_detail_type_concept_id VARCHAR(255), visit_occurrence_id VARCHAR(255));",
+    "CREATE TABLE procedures_icd_items (condition_concept_id VARCHAR(255), condition_end_date VARCHAR(255), condition_end_datetime VARCHAR(255), condition_occurrence_id VARCHAR(255), condition_source_concept_id VARCHAR(255), condition_source_value VARCHAR(255), condition_start_date VARCHAR(255), condition_start_datetime VARCHAR(255), condition_status_concept_id VARCHAR(255), condition_status_source_value VARCHAR(255), condition_type_concept_id VARCHAR(255), person_id VARCHAR(255), provider_id VARCHAR(255), stop_reason VARCHAR(255), visit_detail_id VARCHAR(255), visit_occurrence_id VARCHAR(255));",
+    "CREATE TABLE d_icd_diagnoses (cohort_definition_description VARCHAR(255), cohort_definition_id VARCHAR(255), cohort_definition_name VARCHAR(255), cohort_definition_syntax VARCHAR(255), cohort_initiation_date VARCHAR(255), definition_type_concept_id VARCHAR(255), subject_concept_id VARCHAR(255));",
+    "CREATE TABLE location (address_1 VARCHAR(255), address_2 VARCHAR(255), city VARCHAR(255), county VARCHAR(255), location_id VARCHAR(255), location_source_value VARCHAR(255), state VARCHAR(255), zip VARCHAR(255));",
+    "CREATE TABLE labevents_items (obs_event_field_concept_id VARCHAR(255), observation_concept_id VARCHAR(255), observation_date VARCHAR(255), observation_datetime VARCHAR(255), observation_event_id VARCHAR(255), observation_id VARCHAR(255), observation_source_concept_id VARCHAR(255), observation_source_value VARCHAR(255), observation_type_concept_id VARCHAR(255), person_id VARCHAR(255), provider_id VARCHAR(255), qualifier_concept_id VARCHAR(255), qualifier_source_value VARCHAR(255), unit_concept_id VARCHAR(255), unit_source_value VARCHAR(255), value_as_concept_id VARCHAR(255), value_as_datetime VARCHAR(255), value_as_number VARCHAR(255), value_as_string VARCHAR(255), visit_detail_id VARCHAR(255), visit_occurrence_id VARCHAR(255));",
+    "CREATE TABLE online_consultations (observation_period_end_date VARCHAR(255), observation_period_id VARCHAR(255), observation_period_start_date VARCHAR(255), period_type_concept_id VARCHAR(255), person_id VARCHAR(255));",
+    "CREATE TABLE prescriptions_items (days_supply VARCHAR(255), dose_unit_source_value VARCHAR(255), drug_concept_id VARCHAR(255), drug_exposure_end_date VARCHAR(255), drug_exposure_end_datetime VARCHAR(255), drug_exposure_id VARCHAR(255), drug_exposure_start_date VARCHAR(255), drug_exposure_start_datetime VARCHAR(255), drug_source_concept_id VARCHAR(255), drug_source_value VARCHAR(255), drug_type_concept_id VARCHAR(255), lot_number VARCHAR(255), person_id VARCHAR(255), provider_id VARCHAR(255), quantity VARCHAR(255), refills VARCHAR(255), route_concept_id VARCHAR(255), route_source_value VARCHAR(255), sig VARCHAR(255), stop_reason VARCHAR(255), verbatim_end_date VARCHAR(255), visit_detail_id VARCHAR(255), visit_occurrence_id VARCHAR(255));",
+    "CREATE TABLE d_icd_procedures (cdm_etl_reference VARCHAR(255), cdm_holder VARCHAR(255), cdm_release_date VARCHAR(255), cdm_source_abbreviation VARCHAR(255), cdm_source_name VARCHAR(255), cdm_version VARCHAR(255), source_description VARCHAR(255), source_documentation_reference VARCHAR(255), source_release_date VARCHAR(255), vocabulary_version VARCHAR(255));"
+  ]
+}

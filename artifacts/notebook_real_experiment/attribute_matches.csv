@@ -1,0 +1,33 @@
+source_entity,source_attribute,source_type,target_table,target_column,confidence,rationale
+patient,patient_id,string,,,0.0,No table match
+patient,name,string,,,0.0,No table match
+patient,gender,string,,,0.0,No table match
+patient,dob,string,,,0.0,No table match
+patient,deceased,string,,,0.0,No table match
+patient,allergies,string,,,0.0,No table match
+patient,caregiver,string,,,0.0,No table match
+caregivers,cgid,string,CAREGIVERS,,0.0,No column candidates found in table CAREGIVERS
+caregivers,label,string,CAREGIVERS,,0.0,No column candidates found in table CAREGIVERS
+caregivers,description,string,CAREGIVERS,,0.0,No column candidates found in table CAREGIVERS
+contact,phone,string,,,0.0,No table match
+contact,address->address,json,,,0.0,No table match
+address,line1,string,,,0.0,No table match
+address,city,string,,,0.0,No table match
+address,country,string,,,0.0,No table match
+admission,admission_id,string,ADMISSIONS,,0.0,No column candidates found in table ADMISSIONS
+admission,admission_type,string,ADMISSIONS,,0.0,No column candidates found in table ADMISSIONS
+admission,admit_time,string,ADMISSIONS,,0.0,No column candidates found in table ADMISSIONS
+admission,discharge_time,string,ADMISSIONS,,0.0,No column candidates found in table ADMISSIONS
+admission,telemedicine_flag,boolean,ADMISSIONS,,0.0,No column candidates found in table ADMISSIONS
+admission,visit_mode,string,ADMISSIONS,,0.0,No column candidates found in table ADMISSIONS
+admission,prescriptions->prescription,json,ADMISSIONS,,0.0,No column candidates found in table ADMISSIONS
+admission,imaging->imaging,json,ADMISSIONS,,0.0,No column candidates found in table ADMISSIONS
+prescription,drug,string,prescriptions,,0.0,The candidate 'drug_type' represents the classification or category of a drug rather than the drug name or entity itself.
+prescription,dose,string,prescriptions,,0.0,"None of the candidate columns (route, gsn) semantically represent a medication dose; route refers to administration method and gsn is a drug sequence number."
+prescription,route,string,prescriptions,prescriptions.route,0.98,"Exact match in column name and high semantic alignment within the medical domain (medication administration route), along with fully compatible string data types."
+prescription,frequency,string,prescriptions,,0.0,No column candidates found in table prescriptions
+imaging,modality,string,,,0.0,No table match
+imaging,body_site,string,,,0.0,No table match
+imaging,ai_annotations->aiannotation,json,,,0.0,No table match
+aiannotation,label,string,,,0.0,No table match
+aiannotation,confidence,string,,,0.0,No table match

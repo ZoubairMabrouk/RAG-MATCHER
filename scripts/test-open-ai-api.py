@@ -121,7 +121,7 @@ def build_matcher(index_type: str, table_thr: float, col_thr: float, top_k: int)
     provider = LocalEmbeddingProvider()
     emb = EmbeddingService(provider)
     store = RAGVectorStore(dimension=provider.dimension, index_type=index_type)
-    llm_client = BaseLLMClient(model="phi:2.7b")
+    llm_client = BaseLLMClient(model="phi3:mini", temperature=0.1)
     matcher = RAGSchemaMatcher(
         embedding_service=emb,
         vector_store=store,

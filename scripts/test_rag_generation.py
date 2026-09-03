@@ -15,17 +15,6 @@ What it does
    statements (no physical RENAME operations).
 6) Emits a JSON mapping report to stdout (optional file via --out).
 
-Usage
------
-python scripts/run_rag_virtual_rename.py \
-  --uschema-file path/to/uschema.json \
-  --db-url postgresql://user:pass@localhost:5432/db \
-  --dialect postgresql \
-  --index-type auto \
-  --table-threshold 0.35 \
-  --column-threshold 0.35 \
-  --top-k 5 \
-  --out artifacts/rag_mapping.json
 
 Notes
 -----
@@ -34,6 +23,7 @@ Notes
   virtual mapping when computing the plan.
 """
 
+from enum import Enum
 import os
 import sys
 import json
@@ -66,7 +56,7 @@ logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(message)s",
 )
-log = logging.getLogger("run_rag_virtual_rename")
+log = logging.getLogger("test_rag_generation")
 
 
 # -------------------- helpers --------------------
@@ -152,7 +142,7 @@ def build_matcher(index_type: str, table_thr: float, col_thr: float, top_k: int)
     provider = LocalEmbeddingProvider()
     emb = EmbeddingService(provider)
     store = RAGVectorStore(dimension=provider.dimension, index_type=index_type)
-    llm_client = BaseLLMClient(model="phi:2.7b")
+    llm_client = BaseLLMClient(model="llama3.1", temperature=0.1)
     matcher = RAGSchemaMatcher(
         embedding_service=emb,
         vector_store=store,
@@ -219,6 +209,21 @@ def run(args) -> int:
     # For DiffEngine: inject matcher to do virtual rename logic
     diff = DiffEngine(NamingConvention(), rag_matcher=matcher)
     print(uschema)
+    entities = [
+        {
+            "name": entity.name,
+            "attributes": [
+                {
+                    "name": attr.name,
+                    "data_type": getattr(attr.data_type, "value", str(attr.data_type)),
+                    "description": attr.description,
+                }
+                for attr in entity.attributes
+            ],
+        }
+        for entity in uschema.entities
+    ]
+    # mapping_report = matcher.match_all_entities(entities)
     for entity in uschema.entities:
         attr_names = [a.name for a in entity.attributes]
         print("Uschema entities are : ",entity)
@@ -294,9 +299,35 @@ def run(args) -> int:
             log.info(f"{i:02d}. {stmt}")
 
     # 8) Optional JSON output
+    
+    def make_json_serializable(obj):
+        """Convertit récursivement les objets Python en valeurs JSON sérialisables."""
+        if isinstance(obj, Enum):
+            return obj.value
+
+        if isinstance(obj, dict):
+            return {
+                key: make_json_serializable(value)
+                for key, value in obj.items()
+            }
+
+        if isinstance(obj, (list, tuple)):
+            return [
+                make_json_serializable(value)
+                for value in obj
+            ]
+
+        if hasattr(obj, "model_dump"):
+            return make_json_serializable(obj.model_dump())
+
+        if hasattr(obj, "__dict__"):
+            return make_json_serializable(obj.__dict__)
+
+        return obj
     if args.out:
         out_path = Path(args.out)
         out_path.parent.mkdir(parents=True, exist_ok=True)
+
         payload = {
             "config": {
                 "db_url": db_url,
@@ -306,12 +337,19 @@ def run(args) -> int:
                 "column_threshold": args.column_threshold,
                 "top_k": args.top_k,
             },
-            "mapping": mapping_report["entities"],
-            "plan": [c.model_dump() if hasattr(c, "model_dump") else c.__dict__ for c in changes],
-            "sql": sql_statements,
+            "mapping": make_json_serializable(mapping_report["entities"]),
+            "plan": make_json_serializable(changes),
+            "sql": make_json_serializable(sql_statements),
         }
+
         with open(out_path, "w", encoding="utf-8") as f:
-            json.dump(payload, f, ensure_ascii=False, indent=2)
+            json.dump(
+                payload,
+                f,
+                ensure_ascii=False,
+                indent=2,
+            )
+
         log.info(f"\nSaved report to: {out_path}")
 
     # Return non-zero if we created new tables that should have been mapped
@@ -321,9 +359,9 @@ def run(args) -> int:
 
 def parse_args():
     p = argparse.ArgumentParser(description="Dynamic RAG virtual rename runner")
-    p.add_argument("--uschema-file", default="./uschema.json",
+    p.add_argument("--uschema-file", default="./scripts/uschema.json",
                    help="Path to U-Schema JSON (use '-' to read from stdin)")
-    p.add_argument("--db-url", default=os.getenv("DATABASE_URL"),
+    p.add_argument("--db-url", default="postgresql://odoo:odoo@localhost:5432/mimic",
                    help="Database URL (overrides $DATABASE_URL if provided)")
     p.add_argument("--dialect", default="postgresql",
                    choices=["postgresql", "mysql", "sqlite"],

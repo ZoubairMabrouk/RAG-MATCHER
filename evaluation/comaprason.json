@@ -1,0 +1,42 @@
+{
+  "reported_by_memory": {
+    "source": "Task brief text only -- no thesis PDF/document was found anywhere in the repository (searched for *.pdf and for Hits@/MRR/k=10/k=12 references). The brief states: 'ClinicalBERT atteint une couverture parfaite a k=10 et BioBERT a k=12', and separately '267 attributs sources, 240 cibles, 64080 combinaisons, 197 matches positifs'.",
+    "clinicalbert_full_coverage_at_k": 10,
+    "biobert_full_coverage_at_k": 12,
+    "num_source_attributes": 267,
+    "num_target_attributes": 240,
+    "num_positive_pairs": 197
+  },
+  "reproduced": {
+    "source": "artifacts/reproduction/*/tfidf/name_context/metrics.json, computed directly from raw predictions.jsonl by scripts/reproduce_memory.py, run on evaluation/data/omap_mimic/omop_mimic_data.xlsx",
+    "dataset_actually_found": {
+      "num_rows": 64080,
+      "num_target_attributes": 267,
+      "num_source_attributes": 240,
+      "num_positive_pairs": 129,
+      "note": "See dataset_report.json. num_rows and num_target_attributes match the brief; num_source_attributes matches one of the two on-disk copies of the file (240) but not the other (241); num_positive_pairs (129) does NOT match the brief's 197 -- not adjusted, reported as found."
+    },
+    "tfidf_pair_split_hits_at_k": "see artifacts/reproduction/pair/tfidf/name_context/metrics.json",
+    "tfidf_source_attribute_split_hits_at_k": "see artifacts/reproduction/source_attribute/tfidf/name_context/metrics.json",
+    "clinicalbert": "NOT_REPRODUCED",
+    "biobert": "NOT_REPRODUCED",
+    "sbert": "NOT_REPRODUCED"
+  },
+  "difference": {
+    "num_positive_pairs": "brief says 197, dataset file has 129 -- a 68-pair (35%) discrepancy, unexplained; possibly a different dataset version was used for the thesis, or the brief's number includes pairs from a different/extended annotation pass not present in this repository copy.",
+    "clinicalbert_k10_coverage": "NOT_REPRODUCED -- see reason below",
+    "biobert_k12_coverage": "NOT_REPRODUCED -- see reason below"
+  },
+  "protocol": {
+    "split_executed": ["pair", "source_attribute"],
+    "split_not_executed": ["table", "schema"],
+    "seed": 42,
+    "encoder_executed": ["tfidf"],
+    "encoder_blocked": {
+      "sbert": "sentence-transformers installed, but no network access to huggingface.co to download sentence-transformers/all-MiniLM-L6-v2",
+      "biobert": "sentence-transformers installed, but no network access to huggingface.co to download dmis-lab/biobert-base-cased-v1.2",
+      "clinicalbert": "sentence-transformers installed, but no network access to huggingface.co to download emilyalsentzer/Bio_ClinicalBERT"
+    }
+  },
+  "conclusion": "Only TF-IDF retrieval quality was reproduced in this sandbox, on the pair-level and source-attribute-level splits of the real OMOP-MIMIC dataset found in the repository. The thesis's ClinicalBERT/BioBERT claims could NOT be reproduced or refuted here due to lack of network access to download pretrained weights -- this is an environment limitation, not a code limitation (the Encoder adapters and full retrieval/metrics pipeline are implemented and tested; only weight download is blocked). The positive-pair count discrepancy (129 found vs 197 claimed) should be investigated against the exact dataset version used for the thesis before drawing further conclusions."
+}

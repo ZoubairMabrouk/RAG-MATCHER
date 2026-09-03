@@ -90,7 +90,12 @@ class OpenAIEmbeddingProvider:
     - text-embedding-3-large  -> 3072
     """
     def __init__(self, api_key: str, model: str = "text-embedding-3-small"):
-        api_key="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"
+        # FIX (critical): this line used to OVERWRITE whatever api_key the
+        # caller passed in with a hardcoded, committed-to-source key -- a
+        # security leak (revoke that key now) AND a functional bug: passing
+        # your own real key here silently had no effect. Removed entirely;
+        # the caller's api_key (or os.getenv fallback via
+        # build_default_provider below) is now actually used.
         if not api_key:
             raise ValueError("OPENAI_API_KEY is required for OpenAIEmbeddingProvider.")
 
@@ -313,7 +318,14 @@ def build_default_provider() -> EmbeddingProvider:
     """
     provider = os.getenv("RAG_EMBED_PROVIDER", "local").lower()
     if provider == "openai":
-        api_key ="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" #os.getenv("OPENAI_API_KEY", "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")
+        # FIX: was hardcoded (leaked key, committed to source). Now reads
+        # from the environment only, exactly as OPENAI_API_KEY should.
+        api_key = os.getenv("OPENAI_API_KEY")
+        if not api_key:
+            raise ValueError(
+                "RAG_EMBED_PROVIDER=openai requires OPENAI_API_KEY to be set "
+                "in the environment."
+            )
         model = os.getenv("EMBEDDING_MODEL", "text-embedding-3-small")
         return OpenAIEmbeddingProvider(api_key=api_key, model=model)
     else:

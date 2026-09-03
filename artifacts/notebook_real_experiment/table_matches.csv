@@ -1,0 +1,9 @@
+source_entity,target_table,confidence,rationale
+patient,PATIENTS,0.95,"LLM match accepted: The 'patient' entity conceptually aligns with the MIMIC-III 'PATIENTS' table, which holds core demographic and mortality data including patient identifier (SUBJECT_ID), gender (GENDER), date of birth (DOB), and mortality/deceased status (DOD / EXPIRE_FLAG)."
+caregivers,caregivers,1.0,"LLM match accepted: The U-Schema entity 'caregivers' with attributes (cgid, label, description) is an exact semantic and structural match for the MIMIC-III 'caregivers' table, which defines healthcare providers using cgid, label, and description."
+contact,,1.0,"LLM rejected (match=None, conf=1.000)"
+address,,1.0,"LLM rejected (match=None, conf=1.000)"
+admission,,0.0,"LLM rejected (match=None, conf=0.000)"
+prescription,,0.0,"LLM rejected (match=None, conf=0.000)"
+imaging,,1.0,"LLM rejected (match=None, conf=1.000)"
+aiannotation,,1.0,"LLM rejected (match=None, conf=1.000)"

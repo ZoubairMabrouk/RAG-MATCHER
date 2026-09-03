@@ -1,0 +1,2 @@
+source_entity,source_attribute,change_type,target_table,target_column,data_type
+prescription,route,add_column,prescription,route,VARCHAR(255)

@@ -1,13 +1,29 @@
 """LLM client implementations."""
 
 import json
-from typing import Dict, Any, Optional
+from typing import Dict, Any, List, Optional
 from openai import OpenAI, api_key, base_url
 import anthropic
 from src.domain.repositeries.interfaces import ILLMClient
 from src.domain.entities.evolution import EvolutionPlan,SchemaChange
 from src.domain.entities.schema import ChangeType
 
+import logging
+import os
+import time
+
+try:
+    import anthropic
+except ImportError:
+    anthropic = None
+
+try:
+    from google import genai
+except ImportError:
+    genai = None
+
+
+log = logging.getLogger(__name__)
 class BaseLLMClient(ILLMClient):
     """Base LLM client with common functionality."""
     
@@ -257,7 +273,7 @@ class GeminiLLMClient(BaseLLMClient):
             print(f"Gemini API call failed: {e}")
             raise
 class LLMClient:
-    def __init__(self, base_url: str = "http://localhost:11434/v1", api_key: str = "ollama", model: str = "phi3:mini"):
+    def __init__(self, base_url: str = "http://localhost:11435/v1", api_key: str = "ollama", model: str = "phi3:mini"):
         self.client = OpenAI(base_url=base_url, api_key=api_key)
         self.model = model
 
@@ -290,4 +306,587 @@ class LLMClient:
                     pass
             # If still failing, return a fallback mapping
             return {"selected": None, "confidence": 0.0, "rationale": text}
-     
+
+
+
+class GeminiKeyPool:
+    """
+    Manages a list of Gemini API keys.
+
+    A key is marked unavailable after a quota/authentication error.
+    The pool then automatically selects the next available key.
+    """
+
+    def __init__(
+        self,
+    ):
+        self.api_keys = [
+            "AQ.Ab8RN6Kt6_b5HLI687ijb9MLOD4o2Jcay1JKe556O-OpfWFArw",
+            "AQ.Ab8RN6IHXb6IXnpEakhMctmU1mt3yDFLjvjEqRMwez-FAjM7Uw",
+            "AQ.Ab8RN6JSWB8YmdaKJCqWR_Ppf8X_i8qVCBL3aUWxdJgIr4iOVw",
+            "AQ.Ab8RN6J9SO6bCkix7D754F7WYRPq5RDs3e0N9h9RRMX2Zo3E-A"
+        ]
+
+        if not self.api_keys:
+            raise ValueError(
+                "No Gemini API keys were provided."
+            )
+
+        self._current_index = 0
+        self._exhausted_indices = set()
+
+    # --------------------------------------------------------
+    # Current key
+    # --------------------------------------------------------
+
+    @property
+    def current_key(self) -> Optional[str]:
+
+        if self.exhausted:
+            return None
+
+        return self.api_keys[self._current_index]
+
+    @property
+    def current_key_number(self) -> int:
+        return self._current_index + 1
+
+    # --------------------------------------------------------
+    # Status
+    # --------------------------------------------------------
+
+    @property
+    def exhausted(self) -> bool:
+        return len(self._exhausted_indices) >= len(self.api_keys)
+
+    @property
+    def remaining(self) -> int:
+        return len(
+            self.api_keys
+        ) - len(
+            self._exhausted_indices
+        )
+
+    # --------------------------------------------------------
+    # Rotation
+    # --------------------------------------------------------
+
+    def mark_current_exhausted(self) -> Optional[str]:
+
+        current = self._current_index
+
+        self._exhausted_indices.add(current)
+
+        if self.exhausted:
+            return None
+
+        total = len(self.api_keys)
+
+        for offset in range(1, total + 1):
+
+            candidate = (
+                current + offset
+            ) % total
+
+            if candidate not in self._exhausted_indices:
+
+                self._current_index = candidate
+
+                return self.api_keys[candidate]
+
+        return None
+
+
+# ============================================================
+# Gemini
+# ============================================================
+
+class GeminiLLMClient(BaseLLMClient):
+    """
+    Gemini client with automatic API-key rotation.
+
+    Environment:
+
+        GEMINI_API_KEYS=key1,key2,key3,key4
+
+    Behavior:
+
+        key1 -> OK
+        key1 -> 429
+        key2 -> OK
+        key2 -> 429
+        key3 -> OK
+
+    The key is NOT rotated after every request.
+    It is rotated only when the current key becomes unusable.
+    """
+
+    def __init__(
+        self,
+        api_key: Optional[str] = None,
+        api_keys: Optional[List[str]] = None,
+        model: str = "gemini-3.6-flash",
+        temperature: float = 0.1,
+        max_retries: int = 2,
+        retry_delay: float = 2.0,
+        **kwargs,
+    ):
+        super().__init__(
+            model=model,
+            temperature=temperature,
+            **kwargs,
+        )
+
+        if genai is None:
+            raise ImportError(
+                "google-genai is not installed. "
+                "Install it with: pip install google-genai"
+            )
+
+        self.max_retries = max_retries
+        self.retry_delay = retry_delay
+
+        # ----------------------------------------------------
+        # Load API keys
+        # ----------------------------------------------------
+
+        keys = []
+
+        if api_keys:
+            keys.extend(api_keys)
+
+        if api_key:
+            keys.append(api_key)
+
+        env_keys = os.getenv(
+            "GEMINI_API_KEYS",
+            "",
+        )
+
+        if env_keys:
+            keys.extend(
+                env_keys.split(",")
+            )
+
+        # Remove duplicates while preserving order
+        unique_keys = []
+
+        seen = set()
+
+        for key in keys:
+
+            key = key.strip()
+
+            if key and key not in seen:
+
+                unique_keys.append(key)
+                seen.add(key)
+
+        self.key_pool = GeminiKeyPool(
+            unique_keys
+        )
+
+        self._client = None
+
+        self._create_client()
+
+        log.info(
+            "Gemini key pool initialized with %d key(s)",
+            len(self.key_pool.api_keys),
+        )
+
+    # --------------------------------------------------------
+    # Client creation
+    # --------------------------------------------------------
+
+    def _create_client(self):
+
+        key = self.key_pool.current_key
+
+        if key is None:
+
+            raise LLMQuotaExhaustedError(
+                "All Gemini API keys are exhausted."
+            )
+
+        self._client = genai.Client(
+            api_key=key
+        )
+
+        log.info(
+            "Gemini using API key #%d",
+            self.key_pool.current_key_number,
+        )
+
+    # --------------------------------------------------------
+    # Error classification
+    # --------------------------------------------------------
+
+    @staticmethod
+    def _error_text(exc: Exception) -> str:
+
+        return (
+            f"{type(exc).__name__}: {exc}"
+        ).lower()
+
+    def _is_quota_error(
+        self,
+        exc: Exception,
+    ) -> bool:
+
+        text = self._error_text(exc)
+
+        indicators = [
+            "429",
+            "too many requests",
+            "quota",
+            "resource exhausted",
+            "rate limit",
+            "rate_limit",
+            "generate_content_free_tier_requests",
+        ]
+
+        return any(
+            indicator in text
+            for indicator in indicators
+        )
+
+    def _is_auth_error(
+        self,
+        exc: Exception,
+    ) -> bool:
+
+        text = self._error_text(exc)
+
+        indicators = [
+            "401",
+            "403",
+            "unauthorized",
+            "permission denied",
+            "invalid api key",
+            "api key not valid",
+        ]
+
+        return any(
+            indicator in text
+            for indicator in indicators
+        )
+
+    def _is_retryable_server_error(
+        self,
+        exc: Exception,
+    ) -> bool:
+
+        text = self._error_text(exc)
+
+        indicators = [
+            "500",
+            "502",
+            "503",
+            "504",
+            "internal server error",
+            "service unavailable",
+        ]
+
+        return any(
+            indicator in text
+            for indicator in indicators
+        )
+
+    # --------------------------------------------------------
+    # Rotation
+    # --------------------------------------------------------
+
+    def _rotate_key(self) -> bool:
+
+        old_number = (
+            self.key_pool.current_key_number
+        )
+
+        next_key = (
+            self.key_pool.mark_current_exhausted()
+        )
+
+        if next_key is None:
+
+            log.error(
+                "All %d Gemini API keys are exhausted.",
+                len(self.key_pool.api_keys),
+            )
+
+            return False
+
+        log.warning(
+            "Gemini API key #%d exhausted. "
+            "Switching to key #%d.",
+            old_number,
+            self.key_pool.current_key_number,
+        )
+
+        self._create_client()
+
+        return True
+
+    # --------------------------------------------------------
+    # Gemini request
+    # --------------------------------------------------------
+
+    def generate(
+        self,
+        prompt: str,
+        **kwargs,
+    ) -> str:
+
+        while not self.key_pool.exhausted:
+
+            try:
+
+                response = (
+                    self._client.models.generate_content(
+                        model=self.model,
+                        contents=prompt,
+                        **self._build_generation_config(
+                            kwargs
+                        ),
+                    )
+                )
+
+                return self._extract_text(
+                    response
+                )
+
+            except Exception as exc:
+
+                # --------------------------------------------
+                # Quota -> rotate key
+                # --------------------------------------------
+
+                if self._is_quota_error(exc):
+
+                    log.warning(
+                        "Gemini quota exceeded "
+                        "for key #%d.",
+                        self.key_pool.current_key_number,
+                    )
+
+                    if self._rotate_key():
+
+                        continue
+
+                    raise LLMQuotaExhaustedError(
+                        "All Gemini API keys have "
+                        "exceeded their quota."
+                    ) from exc
+
+                # --------------------------------------------
+                # Authentication -> rotate key
+                # --------------------------------------------
+
+                if self._is_auth_error(exc):
+
+                    log.warning(
+                        "Gemini authentication error "
+                        "for key #%d.",
+                        self.key_pool.current_key_number,
+                    )
+
+                    if self._rotate_key():
+
+                        continue
+
+                    raise LLMQuotaExhaustedError(
+                        "All Gemini API keys are invalid "
+                        "or unavailable."
+                    ) from exc
+
+                # --------------------------------------------
+                # Temporary server error
+                # --------------------------------------------
+
+                if self._is_retryable_server_error(
+                    exc
+                ):
+
+                    for retry in range(
+                        self.max_retries
+                    ):
+
+                        delay = (
+                            self.retry_delay
+                            * (retry + 1)
+                        )
+
+                        log.warning(
+                            "Gemini temporary error. "
+                            "Retry %d/%d in %.1fs.",
+                            retry + 1,
+                            self.max_retries,
+                            delay,
+                        )
+
+                        time.sleep(delay)
+
+                        try:
+
+                            response = (
+                                self._client.models.generate_content(
+                                    model=self.model,
+                                    contents=prompt,
+                                    **self._build_generation_config(
+                                        kwargs
+                                    ),
+                                )
+                            )
+
+                            return self._extract_text(
+                                response
+                            )
+
+                        except Exception as retry_exc:
+
+                            if self._is_quota_error(
+                                retry_exc
+                            ):
+
+                                break
+
+                            if not self._is_retryable_server_error(
+                                retry_exc
+                            ):
+
+                                raise
+
+                    # after retries, rotate only if
+                    # quota was reached
+                    if self.key_pool.exhausted:
+                        break
+
+                    raise
+
+                # --------------------------------------------
+                # Other error
+                # --------------------------------------------
+
+                log.error(
+                    "Gemini request failed: %s",
+                    exc,
+                )
+
+                raise
+
+        raise LLMQuotaExhaustedError(
+            "All Gemini API keys are exhausted."
+        )
+
+    # --------------------------------------------------------
+    # Chat alias
+    # --------------------------------------------------------
+
+    def chat(
+        self,
+        prompt: str,
+        **kwargs,
+    ) -> str:
+
+        return self.generate(
+            prompt,
+            **kwargs,
+        )
+
+    # --------------------------------------------------------
+    # Generation configuration
+    # --------------------------------------------------------
+
+    def _build_generation_config(
+        self,
+        kwargs: Dict[str, Any],
+    ) -> Dict[str, Any]:
+
+        config = {}
+
+        temperature = kwargs.pop(
+            "temperature",
+            self.temperature,
+        )
+
+        config["config"] = {
+            "temperature": temperature,
+        }
+
+        # Optional max output tokens
+        max_output_tokens = kwargs.pop(
+            "max_output_tokens",
+            None,
+        )
+
+        if max_output_tokens is not None:
+
+            config["config"][
+                "max_output_tokens"
+            ] = max_output_tokens
+
+        return config
+
+    # --------------------------------------------------------
+    # Response extraction
+    # --------------------------------------------------------
+
+    @staticmethod
+    def _extract_text(
+        response: Any,
+    ) -> str:
+
+        if response is None:
+            return ""
+
+        # google-genai response
+        text = getattr(
+            response,
+            "text",
+            None,
+        )
+
+        if text:
+            return text
+
+        # fallback
+        candidates = getattr(
+            response,
+            "candidates",
+            None,
+        )
+
+        if candidates:
+
+            parts = getattr(
+                candidates[0],
+                "content",
+                None,
+            )
+
+            if parts:
+
+                parts = getattr(
+                    parts,
+                    "parts",
+                    [],
+                )
+
+                texts = []
+
+                for part in parts:
+
+                    part_text = getattr(
+                        part,
+                        "text",
+                        None,
+                    )
+
+                    if part_text:
+                        texts.append(
+                            part_text
+                        )
+
+                return "".join(texts)
+
+        return str(response)

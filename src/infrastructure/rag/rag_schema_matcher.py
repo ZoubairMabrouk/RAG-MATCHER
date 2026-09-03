@@ -28,7 +28,16 @@ from src.domain.entities.schema import SchemaMetadata, Table, Column
 from src.domain.entities.rag_schema import KnowledgeBaseDocument
 from src.infrastructure.rag.embedding_service import EmbeddingService
 from src.infrastructure.rag.vector_store import RAGVectorStore
-from src.infrastructure.llm.llm_client import OpenAILLMClient,LLMClient
+from src.infrastructure.llm.llm_client import BaseLLMClient, OpenAILLMClient,LLMClient
+from src.infrastructure.llm.llm_service import LLMService
+from src.infrastructure.llm.strategies.gemini import GeminiStrategy
+from src.infrastructure.llm.factory import LLMFactory
+from src.infrastructure.rag.hybrid_reranker import (
+    AttributeSpec,
+    EntitySpec,
+    HybridReranker,
+    column_coverage,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -57,12 +66,14 @@ class RAGSchemaMatcher:
     Single Responsibility: Semantic matching of U-Schema entities/attributes
     to existing database schema objects using embeddings and optional LLM validation.
     """
+    from src.infrastructure.llm.factory import LLMFactory
     
+    llm_client = BaseLLMClient(model="llama3.1", temperature=0.1)
     def __init__(
         self,
         embedding_service: EmbeddingService,
         vector_store: RAGVectorStore,
-        llm_client: Optional[OpenAILLMClient] = None,
+        llm_client: Optional[LLMService],
         table_accept_threshold: float = 0.62,
         column_accept_threshold: float = 0.68,
         top_k_search: int = 5
@@ -80,7 +91,7 @@ class RAGSchemaMatcher:
         """
         self._embedding_service = embedding_service
         self._vector_store = vector_store
-        self._llm_client = llm_client
+        self._llm_client = BaseLLMClient(model="llama3.1", temperature=0.1) if llm_client is None else llm_client
         self._table_threshold = table_accept_threshold
         self._column_threshold = column_accept_threshold
         self._top_k = top_k_search
@@ -88,9 +99,27 @@ class RAGSchemaMatcher:
         # Knowledge base state
         self._kb_built = False
         self._schema_metadata: Optional[SchemaMetadata] = None
+        self._hybrid_reranker = HybridReranker(
+            accept=table_accept_threshold,
+            review=max(0.0, table_accept_threshold - 0.17),
+        )
         
         logger.info(f"[RAGSchemaMatcher] Initialized with thresholds: table={table_accept_threshold}, column={column_accept_threshold}")
     
+    def _attribute_to_text(self, attr):
+        if isinstance(attr, str):
+            return attr
+
+        name = attr.get("name", "")
+        data_type = attr.get("data_type", "")
+        description = attr.get("description", "")
+
+        return (
+            f"Attribute: {name}. "
+            f"Data type: {data_type}. "
+            f"Description: {description or 'none'}."
+        )
+
     def match_all_entities(self, entities: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         """
         Batched matching: sends all entities/attributes to the LLM in one request.
@@ -104,7 +133,17 @@ class RAGSchemaMatcher:
         prompt = "You are a database schema expert. Match each entity and its attributes to the best table and columns.\n"
         prompt += "Return a JSON array like [{\"entity\":..., \"matched_table\":..., \"table_confidence\":..., \"attributes\": [{\"name\":..., \"target_column\":..., \"confidence\":...}]}]\n\n"
         for e in entities:
-            prompt += f"Entity: {e['name']}\nAttributes: {', '.join(e['attributes'])}\n\n"
+            entity_embedding_query = np.asarray(self._embedding_service.embed(e["name"]), dtype=np.float32)
+            attribute_embedding_queries = np.array([
+                self._embedding_service.embed(
+                    self._attribute_to_text(attr)
+                )
+                for attr in e["attributes"]
+            ], dtype=np.float32)
+            candidates_table = self._vector_store.search(entity_embedding_query, top_k=self._top_k)
+            candidate_columns = self._vector_store.search(attribute_embedding_queries, top_k=self._top_k)
+            prompt += f"Entity: {e['name']} possible tables: {candidates_table} \nAttributes: {e['attributes']} possible columns: {candidate_columns}\n"
+            
         # 2. Call LLM once
         try:
             response_text = self._llm_client._call_llm(prompt)
@@ -126,6 +165,7 @@ class RAGSchemaMatcher:
 
         return mapping_report
     
+    
     def build_kb(self, schema: SchemaMetadata) -> List[KnowledgeBaseDocument]:
         """
         Build knowledge base documents from schema metadata.
@@ -137,6 +177,7 @@ class RAGSchemaMatcher:
             List of knowledge base documents for tables and columns
         """
         logger.info(f"[RAGSchemaMatcher] Building KB from schema with {len(schema.tables)} tables")
+        self._schema_metadata = schema
         
         documents = []
         
@@ -198,17 +239,17 @@ class RAGSchemaMatcher:
         
         # Build query text for table matching
         query_text = self._build_table_query(entity_name, attributes, hints or [])
-        
+        logger.info(f"[RAGSchemaMatcher] Query text for entity '{entity_name}': {query_text}")
         # Generate query embedding
         query_embedding = np.array(self._embedding_service.embed([query_text])[0], dtype='float32')
-        
+        logger.info(f"[RAGSchemaMatcher] Query embedding for entity '{entity_name}': {query_embedding[:5]}... (truncated)")
         # Search for similar tables
         candidates = self._vector_store.search(
             query_embedding, 
-            top_k=self._top_k,
+            top_k=10,
             filters={"kind": "table"}
         )
-        
+        logger.info(f"[RAGSchemaMatcher] Found {len(candidates)} table candidates for entity '{entity_name}' : {[doc.table for doc, _ in candidates]}")
         if not candidates:
             logger.info(f"[RAGSchemaMatcher] No table candidates found for {entity_name}")
         # if not candidates:
@@ -222,48 +263,39 @@ class RAGSchemaMatcher:
         #         extra={"method": "llm-only", "retrieval_score": 0.0, "candidates_count": 0}
         #     )
 
-        # Get best candidate
-        if candidates:
-            best_doc, retrieval_score = candidates[0]
-        else:
-            best_doc = type("DummyDoc", (), {"table": "N/A"})()
-            retrieval_score = 0.0
-        
-        # Apply LLM validation if available
-        if self._llm_client:
-            llm_result = self._llm_validate_table(entity_name, attributes, best_doc, candidates)
-            llm_match = llm_result.get("target_name")
-            llm_conf  = float(llm_result.get("confidence", 0.0))
+        source = EntitySpec(
+            name=entity_name,
+            embedding=query_embedding,
+            attributes=[AttributeSpec(name=attribute) for attribute in attributes],
+        )
+        table_specs = []
+        for doc, _ in candidates:
+            table = self._find_table(doc.table)
+            table_attributes = [
+                AttributeSpec(column.name, str(column.data_type), column.primary_key)
+                for column in table.columns
+            ] if table else [
+                AttributeSpec(column_name) for column_name in doc.metadata.get("columns", [])
+            ]
+            table_embedding = np.asarray(
+                self._embedding_service.embed([doc.content])[0], dtype="float32"
+            )
+            table_specs.append(EntitySpec(doc.table, table_attributes, table_embedding))
 
-            # ---- Apply decision rule ----
-            if llm_match:
-                target_name = llm_match
-                final_confidence = llm_conf
-                rationale = f"LLM match accepted: {llm_result.get('rationale', '')}"
-
-                return MatchResult(
-                    target_name=target_name,
-                    confidence=final_confidence,
-                    rationale=rationale,
-                    extra={
-                        "method": "llm",
-                        "retrieval_score": retrieval_score,
-                        "candidates_count": len(candidates)
-                    }
-                )
-
-            else:
-                # LLM did not produce a strong enough match
-                return MatchResult(
-                    target_name=None,
-                    confidence=llm_conf,
-                    rationale=f"LLM rejected (match={llm_match}, conf={llm_conf:.3f})",
-                    extra={
-                        "method": "llm",
-                        "retrieval_score": retrieval_score,
-                        "candidates_count": len(candidates)
-                    }
-                )
+        reranked = self._hybrid_reranker.match(source, table_specs)
+        return MatchResult(
+            target_name=reranked.target_name,
+            confidence=reranked.confidence,
+            rationale=reranked.rationale,
+            extra={
+                "method": "hybrid",
+                "decision": reranked.decision.value,
+                "margin": reranked.margin,
+                "breakdown": reranked.breakdown,
+                "top_candidates": reranked.top_candidates,
+                "candidates_count": len(candidates),
+            },
+        )
     
     def match_column(
         self, 
@@ -303,35 +335,38 @@ class RAGSchemaMatcher:
         
         if not candidates:
             return MatchResult(None, 0.0, f"No column candidates found in table {table_name}", {})
-        
-        # Get best candidate
-        best_doc, retrieval_score = candidates[0]
-        
-        # Apply LLM validation if available
-        if self._llm_client:
-            llm_result = self._llm_validate_column(attr_name, attr_type, best_doc, candidates)
-            match_name = llm_result.get("match")
-            final_confidence = llm_result["confidence"]
-            rationale = llm_result["rationale"]
-        # Check threshold
-        if llm_result:
-            # Extract column name from document ID (format: table.column)
-            target_name = match_name
-            logger.info(f"[RAGSchemaMatcher] Column match: {attr_name} -> {target_name} (conf: {final_confidence:.3f})")
-        else:
-            target_name = None
-            rationale = f"Below threshold: {rationale}"
-        
+        table = self._find_table(table_name)
+        target_attributes = [
+            AttributeSpec(column.name, str(column.data_type), column.primary_key)
+            for column in table.columns
+        ] if table else [
+            AttributeSpec(doc.column) for doc, _ in candidates
+        ]
+        coverage, mapping = column_coverage(
+            [AttributeSpec(attr_name, attr_type)], target_attributes
+        )
+        target_name, column_score = mapping.get(attr_name, (None, 0.0))
+        final_confidence = round(column_score, 4)
+        target_name = target_name if final_confidence >= self._column_threshold else None
+        rationale = f"Hybrid column score={final_confidence:.3f} for table {table_name}."
         return MatchResult(
             target_name=target_name,
             confidence=final_confidence,
             rationale=rationale,
             extra={
-                "method": "llm" if self._llm_client else "retrieval",
-                "retrieval_score": retrieval_score,
+                "method": "hybrid",
+                "coverage": coverage,
                 "table": table_name,
                 "candidates_count": len(candidates)
             }
+        )
+
+    def _find_table(self, table_name: str) -> Optional[Table]:
+        if self._schema_metadata is None:
+            return None
+        return next(
+            (table for table in self._schema_metadata.tables if table.name == table_name),
+            None,
         )
     
     # ---- Private methods --------------------------------------------------------
@@ -673,6 +708,7 @@ Evaluate each candidate based on:
 5. **Retriever Validation**
    - Use retrieval score as a clue, not a decision.
    - Override it when semantic or type incompatibility is obvious.
+   - make a relation between the attribute and the column based on the table it belongs to.
 
 ===========================
 STRICT OUTPUT REQUIREMENTS
@@ -691,6 +727,8 @@ Rules:
 - Do NOT include text outside the JSON.
 - Confidence must reflect how well the attribute semantically + structurally 
   aligns with the matched column.
+- it is not acceptable to match one attribute of an entity to a column of a table where the entity does not match the table's.
+- 
 
 """
 
@@ -753,7 +791,7 @@ def create_rag_schema_matcher(
     embedding_service: EmbeddingService,
     vector_store: RAGVectorStore,
     use_llm: bool = False,
-    llm_client: Optional[OpenAILLMClient] = None,
+    llm_client: Optional[LLMService] = None,
     table_threshold: float = 0.62,
     column_threshold: float = 0.68
 ) -> RAGSchemaMatcher:
