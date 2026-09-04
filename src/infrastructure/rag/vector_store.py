@@ -71,34 +71,58 @@ class RAGVectorStore:
         logger.info(f"[RAGVectorStore] Total docs={total_docs}, index_type={self._actual_index_type}")
 
     def search(
-        self,
-        query_embedding: np.ndarray,
-        top_k: int = 5,
-        filters: Optional[Dict[str, Any]] = None
-    ) -> List[Tuple[KnowledgeBaseDocument, float]]:
+    self,
+    query_embedding: np.ndarray,
+    top_k: int = 5,
+    filters: Optional[Dict[str, Any]] = None
+) -> List[Tuple[KnowledgeBaseDocument, float]]:
+
         if self._index is None or len(self._documents) == 0:
             logger.warning("[RAGVectorStore] No documents in store")
             return []
-
+    
         if query_embedding.ndim == 1:
             query_embedding = query_embedding.reshape(1, -1)
-
+    
+        # Ensure query is normalized
+        query_embedding = query_embedding.astype("float32")
+        faiss.normalize_L2(query_embedding)
+    
         k = min(top_k, len(self._documents))
-        distances, indices = self._index.search(query_embedding.astype("float32"), k)
-
+    
+        distances, indices = self._index.search(
+            query_embedding,
+            k
+        )
+    
         results = []
+    
         for idx, distance in zip(indices[0], distances[0]):
+    
             if 0 <= idx < len(self._documents):
+    
                 doc = self._documents[idx]
+    
                 if filters and not self._matches_filters(doc, filters):
                     continue
-                # cosine-friendly if embeddings are normalized: exp(-L2)
-                similarity = float(np.exp(-distance))
-                results.append((doc, similarity))
-
-        results.sort(key=lambda x: x[1], reverse=True)
+    
+                # IndexFlatL2 + normalized vectors:
+                # squared L2 distance = 2 - 2*cosine_similarity
+                similarity = 1.0 - (float(distance) / 2.0)
+    
+                # numerical safety
+                similarity = max(-1.0, min(1.0, similarity))
+    
+                results.append(
+                    (doc, similarity)
+                )
+    
+        results.sort(
+            key=lambda x: x[1],
+            reverse=True
+        )
+    
         return results[:top_k]
-
     # -------------------- Private --------------------
 
     def _determine_index_type(self, num_docs: int) -> str:
