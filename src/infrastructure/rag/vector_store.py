@@ -88,7 +88,10 @@ class RAGVectorStore:
         query_embedding = query_embedding.astype("float32")
         faiss.normalize_L2(query_embedding)
     
-        k = min(top_k, len(self._documents))
+        if filters:
+            k = len(self._documents)
+        else:
+            k = min(top_k, len(self._documents))
     
         distances, indices = self._index.search(
             query_embedding,
