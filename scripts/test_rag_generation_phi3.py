@@ -5,8 +5,12 @@ Dynamic RAG Virtual Rename runner
 What it does
 ------------
 1) Loads U-Schema (JSON) from --uschema-file (or stdin).
-2) Introspects the current relational schema dynamically from your DI container
-   using the provided --db-url (or $DATABASE_URL) and --dialect.
+2) Gets the current relational schema EITHER by:
+     a) introspecting it live from your DI container using --db-url
+        (or $DATABASE_URL) and --dialect, OR
+     b) loading a previously-exported schema snapshot from --schema-file
+        (see scripts/export_schema_to_json.py) -- no DB connection needed.
+   --schema-file takes priority when both are given.
 3) Builds a semantic KB from the current schema and indexes it in a FAISS store.
 4) Runs RAG-based matching:
    - entity -> existing table (virtual rename)
@@ -18,7 +22,7 @@ What it does
 
 Notes
 -----
-- For tiny schemas (few docs), start with low thresholds (0.25–0.40).
+- For tiny schemas (few docs), start with low thresholds (0.25-0.40).
 - The script **never** generates physical RENAME statements; it relies on
   virtual mapping when computing the plan.
 """
@@ -29,8 +33,9 @@ import sys
 import json
 import argparse
 import logging
+from datetime import datetime
 from pathlib import Path
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Optional
 
 # project imports
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
@@ -38,7 +43,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 from src.infrastructure.di_container import DIContainer
 from src.domain.entities.schema import (
     USchema, USchemaEntity, USchemaAttribute, DataType,
-    SchemaMetadata
+    SchemaMetadata, Table, Column, ForeignKey, Index
 )
 from src.domain.entities.rules import NamingConvention
 from src.domain.entities.evolution import ChangeType
@@ -130,6 +135,81 @@ def load_uschema(uschema_json: Dict[str, Any]) -> USchema:
     return USchema(entities=entities)
 
 
+def load_schema_from_json(schema_file: str) -> SchemaMetadata:
+    """
+    Load a SchemaMetadata previously exported by scripts/export_schema_to_json.py.
+    Reconstructs Table/Column/ForeignKey/Index dataclasses from plain dicts so
+    downstream code (RAGSchemaMatcher, DiffEngine, etc.) sees the exact same
+    types it would get from a live inspector.introspect_schema() call.
+    """
+    with open(schema_file, "r", encoding="utf-8") as f:
+        raw = json.load(f)
+
+    def _parse_dt(val: Optional[str]) -> Optional[datetime]:
+        if not val:
+            return None
+        try:
+            return datetime.fromisoformat(val)
+        except Exception:
+            return None
+
+    tables = []
+    for t in raw.get("tables", []):
+        columns = [
+            Column(
+                name=c["name"],
+                data_type=c["data_type"],
+                nullable=c.get("nullable", True),
+                primary_key=c.get("primary_key", False),
+                unique=c.get("unique", False),
+                default_value=c.get("default_value"),
+                comment=c.get("comment"),
+                constraints=c.get("constraints", []) or [],
+            )
+            for c in t.get("columns", [])
+        ]
+        foreign_keys = [
+            ForeignKey(
+                name=fk["name"],
+                column=fk["column"],
+                referenced_table=fk["referenced_table"],
+                referenced_column=fk["referenced_column"],
+                on_delete=fk.get("on_delete", "NO ACTION"),
+                on_update=fk.get("on_update", "NO ACTION"),
+            )
+            for fk in t.get("foreign_keys", [])
+        ]
+        indexes = [
+            Index(
+                name=idx["name"],
+                columns=idx.get("columns", []),
+                unique=idx.get("unique", False),
+                index_type=idx.get("index_type"),
+            )
+            for idx in t.get("indexes", [])
+        ]
+        tables.append(Table(
+            name=t["name"],
+            schema=t.get("schema", "public"),
+            columns=columns,
+            primary_keys=t.get("primary_keys", []) or [],
+            foreign_keys=foreign_keys,
+            indexes=indexes,
+            comment=t.get("comment"),
+            row_count=t.get("row_count", 0),
+            created_at=_parse_dt(t.get("created_at")),
+            modified_at=_parse_dt(t.get("modified_at")),
+        ))
+
+    return SchemaMetadata(
+        tables=tables,
+        views=raw.get("views", []) or [],
+        materialized_views=raw.get("materialized_views", []) or [],
+        database_name=raw.get("database_name", ""),
+        version=raw.get("version", ""),
+        introspection_timestamp=_parse_dt(raw.get("introspection_timestamp")),
+    )
+
 
 def pretty_changes(changes):
     grouped: Dict[str, List] = {}
@@ -180,18 +260,30 @@ def run(args) -> int:
     #     log.error("U-Schema is empty: no entities found")
     #     return 2
 
-    # 2) Configure DI and introspect current schema dynamically
-    db_url = args.db_url or os.getenv("DATABASE_URL")
-    if not db_url:
-        db_url="postgresql://test:test@localhost:55432/test"
-        # log.error("Missing --db-url and $DATABASE_URL")
-        # return 2
+    # 2) Get the current relational schema: --schema-file (offline, no DB
+    #    connection needed) takes priority over live introspection.
+    db_url = None
+    if args.schema_file:
+        if not Path(args.schema_file).exists():
+            log.error(f"--schema-file given but not found: {args.schema_file}")
+            return 2
+        log.info(f"Loading schema snapshot from: {args.schema_file} (no DB connection)")
+        current_schema: SchemaMetadata = load_schema_from_json(args.schema_file)
+    else:
+        db_url = args.db_url or os.getenv("DATABASE_URL")
+        if not db_url:
+            log.error(
+                "No schema source available: pass --schema-file for an offline "
+                "snapshot, or --db-url / $DATABASE_URL for a live connection."
+            )
+            return 2
 
-    container = DIContainer()
-    container.configure(db_url, args.dialect)
-    inspector = container.get_inspector()
-    current_schema: SchemaMetadata = inspector.introspect_schema()
-    log.info(f"Introspected current schema: {len(current_schema.tables)} table(s)")
+        container = DIContainer()
+        container.configure(db_url, args.dialect)
+        inspector = container.get_inspector()
+        current_schema = inspector.introspect_schema()
+
+    log.info(f"Current schema: {len(current_schema.tables)} table(s)")
 
     # 3) Build matcher & KB
     matcher = build_matcher(args.index_type, args.table_threshold, args.column_threshold, args.top_k)
@@ -200,6 +292,7 @@ def run(args) -> int:
     # 4) Do semantic mapping (entity->table, attribute->column)
     mapping_report: Dict[str, Any] = {
         "db_url": db_url,
+        "schema_file": args.schema_file,
         "dialect": args.dialect,
         "table_threshold": args.table_threshold,
         "column_threshold": args.column_threshold,
@@ -299,7 +392,7 @@ def run(args) -> int:
             log.info(f"{i:02d}. {stmt}")
 
     # 8) Optional JSON output
-    
+
     def make_json_serializable(obj):
         """Convertit récursivement les objets Python en valeurs JSON sérialisables."""
         if isinstance(obj, Enum):
@@ -331,6 +424,7 @@ def run(args) -> int:
         payload = {
             "config": {
                 "db_url": db_url,
+                "schema_file": args.schema_file,
                 "dialect": args.dialect,
                 "index_type": args.index_type,
                 "table_threshold": args.table_threshold,
@@ -361,8 +455,11 @@ def parse_args():
     p = argparse.ArgumentParser(description="Dynamic RAG virtual rename runner")
     p.add_argument("--uschema-file", default="./scripts/uschema.json",
                    help="Path to U-Schema JSON (use '-' to read from stdin)")
-    p.add_argument("--db-url", default="postgresql://odoo:odoo@localhost:5432/mimic",
-                   help="Database URL (overrides $DATABASE_URL if provided)")
+    p.add_argument("--schema-file", default="./scripts/schema_snapshot.json",
+                   help="Path to a schema snapshot JSON (see scripts/export_schema_to_json.py). "
+                        "When given, no DB connection is made at all -- this takes priority over --db-url.")
+    p.add_argument("--db-url", default=None,
+                   help="Database URL (overrides $DATABASE_URL if provided). Ignored if --schema-file is given.")
     p.add_argument("--dialect", default="postgresql",
                    choices=["postgresql", "mysql", "sqlite"],
                    help="SQL dialect for SQL generation")

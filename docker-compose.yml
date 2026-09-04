@@ -23,6 +23,8 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - rag_net
 
   ollama:
     container_name: rag_ollama
@@ -36,14 +38,9 @@ services:
     environment:
       OLLAMA_HOST: "0.0.0.0:11434"
     # ---- GPU passthrough ----
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: all          # or a specific number, e.g. 1
-              capabilities: [gpu]
     entrypoint: /bin/bash
+    networks:
+      - rag_net
     command:
       - -c
       - |
@@ -68,26 +65,32 @@ services:
       context: .
       dockerfile: Dockerfile
     restart: on-failure
-    depends_on:
-      db:
-        condition: service_healthy
-      ollama:
-        condition: service_healthy
     environment:
       DATABASE_URL: "postgres://test:test@rag_db:5432/test"
       OLLAMA_HOST: "http://rag_ollama:11434"
+      PYTHONPATH: "/app"
       PYTHONUNBUFFERED: "1"
       PYTHONDONTWRITEBYTECODE: "1"
       CI: "true"
     volumes:
       - .:/app:cached
+    networks:
+      - rag_net
     command: >
       sh -c "
         echo 'Waiting for database to be ready...' &&
         sleep 5 &&
-        python -m pytest tests/ -v --tb=short
+        echo 'running test rag generation wit llama3.1' &&
+        python ./scripts/test_rag_generation.py --db-url postgres://test:test@rag_db:5432/test &&
+        echo 'running test rag generation wit phi3:mini' &&
+        python ./scripts/test_rag_generation_phi3.py --db-url postgres://test:test@rag_db:5432/test &&
+        echo 'running test rag generation wit mistral' &&
+        python ./scripts/test_rag_generation_mistral.py --db-url postgres://test:test@rag_db:5432/test
       "
 
+networks:
+  rag_net:
+    driver: bridge
 volumes:
   pgdata:
   ollama_models:
