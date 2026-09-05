@@ -1,6 +1,7 @@
 version: "3.9"
 
 services:
+
   db:
     image: postgres:15
     container_name: rag_db
@@ -9,22 +10,10 @@ services:
       POSTGRES_USER: test
       POSTGRES_PASSWORD: test
       POSTGRES_DB: test
-      # Allow unsafe connections for CI environments
-      POSTGRES_INITDB_ARGS: "-c password_encryption=md5"
     ports:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
-      # Mount the SQL file to be executed on startup
-      - ./data/mimic_iii_ddl.sql:/docker-entrypoint-initdb.d/01-mimic_ddl.sql
-      - ./scripts/init-db.sh:/docker-entrypoint-initdb.d/02-init-db.sh
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U test -d test"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-    networks:
-      - rag_net
 
   ollama:
     container_name: rag_ollama
@@ -34,30 +23,8 @@ services:
       - "11434:11434"
     volumes:
       - ollama_models:/root/.ollama
-      - ./scripts/init-ollama.sh:/init-ollama.sh
     environment:
-      OLLAMA_HOST: "0.0.0.0:11434"
-    # ---- GPU passthrough ----
-    entrypoint: /bin/bash
-    networks:
-      - rag_net
-    command:
-      - -c
-      - |
-        echo "Starting Ollama server..."
-        /bin/ollama serve &
-        OLLAMA_PID=$$!
-        sleep 10
-        echo "Pulling models..."
-        curl -X POST http://localhost:11434/api/pull -d '{"name":"phi3:mini"}' || true
-        curl -X POST http://localhost:11434/api/pull -d '{"name":"mistral"}' || true
-        curl -X POST http://localhost:11434/api/pull -d '{"name":"llama3.1"}' || true
-        wait $$OLLAMA_PID
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:11434/api/tags"]
-      interval: 15s
-      timeout: 10s
-      retries: 5
+      OLLAMA_HOST: "0.0.0.0"
 
   app:
     container_name: rag_app
@@ -65,22 +32,17 @@ services:
       context: .
       dockerfile: Dockerfile
     restart: on-failure
+    depends_on:
+      - db
+      - ollama
     environment:
       DATABASE_URL: "postgres://test:test@rag_db:5432/test"
       OLLAMA_HOST: "http://rag_ollama:11434"
-      PYTHONPATH: "/app"
       PYTHONUNBUFFERED: "1"
       PYTHONDONTWRITEBYTECODE: "1"
-      CI: "true"
     volumes:
       - .:/app:cached
-    networks:
-      - rag_net
-    
 
-networks:
-  rag_net:
-    driver: bridge
 volumes:
   pgdata:
   ollama_models:
