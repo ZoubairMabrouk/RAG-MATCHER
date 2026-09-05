@@ -76,17 +76,7 @@ services:
       - .:/app:cached
     networks:
       - rag_net
-    command: >
-      sh -c "
-        echo 'Waiting for database to be ready...' &&
-        sleep 5 &&
-        echo 'running test rag generation wit llama3.1' &&
-        python ./scripts/test_rag_generation.py --db-url postgres://test:test@rag_db:5432/test &&
-        echo 'running test rag generation wit phi3:mini' &&
-        python ./scripts/test_rag_generation_phi3.py --db-url postgres://test:test@rag_db:5432/test &&
-        echo 'running test rag generation wit mistral' &&
-        python ./scripts/test_rag_generation_mistral.py --db-url postgres://test:test@rag_db:5432/test
-      "
+    
 
 networks:
   rag_net:

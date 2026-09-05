@@ -281,8 +281,33 @@ class RAGSchemaMatcher:
                 self._embedding_service.embed([doc.content])[0], dtype="float32"
             )
             table_specs.append(EntitySpec(doc.table, table_attributes, table_embedding))
-
+ 
         reranked = self._hybrid_reranker.match(source, table_specs)
+ 
+        # Try the LLM validator first when available; fall back to the
+        # hybrid reranker's result if the LLM produces no usable match.
+        if self._llm_client:
+            logger.info(f"[RAGSchemaMatcher] Using LLM client to validate table match for '{entity_name}'")
+            llm_result = self._llm_validate_table(entity_name, attributes, candidates)
+            llm_target = llm_result.get("target_name")
+            llm_conf = float(llm_result.get("confidence", 0.0))
+            if llm_target:
+                return MatchResult(
+                    target_name=llm_target,
+                    confidence=llm_conf,
+                    rationale=f"LLM match accepted: {llm_result.get('rationale', '')}",
+                    extra={
+                        "method": "llm",
+                        "hybrid_target": reranked.target_name,
+                        "hybrid_confidence": reranked.confidence,
+                        "candidates_count": len(candidates),
+                    },
+                )
+            logger.info(
+                f"[RAGSchemaMatcher] LLM validation found no match for '{entity_name}' "
+                f"(conf={llm_conf:.3f}); falling back to hybrid reranker result."
+            )
+ 
         return MatchResult(
             target_name=reranked.target_name,
             confidence=reranked.confidence,
