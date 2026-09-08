@@ -1,0 +1,1887 @@
+{
+  "config": {
+    "db_url": null,
+    "schema_file": "mimic_schema.json",
+    "dialect": "postgresql",
+    "index_type": "auto",
+    "table_threshold": 0.0,
+    "column_threshold": 0.0,
+    "top_k": 10
+  },
+  "mapping": [
+    {
+      "entity": "person",
+      "matched_table": "patients",
+      "table_confidence": 0.7321,
+      "table_rationale": "The 'person' entity is mapped to the 'patients' table because this table contains the core demographic information about patients. The LLM assigned this table to leverage the comprehensive and direct data available in patients, ensuring accuracy and relevance.",
+      "attributes": [
+        {
+          "name": "birth_datetime",
+          "target_table": "patients",
+          "target_column": "dob",
+          "confidence": 0.8211,
+          "rationale": "The LLM selected 'dob' in 'patients' for 'birth_datetime' because it is the most direct source of birth date information. The confidence is high due to the clear semantic equivalence, though slightly lower than before to reflect the model's consideration of alternative sources like admission records."
+        },
+        {
+          "name": "care_site_id",
+          "target_table": "transfers",
+          "target_column": "curr_careunit",
+          "confidence": 0.6234,
+          "rationale": "The LLM identified 'curr_careunit' in 'transfers' as a proxy for 'care_site_id', reasoning that the care unit can serve as a surrogate for a care site. The confidence is moderate because this column indicates a unit rather than a unique site identifier, but it's the closest available match."
+        },
+        {
+          "name": "day_of_birth",
+          "target_table": "patients",
+          "target_column": "dob",
+          "confidence": 0.8912,
+          "rationale": "The LLM matched 'day_of_birth' to 'dob' in 'patients' with high confidence, as this column directly contains the full birth date, from which the day can be extracted. The model prefers this direct mapping over derived sources."
+        },
+        {
+          "name": "death_datetime",
+          "target_table": "patients",
+          "target_column": "dod",
+          "confidence": 0.9267,
+          "rationale": "The LLM confidently assigned 'death_datetime' to 'dod' in 'patients', as this is the primary record of death information. The high confidence reflects the direct and unambiguous relationship between the attributes."
+        },
+        {
+          "name": "ethnicity_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no match for 'ethnicity_concept_id' because MIMIC-III lacks standard concept identifiers for ethnicity. The model recognizes that ethnicity is stored as free text, making a direct mapping to a concept_id impossible."
+        },
+        {
+          "name": "ethnicity_source_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM determined that no source concept_id for ethnicity exists, as the data is textual. The model consistently applies this reasoning across all concept-related fields for ethnicity."
+        },
+        {
+          "name": "ethnicity_source_value",
+          "target_table": "admissions",
+          "target_column": "ethnicity",
+          "confidence": 0.7823,
+          "rationale": "The LLM mapped 'ethnicity_source_value' to the 'ethnicity' column in 'admissions', as this is the primary source of textual ethnicity data. The confidence is high because the mapping is direct and logical, despite the column being an admission-level attribute."
+        },
+        {
+          "name": "gender_concept_id",
+          "target_table": "patients",
+          "target_column": "gender",
+          "confidence": 0.9654,
+          "rationale": "The LLM assigned 'gender_concept_id' to 'gender' in 'patients' with very high confidence. Although the source is textual, the model interprets it as a direct representation of the gender concept."
+        },
+        {
+          "name": "gender_source_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no source concept_id for gender, as the data is stored as a simple text value. The model consistently identifies the absence of concept identifiers in the source schema."
+        },
+        {
+          "name": "gender_source_value",
+          "target_table": "patients",
+          "target_column": "gender",
+          "confidence": 0.9541,
+          "rationale": "The LLM mapped 'gender_source_value' directly to 'gender' in 'patients', recognizing it as the source value. The high confidence stems from the direct and obvious equivalence."
+        },
+        {
+          "name": "location_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM concluded that MIMIC-III lacks any location information, so no mapping for 'location_id' is possible. The model notes the absence of address or geographic data."
+        },
+        {
+          "name": "month_of_birth",
+          "target_table": "patients",
+          "target_column": "dob",
+          "confidence": 0.8745,
+          "rationale": "The LLM matched 'month_of_birth' to 'dob' in 'patients', as it is the source of the full birth date. The confidence is high because the month can be directly extracted from this column."
+        },
+        {
+          "name": "person_id",
+          "target_table": "patients",
+          "target_column": "subject_id",
+          "confidence": 0.9889,
+          "rationale": "The LLM assigned 'person_id' to 'subject_id' in 'patients' with near-perfect confidence, as this is the primary key for patient identification. The mapping is direct and unambiguous."
+        },
+        {
+          "name": "person_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no separate source value for the patient identifier, as 'subject_id' itself serves as the main identifier. The model recognizes that no additional source column exists."
+        },
+        {
+          "name": "provider_id",
+          "target_table": "caregivers",
+          "target_column": "row_id",
+          "confidence": 0.7112,
+          "rationale": "The LLM mapped 'provider_id' to 'row_id' in 'caregivers', reasoning that caregivers can serve as providers. The confidence is moderate because the caregiver may not always equate to a primary provider."
+        },
+        {
+          "name": "race_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no concept_id for race in MIMIC-III, as race data is not systematically stored. The model determines that mapping this attribute is not feasible."
+        },
+        {
+          "name": "race_source_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM concludes that no source concept_id for race exists, consistent with the lack of standardized race coding in the source data."
+        },
+        {
+          "name": "race_source_value",
+          "target_table": "admissions",
+          "target_column": "ethnicity",
+          "confidence": 0.6891,
+          "rationale": "The LLM mapped 'race_source_value' to 'ethnicity' in 'admissions', acknowledging that race is sometimes captured within this field. The confidence is moderate due to the conceptual overlap but potential differences between race and ethnicity."
+        },
+        {
+          "name": "year_of_birth",
+          "target_table": "patients",
+          "target_column": "dob",
+          "confidence": 0.8632,
+          "rationale": "The LLM mapped 'year_of_birth' to 'dob' in 'patients' because the year is derivable from this column. The confidence is high, though slightly tempered by the indirectness of extracting only the year."
+        }
+      ]
+    },
+    {
+      "entity": "visit_occurrence",
+      "matched_table": "transfers",
+      "table_confidence": 0.7912,
+      "table_rationale": "The 'visit_occurrence' entity is mapped to the 'transfers' table because it provides detailed chronological information about patient movements and care units, which closely aligns with the concept of a visit. The LLM chose this table to capture the granular time-based aspects of a visit, considering that transfers offer more temporal precision than a simple admission record.",
+      "attributes": [
+        {
+          "name": "admitted_from_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no concept_id for admission origin, as the data is stored as text in columns like 'prev_careunit'. The model identifies the lack of standardized concept identifiers in MIMIC-III."
+        },
+        {
+          "name": "admitted_from_source_value",
+          "target_table": "transfers",
+          "target_column": "prev_careunit",
+          "confidence": 0.8345,
+          "rationale": "The LLM mapped 'admitted_from_source_value' to 'prev_careunit' in 'transfers', as this column describes the previous care unit. The confidence is good because it directly provides the source value of the origin."
+        },
+        {
+          "name": "care_site_id",
+          "target_table": "transfers",
+          "target_column": "curr_careunit",
+          "confidence": 0.7567,
+          "rationale": "The LLM assigned 'care_site_id' to 'curr_careunit' in 'transfers', reasoning that the current care unit represents the care site. The confidence is moderate due to the indirect nature of this mapping."
+        },
+        {
+          "name": "discharge_to_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no concept_id for discharge destination, as this information is not available in MIMIC-III. The model recognizes the absence of this data."
+        },
+        {
+          "name": "discharge_to_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM concluded that no source value for discharge destination exists in the available tables, as this information is not recorded."
+        },
+        {
+          "name": "person_id",
+          "target_table": "patients",
+          "target_column": "subject_id",
+          "confidence": 0.9345,
+          "rationale": "The LLM mapped 'person_id' to 'subject_id' in 'patients' with high confidence, as this is the standard foreign key linking patient data across tables."
+        },
+        {
+          "name": "preceding_visit_occurrence_id",
+          "target_table": "admissions",
+          "target_column": "hadm_id",
+          "confidence": 0.8211,
+          "rationale": "The LLM mapped 'preceding_visit_occurrence_id' to 'hadm_id' in 'admissions', reasoning that the admission ID can serve as a previous visit identifier. Confidence is high due to the logical connection."
+        },
+        {
+          "name": "provider_id",
+          "target_table": "caregivers",
+          "target_column": "row_id",
+          "confidence": 0.6893,
+          "rationale": "The LLM mapped 'provider_id' to 'row_id' in 'caregivers' as a proxy for the provider associated with the visit. Confidence is moderate because the caregiver may not always be the primary provider for the visit."
+        },
+        {
+          "name": "visit_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no concept_id for the visit type, as the admission type is stored as text. The model determines that mapping this field is not possible."
+        },
+        {
+          "name": "visit_end_date",
+          "target_table": "transfers",
+          "target_column": "outtime",
+          "confidence": 0.8654,
+          "rationale": "The LLM mapped 'visit_end_date' to 'outtime' in 'transfers', which marks the end of a transfer event. The confidence is high because this column provides the exact end time of the care unit stay."
+        },
+        {
+          "name": "visit_end_datetime",
+          "target_table": "transfers",
+          "target_column": "outtime",
+          "confidence": 0.9341,
+          "rationale": "The LLM assigned 'visit_end_datetime' to 'outtime' in 'transfers' with very high confidence, as it provides a precise timestamp for the end of a transfer episode."
+        },
+        {
+          "name": "visit_occurrence_id",
+          "target_table": "transfers",
+          "target_column": "row_id",
+          "confidence": 0.8345,
+          "rationale": "The LLM mapped 'visit_occurrence_id' to 'row_id' in 'transfers', reasoning that each transfer record can serve as a visit occurrence. Confidence is good, though it assumes each transfer represents a distinct visit."
+        },
+        {
+          "name": "visit_source_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no source concept_id for visit type, as the admission type is stored as text in 'admission_type'. The model recognizes that no standardized concept exists."
+        },
+        {
+          "name": "visit_source_value",
+          "target_table": "admissions",
+          "target_column": "admission_type",
+          "confidence": 0.8781,
+          "rationale": "The LLM mapped 'visit_source_value' to 'admission_type' in 'admissions' because this column provides a textual description of the admission type. Confidence is high due to the direct and intuitive mapping."
+        },
+        {
+          "name": "visit_start_date",
+          "target_table": "transfers",
+          "target_column": "intime",
+          "confidence": 0.8432,
+          "rationale": "The LLM assigned 'visit_start_date' to 'intime' in 'transfers', as this column records the start time of a transfer. The confidence is good because it marks the beginning of the care unit stay."
+        },
+        {
+          "name": "visit_start_datetime",
+          "target_table": "transfers",
+          "target_column": "intime",
+          "confidence": 0.9123,
+          "rationale": "The LLM mapped 'visit_start_datetime' to 'intime' in 'transfers' with high confidence, as it provides the precise start timestamp of a transfer episode."
+        },
+        {
+          "name": "visit_type_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no concept_id for visit type, as the admission type is stored as text. The model determines that mapping this field is not feasible."
+        }
+      ]
+    },
+    {
+      "entity": "visit_detail",
+      "matched_table": "admissions",
+      "table_confidence": 0.7561,
+      "table_rationale": "The 'visit_detail' entity is mapped to the 'admissions' table because it provides a comprehensive view of each patient admission, which can be considered a detailed visit record. The LLM selected this table over 'transfers' because admissions are more stable and capture the overall visit context, while transfers are transient movements. This choice reflects a balance between detail and cohesion.",
+      "attributes": [
+        {
+          "name": "admitted_from_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no concept_id for the admission origin, as the data is stored as text. The model recognizes the lack of standardized concept identifiers in the source schema."
+        },
+        {
+          "name": "admitted_from_source_value",
+          "target_table": "admissions",
+          "target_column": "admission_location",
+          "confidence": 0.8456,
+          "rationale": "The LLM mapped 'admitted_from_source_value' to 'admission_location' in 'admissions', as this column describes where the patient came from. The confidence is high because it provides a direct textual source value."
+        },
+        {
+          "name": "care_site_id",
+          "target_table": "admissions",
+          "target_column": "hadm_id",
+          "confidence": 0.6781,
+          "rationale": "The LLM mapped 'care_site_id' to 'hadm_id' in 'admissions', reasoning that the admission ID can serve as a care site identifier. The confidence is moderate because the hadm_id is not a direct care site identifier but can proxy for it."
+        },
+        {
+          "name": "discharge_to_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no concept_id for discharge destination in MIMIC-III. The model determines that mapping this field is not possible."
+        },
+        {
+          "name": "discharge_to_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM concluded that no column stores the discharge destination as text, so no mapping is feasible."
+        },
+        {
+          "name": "person_id",
+          "target_table": "patients",
+          "target_column": "subject_id",
+          "confidence": 0.9123,
+          "rationale": "The LLM mapped 'person_id' to 'subject_id' in 'patients' with high confidence, as this is the standard foreign key linking patient data."
+        },
+        {
+          "name": "preceding_visit_detail_id",
+          "target_table": "admissions",
+          "target_column": "hadm_id",
+          "confidence": 0.8234,
+          "rationale": "The LLM mapped 'preceding_visit_detail_id' to 'hadm_id' in 'admissions', reasoning that the admission ID can serve as a previous visit detail identifier. Confidence is high due to the logical connection."
+        },
+        {
+          "name": "provider_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no provider associated with visit details in the admissions table. The model recognizes that provider information is not directly available at this level."
+        },
+        {
+          "name": "visit_detail_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no concept_id for visit detail type. The model determines that this field cannot be mapped from the available data."
+        },
+        {
+          "name": "visit_detail_end_date",
+          "target_table": "admissions",
+          "target_column": "dischtime",
+          "confidence": 0.7891,
+          "rationale": "The LLM assigned 'visit_detail_end_date' to 'dischtime' in 'admissions', which marks the discharge time. Confidence is good, as it indicates the end of an admission."
+        },
+        {
+          "name": "visit_detail_end_datetime",
+          "target_table": "admissions",
+          "target_column": "dischtime",
+          "confidence": 0.8765,
+          "rationale": "The LLM mapped 'visit_detail_end_datetime' to 'dischtime' in 'admissions' with high confidence, as this column provides the precise end timestamp of the admission."
+        },
+        {
+          "name": "visit_detail_id",
+          "target_table": "admissions",
+          "target_column": "row_id",
+          "confidence": 0.8345,
+          "rationale": "The LLM mapped 'visit_detail_id' to 'row_id' in 'admissions', reasoning that each admission record can serve as a visit detail. Confidence is good, assuming each admission is a distinct visit detail."
+        },
+        {
+          "name": "visit_detail_parent_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no parent column for visit details. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "visit_detail_source_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no source concept_id for visit detail type. The model recognizes the absence of standardized coding."
+        },
+        {
+          "name": "visit_detail_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no textual source value for visit detail type. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "visit_detail_start_date",
+          "target_table": "admissions",
+          "target_column": "admittime",
+          "confidence": 0.8123,
+          "rationale": "The LLM mapped 'visit_detail_start_date' to 'admittime' in 'admissions', as this column records the admission time. Confidence is good, as it marks the start of the admission."
+        },
+        {
+          "name": "visit_detail_start_datetime",
+          "target_table": "admissions",
+          "target_column": "admittime",
+          "confidence": 0.8893,
+          "rationale": "The LLM mapped 'visit_detail_start_datetime' to 'admittime' in 'admissions' with high confidence, as it provides the precise start timestamp of the admission."
+        },
+        {
+          "name": "visit_detail_type_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no concept_id for visit detail type. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "visit_occurrence_id",
+          "target_table": "admissions",
+          "target_column": "hadm_id",
+          "confidence": 0.8456,
+          "rationale": "The LLM mapped 'visit_occurrence_id' to 'hadm_id' in 'admissions', as this is the unique identifier for an admission. Confidence is high because it directly links the visit occurrence."
+        }
+      ]
+    },
+    {
+      "entity": "specimen",
+      "matched_table": "labevents",
+      "table_confidence": 0.6123,
+      "table_rationale": "The 'specimen' entity is mapped to the 'labevents' table because it contains laboratory measurements that often involve specimen collection. The LLM chose this table due to its high relevance to specimen-related data, even though it is not a dedicated specimen table. The model reasoned that specimen collection is most frequently associated with lab events, making this the most practical choice.",
+      "attributes": [
+        {
+          "name": "anatomic_site_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no concept_id for anatomic site in MIMIC-III. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "anatomic_site_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no column for anatomic site. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "disease_status_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no disease status concept in MIMIC-III. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "disease_status_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no corresponding column for disease status. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "person_id",
+          "target_table": "patients",
+          "target_column": "subject_id",
+          "confidence": 0.7891,
+          "rationale": "The LLM mapped 'person_id' to 'subject_id' in 'patients' with good confidence, as this is the standard patient identifier used across tables."
+        },
+        {
+          "name": "quantity",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no quantity column for specimens. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "specimen_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no specimen concept. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "specimen_date",
+          "target_table": "labevents",
+          "target_column": "charttime",
+          "confidence": 0.8456,
+          "rationale": "The LLM mapped 'specimen_date' to 'charttime' in 'labevents', as this column records the time of the lab event. Confidence is good because it can serve as a proxy for specimen collection time."
+        },
+        {
+          "name": "specimen_datetime",
+          "target_table": "labevents",
+          "target_column": "charttime",
+          "confidence": 0.8345,
+          "rationale": "The LLM mapped 'specimen_datetime' to 'charttime' in 'labevents' with good confidence, as it provides a precise timestamp for the lab event, which likely corresponds to specimen collection."
+        },
+        {
+          "name": "specimen_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no explicit specimen identifier. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "specimen_source_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no specimen source. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "specimen_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no specimen source value. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "specimen_type_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no specimen type concept. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "unit_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no unit concept. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "unit_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no unit source. The model determines that this field cannot be mapped."
+        }
+      ]
+    },
+    {
+      "entity": "measurement",
+      "matched_table": "chartevents",
+      "table_confidence": 0.7651,
+      "table_rationale": "The 'measurement' entity is mapped to the 'chartevents' table because it contains a wide variety of clinical measurements, including vital signs and other observations. The LLM selected this table over 'labevents' because chart events encompass a broader range of measurements, not just laboratory results, providing a more comprehensive coverage of the measurement domain.",
+      "attributes": [
+        {
+          "name": "measurement_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no measurement concept_id in the source tables. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "measurement_date",
+          "target_table": "chartevents",
+          "target_column": "chartdate",
+          "confidence": 0.8345,
+          "rationale": "The LLM mapped 'measurement_date' to 'chartdate' in 'chartevents', as this column records the date of the measurement. Confidence is good because it provides a direct date value."
+        },
+        {
+          "name": "measurement_datetime",
+          "target_table": "chartevents",
+          "target_column": "charttime",
+          "confidence": 0.8912,
+          "rationale": "The LLM mapped 'measurement_datetime' to 'charttime' in 'chartevents' with high confidence, as this column provides a precise timestamp for the measurement."
+        },
+        {
+          "name": "measurement_id",
+          "target_table": "chartevents",
+          "target_column": "row_id",
+          "confidence": 0.7891,
+          "rationale": "The LLM mapped 'measurement_id' to 'row_id' in 'chartevents', reasoning that each chart event can serve as a measurement. Confidence is good, assuming each event is a distinct measurement."
+        },
+        {
+          "name": "measurement_source_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no source concept_id for measurements. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "measurement_source_value",
+          "target_table": "chartevents",
+          "target_column": "value",
+          "confidence": 0.8234,
+          "rationale": "The LLM mapped 'measurement_source_value' to 'value' in 'chartevents', as this column stores the textual value of the measurement. Confidence is good because it provides the source value."
+        },
+        {
+          "name": "measurement_time",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no column for time alone. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "measurement_type_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no measurement type concept. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "operator_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no operator information. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "person_id",
+          "target_table": "patients",
+          "target_column": "subject_id",
+          "confidence": 0.9213,
+          "rationale": "The LLM mapped 'person_id' to 'subject_id' in 'patients' with very high confidence, as this is the standard patient identifier."
+        },
+        {
+          "name": "provider_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no provider for measurements. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "range_high",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no high reference range. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "range_low",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no low reference range. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "unit_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no unit concept. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "unit_source_value",
+          "target_table": "chartevents",
+          "target_column": "valueuom",
+          "confidence": 0.8765,
+          "rationale": "The LLM mapped 'unit_source_value' to 'valueuom' in 'chartevents' with high confidence, as this column stores the unit of measurement."
+        },
+        {
+          "name": "value_as_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no concept for value. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "value_as_number",
+          "target_table": "chartevents",
+          "target_column": "valuenum",
+          "confidence": 0.8456,
+          "rationale": "The LLM mapped 'value_as_number' to 'valuenum' in 'chartevents', as this column stores the numeric value of the measurement. Confidence is good because it provides a direct numeric value."
+        },
+        {
+          "name": "value_source_value",
+          "target_table": "chartevents",
+          "target_column": "value",
+          "confidence": 0.8123,
+          "rationale": "The LLM mapped 'value_source_value' to 'value' in 'chartevents', as this column stores the textual value. Confidence is good, though slightly lower than the numeric mapping due to potential ambiguity."
+        },
+        {
+          "name": "visit_detail_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no visit detail associated with measurements. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "visit_occurrence_id",
+          "target_table": "admissions",
+          "target_column": "hadm_id",
+          "confidence": 0.8234,
+          "rationale": "The LLM mapped 'visit_occurrence_id' to 'hadm_id' in 'admissions' with good confidence, as this links the measurement to the admission."
+        }
+      ]
+    },
+    {
+      "entity": "procedure_occurrence",
+      "matched_table": "procedures_icd",
+      "table_confidence": 0.7234,
+      "table_rationale": "The 'procedure_occurrence' entity is mapped to the 'procedures_icd' table because it contains ICD-9 procedure codes, which are standard representations of procedures. The LLM chose this table over 'cptevents' due to the more comprehensive and structured nature of ICD-9 codes, which are commonly used in EHR systems. The model reasoned that ICD-9 provides a clearer and more standardized mapping for procedures.",
+      "attributes": [
+        {
+          "name": "modifier_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no modifier concept. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "modifier_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no modifier source. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "person_id",
+          "target_table": "patients",
+          "target_column": "subject_id",
+          "confidence": 0.9123,
+          "rationale": "The LLM mapped 'person_id' to 'subject_id' in 'patients' with high confidence, as this is the standard patient identifier."
+        },
+        {
+          "name": "procedure_concept_id",
+          "target_table": "procedures_icd",
+          "target_column": "icd9_code",
+          "confidence": 0.7891,
+          "rationale": "The LLM mapped 'procedure_concept_id' to 'icd9_code' in 'procedures_icd', reasoning that the ICD-9 code can serve as a procedure concept. Confidence is good because ICD-9 codes are widely used to represent procedures."
+        },
+        {
+          "name": "procedure_date",
+          "target_table": "procedures_icd",
+          "target_column": "chartdate",
+          "confidence": 0.8234,
+          "rationale": "The LLM mapped 'procedure_date' to 'chartdate' in 'procedures_icd', as this column records the date of the procedure. Confidence is good because it provides a direct date value."
+        },
+        {
+          "name": "procedure_datetime",
+          "target_table": "procedures_icd",
+          "target_column": "chartdate",
+          "confidence": 0.8456,
+          "rationale": "The LLM mapped 'procedure_datetime' to 'chartdate' in 'procedures_icd' with good confidence, as it provides the date of the procedure. The time component is not available, but the date is sufficient."
+        },
+        {
+          "name": "procedure_occurrence_id",
+          "target_table": "procedures_icd",
+          "target_column": "row_id",
+          "confidence": 0.8123,
+          "rationale": "The LLM mapped 'procedure_occurrence_id' to 'row_id' in 'procedures_icd', reasoning that each procedure record can serve as an occurrence. Confidence is good, assuming each row is a distinct procedure."
+        },
+        {
+          "name": "procedure_source_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no source concept. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "procedure_source_value",
+          "target_table": "procedures_icd",
+          "target_column": "icd9_code",
+          "confidence": 0.8345,
+          "rationale": "The LLM mapped 'procedure_source_value' to 'icd9_code' in 'procedures_icd', as this column provides the source code for the procedure. Confidence is good because it directly matches the source value."
+        },
+        {
+          "name": "procedure_type_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no procedure type concept. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "provider_id",
+          "target_table": "caregivers",
+          "target_column": "row_id",
+          "confidence": 0.7891,
+          "rationale": "The LLM mapped 'provider_id' to 'row_id' in 'caregivers' with good confidence, as caregivers can serve as providers. Confidence is moderate due to the potential mismatch in roles."
+        },
+        {
+          "name": "quantity",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no quantity for procedures. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "visit_detail_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no visit detail. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "visit_occurrence_id",
+          "target_table": "admissions",
+          "target_column": "hadm_id",
+          "confidence": 0.8345,
+          "rationale": "The LLM mapped 'visit_occurrence_id' to 'hadm_id' in 'admissions' with good confidence, as this links the procedure to the admission."
+        }
+      ]
+    },
+    {
+      "entity": "condition_occurrence",
+      "matched_table": "diagnoses_icd",
+      "table_confidence": 0.8456,
+      "table_rationale": "The 'condition_occurrence' entity is mapped to the 'diagnoses_icd' table because it contains ICD-9 diagnosis codes, which are the most direct and structured representation of conditions. The LLM selected this table over 'admissions' because diagnoses_icd is specifically designed to capture diagnosis information, providing a more precise and consistent mapping for condition occurrences.",
+      "attributes": [
+        {
+          "name": "condition_concept_id",
+          "target_table": "diagnoses_icd",
+          "target_column": "icd9_code",
+          "confidence": 0.8456,
+          "rationale": "The LLM mapped 'condition_concept_id' to 'icd9_code' in 'diagnoses_icd', reasoning that the ICD-9 code can serve as a condition concept. Confidence is high because ICD-9 codes are standard representations of diagnoses."
+        },
+        {
+          "name": "condition_end_date",
+          "target_table": "admissions",
+          "target_column": "dischtime",
+          "confidence": 0.7234,
+          "rationale": "The LLM mapped 'condition_end_date' to 'dischtime' in 'admissions', as the discharge time can serve as the end of the condition. Confidence is moderate because the condition may not always end at discharge."
+        },
+        {
+          "name": "condition_end_datetime",
+          "target_table": "admissions",
+          "target_column": "dischtime",
+          "confidence": 0.7567,
+          "rationale": "The LLM mapped 'condition_end_datetime' to 'dischtime' in 'admissions' with moderate confidence, as it provides a timestamp for the end of the admission, which may proxy for condition resolution."
+        },
+        {
+          "name": "condition_occurrence_id",
+          "target_table": "diagnoses_icd",
+          "target_column": "row_id",
+          "confidence": 0.8765,
+          "rationale": "The LLM mapped 'condition_occurrence_id' to 'row_id' in 'diagnoses_icd' with high confidence, as each diagnosis record can serve as a condition occurrence."
+        },
+        {
+          "name": "condition_source_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no source concept. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "condition_source_value",
+          "target_table": "diagnoses_icd",
+          "target_column": "icd9_code",
+          "confidence": 0.9123,
+          "rationale": "The LLM mapped 'condition_source_value' to 'icd9_code' in 'diagnoses_icd' with very high confidence, as this column provides the source code for the diagnosis."
+        },
+        {
+          "name": "condition_start_date",
+          "target_table": "admissions",
+          "target_column": "admittime",
+          "confidence": 0.7891,
+          "rationale": "The LLM mapped 'condition_start_date' to 'admittime' in 'admissions', as the admission time can serve as the start of the condition. Confidence is good because the condition is likely present at admission."
+        },
+        {
+          "name": "condition_start_datetime",
+          "target_table": "admissions",
+          "target_column": "admittime",
+          "confidence": 0.8123,
+          "rationale": "The LLM mapped 'condition_start_datetime' to 'admittime' in 'admissions' with good confidence, as it provides a timestamp for the start of the admission."
+        },
+        {
+          "name": "condition_status_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no condition status concept. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "condition_status_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no condition status source. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "condition_type_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no condition type concept. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "person_id",
+          "target_table": "patients",
+          "target_column": "subject_id",
+          "confidence": 0.9345,
+          "rationale": "The LLM mapped 'person_id' to 'subject_id' in 'patients' with very high confidence, as this is the standard patient identifier."
+        },
+        {
+          "name": "provider_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no provider for conditions. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "stop_reason",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no stop reason. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "visit_detail_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no visit detail. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "visit_occurrence_id",
+          "target_table": "admissions",
+          "target_column": "hadm_id",
+          "confidence": 0.8456,
+          "rationale": "The LLM mapped 'visit_occurrence_id' to 'hadm_id' in 'admissions' with good confidence, as this links the condition to the admission."
+        }
+      ]
+    },
+    {
+      "entity": "death",
+      "matched_table": "patients",
+      "table_confidence": 0.6781,
+      "table_rationale": "The 'death' entity is mapped to the 'patients' table because it contains the 'dod' (date of death) column, which is the primary source of death information. The LLM selected this table despite the absence of a dedicated death table, reasoning that the patients table provides the most reliable and direct record of death data.",
+      "attributes": [
+        {
+          "name": "cause_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no cause of death concept. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "cause_source_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no source concept. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "cause_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no cause source. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "death_date",
+          "target_table": "patients",
+          "target_column": "dod",
+          "confidence": 0.8345,
+          "rationale": "The LLM mapped 'death_date' to 'dod' in 'patients' with good confidence, as this column provides the date of death."
+        },
+        {
+          "name": "death_datetime",
+          "target_table": "patients",
+          "target_column": "dod",
+          "confidence": 0.8456,
+          "rationale": "The LLM mapped 'death_datetime' to 'dod' in 'patients' with good confidence, as this column provides the date of death, which can proxy for datetime."
+        },
+        {
+          "name": "death_type_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no death type concept. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "person_id",
+          "target_table": "patients",
+          "target_column": "subject_id",
+          "confidence": 0.9678,
+          "rationale": "The LLM mapped 'person_id' to 'subject_id' in 'patients' with very high confidence, as this is the primary key for patient identification."
+        }
+      ]
+    },
+    {
+      "entity": "location",
+      "matched_table": null,
+      "table_confidence": 0.0,
+      "table_rationale": "No attribute of 'location' has a match, because MIMIC-III does not contain detailed address data. Geographic information is absent, so no table is appropriate.",
+      "attributes": [
+        {
+          "name": "address_1",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Absent from MIMIC-III."
+        },
+        {
+          "name": "address_2",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Absent."
+        },
+        {
+          "name": "city",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Absent."
+        },
+        {
+          "name": "county",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Absent."
+        },
+        {
+          "name": "location_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Absent."
+        },
+        {
+          "name": "location_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Absent."
+        },
+        {
+          "name": "state",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Absent."
+        },
+        {
+          "name": "zip",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Absent."
+        }
+      ]
+    },
+    {
+      "entity": "observation",
+      "matched_table": "chartevents",
+      "table_confidence": 0.7234,
+      "table_rationale": "The 'observation' entity is mapped to the 'chartevents' table because it contains a wide range of clinical observations, from vital signs to scores. The LLM selected this table to capture the diversity of observational data, including numeric and textual values. The model reasoned that chartevents are the most comprehensive source for observations in MIMIC-III.",
+      "attributes": [
+        {
+          "name": "obs_event_field_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no concept for event field. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "observation_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no observation concept. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "observation_date",
+          "target_table": "chartevents",
+          "target_column": "chartdate",
+          "confidence": 0.8567,
+          "rationale": "The LLM mapped 'observation_date' to 'chartdate' in 'chartevents' with good confidence, as this column provides the date of the observation."
+        },
+        {
+          "name": "observation_datetime",
+          "target_table": "chartevents",
+          "target_column": "charttime",
+          "confidence": 0.8893,
+          "rationale": "The LLM mapped 'observation_datetime' to 'charttime' in 'chartevents' with high confidence, as this column provides a precise timestamp for the observation."
+        },
+        {
+          "name": "observation_event_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no event identifier. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "observation_id",
+          "target_table": "chartevents",
+          "target_column": "row_id",
+          "confidence": 0.7891,
+          "rationale": "The LLM mapped 'observation_id' to 'row_id' in 'chartevents' with good confidence, as each chart event can serve as an observation."
+        },
+        {
+          "name": "observation_source_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no source concept. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "observation_source_value",
+          "target_table": "chartevents",
+          "target_column": "value",
+          "confidence": 0.8234,
+          "rationale": "The LLM mapped 'observation_source_value' to 'value' in 'chartevents' with good confidence, as this column stores the textual value of the observation."
+        },
+        {
+          "name": "observation_type_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no type. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "person_id",
+          "target_table": "patients",
+          "target_column": "subject_id",
+          "confidence": 0.9213,
+          "rationale": "The LLM mapped 'person_id' to 'subject_id' in 'patients' with very high confidence, as this is the standard patient identifier."
+        },
+        {
+          "name": "provider_id",
+          "target_table": "caregivers",
+          "target_column": "row_id",
+          "confidence": 0.7234,
+          "rationale": "The LLM mapped 'provider_id' to 'row_id' in 'caregivers' with moderate confidence, as caregivers can serve as providers."
+        },
+        {
+          "name": "qualifier_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no qualifier concept. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "qualifier_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no qualifier source. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "unit_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no unit concept. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "unit_source_value",
+          "target_table": "chartevents",
+          "target_column": "valueuom",
+          "confidence": 0.8456,
+          "rationale": "The LLM mapped 'unit_source_value' to 'valueuom' in 'chartevents' with good confidence, as this column stores the unit of measurement."
+        },
+        {
+          "name": "value_as_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no concept value. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "value_as_datetime",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no datetime value. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "value_as_number",
+          "target_table": "chartevents",
+          "target_column": "valuenum",
+          "confidence": 0.8567,
+          "rationale": "The LLM mapped 'value_as_number' to 'valuenum' in 'chartevents' with good confidence, as this column stores the numeric value of the observation."
+        },
+        {
+          "name": "value_as_string",
+          "target_table": "chartevents",
+          "target_column": "value",
+          "confidence": 0.8234,
+          "rationale": "The LLM mapped 'value_as_string' to 'value' in 'chartevents' with good confidence, as this column stores the textual value of the observation."
+        },
+        {
+          "name": "visit_detail_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no visit detail. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "visit_occurrence_id",
+          "target_table": "admissions",
+          "target_column": "hadm_id",
+          "confidence": 0.8345,
+          "rationale": "The LLM mapped 'visit_occurrence_id' to 'hadm_id' in 'admissions' with good confidence, as this links the observation to the admission."
+        }
+      ]
+    },
+    {
+      "entity": "observation_period",
+      "matched_table": null,
+      "table_confidence": 0.0,
+      "table_rationale": "No attribute of 'observation_period' has a match because MIMIC-III does not explicitly define observation periods; admission/discharge dates are available, but not as continuous periods.",
+      "attributes": [
+        {
+          "name": "observation_period_end_date",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No column for period end."
+        },
+        {
+          "name": "observation_period_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No period identifier."
+        },
+        {
+          "name": "observation_period_start_date",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No period start."
+        },
+        {
+          "name": "period_type_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No period type."
+        },
+        {
+          "name": "person_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No link."
+        }
+      ]
+    },
+    {
+      "entity": "drug_exposure",
+      "matched_table": "inputevents_mv",
+      "table_confidence": 0.6451,
+      "table_rationale": "The 'drug_exposure' entity is mapped to the 'inputevents_mv' table because it contains detailed medication administration records, including start and end times. The LLM selected this table over 'prescriptions' to capture the actual administration events rather than just orders, aligning with the concept of drug exposure.",
+      "attributes": [
+        {
+          "name": "days_supply",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no column for days supply. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "dose_unit_source_value",
+          "target_table": "inputevents_mv",
+          "target_column": "amountuom",
+          "confidence": 0.7123,
+          "rationale": "The LLM mapped 'dose_unit_source_value' to 'amountuom' in 'inputevents_mv' with moderate confidence, as this column provides the unit of the dose."
+        },
+        {
+          "name": "drug_concept_id",
+          "target_table": "inputevents_mv",
+          "target_column": "itemid",
+          "confidence": 0.7567,
+          "rationale": "The LLM mapped 'drug_concept_id' to 'itemid' in 'inputevents_mv', reasoning that the item ID can serve as a drug concept. Confidence is moderate because the item ID is a local identifier."
+        },
+        {
+          "name": "drug_exposure_end_date",
+          "target_table": "inputevents_mv",
+          "target_column": "endtime",
+          "confidence": 0.8123,
+          "rationale": "The LLM mapped 'drug_exposure_end_date' to 'endtime' in 'inputevents_mv' with good confidence, as this column provides the end time of the administration."
+        },
+        {
+          "name": "drug_exposure_end_datetime",
+          "target_table": "inputevents_mv",
+          "target_column": "endtime",
+          "confidence": 0.8456,
+          "rationale": "The LLM mapped 'drug_exposure_end_datetime' to 'endtime' in 'inputevents_mv' with good confidence, as this column provides a precise end timestamp."
+        },
+        {
+          "name": "drug_exposure_id",
+          "target_table": "inputevents_mv",
+          "target_column": "row_id",
+          "confidence": 0.7891,
+          "rationale": "The LLM mapped 'drug_exposure_id' to 'row_id' in 'inputevents_mv' with good confidence, as each administration record can serve as a drug exposure."
+        },
+        {
+          "name": "drug_exposure_start_date",
+          "target_table": "inputevents_mv",
+          "target_column": "starttime",
+          "confidence": 0.8234,
+          "rationale": "The LLM mapped 'drug_exposure_start_date' to 'starttime' in 'inputevents_mv' with good confidence, as this column provides the start time of the administration."
+        },
+        {
+          "name": "drug_exposure_start_datetime",
+          "target_table": "inputevents_mv",
+          "target_column": "starttime",
+          "confidence": 0.8567,
+          "rationale": "The LLM mapped 'drug_exposure_start_datetime' to 'starttime' in 'inputevents_mv' with good confidence, as this column provides a precise start timestamp."
+        },
+        {
+          "name": "drug_source_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no source concept. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "drug_source_value",
+          "target_table": "inputevents_mv",
+          "target_column": "itemid",
+          "confidence": 0.7234,
+          "rationale": "The LLM mapped 'drug_source_value' to 'itemid' in 'inputevents_mv' with moderate confidence, as this column provides the source identifier for the drug."
+        },
+        {
+          "name": "drug_type_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no type. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "lot_number",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no lot number. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "person_id",
+          "target_table": "patients",
+          "target_column": "subject_id",
+          "confidence": 0.9123,
+          "rationale": "The LLM mapped 'person_id' to 'subject_id' in 'patients' with very high confidence, as this is the standard patient identifier."
+        },
+        {
+          "name": "provider_id",
+          "target_table": "caregivers",
+          "target_column": "row_id",
+          "confidence": 0.7123,
+          "rationale": "The LLM mapped 'provider_id' to 'row_id' in 'caregivers' with moderate confidence, as caregivers can serve as providers."
+        },
+        {
+          "name": "quantity",
+          "target_table": "inputevents_mv",
+          "target_column": "amount",
+          "confidence": 0.7891,
+          "rationale": "The LLM mapped 'quantity' to 'amount' in 'inputevents_mv' with good confidence, as this column stores the quantity administered."
+        },
+        {
+          "name": "refills",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no refills. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "route_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no route concept. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "route_source_value",
+          "target_table": "inputevents_mv",
+          "target_column": "route",
+          "confidence": 0.7234,
+          "rationale": "The LLM mapped 'route_source_value' to 'route' in 'inputevents_mv' with moderate confidence, as this column provides the route of administration."
+        },
+        {
+          "name": "sig",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no sig. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "stop_reason",
+          "target_table": "inputevents_mv",
+          "target_column": "statusdescription",
+          "confidence": 0.7234,
+          "rationale": "The LLM mapped 'stop_reason' to 'statusdescription' in 'inputevents_mv' with moderate confidence, as this column may provide a reason for stopping the administration."
+        },
+        {
+          "name": "verbatim_end_date",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no verbatim end date. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "visit_detail_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no visit detail. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "visit_occurrence_id",
+          "target_table": "admissions",
+          "target_column": "hadm_id",
+          "confidence": 0.8456,
+          "rationale": "The LLM mapped 'visit_occurrence_id' to 'hadm_id' in 'admissions' with good confidence, as this links the drug exposure to the admission."
+        }
+      ]
+    },
+    {
+      "entity": "device_exposure",
+      "matched_table": null,
+      "table_confidence": 0.0,
+      "table_rationale": "No attribute of 'device_exposure' has a match, because MIMIC-III does not contain explicit data on medical devices used. No table can be assigned.",
+      "attributes": [
+        {
+          "name": "device_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Absent."
+        },
+        {
+          "name": "device_exposure_end_date",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Absent."
+        },
+        {
+          "name": "device_exposure_end_datetime",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Absent."
+        },
+        {
+          "name": "device_exposure_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Absent."
+        },
+        {
+          "name": "device_exposure_start_date",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Absent."
+        },
+        {
+          "name": "device_exposure_start_datetime",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Absent."
+        },
+        {
+          "name": "device_source_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Absent."
+        },
+        {
+          "name": "device_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Absent."
+        },
+        {
+          "name": "device_type_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Absent."
+        },
+        {
+          "name": "person_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Absent."
+        },
+        {
+          "name": "provider_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Absent."
+        },
+        {
+          "name": "quantity",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Absent."
+        },
+        {
+          "name": "unique_device_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Absent."
+        },
+        {
+          "name": "visit_detail_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Absent."
+        },
+        {
+          "name": "visit_occurrence_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Absent."
+        }
+      ]
+    },
+    {
+      "entity": "note",
+      "matched_table": "noteevents",
+      "table_confidence": 0.7651,
+      "table_rationale": "The 'note' entity is mapped to the 'noteevents' table because it directly contains clinical notes. The LLM selected this table as the most appropriate source for note data, despite the absence of some specific attributes like note type concepts.",
+      "attributes": [
+        {
+          "name": "encoding_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no encoding concept. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "language_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no language concept. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "note_class_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no note class concept. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "note_date",
+          "target_table": "noteevents",
+          "target_column": "chartdate",
+          "confidence": 0.8456,
+          "rationale": "The LLM mapped 'note_date' to 'chartdate' in 'noteevents' with good confidence, as this column provides the date of the note."
+        },
+        {
+          "name": "note_datetime",
+          "target_table": "noteevents",
+          "target_column": "charttime",
+          "confidence": 0.8765,
+          "rationale": "The LLM mapped 'note_datetime' to 'charttime' in 'noteevents' with high confidence, as this column provides a precise timestamp for the note."
+        },
+        {
+          "name": "note_event_field_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no concept. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "note_event_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no event identifier. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "note_id",
+          "target_table": "noteevents",
+          "target_column": "row_id",
+          "confidence": 0.8567,
+          "rationale": "The LLM mapped 'note_id' to 'row_id' in 'noteevents' with good confidence, as each note can be identified by its row ID."
+        },
+        {
+          "name": "note_source_value",
+          "target_table": "noteevents",
+          "target_column": "category",
+          "confidence": 0.8893,
+          "rationale": "The LLM mapped 'note_source_value' to 'category' in 'noteevents' with high confidence, as this column provides the category of the note."
+        },
+        {
+          "name": "note_text",
+          "target_table": "noteevents",
+          "target_column": "text",
+          "confidence": 0.9456,
+          "rationale": "The LLM mapped 'note_text' to 'text' in 'noteevents' with very high confidence, as this column contains the textual content of the note."
+        },
+        {
+          "name": "note_title",
+          "target_table": "noteevents",
+          "target_column": "description",
+          "confidence": 0.9213,
+          "rationale": "The LLM mapped 'note_title' to 'description' in 'noteevents' with very high confidence, as this column provides the title or description of the note."
+        },
+        {
+          "name": "note_type_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no note type concept. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "person_id",
+          "target_table": "patients",
+          "target_column": "subject_id",
+          "confidence": 0.9123,
+          "rationale": "The LLM mapped 'person_id' to 'subject_id' in 'patients' with very high confidence, as this is the standard patient identifier."
+        },
+        {
+          "name": "provider_id",
+          "target_table": "caregivers",
+          "target_column": "row_id",
+          "confidence": 0.7891,
+          "rationale": "The LLM mapped 'provider_id' to 'row_id' in 'caregivers' with good confidence, as caregivers can serve as providers."
+        },
+        {
+          "name": "visit_detail_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no visit detail. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "visit_occurrence_id",
+          "target_table": "admissions",
+          "target_column": "hadm_id",
+          "confidence": 0.8345,
+          "rationale": "The LLM mapped 'visit_occurrence_id' to 'hadm_id' in 'admissions' with good confidence, as this links the note to the admission."
+        }
+      ]
+    },
+    {
+      "entity": "fact_relationship",
+      "matched_table": null,
+      "table_confidence": 0.0,
+      "table_rationale": "No attribute of 'fact_relationship' has a match, because MIMIC-III does not explicitly model relationships between facts. No table can be assigned.",
+      "attributes": [
+        {
+          "name": "domain_concept_id_1",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Absent."
+        },
+        {
+          "name": "domain_concept_id_2",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Absent."
+        },
+        {
+          "name": "fact_id_1",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Absent."
+        },
+        {
+          "name": "fact_id_2",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Absent."
+        },
+        {
+          "name": "relationship_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Absent."
+        }
+      ]
+    },
+    {
+      "entity": "payer_plan_period",
+      "matched_table": null,
+      "table_confidence": 0.0,
+      "table_rationale": "No attribute of 'payer_plan_period' has a match, because MIMIC-III does not contain information on payers or insurance plans. No table is appropriate.",
+      "attributes": [
+        {
+          "name": "family_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Absent."
+        },
+        {
+          "name": "payer_plan_period_end_date",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Absent."
+        },
+        {
+          "name": "payer_plan_period_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Absent."
+        },
+        {
+          "name": "payer_plan_period_start_date",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Absent."
+        },
+        {
+          "name": "payer_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Absent."
+        },
+        {
+          "name": "person_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Absent."
+        },
+        {
+          "name": "plan_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Absent."
+        }
+      ]
+    },
+    {
+      "entity": "cdm_source",
+      "matched_table": null,
+      "table_confidence": 0.0,
+      "table_rationale": "No attribute of 'cdm_source' has a match, because MIMIC-III is not a CDM source; it is a clinical database. CDM metadata are not available.",
+      "attributes": [
+        {
+          "name": "cdm_etl_reference",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Absent."
+        },
+        {
+          "name": "cdm_holder",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Absent."
+        },
+        {
+          "name": "cdm_release_date",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Absent."
+        },
+        {
+          "name": "cdm_source_abbreviation",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Absent."
+        },
+        {
+          "name": "cdm_source_name",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Absent."
+        },
+        {
+          "name": "cdm_version",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Absent."
+        },
+        {
+          "name": "source_description",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Absent."
+        },
+        {
+          "name": "source_documentation_reference",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Absent."
+        },
+        {
+          "name": "source_release_date",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Absent."
+        },
+        {
+          "name": "vocabulary_version",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Absent."
+        }
+      ]
+    },
+    {
+      "entity": "care_site",
+      "matched_table": "transfers",
+      "table_confidence": 0.5678,
+      "table_rationale": "The 'care_site' entity is mapped to the 'transfers' table because it provides information about care units through the 'curr_careunit' column. The LLM selected this table despite the low number of matching attributes, reasoning that transfers are the only source of care site information in MIMIC-III.",
+      "attributes": [
+        {
+          "name": "care_site_id",
+          "target_table": "transfers",
+          "target_column": "curr_careunit",
+          "confidence": 0.7234,
+          "rationale": "The LLM mapped 'care_site_id' to 'curr_careunit' in 'transfers' with moderate confidence, as this column identifies the current care unit."
+        },
+        {
+          "name": "care_site_name",
+          "target_table": "transfers",
+          "target_column": "curr_careunit",
+          "confidence": 0.7891,
+          "rationale": "The LLM mapped 'care_site_name' to 'curr_careunit' in 'transfers' with good confidence, as this column provides the name of the care unit."
+        },
+        {
+          "name": "care_site_source_value",
+          "target_table": "transfers",
+          "target_column": "curr_wardid",
+          "confidence": 0.7234,
+          "rationale": "The LLM mapped 'care_site_source_value' to 'curr_wardid' in 'transfers' with moderate confidence, as this column provides the ward ID as a source value."
+        },
+        {
+          "name": "location_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no location information. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "place_of_service_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no place of service concept. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "place_of_service_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no source value. The model determines that this field cannot be mapped."
+        }
+      ]
+    },
+    {
+      "entity": "cohort",
+      "matched_table": null,
+      "table_confidence": 0.0,
+      "table_rationale": "No attribute of 'cohort' has a match, because cohorts are not predefined in MIMIC-III. No table can be assigned.",
+      "attributes": [
+        {
+          "name": "cohort_definition_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Absent."
+        },
+        {
+          "name": "cohort_end_date",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Absent."
+        },
+        {
+          "name": "cohort_start_date",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Absent."
+        },
+        {
+          "name": "subject_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Absent."
+        }
+      ]
+    },
+    {
+      "entity": "cohort_definition",
+      "matched_table": null,
+      "table_confidence": 0.0,
+      "table_rationale": "No attribute of 'cohort_definition' has a match for the same reasons as 'cohort'.",
+      "attributes": [
+        {
+          "name": "cohort_definition_description",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Absent."
+        },
+        {
+          "name": "cohort_definition_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Absent."
+        },
+        {
+          "name": "cohort_definition_name",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Absent."
+        },
+        {
+          "name": "cohort_definition_syntax",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Absent."
+        },
+        {
+          "name": "cohort_initiation_date",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Absent."
+        },
+        {
+          "name": "definition_type_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Absent."
+        },
+        {
+          "name": "subject_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Absent."
+        }
+      ]
+    },
+    {
+      "entity": "provider",
+      "matched_table": "caregivers",
+      "table_confidence": 0.6541,
+      "table_rationale": "The 'provider' entity is mapped to the 'caregivers' table because it is the primary source of caregiver information in MIMIC-III. The LLM selected this table to capture provider attributes, despite the limited matching attributes, as it is the only available source for such data.",
+      "attributes": [
+        {
+          "name": "care_site_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no care site information for providers. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "dea",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no DEA number. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "gender_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no gender concept. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "gender_source_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no source concept. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "gender_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no gender. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "npi",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no NPI. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "provider_id",
+          "target_table": "caregivers",
+          "target_column": "row_id",
+          "confidence": 0.8567,
+          "rationale": "The LLM mapped 'provider_id' to 'row_id' in 'caregivers' with good confidence, as this column provides the provider identifier."
+        },
+        {
+          "name": "provider_name",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no name. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "provider_source_value",
+          "target_table": "caregivers",
+          "target_column": "label",
+          "confidence": 0.7891,
+          "rationale": "The LLM mapped 'provider_source_value' to 'label' in 'caregivers' with good confidence, as this column provides the provider type or label."
+        },
+        {
+          "name": "specialty_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no specialty concept. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "specialty_source_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no source concept. The model determines that this field cannot be mapped."
+        },
+        {
+          "name": "specialty_source_value",
+          "target_table": "caregivers",
+          "target_column": "description",
+          "confidence": 0.8567,
+          "rationale": "The LLM mapped 'specialty_source_value' to 'description' in 'caregivers' with good confidence, as this column provides a description of the caregiver's specialty."
+        },
+        {
+          "name": "year_of_birth",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "The LLM found no birth date. The model determines that this field cannot be mapped."
+        }
+      ]
+    }
+  ]
+}

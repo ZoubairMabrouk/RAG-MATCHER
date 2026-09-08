@@ -288,9 +288,12 @@ class RAGSchemaMatcher:
         # hybrid reranker's result if the LLM produces no usable match.
         if self._llm_client:
             logger.info(f"[RAGSchemaMatcher] Using LLM client to validate table match for '{entity_name}'")
-            llm_result = self._llm_validate_table(entity_name, attributes, candidates)
+            best_candidate = candidates[0][0] if candidates else None
+            llm_result = self._llm_validate_table(entity_name, attributes, best_candidate, candidates)
             llm_target = llm_result.get("target_name")
             llm_conf = float(llm_result.get("confidence", 0.0))
+            logger.info(f"[RAGSchemaMatcher] LLM validation accepted match '{llm_target}' for '{entity_name}' with confidence {llm_conf:.3f}")
+            llm_conf = llm_conf * 0.6 + reranked.confidence * 0.4
             if llm_target:
                 return MatchResult(
                     target_name=llm_target,
@@ -374,6 +377,15 @@ class RAGSchemaMatcher:
         final_confidence = round(column_score, 4)
         target_name = target_name if final_confidence >= self._column_threshold else None
         rationale = f"Hybrid column score={final_confidence:.3f} for table {table_name}."
+        if self._llm_client:
+            best_candidate = candidates[0][0] if candidates else None
+            llm_result = self._llm_validate_column(attr_name, attr_type, best_candidate, candidates)
+            llm_target = llm_result.get("target_name")
+            llm_conf = float(llm_result.get("confidence", 0.0))
+            logger.info(f"[RAGSchemaMatcher] LLM validation accepted column match '{llm_target}' for '{attr_name}' with confidence {llm_conf:.3f}")
+            final_confidence = llm_conf * 0.6 + final_confidence * 0.4
+            target_name = llm_target
+            rationale += f" LLM match accepted: {llm_result.get('rationale', '')}"
         return MatchResult(
             target_name=target_name,
             confidence=final_confidence,
@@ -434,6 +446,8 @@ class RAGSchemaMatcher:
             flags.append("FOREIGN KEY")
         if not getattr(column, "nullable", True):
             flags.append("NOT NULL")
+        description_1 = getattr(column, "description", None)
+        description_2 = getattr(column, "description_2", None)
 
         constraints = f" [{', '.join(flags)}]" if flags else ""
         description = f"Column {table.name}.{column.name}. Type: {column.data_type}{constraints}."
@@ -450,6 +464,8 @@ class RAGSchemaMatcher:
                 "is_foreign_key": bool(getattr(column, "foreign_key", None)),
                 "is_nullable": getattr(column, "nullable", True),
                 "default_value": getattr(column, "default_value", None),
+                "description_1": description_1,
+                "description_2": description_2,
             },
         )
 
@@ -665,8 +681,35 @@ Respond with a JSON object ONLY:
         # Build context
         candidates_text = []
         for doc, score in all_candidates[:10]:  # Top 3 candidates
-            col_name = doc.id.split('.')[-1] if '.' in doc.id else doc.id
-            candidates_text.append(f"- {col_name}: {doc.content} (score: {score:.3f})")
+            col_name = doc.column
+            table_name = doc.table
+
+            description_1 = doc.metadata.get(
+                "description",
+                "none"
+            )
+
+            description_2 = doc.metadata.get(
+                "description_2",
+                "none"
+            )
+
+            data_type = doc.metadata.get(
+                "data_type",
+                "unknown"
+            )
+
+            candidates_text.append(
+                f"""
+        Candidate:
+            Table: {table_name}
+            Column: {col_name}
+            Data type: {data_type}
+            Description 1: {description_1}
+            Description 2: {description_2}
+            Retrieval score: {score:.4f}
+        """.strip()
+            )
         
         prompt = f"""
 You are an advanced database schema alignment engine. 
@@ -734,7 +777,26 @@ Evaluate each candidate based on:
    - Use retrieval score as a clue, not a decision.
    - Override it when semantic or type incompatibility is obvious.
    - make a relation between the attribute and the column based on the table it belongs to.
+6. SEMANTIC DESCRIPTION
 
+   - Carefully analyze Description 1 and Description 2.
+   - The descriptions may contain the semantic meaning of the
+     OMOP concept and the MIMIC column.
+   - Prefer semantic equivalence over lexical similarity.
+   - Use descriptions to recognize synonyms and conceptual
+     correspondences such as:
+
+       birth_datetime ↔ dob
+       death_datetime ↔ dod
+       person_id ↔ subject_id
+       visit_start_date ↔ admittime
+       visit_end_date ↔ dischtime
+
+   - A strong semantic correspondence supported by the descriptions
+     may justify a match even when column names are different.
+
+   - Do not match two columns only because their descriptions share
+     generic words such as "patient", "record", "date", or "identifier".
 ===========================
 STRICT OUTPUT REQUIREMENTS
 ===========================
@@ -787,7 +849,7 @@ Rules:
             return {
                 "confidence": float(result.get("confidence", 0.0)),
                 "rationale": result.get("why", "No explanation"),
-                "match": result.get("match", None)
+                "target_name": result.get("match", None)
             }
 
         except Exception as e:
@@ -795,7 +857,7 @@ Rules:
             return {
                 "confidence": 0.0,
                 "rationale": f"LLM validation failed: {e}",
-                "match": None
+                "target_name": None
             }
             
 

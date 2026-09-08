@@ -1,0 +1,2554 @@
+{
+  "tables": [
+    {
+      "name": "admissions",
+      "schema": "mimiciii",
+      "columns": [
+        {
+          "name": "mimic_id",
+          "data_type": "integer",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "hadm_id",
+          "data_type": "integer",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "admittime",
+          "data_type": "timestamp without time zone",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "dischtime",
+          "data_type": "timestamp without time zone",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "deathtime",
+          "data_type": "timestamp without time zone",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "admission_type",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "admission_location",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "insurance",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "language",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "religion",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "marital_status",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "ethnicity",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "edregtime",
+          "data_type": "timestamp without time zone",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "edouttime",
+          "data_type": "timestamp without time zone",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "diagnosis",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "hospital_expire_flag",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        }
+      ]
+    },
+    {
+      "name": "callout",
+      "schema": "mimiciii",
+      "columns": [
+        {
+          "name": "submit_wardid",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "submit_careunit",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "curr_wardid",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "curr_careunit",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "callout_wardid",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "callout_service",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "request_tele",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "request_resp",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "request_cdiff",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "request_mrsa",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "request_vre",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "callout_status",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "callout_outcome",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "discharge_wardid",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "acknowledge_status",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "createtime",
+          "data_type": "timestamp without time zone",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "updatetime",
+          "data_type": "timestamp without time zone",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "acknowledgetime",
+          "data_type": "timestamp without time zone",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "outcometime",
+          "data_type": "timestamp without time zone",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "firstreservationtime",
+          "data_type": "timestamp without time zone",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "currentreservationtime",
+          "data_type": "timestamp without time zone",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "mimic_id",
+          "data_type": "integer",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        }
+      ]
+    },
+    {
+      "name": "caregivers",
+      "schema": "mimiciii",
+      "columns": [
+        {
+          "name": "cgid",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "label",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "description",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "mimic_id",
+          "data_type": "integer",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        }
+      ]
+    },
+    {
+      "name": "chartevents",
+      "schema": "mimiciii",
+      "columns": [
+        {
+          "name": "charttime",
+          "data_type": "timestamp without time zone",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "storetime",
+          "data_type": "timestamp without time zone",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "value",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "valuenum",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "valueuom",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "warning",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "error",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "resultstatus",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "stopped",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "mimic_id",
+          "data_type": "integer",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        }
+      ]
+    },
+    {
+      "name": "cptevents",
+      "schema": "mimiciii",
+      "columns": [
+        {
+          "name": "costcenter",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "chartdate",
+          "data_type": "timestamp without time zone",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "cpt_cd",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "cpt_number",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "cpt_suffix",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "ticket_id_seq",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "sectionheader",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "subsectionheader",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "description",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "mimic_id",
+          "data_type": "integer",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        }
+      ]
+    },
+    {
+      "name": "d_cpt",
+      "schema": "mimiciii",
+      "columns": [
+        {
+          "name": "category",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "sectionrange",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "sectionheader",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "subsectionrange",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "subsectionheader",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "mincodeinsubsection",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "maxcodeinsubsection",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "mimic_id",
+          "data_type": "integer",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        }
+      ]
+    },
+    {
+      "name": "d_icd_diagnoses",
+      "schema": "mimiciii",
+      "columns": [
+        {
+          "name": "icd9_code",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "short_title",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "long_title",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "mimic_id",
+          "data_type": "integer",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        }
+      ]
+    },
+    {
+      "name": "d_icd_procedures",
+      "schema": "mimiciii",
+      "columns": [
+        {
+          "name": "short_title",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "long_title",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "mimic_id",
+          "data_type": "integer",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "icd9_code",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        }
+      ]
+    },
+    {
+      "name": "d_items",
+      "schema": "mimiciii",
+      "columns": [
+        {
+          "name": "itemid",
+          "data_type": "integer",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "label",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "abbreviation",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "dbsource",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "linksto",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "category",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "unitname",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "param_type",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "conceptid",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "mimic_id",
+          "data_type": "integer",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        }
+      ]
+    },
+    {
+      "name": "d_labitems",
+      "schema": "mimiciii",
+      "columns": [
+        {
+          "name": "itemid",
+          "data_type": "integer",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "label",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "fluid",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "category",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "loinc_code",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "mimic_id",
+          "data_type": "integer",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        }
+      ]
+    },
+    {
+      "name": "datetimeevents",
+      "schema": "mimiciii",
+      "columns": [
+        {
+          "name": "charttime",
+          "data_type": "timestamp without time zone",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "storetime",
+          "data_type": "timestamp without time zone",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "value",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "valuenum",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "valueuom",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "warning",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "error",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "resultstatus",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "stopped",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "mimic_id",
+          "data_type": "integer",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        }
+      ]
+    },
+    {
+      "name": "diagnoses_icd",
+      "schema": "mimiciii",
+      "columns": [
+        {
+          "name": "seq_num",
+          "data_type": "integer",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "mimic_id",
+          "data_type": "integer",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        }
+      ]
+    },
+    {
+      "name": "drgcodes",
+      "schema": "mimiciii",
+      "columns": [
+        {
+          "name": "drg_type",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "drg_code",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "description",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "drg_severity",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "drg_mortality",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "mimic_id",
+          "data_type": "integer",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        }
+      ]
+    },
+    {
+      "name": "icustays",
+      "schema": "mimiciii",
+      "columns": [
+        {
+          "name": "icustay_id",
+          "data_type": "integer",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "dbsource",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "first_careunit",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "last_careunit",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "first_wardid",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "last_wardid",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "intime",
+          "data_type": "timestamp without time zone",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "outtime",
+          "data_type": "timestamp without time zone",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "los",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "mimic_id",
+          "data_type": "integer",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        }
+      ]
+    },
+    {
+      "name": "inputevents_cv",
+      "schema": "mimiciii",
+      "columns": [
+        {
+          "name": "itemid",
+          "data_type": "integer",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "charttime",
+          "data_type": "timestamp without time zone",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "amount",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "amountuom",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "rate",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "rateuom",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "storetime",
+          "data_type": "timestamp without time zone",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "orderid",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "linkorderid",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "stopped",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "newbottle",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "originalamount",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "originalamountuom",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "originalroute",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "originalrate",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "originalrateuom",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "originalsite",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "mimic_id",
+          "data_type": "integer",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        }
+      ]
+    },
+    {
+      "name": "inputevents_mv",
+      "schema": "mimiciii",
+      "columns": [
+        {
+          "name": "starttime",
+          "data_type": "timestamp without time zone",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "endtime",
+          "data_type": "timestamp without time zone",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "amount",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "amountuom",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "rate",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "rateuom",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "storetime",
+          "data_type": "timestamp without time zone",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "orderid",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "linkorderid",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "ordercategoryname",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "secondaryordercategoryname",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "ordercomponenttypedescription",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "ordercategorydescription",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "patientweight",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "totalamount",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "totalamountuom",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "isopenbag",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "continueinnextdept",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "cancelreason",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "statusdescription",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "comments_editedby",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "comments_canceledby",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "comments_date",
+          "data_type": "timestamp without time zone",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "originalamount",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "originalrate",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "mimic_id",
+          "data_type": "integer",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        }
+      ]
+    },
+    {
+      "name": "labevents",
+      "schema": "mimiciii",
+      "columns": [
+        {
+          "name": "charttime",
+          "data_type": "timestamp without time zone",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "value",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "valuenum",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "valueuom",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "flag",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "mimic_id",
+          "data_type": "integer",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        }
+      ]
+    },
+    {
+      "name": "microbiologyevents",
+      "schema": "mimiciii",
+      "columns": [
+        {
+          "name": "charttime",
+          "data_type": "timestamp without time zone",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "chartdate",
+          "data_type": "timestamp without time zone",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "spec_itemid",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "spec_type_desc",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "org_itemid",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "org_name",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "isolate_num",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "ab_itemid",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "ab_name",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "dilution_text",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "dilution_comparison",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "dilution_value",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "interpretation",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "mimic_id",
+          "data_type": "integer",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        }
+      ]
+    },
+    {
+      "name": "noteevents",
+      "schema": "mimiciii",
+      "columns": [
+        {
+          "name": "chartdate",
+          "data_type": "timestamp without time zone",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "charttime",
+          "data_type": "timestamp without time zone",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "category",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "description",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "iserror",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "text",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "mimic_id",
+          "data_type": "integer",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        }
+      ]
+    },
+    {
+      "name": "outputevents",
+      "schema": "mimiciii",
+      "columns": [
+        {
+          "name": "charttime",
+          "data_type": "timestamp without time zone",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "value",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "valueuom",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "iserror",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "stopped",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "newbottle",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "mimic_id",
+          "data_type": "integer",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        }
+      ]
+    },
+    {
+      "name": "patients",
+      "schema": "mimiciii",
+      "columns": [
+        {
+          "name": "subject_id",
+          "data_type": "integer",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "gender",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "dob",
+          "data_type": "timestamp without time zone",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "dod",
+          "data_type": "timestamp without time zone",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "dod_hosp",
+          "data_type": "timestamp without time zone",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "dod_ssn",
+          "data_type": "timestamp without time zone",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "expire_flag",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "mimic_id",
+          "data_type": "integer",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        }
+      ]
+    },
+    {
+      "name": "prescriptions",
+      "schema": "mimiciii",
+      "columns": [
+        {
+          "name": "startdate",
+          "data_type": "timestamp without time zone",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "enddate",
+          "data_type": "timestamp without time zone",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "drug_type",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "drug",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "drug_name_poe",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "drug_name_generic",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "formulary_drug_cd",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "gsn",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "ndc",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "prod_strength",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "dose_val_rx",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "dose_unit_rx",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "form_val_disp",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "form_unit_disp",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "route",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "mimic_id",
+          "data_type": "integer",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        }
+      ]
+    },
+    {
+      "name": "procedures_icd",
+      "schema": "mimiciii",
+      "columns": [
+        {
+          "name": "seq_num",
+          "data_type": "integer",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "mimic_id",
+          "data_type": "integer",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        }
+      ]
+    },
+    {
+      "name": "services",
+      "schema": "mimiciii",
+      "columns": [
+        {
+          "name": "transfertime",
+          "data_type": "timestamp without time zone",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "prev_service",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "curr_service",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "mimic_id",
+          "data_type": "integer",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        }
+      ]
+    },
+    {
+      "name": "transfers",
+      "schema": "mimiciii",
+      "columns": [
+        {
+          "name": "dbsource",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "eventtype",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "prev_careunit",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "curr_careunit",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "prev_wardid",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "curr_wardid",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "intime",
+          "data_type": "timestamp without time zone",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "outtime",
+          "data_type": "timestamp without time zone",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "los",
+          "data_type": "character varying",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        },
+        {
+          "name": "mimic_id",
+          "data_type": "integer",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "default_value": null,
+          "comment": null,
+          "constraints": []
+        }
+      ]
+    }
+  ]
+}

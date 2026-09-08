@@ -251,7 +251,17 @@ class RAGSchemaMatcher:
         logger.info(f"[RAGSchemaMatcher] Found {len(candidates)} table candidates for entity '{entity_name}' : {[doc.table for doc, _ in candidates]}")
         if not candidates:
             logger.info(f"[RAGSchemaMatcher] No table candidates found for {entity_name}")
-        
+        # if not candidates:
+        #     logger.info(f"[FORCE LLM] No retrieval candidates for {entity_name}, still invoking LLM validation")
+        #     dummy_doc = type("DummyDoc", (), {"table": "N/A"})()
+        #     llm_result = self._llm_validate_table(entity_name, attributes, dummy_doc, [])
+        #     return MatchResult(
+        #         target_name=None,
+        #         confidence=llm_result.get("confidence", 0.0),
+        #         rationale="Forced LLM validation (no retrieval candidates)",
+        #         extra={"method": "llm-only", "retrieval_score": 0.0, "candidates_count": 0}
+        #     )
+
         source = EntitySpec(
             name=entity_name,
             embedding=query_embedding,
@@ -270,24 +280,36 @@ class RAGSchemaMatcher:
                 self._embedding_service.embed([doc.content])[0], dtype="float32"
             )
             table_specs.append(EntitySpec(doc.table, table_attributes, table_embedding))
-        logger.info(f"[RAGSchemaMatcher] Prepared {len(table_specs)} table specs for hybrid reranking : {table_specs}")
+ 
+        reranked = self._hybrid_reranker.match(source, table_specs)
+ 
+        # Try the LLM validator first when available; fall back to the
+        # hybrid reranker's result if the LLM produces no usable match.
         if self._llm_client:
-            logger.info(f"[RAGSchemaMatcher] Using LLM client for hybrid reranking")
-            response = self._llm_validate_table(source.name,source.attributes, table_specs)
-            if response:
-                logger.info(f"[RAGSchemaMatcher] LLM validation result for entity '{entity_name}': {response}")
+            logger.info(f"[RAGSchemaMatcher] Using LLM client to validate table match for '{entity_name}'")
+            best_candidate = candidates[0][0] if candidates else None
+            llm_result = self._llm_validate_table(entity_name, attributes, best_candidate, candidates)
+            llm_target = llm_result.get("target_name")
+            llm_conf = float(llm_result.get("confidence", 0.0))
+            logger.info(f"[RAGSchemaMatcher] LLM validation accepted match '{llm_target}' for '{entity_name}' with confidence {llm_conf:.3f}")
+            llm_conf = llm_conf * 0.6 + reranked.confidence * 0.4
+            if llm_target:
                 return MatchResult(
-                    target_name=response.get("best_match"),
-                    confidence=response.get("confidence", 0.0),
-                    rationale=response.get("reason", ["LLM validation performed"]),
+                    target_name=llm_target,
+                    confidence=llm_conf,
+                    rationale=f"LLM match accepted: {llm_result.get('rationale', '')}",
                     extra={
                         "method": "llm",
-                        "decision": response.get("decision"),
-                        "matched_attributes": response.get("matched_attributes", []),
+                        "hybrid_target": reranked.target_name,
+                        "hybrid_confidence": reranked.confidence,
+                        "candidates_count": len(candidates),
                     },
                 )
-        reranked = self._hybrid_reranker.match(source, table_specs)
-        logger.info(f"[RAGSchemaMatcher] Reranked result for entity '{entity_name}': target={reranked.top_candidates}, confidence={reranked.confidence}, rationale={reranked.rationale}")
+            logger.info(
+                f"[RAGSchemaMatcher] LLM validation found no match for '{entity_name}' "
+                f"(conf={llm_conf:.3f}); falling back to hybrid reranker result."
+            )
+ 
         return MatchResult(
             target_name=reranked.target_name,
             confidence=reranked.confidence,
@@ -354,6 +376,15 @@ class RAGSchemaMatcher:
         final_confidence = round(column_score, 4)
         target_name = target_name if final_confidence >= self._column_threshold else None
         rationale = f"Hybrid column score={final_confidence:.3f} for table {table_name}."
+        if self._llm_client:
+            best_candidate = candidates[0][0] if candidates else None
+            llm_result = self._llm_validate_column(attr_name, attr_type, best_candidate, candidates)
+            llm_target = llm_result.get("target_name")
+            llm_conf = float(llm_result.get("confidence", 0.0))
+            logger.info(f"[RAGSchemaMatcher] LLM validation accepted column match '{llm_target}' for '{attr_name}' with confidence {llm_conf:.3f}")
+            final_confidence = llm_conf * 0.6 + final_confidence * 0.4
+            target_name = llm_target
+            rationale += f" LLM match accepted: {llm_result.get('rationale', '')}"
         return MatchResult(
             target_name=target_name,
             confidence=final_confidence,
@@ -767,7 +798,7 @@ Rules:
             return {
                 "confidence": float(result.get("confidence", 0.0)),
                 "rationale": result.get("why", "No explanation"),
-                "match": result.get("match", None)
+                "target_name": result.get("match", None)
             }
 
         except Exception as e:
@@ -775,7 +806,7 @@ Rules:
             return {
                 "confidence": 0.0,
                 "rationale": f"LLM validation failed: {e}",
-                "match": None
+                "target_name": None
             }
             
 

@@ -1,1 +1,0 @@
-{"source_id": "s4", "change_type": "add_column", "target_table": "patient", "target_column": "new_score", "data_type": "DECIMAL(10,2)", "predicted_operation": "add_column", "gold_operation": "ADD_COLUMN", "operation_match": true}

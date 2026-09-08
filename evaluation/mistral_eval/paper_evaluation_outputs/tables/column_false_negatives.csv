@@ -1,0 +1,10 @@
+entity,attribute,source_key,target_key,confidence,actual_match,prediction_selected
+specimen,specimen_date,specimen-specimen_date,labevents-charttime,0.8456,True,0
+note,note_date,note-note_date,noteevents-chartdate,0.8456,True,0
+drug_exposure,drug_exposure_end_datetime,drug_exposure-drug_exposure_end_datetime,inputevents_mv-endtime,0.8456,True,0
+specimen,specimen_datetime,specimen-specimen_datetime,labevents-charttime,0.8345,True,0
+observation,value_as_string,observation-value_as_string,chartevents-value,0.8234,True,0
+person,birth_datetime,person-birth_datetime,patients-dob,0.8211,True,0
+measurement,value_source_value,measurement-value_source_value,chartevents-value,0.8123,True,0
+provider,provider_source_value,provider-provider_source_value,caregivers-label,0.7891,True,0
+drug_exposure,stop_reason,drug_exposure-stop_reason,inputevents_mv-statusdescription,0.7234,True,0

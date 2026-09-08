@@ -1,0 +1,14 @@
+entity,matched_table,table_confidence,actual_match,label_080,distance_to_threshold
+observation,chartevents,0.7983,True,0,0.0017000000000000348
+procedure_occurrence,procedures_icd,0.7936,True,0,0.006400000000000072
+condition_occurrence,diagnoses_icd,0.8214,True,1,0.021399999999999975
+note,noteevents,0.8517,True,1,0.05169999999999997
+drug_exposure,prescriptions,0.7389,True,0,0.06110000000000004
+visit_detail,transfers,0.8679,True,1,0.06789999999999996
+measurement,labevents,0.8745,True,1,0.07450000000000001
+visit_occurrence,admissions,0.9017,True,1,0.1016999999999999
+person,patients,0.9124,True,1,0.11239999999999994
+death,patients,0.6842,False,0,0.11580000000000001
+specimen,labevents,0.6128,True,0,0.18720000000000003
+provider,caregivers,0.6124,True,0,0.1876
+care_site,transfers,0.5318,True,0,0.2682

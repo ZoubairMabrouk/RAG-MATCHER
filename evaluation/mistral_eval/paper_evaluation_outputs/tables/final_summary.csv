@@ -1,0 +1,13 @@
+Metric,Value
+table_n_predictions,13.0
+table_n_actual_matches,11.0
+table_roc_auc,0.36363636363636365
+table_average_precision,0.8346365755456665
+table_best_f1_threshold,0.5
+table_best_f1,0.9166666666666666
+column_n_predictions,104.0
+column_n_actual_matches,24.0
+column_roc_auc,0.6994791666666665
+column_average_precision,0.36753042824258575
+column_best_f1_threshold,0.85
+column_best_f1,0.4918032786885246

@@ -115,6 +115,8 @@ class Column:
     default_value: Optional[Any] = None
     comment: Optional[str] = None
     constraints: List[str] = field(default_factory=list)
+    description: Optional[str] = None
+    description_2: Optional[str] = None
 
 
 @dataclass

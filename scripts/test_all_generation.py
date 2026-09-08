@@ -11,10 +11,14 @@ What it does
      b) loading a previously-exported schema snapshot from --schema-file
         (see scripts/export_schema_to_json.py) -- no DB connection needed.
    --schema-file takes priority when both are given.
-3) Builds a semantic KB from the current schema and indexes it in a FAISS store.
-4) Runs RAG-based matching:
-   - entity -> existing table (virtual rename)
-   - attribute -> existing column (virtual rename)
+3) Builds a semantic KB from the current schema and indexes it in a FAISS store
+   (used for the vector store bookkeeping / statistics; matching itself is
+   now done by the LLM directly, see step 4).
+4) Runs a SINGLE-SHOT RAG/LLM mapping: the ENTIRE current schema and the
+   ENTIRE U-Schema are sent together in ONE prompt, and the LLM returns ONE
+   JSON report mapping every entity -> table and every attribute -> column.
+   (Previously: one LLM call per entity for the table match, and one more
+   LLM call per attribute for each column match. Now: exactly one call.)
 5) Computes a migration plan with DiffEngine (using the matcher) and prints SQL
    statements (no physical RENAME operations).
 6) Emits a JSON mapping report to stdout (optional file via --out).
@@ -25,6 +29,8 @@ Notes
 - For tiny schemas (few docs), start with low thresholds (0.25-0.40).
 - The script **never** generates physical RENAME statements; it relies on
   virtual mapping when computing the plan.
+- Matching is now a single LLM call (`RAGSchemaMatcher.match_schema_global`)
+  instead of one call per entity/attribute pair.
 """
 
 from enum import Enum
@@ -52,8 +58,8 @@ from src.domain.services.migration_builder import MigrationBuilder
 
 from src.infrastructure.rag.embedding_service import EmbeddingService, LocalEmbeddingProvider
 from src.infrastructure.rag.vector_store import RAGVectorStore
-from src.infrastructure.rag.rag_schema_matcher import RAGSchemaMatcher
-from src.infrastructure.llm.llm_client import OpenAILLMClient, LLMClient, AnthropicLLMClient,BaseLLMClient, GeminiLLMClient
+from src.infrastructure.rag.rag_schema_matcher_all import RAGSchemaMatcher
+from src.infrastructure.llm.llm_client import OpenAILLMClient, LLMClient, AnthropicLLMClient, BaseLLMClient, GeminiLLMClient
 
 
 # -------------------- logging --------------------
@@ -165,8 +171,6 @@ def load_schema_from_json(schema_file: str) -> SchemaMetadata:
                 default_value=c.get("default_value"),
                 comment=c.get("comment"),
                 constraints=c.get("constraints", []) or [],
-                description=c.get("description"),
-                description_2=c.get("description_2"),
             )
             for c in t.get("columns", [])
         ]
@@ -243,10 +247,29 @@ def build_kb_and_index(matcher: RAGSchemaMatcher, schema: SchemaMetadata, kb_fil
         with open(kb_file, "r", encoding="utf-8") as f:
             for line in f:
                 doc = json.loads(line)
-                #print(doc["content"])
                 kb_docs.append(doc["content"])
     matcher.index_kb(kb_docs)
     log.info(f"KB built & indexed: {len(kb_docs)} documents")
+
+
+def make_json_serializable(obj):
+    """Convertit récursivement les objets Python en valeurs JSON sérialisables."""
+    if isinstance(obj, Enum):
+        return obj.value
+
+    if isinstance(obj, dict):
+        return {key: make_json_serializable(value) for key, value in obj.items()}
+
+    if isinstance(obj, (list, tuple)):
+        return [make_json_serializable(value) for value in obj]
+
+    if hasattr(obj, "model_dump"):
+        return make_json_serializable(obj.model_dump())
+
+    if hasattr(obj, "__dict__"):
+        return make_json_serializable(obj.__dict__)
+
+    return obj
 
 
 def run(args) -> int:
@@ -258,9 +281,6 @@ def run(args) -> int:
         uschema_json = json.load(sys.stdin)
 
     uschema = load_uschema(uschema_json)
-    # if not uschema.entities:
-    #     log.error("U-Schema is empty: no entities found")
-    #     return 2
 
     # 2) Get the current relational schema: --schema-file (offline, no DB
     #    connection needed) takes priority over live introspection.
@@ -287,24 +307,12 @@ def run(args) -> int:
 
     log.info(f"Current schema: {len(current_schema.tables)} table(s)")
 
-    # 3) Build matcher & KB
+    # 3) Build matcher & KB (kept for vector-store bookkeeping / stats)
     matcher = build_matcher(args.index_type, args.table_threshold, args.column_threshold, args.top_k)
     build_kb_and_index(matcher, current_schema, kb_file=args.kb_file)
 
-    # 4) Do semantic mapping (entity->table, attribute->column)
-    mapping_report: Dict[str, Any] = {
-        "db_url": db_url,
-        "schema_file": args.schema_file,
-        "dialect": args.dialect,
-        "table_threshold": args.table_threshold,
-        "column_threshold": args.column_threshold,
-        "entities": [],
-    }
-
-    # For DiffEngine: inject matcher to do virtual rename logic
-    diff = DiffEngine(NamingConvention(), rag_matcher=matcher)
-    print(uschema)
-    entities = [
+    # 4) SINGLE LLM CALL: send the whole schema + whole U-Schema at once
+    entities_payload = [
         {
             "name": entity.name,
             "attributes": [
@@ -318,53 +326,21 @@ def run(args) -> int:
         }
         for entity in uschema.entities
     ]
-    # mapping_report = matcher.match_all_entities(entities)
-    for entity in uschema.entities:
-        attr_names = [a.name for a in entity.attributes]
-        print("Uschema entities are : ",entity)
-        t_res = matcher.match_table(entity.name, attr_names)
-        entity_map = {
-            "entity": entity.name,
-            "matched_table": t_res.target_name,
-            "table_confidence": t_res.confidence,
-            "table_rationale": t_res.rationale,
-            "attributes": [],
-        }
 
-        # If a table was found, try each attribute → column
-        if t_res.target_name:
-            for a in entity.attributes:
-                c_res = matcher.match_column(
-                    t_res.target_name,
-                    a.name,
-                    "INTEGER" if a.data_type == DataType.INTEGER else
-                    "DECIMAL(10,2)" if a.data_type == DataType.DECIMAL else
-                    "TIMESTAMP" if a.data_type == DataType.TIMESTAMP else
-                    "DATE" if a.data_type == DataType.DATE else
-                    "BOOLEAN" if a.data_type == DataType.BOOLEAN else
-                    "UUID" if a.data_type == DataType.UUID else
-                    "VARCHAR(255)"
-                )
-                entity_map["attributes"].append({
-                    "name": a.name,
-                    "target_column": c_res.target_name,
-                    "confidence": c_res.confidence,
-                    "rationale": c_res.rationale,
-                })
+    log.info(f"Sending {len(entities_payload)} entities and {len(current_schema.tables)} "
+             f"tables to the LLM in a single global mapping call...")
+    global_report = matcher.match_schema_global(entities_payload, schema=current_schema)
+    mapping_report: Dict[str, Any] = {
+        "db_url": db_url,
+        "schema_file": args.schema_file,
+        "dialect": args.dialect,
+        "table_threshold": args.table_threshold,
+        "column_threshold": args.column_threshold,
+        "entities": global_report.get("entities", []),
+    }
 
-        else:
-            # No table mapping — attributes will be treated as new columns on new table
-            for a in entity.attributes:
-                entity_map["attributes"].append({
-                    "name": a.name,
-                    "target_column": None,
-                    "confidence": 0.0,
-                    "rationale": "No table match",
-                })
-
-        mapping_report["entities"].append(entity_map)
-
-        # 5) Compute evolution plan WITHOUT physical renames
+    # 5) Compute evolution plan WITHOUT physical renames
+    diff = DiffEngine(NamingConvention(), rag_matcher=matcher)
     changes = diff.compute_diff(uschema, current_schema)
     grouped = pretty_changes(changes)
 
@@ -373,7 +349,7 @@ def run(args) -> int:
     sql_statements = builder.build_migration(changes)
 
     # 7) Print summary
-    log.info("\n=== Semantic Mapping Summary ===")
+    log.info("\n=== Semantic Mapping Summary (single global LLM call) ===")
     for emap in mapping_report["entities"]:
         ent = emap["entity"]
         tgt = emap["matched_table"] or "(new table)"
@@ -394,31 +370,6 @@ def run(args) -> int:
             log.info(f"{i:02d}. {stmt}")
 
     # 8) Optional JSON output
-
-    def make_json_serializable(obj):
-        """Convertit récursivement les objets Python en valeurs JSON sérialisables."""
-        if isinstance(obj, Enum):
-            return obj.value
-
-        if isinstance(obj, dict):
-            return {
-                key: make_json_serializable(value)
-                for key, value in obj.items()
-            }
-
-        if isinstance(obj, (list, tuple)):
-            return [
-                make_json_serializable(value)
-                for value in obj
-            ]
-
-        if hasattr(obj, "model_dump"):
-            return make_json_serializable(obj.model_dump())
-
-        if hasattr(obj, "__dict__"):
-            return make_json_serializable(obj.__dict__)
-
-        return obj
     if args.out:
         out_path = Path(args.out)
         out_path.parent.mkdir(parents=True, exist_ok=True)
@@ -432,6 +383,7 @@ def run(args) -> int:
                 "table_threshold": args.table_threshold,
                 "column_threshold": args.column_threshold,
                 "top_k": args.top_k,
+                "matching_mode": "single_global_llm_call",
             },
             "mapping": make_json_serializable(mapping_report["entities"]),
             "plan": make_json_serializable(changes),
@@ -439,25 +391,18 @@ def run(args) -> int:
         }
 
         with open(out_path, "w", encoding="utf-8") as f:
-            json.dump(
-                payload,
-                f,
-                ensure_ascii=False,
-                indent=2,
-            )
+            json.dump(payload, f, ensure_ascii=False, indent=2)
 
         log.info(f"\nSaved report to: {out_path}")
 
-    # Return non-zero if we created new tables that should have been mapped
-    # (heuristic: if many entities mapped to None, you may want to adjust thresholds)
     return 0
 
 
 def parse_args():
-    p = argparse.ArgumentParser(description="Dynamic RAG virtual rename runner")
-    p.add_argument("--uschema-file", default="./scripts/uschema.json",
+    p = argparse.ArgumentParser(description="Dynamic RAG virtual rename runner (single global LLM call)")
+    p.add_argument("--uschema-file", default="./uschema_testdata.json",
                    help="Path to U-Schema JSON (use '-' to read from stdin)")
-    p.add_argument("--schema-file", default="./scripts/schema_snapshot.json",
+    p.add_argument("--schema-file", default="./schema_snapshot.json",
                    help="Path to a schema snapshot JSON (see scripts/export_schema_to_json.py). "
                         "When given, no DB connection is made at all -- this takes priority over --db-url.")
     p.add_argument("--db-url", default=None,
@@ -468,12 +413,12 @@ def parse_args():
     p.add_argument("--index-type", default="auto",
                    choices=["auto", "Flat", "IVF_PQ"],
                    help="Vector index type (use 'auto' or 'Flat' for tiny schemas)")
-    p.add_argument("--table-threshold", type=float, default=0.0,
+    p.add_argument("--table-threshold", type=float, default=0.72,
                    help="Accept threshold for table matching")
-    p.add_argument("--column-threshold", type=float, default=0.0,
+    p.add_argument("--column-threshold", type=float, default=0.68,
                    help="Accept threshold for column matching")
     p.add_argument("--top-k", type=int, default=5,
-                   help="Top-K candidates to retrieve")
+                   help="Top-K candidates to retrieve (kept for KB stats; unused by the global matcher)")
     p.add_argument("--out", default=None,
                    help="Optional path to write a JSON report")
     p.add_argument("--kb-file", default="./data/rag/knowledge_base_enriched.jsonl",

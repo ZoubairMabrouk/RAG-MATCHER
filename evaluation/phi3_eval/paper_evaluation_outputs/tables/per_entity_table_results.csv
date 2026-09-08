@@ -1,0 +1,14 @@
+entity,predictions,correct,mean_confidence,precision,gold_targets
+death,1,0,0.6842,0.0,0.0
+care_site,1,1,0.5318,1.0,1.0
+condition_occurrence,1,1,0.8214,1.0,4.0
+drug_exposure,1,1,0.7389,1.0,7.0
+measurement,1,1,0.8745,1.0,5.0
+note,1,1,0.8517,1.0,4.0
+observation,1,1,0.7983,1.0,6.0
+person,1,1,0.9124,1.0,2.0
+procedure_occurrence,1,1,0.7936,1.0,7.0
+provider,1,1,0.6124,1.0,1.0
+specimen,1,1,0.6128,1.0,3.0
+visit_detail,1,1,0.8679,1.0,4.0
+visit_occurrence,1,1,0.9017,1.0,2.0

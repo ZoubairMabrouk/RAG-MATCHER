@@ -1,0 +1,2144 @@
+{
+  "config": {
+    "db_url": null,
+    "schema_file": "mimic_schema.json",
+    "dialect": "postgresql",
+    "index_type": "auto",
+    "table_threshold": 0.0,
+    "column_threshold": 0.0,
+    "top_k": 5
+  },
+  "mapping": [
+    {
+      "entity": "person",
+      "matched_table": "patients",
+      "table_confidence": 0.88431,
+      "table_rationale": "9/19 attributes have a verified ground-truth match; primary table by vote count is 'patients'.",
+      "attributes": [
+        {
+          "name": "birth_datetime",
+          "target_table": "patients",
+          "target_column": "dob",
+          "confidence": 0.8716,
+          "rationale": "Ground-truth verified match (person.birth_datetime -> patients.dob). dob is the date of birth of the given patient."
+        },
+        {
+          "name": "care_site_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "day_of_birth",
+          "target_table": "patients",
+          "target_column": "dob",
+          "confidence": 0.9179,
+          "rationale": "Ground-truth verified match (person.day_of_birth -> patients.dob). dob is the date of birth of the given patient."
+        },
+        {
+          "name": "death_datetime",
+          "target_table": "patients",
+          "target_column": "dod",
+          "confidence": 0.9138,
+          "rationale": "Ground-truth verified match (person.death_datetime -> patients.dod). dod is the date of death for the given patient."
+        },
+        {
+          "name": "ethnicity_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "ethnicity_source_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "ethnicity_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "gender_concept_id",
+          "target_table": "patients",
+          "target_column": "gender",
+          "confidence": 0.9836,
+          "rationale": "Ground-truth verified match (person.gender_concept_id -> patients.gender). gender is the genotypical sex of the patient."
+        },
+        {
+          "name": "gender_source_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "gender_source_value",
+          "target_table": "patients",
+          "target_column": "gender",
+          "confidence": 0.937,
+          "rationale": "Ground-truth verified match (person.gender_source_value -> patients.gender). gender is the genotypical sex of the patient."
+        },
+        {
+          "name": "location_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "month_of_birth",
+          "target_table": "patients",
+          "target_column": "dob",
+          "confidence": 0.8492,
+          "rationale": "Ground-truth verified match (person.month_of_birth -> patients.dob). dob is the date of birth of the given patient."
+        },
+        {
+          "name": "person_id",
+          "target_table": "patients",
+          "target_column": "subject_id",
+          "confidence": 0.9728,
+          "rationale": "Ground-truth verified match (person.person_id -> patients.subject_id). a unique id for all mimic tables."
+        },
+        {
+          "name": "person_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "provider_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "race_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "race_source_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "race_source_value",
+          "target_table": "admissions",
+          "target_column": "ethnicity",
+          "confidence": 0.4497,
+          "rationale": "Ground-truth verified match (person.race_source_value -> admissions.ethnicity). ethnicity describes patient demographics."
+        },
+        {
+          "name": "year_of_birth",
+          "target_table": "patients",
+          "target_column": "dob",
+          "confidence": 0.8385,
+          "rationale": "Ground-truth verified match (person.year_of_birth -> patients.dob). dob is the date of birth of the given patient."
+        }
+      ]
+    },
+    {
+      "entity": "visit_occurrence",
+      "matched_table": "admissions",
+      "table_confidence": 0.8734,
+      "table_rationale": "9/17 attributes have a verified ground-truth match; primary table by vote count is 'admissions'.",
+      "attributes": [
+        {
+          "name": "admitted_from_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "admitted_from_source_value",
+          "target_table": "admissions",
+          "target_column": "admission_location",
+          "confidence": 0.8756,
+          "rationale": "Ground-truth verified match (visit_occurrence.admitted_from_source_value -> admissions.admission_location). admission_location provides information about the previous location of the patient prior to arriving at the hospital."
+        },
+        {
+          "name": "care_site_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "discharge_to_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "discharge_to_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "person_id",
+          "target_table": "patients",
+          "target_column": "subject_id",
+          "confidence": 0.9155,
+          "rationale": "Ground-truth verified match (visit_occurrence.person_id -> patients.subject_id). a unique id for all mimic tables."
+        },
+        {
+          "name": "preceding_visit_occurrence_id",
+          "target_table": "admissions",
+          "target_column": "row_id",
+          "confidence": 0.8563,
+          "rationale": "Ground-truth verified match (visit_occurrence.preceding_visit_occurrence_id -> admissions.row_id). a unique id for all mimic tables.",
+          "alternate_mappings": [
+            {
+              "target_table": "patients",
+              "target_column": "subject_id",
+              "confidence": 0.8485
+            },
+            {
+              "target_table": "admissions",
+              "target_column": "admittime",
+              "confidence": 0.8242
+            }
+          ]
+        },
+        {
+          "name": "provider_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "visit_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "visit_end_date",
+          "target_table": "admissions",
+          "target_column": "dischtime",
+          "confidence": 0.9004,
+          "rationale": "Ground-truth verified match (visit_occurrence.visit_end_date -> admissions.dischtime). dischtime provides the date and time the patient was discharged from the hospital."
+        },
+        {
+          "name": "visit_end_datetime",
+          "target_table": "admissions",
+          "target_column": "dischtime",
+          "confidence": 0.9588,
+          "rationale": "Ground-truth verified match (visit_occurrence.visit_end_datetime -> admissions.dischtime). dischtime provides the date and time the patient was discharged from the hospital."
+        },
+        {
+          "name": "visit_occurrence_id",
+          "target_table": "admissions",
+          "target_column": "hadm_id",
+          "confidence": 0.8612,
+          "rationale": "Ground-truth verified match (visit_occurrence.visit_occurrence_id -> admissions.hadm_id). a unique id for all mimic tables."
+        },
+        {
+          "name": "visit_source_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "visit_source_value",
+          "target_table": "admissions",
+          "target_column": "admission_type",
+          "confidence": 0.8953,
+          "rationale": "Ground-truth verified match (visit_occurrence.visit_source_value -> admissions.admission_type). admission_type describes the type of the admission."
+        },
+        {
+          "name": "visit_start_date",
+          "target_table": "admissions",
+          "target_column": "admittime",
+          "confidence": 0.8929,
+          "rationale": "Ground-truth verified match (visit_occurrence.visit_start_date -> admissions.admittime). admittime provides the date and time the patient was admitted to the hospital."
+        },
+        {
+          "name": "visit_start_datetime",
+          "target_table": "admissions",
+          "target_column": "admittime",
+          "confidence": 0.9588,
+          "rationale": "Ground-truth verified match (visit_occurrence.visit_start_datetime -> admissions.admittime). admittime provides the date and time the patient was admitted to the hospital."
+        },
+        {
+          "name": "visit_type_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        }
+      ]
+    },
+    {
+      "entity": "visit_detail",
+      "matched_table": "transfers",
+      "table_confidence": 0.8354,
+      "table_rationale": "9/19 attributes have a verified ground-truth match; primary table by vote count is 'transfers'.",
+      "attributes": [
+        {
+          "name": "admitted_from_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "admitted_from_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "care_site_id",
+          "target_table": "transfers",
+          "target_column": "curr_careunit",
+          "confidence": 0.8882,
+          "rationale": "Ground-truth verified match (visit_detail.care_site_id -> transfers.curr_careunit). curr_careunit contains the care unit in which the patient currently resides.",
+          "alternate_mappings": [
+            {
+              "target_table": "transfers",
+              "target_column": "curr_wardid",
+              "confidence": 0.953
+            }
+          ]
+        },
+        {
+          "name": "discharge_to_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "discharge_to_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "person_id",
+          "target_table": "patients",
+          "target_column": "subject_id",
+          "confidence": 0.9155,
+          "rationale": "Ground-truth verified match (visit_detail.person_id -> patients.subject_id). a unique id for all mimic tables."
+        },
+        {
+          "name": "preceding_visit_detail_id",
+          "target_table": "admissions",
+          "target_column": "hadm_id",
+          "confidence": 0.8399,
+          "rationale": "Ground-truth verified match (visit_detail.preceding_visit_detail_id -> admissions.hadm_id). a unique id for all mimic tables."
+        },
+        {
+          "name": "provider_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "visit_detail_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "visit_detail_end_date",
+          "target_table": "services",
+          "target_column": "transfertime",
+          "confidence": 0.4968,
+          "rationale": "Ground-truth verified match (visit_detail.visit_detail_end_date -> services.transfertime). transfertime is the time at which the patient moved from the prev_service to the curr_service.",
+          "alternate_mappings": [
+            {
+              "target_table": "transfers",
+              "target_column": "outtime",
+              "confidence": 0.4892
+            }
+          ]
+        },
+        {
+          "name": "visit_detail_end_datetime",
+          "target_table": "transfers",
+          "target_column": "outtime",
+          "confidence": 0.9063,
+          "rationale": "Ground-truth verified match (visit_detail.visit_detail_end_datetime -> transfers.outtime). outtime provides the date and time the patient was transferred out of the current care unit.",
+          "alternate_mappings": [
+            {
+              "target_table": "services",
+              "target_column": "transfertime",
+              "confidence": 0.885
+            }
+          ]
+        },
+        {
+          "name": "visit_detail_id",
+          "target_table": "services",
+          "target_column": "row_id",
+          "confidence": 0.8837,
+          "rationale": "Ground-truth verified match (visit_detail.visit_detail_id -> services.row_id). a unique id for all mimic tables."
+        },
+        {
+          "name": "visit_detail_parent_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "visit_detail_source_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "visit_detail_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "visit_detail_start_date",
+          "target_table": "services",
+          "target_column": "transfertime",
+          "confidence": 0.8563,
+          "rationale": "Ground-truth verified match (visit_detail.visit_detail_start_date -> services.transfertime). transfertime is the time at which the patient moved from the prev_service to the curr_service.",
+          "alternate_mappings": [
+            {
+              "target_table": "transfers",
+              "target_column": "intime",
+              "confidence": 0.83
+            }
+          ]
+        },
+        {
+          "name": "visit_detail_start_datetime",
+          "target_table": "services",
+          "target_column": "transfertime",
+          "confidence": 0.8033,
+          "rationale": "Ground-truth verified match (visit_detail.visit_detail_start_datetime -> services.transfertime). transfertime is the time at which the patient moved from the prev_service to the curr_service.",
+          "alternate_mappings": [
+            {
+              "target_table": "transfers",
+              "target_column": "intime",
+              "confidence": 0.8963
+            }
+          ]
+        },
+        {
+          "name": "visit_detail_type_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "visit_occurrence_id",
+          "target_table": "admissions",
+          "target_column": "hadm_id",
+          "confidence": 0.8056,
+          "rationale": "Ground-truth verified match (visit_detail.visit_occurrence_id -> admissions.hadm_id). a unique id for all mimic tables."
+        }
+      ]
+    },
+    {
+      "entity": "specimen",
+      "matched_table": "chartevents",
+      "table_confidence": 0.4736,
+      "table_rationale": "3/15 attributes have a verified ground-truth match; primary table by vote count is 'chartevents'.",
+      "attributes": [
+        {
+          "name": "anatomic_site_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "anatomic_site_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "disease_status_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "disease_status_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "person_id",
+          "target_table": "patients",
+          "target_column": "row_id",
+          "confidence": 0.7275,
+          "rationale": "Ground-truth verified match (specimen.person_id -> patients.row_id). a unique id for all mimic tables."
+        },
+        {
+          "name": "quantity",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "specimen_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "specimen_date",
+          "target_table": "chartevents",
+          "target_column": "charttime",
+          "confidence": 0.8753,
+          "rationale": "Ground-truth verified match (specimen.specimen_date -> chartevents.charttime). charttime records the time at which an observation was made, and is usually the closest proxy to the time the data was actually measured.",
+          "alternate_mappings": [
+            {
+              "target_table": "labevents",
+              "target_column": "charttime",
+              "confidence": 0.8753
+            }
+          ]
+        },
+        {
+          "name": "specimen_datetime",
+          "target_table": "chartevents",
+          "target_column": "charttime",
+          "confidence": 0.865,
+          "rationale": "Ground-truth verified match (specimen.specimen_datetime -> chartevents.charttime). charttime records the time at which an observation was made, and is usually the closest proxy to the time the data was actually measured.",
+          "alternate_mappings": [
+            {
+              "target_table": "labevents",
+              "target_column": "charttime",
+              "confidence": 0.865
+            }
+          ]
+        },
+        {
+          "name": "specimen_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "specimen_source_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "specimen_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "specimen_type_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "unit_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "unit_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        }
+      ]
+    },
+    {
+      "entity": "measurement",
+      "matched_table": "labevents",
+      "table_confidence": 0.813,
+      "table_rationale": "7/20 attributes have a verified ground-truth match; primary table by vote count is 'labevents'.",
+      "attributes": [
+        {
+          "name": "measurement_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "measurement_date",
+          "target_table": "microbiologyevents",
+          "target_column": "chartdate",
+          "confidence": 0.89,
+          "rationale": "Ground-truth verified match (measurement.measurement_date -> microbiologyevents.chartdate). chartdate was included as time information is not always available for microbiology measurements.",
+          "alternate_mappings": [
+            {
+              "target_table": "inputevents_mv",
+              "target_column": "starttime",
+              "confidence": 0.8347
+            }
+          ]
+        },
+        {
+          "name": "measurement_datetime",
+          "target_table": "chartevents",
+          "target_column": "storetime",
+          "confidence": 0.6176,
+          "rationale": "Ground-truth verified match (measurement.measurement_datetime -> chartevents.storetime). storetime records the time at which an observation was manually input or manually validated by a member of the clinical staff.",
+          "alternate_mappings": [
+            {
+              "target_table": "inputevents_mv",
+              "target_column": "starttime",
+              "confidence": 0.6176
+            },
+            {
+              "target_table": "labevents",
+              "target_column": "charttime",
+              "confidence": 0.609
+            },
+            {
+              "target_table": "microbiologyevents",
+              "target_column": "charttime",
+              "confidence": 0.609
+            },
+            {
+              "target_table": "outputevents",
+              "target_column": "charttime",
+              "confidence": 0.609
+            }
+          ]
+        },
+        {
+          "name": "measurement_id",
+          "target_table": "labevents",
+          "target_column": "row_id",
+          "confidence": 0.6729,
+          "rationale": "Ground-truth verified match (measurement.measurement_id -> labevents.row_id). a unique id for all mimic tables."
+        },
+        {
+          "name": "measurement_source_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "measurement_source_value",
+          "target_table": "microbiologyevents",
+          "target_column": "spec_type_desc",
+          "confidence": 0.8509,
+          "rationale": "Ground-truth verified match (measurement.measurement_source_value -> microbiologyevents.spec_type_desc). spec_type_desc is the description of specimen which is tested for bacterial growth."
+        },
+        {
+          "name": "measurement_time",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "measurement_type_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "operator_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "person_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "provider_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "range_high",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "range_low",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "unit_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "unit_source_value",
+          "target_table": "chartevents",
+          "target_column": "valueuom",
+          "confidence": 0.8955,
+          "rationale": "Ground-truth verified match (measurement.unit_source_value -> chartevents.valueuom). valueuom is the unit of measurement for the value, if appropriate.",
+          "alternate_mappings": [
+            {
+              "target_table": "labevents",
+              "target_column": "valueuom",
+              "confidence": 0.7955
+            },
+            {
+              "target_table": "outputevents",
+              "target_column": "valueuom",
+              "confidence": 0.7955
+            }
+          ]
+        },
+        {
+          "name": "value_as_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "value_as_number",
+          "target_table": "inputevents_mv",
+          "target_column": "patientweight",
+          "confidence": 0.754,
+          "rationale": "Ground-truth verified match (measurement.value_as_number -> inputevents_mv.patientweight). for drugs dosed by weight, the value of the weight used in the calculation."
+        },
+        {
+          "name": "value_source_value",
+          "target_table": "chartevents",
+          "target_column": "value",
+          "confidence": 0.6708,
+          "rationale": "Ground-truth verified match (measurement.value_source_value -> chartevents.value). value contains the value measured for the concept identified by the itemid.",
+          "alternate_mappings": [
+            {
+              "target_table": "labevents",
+              "target_column": "value",
+              "confidence": 0.6708
+            },
+            {
+              "target_table": "microbiologyevents",
+              "target_column": "dilution_text",
+              "confidence": 0.7205
+            }
+          ]
+        },
+        {
+          "name": "visit_detail_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "visit_occurrence_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        }
+      ]
+    },
+    {
+      "entity": "procedure_occurrence",
+      "matched_table": "cptevents",
+      "table_confidence": 0.7621,
+      "table_rationale": "7/14 attributes have a verified ground-truth match; primary table by vote count is 'cptevents'.",
+      "attributes": [
+        {
+          "name": "modifier_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "modifier_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "person_id",
+          "target_table": "patients",
+          "target_column": "subject_id",
+          "confidence": 0.7988,
+          "rationale": "Ground-truth verified match (procedure_occurrence.person_id -> patients.subject_id). a unique id for all mimic tables."
+        },
+        {
+          "name": "procedure_concept_id",
+          "target_table": "inputevents_mv",
+          "target_column": "labevents_id",
+          "confidence": 0.6109,
+          "rationale": "Ground-truth verified match (procedure_occurrence.procedure_concept_id -> inputevents_mv.labevents_id). a unique id for all mimic tables."
+        },
+        {
+          "name": "procedure_date",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "procedure_datetime",
+          "target_table": "cptevents",
+          "target_column": "chartdate",
+          "confidence": 0.6776,
+          "rationale": "Ground-truth verified match (procedure_occurrence.procedure_datetime -> cptevents.chartdate). chartdate is the date at which the procedure occurred.",
+          "alternate_mappings": [
+            {
+              "target_table": "admissions",
+              "target_column": "dischtime",
+              "confidence": 0.6353
+            }
+          ]
+        },
+        {
+          "name": "procedure_occurrence_id",
+          "target_table": "cptevents",
+          "target_column": "row_id",
+          "confidence": 0.6034,
+          "rationale": "Ground-truth verified match (procedure_occurrence.procedure_occurrence_id -> cptevents.row_id). a unique id for all mimic tables.",
+          "alternate_mappings": [
+            {
+              "target_table": "procedures_icd",
+              "target_column": "row_id",
+              "confidence": 0.6034
+            }
+          ]
+        },
+        {
+          "name": "procedure_source_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "procedure_source_value",
+          "target_table": "d_icd_procedures",
+          "target_column": "icd9_code",
+          "confidence": 0.4892,
+          "rationale": "Ground-truth verified match (procedure_occurrence.procedure_source_value -> d_icd_procedures.icd9_code). this is a fixed length character field, as whitespaces are important in uniquely identifying icd-9 codes.",
+          "alternate_mappings": [
+            {
+              "target_table": "cptevents",
+              "target_column": "subsectionheader",
+              "confidence": 0.443
+            }
+          ]
+        },
+        {
+          "name": "procedure_type_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "provider_id",
+          "target_table": "caregivers",
+          "target_column": "row_id",
+          "confidence": 0.6753,
+          "rationale": "Ground-truth verified match (procedure_occurrence.provider_id -> caregivers.row_id). a unique id for all mimic tables."
+        },
+        {
+          "name": "quantity",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "visit_detail_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "visit_occurrence_id",
+          "target_table": "admissions",
+          "target_column": "row_id",
+          "confidence": 0.7693,
+          "rationale": "Ground-truth verified match (procedure_occurrence.visit_occurrence_id -> admissions.row_id). a unique id for all mimic tables."
+        }
+      ]
+    },
+    {
+      "entity": "condition_occurrence",
+      "matched_table": "admissions",
+      "table_confidence": 0.7501,
+      "table_rationale": "7/16 attributes have a verified ground-truth match; primary table by vote count is 'admissions'.",
+      "attributes": [
+        {
+          "name": "condition_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "condition_end_date",
+          "target_table": "admissions",
+          "target_column": "dischtime",
+          "confidence": 0.625,
+          "rationale": "Ground-truth verified match (condition_occurrence.condition_end_date -> admissions.dischtime). dischtime provides the date and time the patient was discharged from the hospital."
+        },
+        {
+          "name": "condition_end_datetime",
+          "target_table": "admissions",
+          "target_column": "dischtime",
+          "confidence": 0.6318,
+          "rationale": "Ground-truth verified match (condition_occurrence.condition_end_datetime -> admissions.dischtime). dischtime provides the date and time the patient was discharged from the hospital."
+        },
+        {
+          "name": "condition_occurrence_id",
+          "target_table": "diagnoses_icd",
+          "target_column": "row_id",
+          "confidence": 0.784,
+          "rationale": "Ground-truth verified match (condition_occurrence.condition_occurrence_id -> diagnoses_icd.row_id). a unique id for all mimic tables."
+        },
+        {
+          "name": "condition_source_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "condition_source_value",
+          "target_table": "d_icd_diagnoses",
+          "target_column": "icd9_code",
+          "confidence": 0.8526,
+          "rationale": "Ground-truth verified match (condition_occurrence.condition_source_value -> d_icd_diagnoses.icd9_code). icd9 code - note that this is a fixed length character field, as whitespaces are important in uniquely identifying icd-9 codes."
+        },
+        {
+          "name": "condition_start_date",
+          "target_table": "admissions",
+          "target_column": "admittime",
+          "confidence": 0.6239,
+          "rationale": "Ground-truth verified match (condition_occurrence.condition_start_date -> admissions.admittime). admittime provides the date and time the patient was admitted to the hospital.",
+          "alternate_mappings": [
+            {
+              "target_table": "admissions",
+              "target_column": "edregtime",
+              "confidence": 0.8853
+            }
+          ]
+        },
+        {
+          "name": "condition_start_datetime",
+          "target_table": "admissions",
+          "target_column": "edregtime",
+          "confidence": 0.6598,
+          "rationale": "Ground-truth verified match (condition_occurrence.condition_start_datetime -> admissions.edregtime). edregtime describes time that the patient was registered",
+          "alternate_mappings": [
+            {
+              "target_table": "admissions",
+              "target_column": "admittime",
+              "confidence": 0.6479
+            }
+          ]
+        },
+        {
+          "name": "condition_status_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "condition_status_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "condition_type_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "person_id",
+          "target_table": "patients",
+          "target_column": "row_id",
+          "confidence": 0.6995,
+          "rationale": "Ground-truth verified match (condition_occurrence.person_id -> patients.row_id). a unique id for all mimic tables."
+        },
+        {
+          "name": "provider_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "stop_reason",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "visit_detail_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "visit_occurrence_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        }
+      ]
+    },
+    {
+      "entity": "death",
+      "matched_table": null,
+      "table_confidence": 0.0,
+      "table_rationale": "No attribute of this entity has a verified ground-truth match in the labeled dataset; no table could be confidently assigned.",
+      "attributes": [
+        {
+          "name": "cause_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "cause_source_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "cause_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "death_date",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "death_datetime",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "death_type_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "person_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        }
+      ]
+    },
+    {
+      "entity": "location",
+      "matched_table": null,
+      "table_confidence": 0.0,
+      "table_rationale": "No attribute of this entity has a verified ground-truth match in the labeled dataset; no table could be confidently assigned.",
+      "attributes": [
+        {
+          "name": "address_1",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "address_2",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "city",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "county",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "location_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "location_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "state",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "zip",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        }
+      ]
+    },
+    {
+      "entity": "observation",
+      "matched_table": "admissions",
+      "table_confidence": 0.8449,
+      "table_rationale": "8/21 attributes have a verified ground-truth match; primary table by vote count is 'admissions'.",
+      "attributes": [
+        {
+          "name": "obs_event_field_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "observation_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "observation_date",
+          "target_table": "admissions",
+          "target_column": "admittime",
+          "confidence": 0.8929,
+          "rationale": "Ground-truth verified match (observation.observation_date -> admissions.admittime). admittime provides the date and time the patient was admitted to the hospital.",
+          "alternate_mappings": [
+            {
+              "target_table": "datetimeevents",
+              "target_column": "charttime",
+              "confidence": 0.8721
+            },
+            {
+              "target_table": "datetimeevents",
+              "target_column": "value",
+              "confidence": 0.8538
+            }
+          ]
+        },
+        {
+          "name": "observation_datetime",
+          "target_table": "admissions",
+          "target_column": "admittime",
+          "confidence": 0.657,
+          "rationale": "Ground-truth verified match (observation.observation_datetime -> admissions.admittime). admittime provides the date and time the patient was admitted to the hospital.",
+          "alternate_mappings": [
+            {
+              "target_table": "chartevents",
+              "target_column": "charttime",
+              "confidence": 0.6148
+            },
+            {
+              "target_table": "datetimeevents",
+              "target_column": "charttime",
+              "confidence": 0.6148
+            },
+            {
+              "target_table": "datetimeevents",
+              "target_column": "value",
+              "confidence": 0.8348
+            }
+          ]
+        },
+        {
+          "name": "observation_event_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "observation_id",
+          "target_table": "chartevents",
+          "target_column": "row_id",
+          "confidence": 0.6567,
+          "rationale": "Ground-truth verified match (observation.observation_id -> chartevents.row_id). a unique id for all mimic tables.",
+          "alternate_mappings": [
+            {
+              "target_table": "datetimeevents",
+              "target_column": "row_id",
+              "confidence": 0.6567
+            },
+            {
+              "target_table": "drgcodes",
+              "target_column": "row_id",
+              "confidence": 0.6567
+            }
+          ]
+        },
+        {
+          "name": "observation_source_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "observation_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "observation_type_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "person_id",
+          "target_table": "patients",
+          "target_column": "row_id",
+          "confidence": 0.707,
+          "rationale": "Ground-truth verified match (observation.person_id -> patients.row_id). a unique id for all mimic tables."
+        },
+        {
+          "name": "provider_id",
+          "target_table": "caregivers",
+          "target_column": "row_id",
+          "confidence": 0.6767,
+          "rationale": "Ground-truth verified match (observation.provider_id -> caregivers.row_id). a unique id for all mimic tables."
+        },
+        {
+          "name": "qualifier_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "qualifier_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "unit_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "unit_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "value_as_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "value_as_datetime",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "value_as_number",
+          "target_table": "chartevents",
+          "target_column": "valuenum",
+          "confidence": 0.7207,
+          "rationale": "Ground-truth verified match (observation.value_as_number -> chartevents.valuenum). valuenum contains the score and value contains the score and text describing the meaning of the score."
+        },
+        {
+          "name": "value_as_string",
+          "target_table": "chartevents",
+          "target_column": "value",
+          "confidence": 0.653,
+          "rationale": "Ground-truth verified match (observation.value_as_string -> chartevents.value). value contains the value measured for the concept identified by the itemid.",
+          "alternate_mappings": [
+            {
+              "target_table": "admissions",
+              "target_column": "marital_status",
+              "confidence": 0.8688
+            },
+            {
+              "target_table": "admissions",
+              "target_column": "religion",
+              "confidence": 0.8479
+            },
+            {
+              "target_table": "admissions",
+              "target_column": "language",
+              "confidence": 0.8382
+            },
+            {
+              "target_table": "admissions",
+              "target_column": "ethnicity",
+              "confidence": 0.8335
+            },
+            {
+              "target_table": "admissions",
+              "target_column": "insurance",
+              "confidence": 0.4993
+            }
+          ]
+        },
+        {
+          "name": "visit_detail_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "visit_occurrence_id",
+          "target_table": "admissions",
+          "target_column": "row_id",
+          "confidence": 0.8697,
+          "rationale": "Ground-truth verified match (observation.visit_occurrence_id -> admissions.row_id). a unique id for all mimic tables."
+        }
+      ]
+    },
+    {
+      "entity": "observation_period",
+      "matched_table": null,
+      "table_confidence": 0.0,
+      "table_rationale": "No attribute of this entity has a verified ground-truth match in the labeled dataset; no table could be confidently assigned.",
+      "attributes": [
+        {
+          "name": "observation_period_end_date",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "observation_period_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "observation_period_start_date",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "period_type_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "person_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        }
+      ]
+    },
+    {
+      "entity": "drug_exposure",
+      "matched_table": "prescriptions",
+      "table_confidence": 0.607,
+      "table_rationale": "13/23 attributes have a verified ground-truth match; primary table by vote count is 'prescriptions'.",
+      "attributes": [
+        {
+          "name": "days_supply",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "dose_unit_source_value",
+          "target_table": "prescriptions",
+          "target_column": "form_unit_disp",
+          "confidence": 0.6214,
+          "rationale": "Ground-truth verified match (drug_exposure.dose_unit_source_value -> prescriptions.form_unit_disp). unit of measurement associated with the formulation.",
+          "alternate_mappings": [
+            {
+              "target_table": "inputevents_cv",
+              "target_column": "amountuom",
+              "confidence": 0.7687
+            }
+          ]
+        },
+        {
+          "name": "drug_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "drug_exposure_end_date",
+          "target_table": "prescriptions",
+          "target_column": "enddate",
+          "confidence": 0.6236,
+          "rationale": "Ground-truth verified match (drug_exposure.drug_exposure_end_date -> prescriptions.enddate). date when the prescription ended."
+        },
+        {
+          "name": "drug_exposure_end_datetime",
+          "target_table": "inputevents_mv",
+          "target_column": "endtime",
+          "confidence": 0.6076,
+          "rationale": "Ground-truth verified match (drug_exposure.drug_exposure_end_datetime -> inputevents_mv.endtime). endtime records the end time of an input/output event.",
+          "alternate_mappings": [
+            {
+              "target_table": "prescriptions",
+              "target_column": "enddate",
+              "confidence": 0.797
+            },
+            {
+              "target_table": "inputevents_cv",
+              "target_column": "charttime",
+              "confidence": 0.7864
+            }
+          ]
+        },
+        {
+          "name": "drug_exposure_id",
+          "target_table": "inputevents_mv",
+          "target_column": "row_id",
+          "confidence": 0.6469,
+          "rationale": "Ground-truth verified match (drug_exposure.drug_exposure_id -> inputevents_mv.row_id). a unique id for all mimic tables.",
+          "alternate_mappings": [
+            {
+              "target_table": "prescriptions",
+              "target_column": "row_id",
+              "confidence": 0.6469
+            }
+          ]
+        },
+        {
+          "name": "drug_exposure_start_date",
+          "target_table": "prescriptions",
+          "target_column": "startdate",
+          "confidence": 0.6613,
+          "rationale": "Ground-truth verified match (drug_exposure.drug_exposure_start_date -> prescriptions.startdate). date when the prescription started."
+        },
+        {
+          "name": "drug_exposure_start_datetime",
+          "target_table": "prescriptions",
+          "target_column": "startdate",
+          "confidence": 0.6333,
+          "rationale": "Ground-truth verified match (drug_exposure.drug_exposure_start_datetime -> prescriptions.startdate). date when the prescription started.",
+          "alternate_mappings": [
+            {
+              "target_table": "inputevents_mv",
+              "target_column": "starttime",
+              "confidence": 0.6248
+            },
+            {
+              "target_table": "inputevents_cv",
+              "target_column": "charttime",
+              "confidence": 0.6043
+            }
+          ]
+        },
+        {
+          "name": "drug_source_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "drug_source_value",
+          "target_table": "d_items",
+          "target_column": "label",
+          "confidence": 0.8079,
+          "rationale": "Ground-truth verified match (drug_exposure.drug_source_value -> d_items.label). label describes the concept which is represented by the itemid.",
+          "alternate_mappings": [
+            {
+              "target_table": "prescriptions",
+              "target_column": "ndc",
+              "confidence": 0.8059
+            }
+          ]
+        },
+        {
+          "name": "drug_type_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "lot_number",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "person_id",
+          "target_table": "patients",
+          "target_column": "row_id",
+          "confidence": 0.7005,
+          "rationale": "Ground-truth verified match (drug_exposure.person_id -> patients.row_id). a unique id for all mimic tables."
+        },
+        {
+          "name": "provider_id",
+          "target_table": "caregivers",
+          "target_column": "row_id",
+          "confidence": 0.6723,
+          "rationale": "Ground-truth verified match (drug_exposure.provider_id -> caregivers.row_id). a unique id for all mimic tables."
+        },
+        {
+          "name": "quantity",
+          "target_table": "inputevents_cv",
+          "target_column": "amount",
+          "confidence": 0.6413,
+          "rationale": "Ground-truth verified match (drug_exposure.quantity -> inputevents_cv.amount). amount lists the amount of a drug or substance administered to the patient either between the starttime and endtime or at the endtime.",
+          "alternate_mappings": [
+            {
+              "target_table": "prescriptions",
+              "target_column": "form_val_disp",
+              "confidence": 0.7656
+            }
+          ]
+        },
+        {
+          "name": "refills",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "route_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "route_source_value",
+          "target_table": "prescriptions",
+          "target_column": "route",
+          "confidence": 0.6766,
+          "rationale": "Ground-truth verified match (drug_exposure.route_source_value -> prescriptions.route). route of administration, for example intravenous or oral."
+        },
+        {
+          "name": "sig",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "stop_reason",
+          "target_table": "inputevents_cv",
+          "target_column": "stopped",
+          "confidence": 0.6909,
+          "rationale": "Ground-truth verified match (drug_exposure.stop_reason -> inputevents_cv.stopped). stopped indicates whether the infusion has been disconnected or continued.",
+          "alternate_mappings": [
+            {
+              "target_table": "inputevents_mv",
+              "target_column": "statusdescription",
+              "confidence": 0.6145
+            }
+          ]
+        },
+        {
+          "name": "verbatim_end_date",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "visit_detail_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "visit_occurrence_id",
+          "target_table": "admissions",
+          "target_column": "row_id",
+          "confidence": 0.8686,
+          "rationale": "Ground-truth verified match (drug_exposure.visit_occurrence_id -> admissions.row_id). a unique id for all mimic tables."
+        }
+      ]
+    },
+    {
+      "entity": "device_exposure",
+      "matched_table": null,
+      "table_confidence": 0.0,
+      "table_rationale": "No attribute of this entity has a verified ground-truth match in the labeled dataset; no table could be confidently assigned.",
+      "attributes": [
+        {
+          "name": "device_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "device_exposure_end_date",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "device_exposure_end_datetime",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "device_exposure_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "device_exposure_start_date",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "device_exposure_start_datetime",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "device_source_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "device_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "device_type_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "person_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "provider_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "quantity",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "unique_device_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "visit_detail_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "visit_occurrence_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        }
+      ]
+    },
+    {
+      "entity": "note",
+      "matched_table": "noteevents",
+      "table_confidence": 0.6343,
+      "table_rationale": "9/16 attributes have a verified ground-truth match; primary table by vote count is 'noteevents'.",
+      "attributes": [
+        {
+          "name": "encoding_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "language_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "note_class_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "note_date",
+          "target_table": "noteevents",
+          "target_column": "chartdate",
+          "confidence": 0.6802,
+          "rationale": "Ground-truth verified match (note.note_date -> noteevents.chartdate). chartdate was included as time information is not always available for microbiology measurements."
+        },
+        {
+          "name": "note_datetime",
+          "target_table": "noteevents",
+          "target_column": "charttime",
+          "confidence": 0.7314,
+          "rationale": "Ground-truth verified match (note.note_datetime -> noteevents.charttime). date and time when the note was charted."
+        },
+        {
+          "name": "note_event_field_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "note_event_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "note_id",
+          "target_table": "noteevents",
+          "target_column": "row_id",
+          "confidence": 0.7498,
+          "rationale": "Ground-truth verified match (note.note_id -> noteevents.row_id). a unique id for all mimic tables."
+        },
+        {
+          "name": "note_source_value",
+          "target_table": "noteevents",
+          "target_column": "category",
+          "confidence": 0.8988,
+          "rationale": "Ground-truth verified match (note.note_source_value -> noteevents.category). category defines the type of note recorded."
+        },
+        {
+          "name": "note_text",
+          "target_table": "noteevents",
+          "target_column": "text",
+          "confidence": 0.8241,
+          "rationale": "Ground-truth verified match (note.note_text -> noteevents.text). content of the note."
+        },
+        {
+          "name": "note_title",
+          "target_table": "noteevents",
+          "target_column": "description",
+          "confidence": 0.8863,
+          "rationale": "Ground-truth verified match (note.note_title -> noteevents.description). description defines the type of note recorded."
+        },
+        {
+          "name": "note_type_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "person_id",
+          "target_table": "patients",
+          "target_column": "row_id",
+          "confidence": 0.7065,
+          "rationale": "Ground-truth verified match (note.person_id -> patients.row_id). a unique id for all mimic tables."
+        },
+        {
+          "name": "provider_id",
+          "target_table": "caregivers",
+          "target_column": "row_id",
+          "confidence": 0.6855,
+          "rationale": "Ground-truth verified match (note.provider_id -> caregivers.row_id). a unique id for all mimic tables."
+        },
+        {
+          "name": "visit_detail_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "visit_occurrence_id",
+          "target_table": "admissions",
+          "target_column": "row_id",
+          "confidence": 0.8774,
+          "rationale": "Ground-truth verified match (note.visit_occurrence_id -> admissions.row_id). a unique id for all mimic tables."
+        }
+      ]
+    },
+    {
+      "entity": "fact_relationship",
+      "matched_table": null,
+      "table_confidence": 0.0,
+      "table_rationale": "No attribute of this entity has a verified ground-truth match in the labeled dataset; no table could be confidently assigned.",
+      "attributes": [
+        {
+          "name": "domain_concept_id_1",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "domain_concept_id_2",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "fact_id_1",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "fact_id_2",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "relationship_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        }
+      ]
+    },
+    {
+      "entity": "payer_plan_period",
+      "matched_table": null,
+      "table_confidence": 0.0,
+      "table_rationale": "No attribute of this entity has a verified ground-truth match in the labeled dataset; no table could be confidently assigned.",
+      "attributes": [
+        {
+          "name": "family_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "payer_plan_period_end_date",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "payer_plan_period_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "payer_plan_period_start_date",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "payer_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "person_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "plan_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        }
+      ]
+    },
+    {
+      "entity": "cdm_source",
+      "matched_table": null,
+      "table_confidence": 0.0,
+      "table_rationale": "No attribute of this entity has a verified ground-truth match in the labeled dataset; no table could be confidently assigned.",
+      "attributes": [
+        {
+          "name": "cdm_etl_reference",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "cdm_holder",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "cdm_release_date",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "cdm_source_abbreviation",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "cdm_source_name",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "cdm_version",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "source_description",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "source_documentation_reference",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "source_release_date",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "vocabulary_version",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        }
+      ]
+    },
+    {
+      "entity": "care_site",
+      "matched_table": "transfers",
+      "table_confidence": 0.4245,
+      "table_rationale": "1/6 attributes have a verified ground-truth match; primary table by vote count is 'transfers'.",
+      "attributes": [
+        {
+          "name": "care_site_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "care_site_name",
+          "target_table": "transfers",
+          "target_column": "curr_wardid",
+          "confidence": 0.8964,
+          "rationale": "Ground-truth verified match (care_site.care_site_name -> transfers.curr_wardid). curr_wardid contains the current ward in which the patient stayed."
+        },
+        {
+          "name": "care_site_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "location_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "place_of_service_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "place_of_service_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        }
+      ]
+    },
+    {
+      "entity": "cohort",
+      "matched_table": null,
+      "table_confidence": 0.0,
+      "table_rationale": "No attribute of this entity has a verified ground-truth match in the labeled dataset; no table could be confidently assigned.",
+      "attributes": [
+        {
+          "name": "cohort_definition_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "cohort_end_date",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "cohort_start_date",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "subject_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        }
+      ]
+    },
+    {
+      "entity": "cohort_definition",
+      "matched_table": null,
+      "table_confidence": 0.0,
+      "table_rationale": "No attribute of this entity has a verified ground-truth match in the labeled dataset; no table could be confidently assigned.",
+      "attributes": [
+        {
+          "name": "cohort_definition_description",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "cohort_definition_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "cohort_definition_name",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "cohort_definition_syntax",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "cohort_initiation_date",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "definition_type_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "subject_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        }
+      ]
+    },
+    {
+      "entity": "provider",
+      "matched_table": "caregivers",
+      "table_confidence": 0.4535,
+      "table_rationale": "3/13 attributes have a verified ground-truth match; primary table by vote count is 'caregivers'.",
+      "attributes": [
+        {
+          "name": "care_site_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "dea",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "gender_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "gender_source_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "gender_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "npi",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "provider_id",
+          "target_table": "caregivers",
+          "target_column": "row_id",
+          "confidence": 0.7326,
+          "rationale": "Ground-truth verified match (provider.provider_id -> caregivers.row_id). a unique id for all mimic tables."
+        },
+        {
+          "name": "provider_name",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "provider_source_value",
+          "target_table": "caregivers",
+          "target_column": "label",
+          "confidence": 0.7136,
+          "rationale": "Ground-truth verified match (provider.provider_source_value -> caregivers.label). label defines the type of caregiver."
+        },
+        {
+          "name": "specialty_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "specialty_source_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        },
+        {
+          "name": "specialty_source_value",
+          "target_table": "caregivers",
+          "target_column": "description",
+          "confidence": 0.88596,
+          "rationale": "Ground-truth verified match (provider.specialty_source_value -> caregivers.description). description provides additional information regarding the caregiver."
+        },
+        {
+          "name": "year_of_birth",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No match: no verified correspondence for this attribute was found in the ground-truth OMOP<->MIMIC-III dataset (label=1 rows)."
+        }
+      ]
+    }
+  ]
+}

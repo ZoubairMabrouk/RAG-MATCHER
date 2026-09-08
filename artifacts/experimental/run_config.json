@@ -1,8 +1,0 @@
-{
-  "mode": "experimental",
-  "dry_run": true,
-  "top_k": 10,
-  "threshold_match": 0.85,
-  "threshold_review": 0.7,
-  "benchmark": "/RAG-MATCHER/data/experimental/open_world/benchmark.jsonl"
-}

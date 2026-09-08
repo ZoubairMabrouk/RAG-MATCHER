@@ -1,5 +1,0 @@
-{"source_id": "s1", "decision": "MATCH"}
-{"source_id": "s2", "decision": "MATCH"}
-{"source_id": "s3", "decision": "REVIEW"}
-{"source_id": "s4", "decision": "EVOLVE", "change_type": "add_column", "target_table": "patient", "target_column": "new_score"}
-{"source_id": "s5", "decision": "REJECT"}

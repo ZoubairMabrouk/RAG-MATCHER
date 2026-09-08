@@ -1,0 +1,8 @@
+entity,matched_table,table_confidence,actual_match,label_080,prediction_080
+procedure_occurrence,cptevents,0.7621,True,0,0
+condition_occurrence,admissions,0.7501,True,0,0
+note,noteevents,0.6343,True,0,0
+drug_exposure,prescriptions,0.607,True,0,0
+specimen,chartevents,0.4736,True,0,0
+provider,caregivers,0.4535,True,0,0
+care_site,transfers,0.4245,True,0,0
