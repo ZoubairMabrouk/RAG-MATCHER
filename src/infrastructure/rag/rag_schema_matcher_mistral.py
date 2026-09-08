@@ -245,7 +245,7 @@ class RAGSchemaMatcher:
         # Search for similar tables
         candidates = self._vector_store.search(
             query_embedding, 
-            top_k=10,
+            top_k=30,
             filters={"kind": "table"}
         )
         logger.info(f"[RAGSchemaMatcher] Found {len(candidates)} table candidates for entity '{entity_name}' : {[doc.table for doc, _ in candidates]}")
@@ -542,7 +542,7 @@ class RAGSchemaMatcher:
         
         # Build context
         candidates_text = []
-        for doc, score in all_candidates[:10]:  # Top k candidates
+        for doc, score in all_candidates[:30]:  # Top 30 candidates
             candidates_text.append(f"- {doc.table}: {doc.content} (score: {score:.3f})")
         
         prompt = f"""
@@ -579,7 +579,7 @@ ENTITY TO MATCH
 CANDIDATE TABLES (TOP-K)
 ===========================
 The following tables were retrieved as possible matches, sorted by relevance:
-{chr(10).join(candidates_text)}
+{chr(30).join(candidates_text)}
 
 ===========================
 MATCHING CRITERIA
@@ -637,7 +637,7 @@ Respond with a JSON object ONLY:
             # # Remove Markdown fences like ```json ... ```
             # if clean.startswith("```"):
             #     clean = clean.strip("`")
-            #     if "json" in clean[:10].lower():
+            #     if "json" in clean[:30].lower():
             #         clean = clean[clean.lower().find("json") + 4:].strip()
             #     # Remove trailing ```
             #     if "```" in clean:
@@ -675,7 +675,7 @@ Respond with a JSON object ONLY:
         
         # Build context
         candidates_text = []
-        for doc, score in all_candidates[:10]:  # Top 3 candidates
+        for doc, score in all_candidates[:30]:  # Top 30 candidates
             col_name = doc.id.split('.')[-1] if '.' in doc.id else doc.id
             candidates_text.append(f"- {col_name}: {doc.content} (score: {score:.3f})")
         
@@ -710,7 +710,7 @@ ATTRIBUTE TO MATCH
 CANDIDATE COLUMNS (TOP-K)
 ===========================
 These columns were retrieved as potential matches:
-{chr(10).join(candidates_text)}
+{chr(30).join(candidates_text)}
 
 ===========================
 MATCHING CRITERIA
@@ -784,7 +784,7 @@ Rules:
             # # Remove Markdown fences like ```json ... ```
             # if clean.startswith("```"):
             #     clean = clean.strip("`")
-            #     if "json" in clean[:10].lower():
+            #     if "json" in clean[:30].lower():
             #         clean = clean[clean.lower().find("json") + 4:].strip()
             #     # Remove trailing ```
             #     if "```" in clean:

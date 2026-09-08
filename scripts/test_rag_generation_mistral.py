@@ -470,7 +470,7 @@ def parse_args():
                    help="Accept threshold for table matching")
     p.add_argument("--column-threshold", type=float, default=0.0,
                    help="Accept threshold for column matching")
-    p.add_argument("--top-k", type=int, default=5,
+    p.add_argument("--top-k", type=int, default=30,
                    help="Top-K candidates to retrieve")
     p.add_argument("--out", default=None,
                    help="Optional path to write a JSON report")

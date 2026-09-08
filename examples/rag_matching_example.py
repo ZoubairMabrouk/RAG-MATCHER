@@ -345,7 +345,7 @@ result = rag_service.match_field_by_path(**field_data)
     print("""
 # Semantic search
 hints = ["heart rate", "cardiac", "vital signs"]
-results = rag_service.search_semantic_hints(hints, top_k=10)
+results = rag_service.search_semantic_hints(hints, top_k=30)
 """)
     
     print("\nFor more examples, see the test files in tests/unit/ and tests/integration/")

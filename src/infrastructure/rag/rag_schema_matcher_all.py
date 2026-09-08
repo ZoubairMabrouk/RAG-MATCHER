@@ -502,7 +502,7 @@ fences, covering every entity and every attribute listed above:
         query_embedding = np.array(self._embedding_service.embed([query_text])[0], dtype='float32')
         candidates = self._vector_store.search(
             query_embedding,
-            top_k=10,
+            top_k=30,
             filters={"kind": "table"}
         )
         if not candidates:

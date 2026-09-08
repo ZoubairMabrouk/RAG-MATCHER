@@ -56,25 +56,50 @@ LLM-powered database schema evolution with advanced RAG (Retrieval-Augmented Gen
 
 ## Installation
 
-```bash
-# Install dependencies
-poetry install
+### Prerequisites
 
-# Set up environment variables
+- Docker Desktop with Docker Compose v2 (`docker compose`)
+- At least 8 GB of available RAM for the Ollama and embedding services
+
+The project is designed to run in Docker. Poetry and a local Python installation are not required.
+
+### Configuration
+
+Create a `.env` file if you need to provide optional API keys:
+
+```bash
+# Copy the example file when it exists
 cp .env.example .env
-# Edit .env with your API keys
+
+# Edit .env and add your OpenAI or Anthropic API key when required
 ```
+
+The default Docker Compose configuration starts:
+
+- PostgreSQL at `localhost:55432` (`test` / `test`, database `test`)
+- Ollama at `http://localhost:11434`
+- The application container with the project mounted at `/app`
 
 ## Quick Start
 
-### 1. Setup RAG System
+### 1. Build and start the services
 
 ```bash
-# Install dependencies
-poetry install
+# Build the application image and start PostgreSQL and Ollama
+docker compose up -d --build db ollama
 
-# Setup RAG system with MIMIC-III knowledge base
-python scripts/setup_rag_system.py
+# Check the service status
+docker compose ps
+```
+
+### 2. Setup RAG System
+
+```bash
+# Run the RAG setup inside the application container
+docker compose run --rm app python scripts/setup_rag_system.py
+
+# Setup the optional LLM-enabled environment
+docker compose run --rm app python scripts/setup_rag_environment.py --llm --api-key YOUR_KEY
 
 # This will:
 # - Build MIMIC-III knowledge base from DDL and dictionary
@@ -83,11 +108,12 @@ python scripts/setup_rag_system.py
 # - Create demo dataset for testing
 ```
 
-### 2. RAG Schema Matching
+### 3. RAG Schema Matching API
 
 ```bash
-# Start API server with RAG endpoints
-uvicorn src.presentation.api.app:app --reload
+# Start the API in a temporary application container
+docker compose run --rm --service-ports -p 8000:8000 app \
+  uvicorn src.presentation.api.app:app --host 0.0.0.0 --port 8000
 
 # Test single field matching
 curl -X POST http://localhost:8000/api/v1/rag/match/single \
@@ -111,42 +137,52 @@ curl -X POST http://localhost:8000/api/v1/rag/match/batch \
   }'
 ```
 
-### 3. RAG Virtual Renaming (NEW!)
+The interactive API documentation is available at <http://localhost:8000/docs>.
+
+### 4. RAG Virtual Renaming (NEW!)
 
 ```bash
-# Setup RAG environment
-python scripts/setup_rag_environment.py --llm --api-key YOUR_KEY
-
 # Validate implementation
-python scripts/validate_rag_implementation.py
+docker compose run --rm app python scripts/validate_rag_implementation.py
 
 # Run demo with virtual renaming
-python examples/run_rag_virtual_rename_demo.py
+docker compose run --rm app python examples/run_rag_virtual_rename_demo.py
 
 # Test specific scenarios
-python examples/test_rag_virtual_rename.py
+docker compose run --rm app python examples/test_rag_virtual_rename.py
 ```
 
-### 4. Traditional Schema Evolution
+### 5. Traditional Schema Evolution
 
 ```bash
-# Analyze schema evolution (existing functionality)
-dbevolve analyze \
+# Analyze schema evolution inside the application container
+docker compose run --rm app dbevolve analyze \
   --uschema schema.json \
-  --connection "postgresql://user:pass@localhost/mydb" \
+  --connection "postgresql://test:test@db:5432/test" \
   --output evolution_plan.json
 
 # Introspect current schema
-dbevolve introspect \
-  --connection "postgresql://user:pass@localhost/mydb" \
+docker compose run --rm app dbevolve introspect \
+  --connection "postgresql://test:test@db:5432/test" \
   --output current_schema.json
+```
+
+### Stop the services
+
+```bash
+# Stop containers while preserving PostgreSQL and Ollama data
+docker compose down
+
+# Stop containers and delete their data volumes
+docker compose down -v
 ```
 
 ### API
 
 ```bash
-# Start server
-uvicorn src.presentation.api.app:app --reload
+# Start the API as described above
+docker compose run --rm --service-ports -p 8000:8000 app \
+  uvicorn src.presentation.api.app:app --host 0.0.0.0 --port 8000
 
 # Example request
 curl -X POST http://localhost:8000/api/v1/analyze \
