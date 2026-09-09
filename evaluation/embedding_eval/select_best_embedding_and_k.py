@@ -1,90 +1,20 @@
-#!/usr/bin/env python3
-"""
-select_best_embedding_and_k.py
-================================
+# """
+# Exemple d'utilisation
+# ----------------------
+# python select_best_embedding_and_k.py \
+#     --uschema uschema.json \
+#     --target-schema mimic_schema.json \
+#     --labels omop_mimic_data.xlsx \
+#     --models sentence-transformers/LaBSE sentence-transformers/all-MiniLM-L6-v2 \
+#              BAAI/bge-small-en-v1.5 intfloat/e5-small-v2 dmis-lab/biobert-base-cased-v1.2 \
+#     --k-list 1 3 5 10 15 20 30 \
+#     --out results.json
 
-Objectif
---------
-1. Lire le U-Schema (schema conceptuel source, ex: entites/attributs OMOP) et
-   l'indexer (embeddings).
-2. Lire le schema de la base cible (ex: mimic_schema.json - tables/colonnes
-   MIMIC-III) et l'indexer (embeddings).
-3. Pour une liste de modeles d'embedding (dont LaBSE) et une liste de valeurs
-   de k, faire du retrieval top-k du U-Schema vers le schema cible, comparer
-   au label reel (fichier xlsx etiquete) et calculer Recall@k / MRR.
-4. Choisir le meilleur modele = celui qui atteint le meilleur rappel avec le
-   plus petit k (le "minimum k" demande).
-
-Entrees attendues
-------------------
---uschema PATH         Fichier JSON du schema source (U-Schema / OMOP).
-                        Format attendu (liste d'entites):
-                        [
-                          {"entity": "person", "description": "...",
-                           "attributes": [
-                              {"name": "person_id", "description": "..."},
-                              ...
-                           ]},
-                          ...
-                        ]
-                        Si absent, le schema est reconstruit automatiquement
-                        depuis le fichier xlsx etiquete (colonnes omop/des1).
-
---target-schema PATH   Fichier JSON du schema cible (ex: mimic_schema.json).
-                        Format attendu (liste de tables):
-                        [
-                          {"table": "admissions", "description": "...",
-                           "columns": [
-                              {"name": "hadm_id", "description": "..."},
-                              ...
-                           ]},
-                          ...
-                        ]
-                        Si absent, reconstruit depuis le xlsx etiquete
-                        (colonnes table/des2).
-
---labels PATH          Fichier xlsx etiquete (colonnes:
-                        omop | table | des1 | des2 | label | d1 | d2 | d3 | d4)
-                        label=1 => vraie correspondance (verite terrain).
-
---models NAME [NAME..] Liste de modeles d'embedding a comparer
-                        (identifiants sentence-transformers / HF).
-                        Par defaut, un panel de 5 modeles est utilise
-                        (voir DEFAULT_MODELS), dont LaBSE.
-
---k-list K [K ..]       Liste des valeurs de k a tester (retrieval top-k).
-
---offline-fallback      Si le telechargement d'un modele echoue (pas
-                        d'acces internet / HF bloque), retombe sur un
-                        embedding local (TF-IDF caracteres) pour que le
-                        script reste executable hors-ligne. Desactive par
-                        defaut : sans ce flag, une erreur explicite est
-                        levee pour chaque modele indisponible.
-
---out PATH              Fichier de sortie JSON pour les resultats complets.
-
-Dependances
------------
-pip install sentence-transformers scikit-learn numpy openpyxl
-# optionnel mais recommande pour un index rapide sur de gros schemas :
-pip install faiss-cpu
-
-Exemple d'utilisation
-----------------------
-python select_best_embedding_and_k.py \
-    --uschema uschema.json \
-    --target-schema mimic_schema.json \
-    --labels omop_mimic_data.xlsx \
-    --models sentence-transformers/LaBSE sentence-transformers/all-MiniLM-L6-v2 \
-             BAAI/bge-small-en-v1.5 intfloat/e5-small-v2 thenlper/gte-small \
-    --k-list 1 3 5 10 15 20 30 \
-    --out results.json
-
-Si vous n'avez ni uschema.json ni mimic_schema.json sous la main, lancez le
-script uniquement avec --labels : les deux schemas seront reconstruits
-automatiquement a partir du fichier etiquete (utile pour un premier test
-rapide de la methodologie).
-"""
+# Si vous n'avez ni uschema.json ni mimic_schema.json sous la main, lancez le
+# script uniquement avec --labels : les deux schemas seront reconstruits
+# automatiquement a partir du fichier etiquete (utile pour un premier test
+# rapide de la methodologie).
+# """
 
 from __future__ import annotations
 
@@ -99,26 +29,20 @@ from typing import Callable, Dict, List, Optional, Tuple
 
 import numpy as np
 
-# --------------------------------------------------------------------------
-# 0. Config par defaut
-# --------------------------------------------------------------------------
 
 DEFAULT_MODELS = [
-    "sentence-transformers/LaBSE",          # Language-agnostic BERT Sentence Embedding
+    "sentence-transformers/LaBSE",          
     "sentence-transformers/all-MiniLM-L6-v2",
     "BAAI/bge-small-en-v1.5",
     "intfloat/e5-small-v2",
-    "thenlper/gte-small",
+    "dmis-lab/biobert-base-cased-v1.2",
 ]
 
 DEFAULT_K_LIST = [1, 3, 5, 10, 15, 20, 30]
 
-RECALL_THRESHOLDS = [0.5, 0.6, 0.7, 0.8, 0.9]  # pour le tableau "k minimal"
+RECALL_THRESHOLDS = [0.5, 0.6, 0.7, 0.8, 0.9] 
 
 
-# --------------------------------------------------------------------------
-# 1. Structures de schema
-# --------------------------------------------------------------------------
 
 @dataclass
 class SchemaItem:
@@ -217,9 +141,6 @@ def load_gold_labels(labels_path: str) -> Dict[str, set]:
     return dict(gold)
 
 
-# --------------------------------------------------------------------------
-# 2. Embedding backends
-# --------------------------------------------------------------------------
 
 class Embedder:
     """Enveloppe un modele d'embedding. .encode(list[str]) -> np.ndarray (n, d)."""
@@ -231,7 +152,7 @@ class Embedder:
         try:
             from sentence_transformers import SentenceTransformer
             self._st_model = SentenceTransformer(model_name)
-        except Exception as e:  # pas d'internet, modele introuvable, etc.
+        except Exception as e:  
             if not offline_fallback:
                 raise RuntimeError(
                     f"Impossible de charger le modele '{model_name}' via "
@@ -271,9 +192,6 @@ class Embedder:
         return X / norms
 
 
-# --------------------------------------------------------------------------
-# 3. Index vectoriel (FAISS si dispo, sinon brute-force numpy)
-# --------------------------------------------------------------------------
 
 class SchemaIndex:
     """Index vectoriel simple sur les embeddings du schema cible."""
@@ -285,11 +203,11 @@ class SchemaIndex:
         try:
             import faiss
             dim = embeddings.shape[1]
-            index = faiss.IndexFlatIP(dim)  # produit scalaire = cosinus (vecteurs normalises)
+            index = faiss.IndexFlatIP(dim)  
             index.add(embeddings)
             self._faiss_index = index
         except Exception:
-            self._faiss_index = None  # fallback numpy plus bas
+            self._faiss_index = None  
 
     def search(self, query_embeddings: np.ndarray, k: int) -> np.ndarray:
         """Retourne les indices (dans item_ids) des k plus proches voisins,
@@ -298,15 +216,11 @@ class SchemaIndex:
         if self._faiss_index is not None:
             _scores, idx = self._faiss_index.search(query_embeddings, k)
             return idx
-        # fallback brute force (cosinus = produit scalaire, vecteurs normalises)
         sims = query_embeddings @ self.embeddings.T
         idx = np.argsort(-sims, axis=1)[:, :k]
         return idx
 
 
-# --------------------------------------------------------------------------
-# 4. Evaluation : Recall@k et MRR
-# --------------------------------------------------------------------------
 
 def evaluate_model(
     embedder: Embedder,
@@ -323,7 +237,7 @@ def evaluate_model(
 
     index = SchemaIndex(c_emb, [it.item_id for it in t_items])
     max_k = max(k_list)
-    neighbor_idx = index.search(q_emb, max_k)  # (n_queries, max_k)
+    neighbor_idx = index.search(q_emb, max_k)  
 
     eval_qids = [it.item_id for it in u_items if it.item_id in gold and gold[it.item_id]]
     n_eval = len(eval_qids)
@@ -386,16 +300,11 @@ def pick_best(all_results: List[Dict], k_list: List[int]) -> Dict:
             if best is None:
                 best = candidate
                 continue
-            # priorite : rappel le plus haut ; a egalite, k le plus petit
             if (candidate["recall"] > best["recall"] or
                     (candidate["recall"] == best["recall"] and candidate["k"] < best["k"])):
                 best = candidate
     return best
 
-
-# --------------------------------------------------------------------------
-# 5. Main
-# --------------------------------------------------------------------------
 
 def main():
     parser = argparse.ArgumentParser(
@@ -477,7 +386,6 @@ def main():
         "results": all_results,
         "best_model_k": best,
     }
-    # json ne supporte pas les cles int -> on convertit recall_at_k
     for res in output["results"]:
         res["recall_at_k"] = {str(k): v for k, v in res["recall_at_k"].items()}
         res["min_k_for_recall_threshold"] = {str(t): v for t, v in res["min_k_for_recall_threshold"].items()}

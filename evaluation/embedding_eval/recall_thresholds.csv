@@ -1,0 +1,6 @@
+model,R>=50%,R>=60%,R>=70%,R>=80%,R>=90%
+sentence-transformers/LaBSE,15,30,—,—,—
+sentence-transformers/all-MiniLM-L6-v2,10,10,15,20,—
+BAAI/bge-small-en-v1.5,10,10,15,20,—
+intfloat/e5-small-v2,5,10,20,—,—
+dmis-lab/biobert-base-cased-v1.2,—,—,—,—,—

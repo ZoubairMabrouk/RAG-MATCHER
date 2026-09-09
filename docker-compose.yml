@@ -38,10 +38,12 @@ services:
     environment:
       DATABASE_URL: "postgres://test:test@rag_db:5432/test"
       OLLAMA_HOST: "http://rag_ollama:11434"
+      PYTHONPATH: "/app/"
       PYTHONUNBUFFERED: "1"
       PYTHONDONTWRITEBYTECODE: "1"
     volumes:
       - .:/app:cached
+    command: ["tail", "-f", "/dev/null"]
 
 volumes:
   pgdata:

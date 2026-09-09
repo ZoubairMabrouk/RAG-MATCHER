@@ -30,7 +30,7 @@ class BaseLLMClient(ILLMClient):
     def __init__(self, model: str, temperature: float = 0.1):
         self._model = model
         self._temperature = temperature
-        self._client = OpenAI(base_url="http://localhost:11434/v1", api_key="ollama")
+        self._client = OpenAI(base_url="http://rag_ollama:11434/v1", api_key="ollama")
     
     def _build_evolution_prompt(self, context: Dict[str, Any]) -> str:
         """Build prompt for evolution plan generation."""

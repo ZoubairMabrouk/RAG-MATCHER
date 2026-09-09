@@ -206,7 +206,7 @@ def build_matcher(
     # Fix #4: llm_client is now genuinely optional. Passing None disables
     # LLM validation entirely and uses the hybrid reranker/coverage score
     # alone -- useful for fast iteration or to isolate retrieval quality.
-    llm_client = BaseLLMClient(model="llama3.1", temperature=0.1) if use_llm else None
+    llm_client = BaseLLMClient(model="llama3.1", temperature=0.1)
  
     matcher = RAGSchemaMatcher(
         embedding_service=emb,
@@ -432,7 +432,7 @@ def run(args) -> int:
  
 def parse_args():
     p = argparse.ArgumentParser(description="Dynamic RAG virtual rename runner")
-    p.add_argument("--uschema-file", default="./scripts/uschema.json",
+    p.add_argument("--uschema-file", default="./scripts/uschema_testdata.json",
                    help="Path to U-Schema JSON (use '-' to read from stdin)")
     p.add_argument("--schema-file", default="./scripts/schema_snapshot.json",
                    help="Path to a schema snapshot JSON (see scripts/export_schema_to_json.py). "

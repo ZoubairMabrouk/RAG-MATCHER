@@ -168,7 +168,7 @@ class RAGSchemaMatcher:
         """
         self._embedding_service = embedding_service
         self._vector_store = vector_store
-        self._llm_client = llm_client  # None means "no LLM validation" -- honoured now.
+        self._llm_client = BaseLLMClient(model="llama3.1", temperature=0.1)  # None means "no LLM validation" -- honoured now.
         self._table_threshold = table_accept_threshold
         self._column_threshold = column_accept_threshold
         self._table_top_k = table_top_k
