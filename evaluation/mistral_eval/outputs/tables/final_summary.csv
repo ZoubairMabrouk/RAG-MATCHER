@@ -1,0 +1,13 @@
+Metric,Value
+column_universe_size,64080.0
+column_gold_positives,129.0
+column_best_threshold,0.7
+column_best_f1,0.26373626373626374
+column_best_precision,0.4528301886792453
+column_best_recall,0.18604651162790697
+table_universe_size,525.0
+table_gold_positives,46.0
+table_best_threshold,0.45
+table_best_f1,0.3728813559322034
+table_best_precision,0.8461538461538461
+table_best_recall,0.2391304347826087

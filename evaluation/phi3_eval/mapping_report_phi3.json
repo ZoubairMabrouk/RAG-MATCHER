@@ -1,0 +1,1879 @@
+{
+  "config": {
+    "db_url": null,
+    "schema_file": "./scripts/schema_snapshot.json",
+    "dialect": "postgresql",
+    "index_type": "auto",
+    "table_threshold": 0.62,
+    "column_threshold": 0.68,
+    "table_top_k": 30,
+    "column_top_k": 30,
+    "llm_enabled": true
+  },
+  "mapping": [
+    {
+      "entity": "person",
+      "matched_table": "patients",
+      "table_confidence": 0.9124,
+      "table_rationale": "Patients is selected as the primary person table because demographic core fields (subject identifier, birth date components, sex) align cleanly and the majority of person-level attributes resolve there with high semantic overlap.",
+      "attributes": [
+        {
+          "name": "birth_datetime",
+          "target_table": "patients",
+          "target_column": "dob",
+          "confidence": 0.9341,
+          "rationale": "The birth timestamp is taken directly from the dob column; it is the only field that stores a complete birth date and therefore supplies the required datetime value."
+        },
+        {
+          "name": "care_site_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No persistent care-site identifier exists at the person level in MIMIC-III; any unit information is visit-scoped and cannot be attached to the static person record."
+        },
+        {
+          "name": "day_of_birth",
+          "target_table": "patients",
+          "target_column": "dob",
+          "confidence": 0.9012,
+          "rationale": "Day component is extracted from the same dob date field that already holds the full birth date, making the derivation straightforward and reliable."
+        },
+        {
+          "name": "death_datetime",
+          "target_table": "patients",
+          "target_column": "dod",
+          "confidence": 0.9478,
+          "rationale": "Date of death is stored in dod; the column is the canonical mortality field for the patient and maps one-to-one onto the OMOP death datetime."
+        },
+        {
+          "name": "ethnicity_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "MIMIC-III records ethnicity only as free-text strings; no standardized concept identifier is present, so a concept_id mapping is impossible."
+        },
+        {
+          "name": "ethnicity_source_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Source concept identifiers for ethnicity are absent; the data model never stored coded ethnicity concepts."
+        },
+        {
+          "name": "ethnicity_source_value",
+          "target_table": "admissions",
+          "target_column": "ethnicity",
+          "confidence": 0.7823,
+          "rationale": "Although ethnicity lives on the admission record rather than the static patient table, the free-text value is the only available source string and is therefore used."
+        },
+        {
+          "name": "gender_concept_id",
+          "target_table": "patients",
+          "target_column": "gender",
+          "confidence": 0.9687,
+          "rationale": "Gender is stored as a simple coded value (M/F) in the patients table; the semantic match is exact and the confidence is correspondingly high."
+        },
+        {
+          "name": "gender_source_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No separate source-concept identifier exists for gender; the value is already the source itself."
+        },
+        {
+          "name": "gender_source_value",
+          "target_table": "patients",
+          "target_column": "gender",
+          "confidence": 0.9554,
+          "rationale": "The same gender column supplies both the concept and the original source string, so the mapping re-uses that field."
+        },
+        {
+          "name": "location_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Residential address information is not collected in MIMIC-III; consequently no location foreign key can be populated."
+        },
+        {
+          "name": "month_of_birth",
+          "target_table": "patients",
+          "target_column": "dob",
+          "confidence": 0.8889,
+          "rationale": "Month is derived by extracting the month component of the dob date; the source column is unambiguous."
+        },
+        {
+          "name": "person_id",
+          "target_table": "patients",
+          "target_column": "subject_id",
+          "confidence": 0.9912,
+          "rationale": "Subject_id is the primary key of the patients table and is used throughout MIMIC as the unique person identifier, giving a near-perfect match."
+        },
+        {
+          "name": "person_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No additional external person identifier is stored; subject_id itself serves as both the internal and source value."
+        },
+        {
+          "name": "provider_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Primary-care provider is not recorded on the static patient record; any caregiver links appear only in event tables."
+        },
+        {
+          "name": "race_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Race is not coded with OMOP concepts; the closest free-text field is ethnicity, which is insufficient for a concept_id."
+        },
+        {
+          "name": "race_source_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No race source-concept identifiers exist in the schema."
+        },
+        {
+          "name": "race_source_value",
+          "target_table": "admissions",
+          "target_column": "ethnicity",
+          "confidence": 0.5126,
+          "rationale": "Ethnicity text is used as a weak proxy for race because MIMIC collapses the two concepts into a single free-text column; confidence is deliberately moderate."
+        },
+        {
+          "name": "year_of_birth",
+          "target_table": "patients",
+          "target_column": "dob",
+          "confidence": 0.8765,
+          "rationale": "Year is obtained by extracting the year portion of dob; the column is the sole authoritative birth-date source."
+        }
+      ]
+    },
+    {
+      "entity": "visit_occurrence",
+      "matched_table": "admissions",
+      "table_confidence": 0.9017,
+      "table_rationale": "Admissions is the natural home for visit_occurrence because each row represents a complete hospital stay with clear start and end timestamps and a unique hadm_id.",
+      "attributes": [
+        {
+          "name": "admitted_from_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Admission location is stored only as free text; no standardized concept identifier is available."
+        },
+        {
+          "name": "admitted_from_source_value",
+          "target_table": "admissions",
+          "target_column": "admission_location",
+          "confidence": 0.9234,
+          "rationale": "The free-text admission_location column directly answers the source-value requirement for the origin of the visit."
+        },
+        {
+          "name": "care_site_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Care-site identifiers are not present on the admissions row; they would require joining to transfers."
+        },
+        {
+          "name": "discharge_to_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Discharge destination is never coded as a concept_id in MIMIC-III."
+        },
+        {
+          "name": "discharge_to_source_value",
+          "target_table": "admissions",
+          "target_column": "discharge_location",
+          "confidence": 0.8671,
+          "rationale": "Discharge_location supplies the textual destination; the column was previously overlooked but is the correct source."
+        },
+        {
+          "name": "person_id",
+          "target_table": "patients",
+          "target_column": "subject_id",
+          "confidence": 0.9448,
+          "rationale": "Subject_id on admissions is a foreign key to patients and therefore correctly links the visit to the person."
+        },
+        {
+          "name": "preceding_visit_occurrence_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No explicit pointer to a prior admission is stored; any sequential relationship would have to be reconstructed."
+        },
+        {
+          "name": "provider_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Admitting or attending provider is not recorded on the admissions table."
+        },
+        {
+          "name": "visit_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Visit type is free-text only; no OMOP visit concept is present."
+        },
+        {
+          "name": "visit_end_date",
+          "target_table": "admissions",
+          "target_column": "dischtime",
+          "confidence": 0.9315,
+          "rationale": "Dischtime provides the calendar date of discharge and is the definitive end-of-stay marker."
+        },
+        {
+          "name": "visit_end_datetime",
+          "target_table": "admissions",
+          "target_column": "dischtime",
+          "confidence": 0.9722,
+          "rationale": "The same dischtime column also carries the precise time component required for the datetime field."
+        },
+        {
+          "name": "visit_occurrence_id",
+          "target_table": "admissions",
+          "target_column": "hadm_id",
+          "confidence": 0.9583,
+          "rationale": "Hadm_id is the unique hospital-admission identifier and maps directly onto visit_occurrence_id."
+        },
+        {
+          "name": "visit_source_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No source concept for visit type exists."
+        },
+        {
+          "name": "visit_source_value",
+          "target_table": "admissions",
+          "target_column": "admission_type",
+          "confidence": 0.9147,
+          "rationale": "Admission_type is the free-text classification of the visit and is therefore used as the source value."
+        },
+        {
+          "name": "visit_start_date",
+          "target_table": "admissions",
+          "target_column": "admittime",
+          "confidence": 0.9276,
+          "rationale": "Admittime supplies the calendar start date of the hospital stay."
+        },
+        {
+          "name": "visit_start_datetime",
+          "target_table": "admissions",
+          "target_column": "admittime",
+          "confidence": 0.9691,
+          "rationale": "The identical admittime column also contains the full timestamp needed for the datetime attribute."
+        },
+        {
+          "name": "visit_type_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Visit type remains uncoded; only the textual admission_type is available."
+        }
+      ]
+    },
+    {
+      "entity": "visit_detail",
+      "matched_table": "transfers",
+      "table_confidence": 0.8679,
+      "table_rationale": "Transfers captures intra-hospital movements between care units and therefore supplies the finer-grained visit-detail grain that admissions cannot provide.",
+      "attributes": [
+        {
+          "name": "admitted_from_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Prior unit is recorded only as text or ward identifiers; no concept_id is present."
+        },
+        {
+          "name": "admitted_from_source_value",
+          "target_table": "transfers",
+          "target_column": "prev_careunit",
+          "confidence": 0.8412,
+          "rationale": "Prev_careunit is the textual origin of the transfer and is therefore chosen as the source value."
+        },
+        {
+          "name": "care_site_id",
+          "target_table": "transfers",
+          "target_column": "curr_careunit",
+          "confidence": 0.9034,
+          "rationale": "Curr_careunit identifies the current care unit and serves as a practical proxy for care_site_id."
+        },
+        {
+          "name": "discharge_to_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No coded discharge destination exists at the transfer level."
+        },
+        {
+          "name": "discharge_to_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Next-unit information is not stored as a destination source value on the transfers row."
+        },
+        {
+          "name": "person_id",
+          "target_table": "patients",
+          "target_column": "subject_id",
+          "confidence": 0.9387,
+          "rationale": "Subject_id links every transfer back to the patient, preserving the required person foreign key."
+        },
+        {
+          "name": "preceding_visit_detail_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No explicit previous-transfer pointer is maintained in the schema."
+        },
+        {
+          "name": "provider_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Provider information is absent from the transfers table."
+        },
+        {
+          "name": "visit_detail_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Transfer type is not coded with OMOP concepts."
+        },
+        {
+          "name": "visit_detail_end_date",
+          "target_table": "transfers",
+          "target_column": "outtime",
+          "confidence": 0.8893,
+          "rationale": "Outtime marks the end of the unit stay and is therefore used for the end-date component."
+        },
+        {
+          "name": "visit_detail_end_datetime",
+          "target_table": "transfers",
+          "target_column": "outtime",
+          "confidence": 0.9518,
+          "rationale": "The same outtime column supplies the precise end timestamp required by the datetime field."
+        },
+        {
+          "name": "visit_detail_id",
+          "target_table": "transfers",
+          "target_column": "row_id",
+          "confidence": 0.8726,
+          "rationale": "Row_id on transfers provides a unique sequential identifier that can serve as visit_detail_id."
+        },
+        {
+          "name": "visit_detail_parent_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No parent-detail hierarchy is modeled in the transfers table."
+        },
+        {
+          "name": "visit_detail_source_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Source concepts for transfer type do not exist."
+        },
+        {
+          "name": "visit_detail_source_value",
+          "target_table": "transfers",
+          "target_column": "eventtype",
+          "confidence": 0.7645,
+          "rationale": "Eventtype describes the nature of the transfer and is adopted as the source value."
+        },
+        {
+          "name": "visit_detail_start_date",
+          "target_table": "transfers",
+          "target_column": "intime",
+          "confidence": 0.8974,
+          "rationale": "Intime supplies the calendar start of the unit stay."
+        },
+        {
+          "name": "visit_detail_start_datetime",
+          "target_table": "transfers",
+          "target_column": "intime",
+          "confidence": 0.9421,
+          "rationale": "Intime also carries the full start timestamp needed for the datetime attribute."
+        },
+        {
+          "name": "visit_detail_type_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No type concept is recorded for transfers."
+        },
+        {
+          "name": "visit_occurrence_id",
+          "target_table": "admissions",
+          "target_column": "hadm_id",
+          "confidence": 0.8863,
+          "rationale": "Hadm_id on the transfer links the detail back to the parent hospital admission."
+        }
+      ]
+    },
+    {
+      "entity": "specimen",
+      "matched_table": "labevents",
+      "table_confidence": 0.6128,
+      "table_rationale": "Labevents is preferred over chartevents because it is the primary repository of laboratory specimens and their collection timestamps, even though the match remains only moderate.",
+      "attributes": [
+        {
+          "name": "anatomic_site_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Anatomic site is never coded as a concept in MIMIC laboratory tables."
+        },
+        {
+          "name": "anatomic_site_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No free-text anatomic site is stored for laboratory specimens."
+        },
+        {
+          "name": "disease_status_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Disease-status concepts are outside the scope of the laboratory event tables."
+        },
+        {
+          "name": "disease_status_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No disease-status source value is present."
+        },
+        {
+          "name": "person_id",
+          "target_table": "patients",
+          "target_column": "subject_id",
+          "confidence": 0.8514,
+          "rationale": "Subject_id on labevents correctly references the patient who provided the specimen."
+        },
+        {
+          "name": "quantity",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Specimen volume or quantity is not recorded."
+        },
+        {
+          "name": "specimen_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Specimen type is not standardized to OMOP concepts."
+        },
+        {
+          "name": "specimen_date",
+          "target_table": "labevents",
+          "target_column": "charttime",
+          "confidence": 0.9027,
+          "rationale": "Charttime is the closest available collection timestamp and is therefore used for the specimen date."
+        },
+        {
+          "name": "specimen_datetime",
+          "target_table": "labevents",
+          "target_column": "charttime",
+          "confidence": 0.9183,
+          "rationale": "The same charttime column supplies the full datetime of specimen collection."
+        },
+        {
+          "name": "specimen_id",
+          "target_table": "labevents",
+          "target_column": "row_id",
+          "confidence": 0.7349,
+          "rationale": "Row_id provides a unique identifier that can stand in for specimen_id."
+        },
+        {
+          "name": "specimen_source_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No external specimen source identifier exists."
+        },
+        {
+          "name": "specimen_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Specimen source value is not captured as a distinct field."
+        },
+        {
+          "name": "specimen_type_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Type concepts are absent."
+        },
+        {
+          "name": "unit_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Unit concepts are not stored."
+        },
+        {
+          "name": "unit_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Unit of the specimen itself is not recorded."
+        }
+      ]
+    },
+    {
+      "entity": "measurement",
+      "matched_table": "labevents",
+      "table_confidence": 0.8745,
+      "table_rationale": "Labevents is the richest source of quantitative clinical measurements; the majority of value, unit and timing fields resolve there.",
+      "attributes": [
+        {
+          "name": "measurement_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Laboratory items are identified by free-text labels or itemids, never by OMOP concept identifiers."
+        },
+        {
+          "name": "measurement_date",
+          "target_table": "labevents",
+          "target_column": "charttime",
+          "confidence": 0.9256,
+          "rationale": "Charttime supplies the date portion of the measurement event."
+        },
+        {
+          "name": "measurement_datetime",
+          "target_table": "labevents",
+          "target_column": "charttime",
+          "confidence": 0.9482,
+          "rationale": "The identical charttime column also carries the precise time of the measurement."
+        },
+        {
+          "name": "measurement_id",
+          "target_table": "labevents",
+          "target_column": "row_id",
+          "confidence": 0.8127,
+          "rationale": "Row_id is unique per laboratory result and therefore serves as measurement_id."
+        },
+        {
+          "name": "measurement_source_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Source concept identifiers are not present."
+        },
+        {
+          "name": "measurement_source_value",
+          "target_table": "d_labitems",
+          "target_column": "label",
+          "confidence": 0.8874,
+          "rationale": "The label from the laboratory-item dictionary is the human-readable name of the measured analyte."
+        },
+        {
+          "name": "measurement_time",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "A pure time-of-day field is not stored separately from the full timestamp."
+        },
+        {
+          "name": "measurement_type_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Measurement type concepts are absent."
+        },
+        {
+          "name": "operator_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Comparison operators are not coded."
+        },
+        {
+          "name": "person_id",
+          "target_table": "patients",
+          "target_column": "subject_id",
+          "confidence": 0.9318,
+          "rationale": "Subject_id correctly associates every laboratory result with the patient."
+        },
+        {
+          "name": "provider_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Ordering or performing provider is not recorded on labevents."
+        },
+        {
+          "name": "range_high",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Reference-range high values are not stored in the core tables."
+        },
+        {
+          "name": "range_low",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Reference-range low values are likewise absent."
+        },
+        {
+          "name": "unit_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Units are free-text only."
+        },
+        {
+          "name": "unit_source_value",
+          "target_table": "labevents",
+          "target_column": "valueuom",
+          "confidence": 0.9165,
+          "rationale": "Valueuom holds the unit-of-measure string that accompanies the numeric result."
+        },
+        {
+          "name": "value_as_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Result values are never stored as concepts."
+        },
+        {
+          "name": "value_as_number",
+          "target_table": "labevents",
+          "target_column": "valuenum",
+          "confidence": 0.9531,
+          "rationale": "Valuenum is the numeric laboratory result and maps directly onto value_as_number."
+        },
+        {
+          "name": "value_source_value",
+          "target_table": "labevents",
+          "target_column": "value",
+          "confidence": 0.8749,
+          "rationale": "The original textual representation of the result is preserved in the value column."
+        },
+        {
+          "name": "visit_detail_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No visit-detail foreign key is present on labevents."
+        },
+        {
+          "name": "visit_occurrence_id",
+          "target_table": "admissions",
+          "target_column": "hadm_id",
+          "confidence": 0.8294,
+          "rationale": "Hadm_id links the measurement to the enclosing hospital admission when available."
+        }
+      ]
+    },
+    {
+      "entity": "procedure_occurrence",
+      "matched_table": "procedures_icd",
+      "table_confidence": 0.7936,
+      "table_rationale": "Procedures_icd is selected because it stores the coded procedure events; CPT events remain a secondary source.",
+      "attributes": [
+        {
+          "name": "modifier_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Procedure modifiers are not coded in MIMIC."
+        },
+        {
+          "name": "modifier_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No free-text modifier field exists."
+        },
+        {
+          "name": "person_id",
+          "target_table": "patients",
+          "target_column": "subject_id",
+          "confidence": 0.8672,
+          "rationale": "Subject_id associates each coded procedure with the correct patient."
+        },
+        {
+          "name": "procedure_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "ICD procedure codes are not mapped to OMOP concepts inside the source tables."
+        },
+        {
+          "name": "procedure_date",
+          "target_table": "procedures_icd",
+          "target_column": "charttime",
+          "confidence": 0.0,
+          "rationale": "No explicit procedure date column exists on procedures_icd; the table is essentially a diagnosis-style coding table."
+        },
+        {
+          "name": "procedure_datetime",
+          "target_table": "cptevents",
+          "target_column": "chartdate",
+          "confidence": 0.7218,
+          "rationale": "When a timestamp is required, chartdate from the CPT events table is the closest available proxy."
+        },
+        {
+          "name": "procedure_occurrence_id",
+          "target_table": "procedures_icd",
+          "target_column": "row_id",
+          "confidence": 0.7943,
+          "rationale": "Row_id uniquely identifies each procedure coding record."
+        },
+        {
+          "name": "procedure_source_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Source concepts are not stored."
+        },
+        {
+          "name": "procedure_source_value",
+          "target_table": "d_icd_procedures",
+          "target_column": "icd9_code",
+          "confidence": 0.8657,
+          "rationale": "The ICD-9 procedure code itself is the canonical source value."
+        },
+        {
+          "name": "procedure_type_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Type concepts are absent."
+        },
+        {
+          "name": "provider_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Performing provider is not linked on the procedure coding tables."
+        },
+        {
+          "name": "quantity",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Quantity is not recorded for coded procedures."
+        },
+        {
+          "name": "visit_detail_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No visit-detail link exists."
+        },
+        {
+          "name": "visit_occurrence_id",
+          "target_table": "admissions",
+          "target_column": "hadm_id",
+          "confidence": 0.8419,
+          "rationale": "Hadm_id correctly places the procedure inside its hospital admission."
+        }
+      ]
+    },
+    {
+      "entity": "condition_occurrence",
+      "matched_table": "diagnoses_icd",
+      "table_confidence": 0.8214,
+      "table_rationale": "Diagnoses_icd is the dedicated diagnosis coding table and therefore a better fit for condition_occurrence than the admissions header.",
+      "attributes": [
+        {
+          "name": "condition_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "ICD codes are not pre-mapped to OMOP condition concepts inside MIMIC."
+        },
+        {
+          "name": "condition_end_date",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "End-of-condition dates are not recorded on the diagnosis coding rows."
+        },
+        {
+          "name": "condition_end_datetime",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No end datetime is available."
+        },
+        {
+          "name": "condition_occurrence_id",
+          "target_table": "diagnoses_icd",
+          "target_column": "row_id",
+          "confidence": 0.8765,
+          "rationale": "Row_id uniquely identifies each diagnosis coding instance."
+        },
+        {
+          "name": "condition_source_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Source concepts are absent."
+        },
+        {
+          "name": "condition_source_value",
+          "target_table": "d_icd_diagnoses",
+          "target_column": "icd9_code",
+          "confidence": 0.9142,
+          "rationale": "The ICD-9 diagnosis code is the definitive source value."
+        },
+        {
+          "name": "condition_start_date",
+          "target_table": "admissions",
+          "target_column": "admittime",
+          "confidence": 0.6837,
+          "rationale": "Admission time is used as a proxy start date because diagnosis rows themselves carry no independent onset timestamp."
+        },
+        {
+          "name": "condition_start_datetime",
+          "target_table": "admissions",
+          "target_column": "admittime",
+          "confidence": 0.7014,
+          "rationale": "The same admission timestamp supplies the start datetime when a more precise value is unavailable."
+        },
+        {
+          "name": "condition_status_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Condition status is not coded."
+        },
+        {
+          "name": "condition_status_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No status source value exists."
+        },
+        {
+          "name": "condition_type_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Type concepts are missing."
+        },
+        {
+          "name": "person_id",
+          "target_table": "patients",
+          "target_column": "subject_id",
+          "confidence": 0.8926,
+          "rationale": "Subject_id correctly links the diagnosis to the patient."
+        },
+        {
+          "name": "provider_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Diagnosing provider is not recorded."
+        },
+        {
+          "name": "stop_reason",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Stop reasons are outside the diagnosis coding model."
+        },
+        {
+          "name": "visit_detail_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No visit-detail foreign key is present."
+        },
+        {
+          "name": "visit_occurrence_id",
+          "target_table": "admissions",
+          "target_column": "hadm_id",
+          "confidence": 0.8573,
+          "rationale": "Hadm_id places the condition inside the correct hospital stay."
+        }
+      ]
+    },
+    {
+      "entity": "death",
+      "matched_table": "patients",
+      "table_confidence": 0.6842,
+      "table_rationale": "Although death is not a separate table, the patients table concentrates the essential mortality fields (dod, hospital_expire_flag) and is therefore adopted as the closest match.",
+      "attributes": [
+        {
+          "name": "cause_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Cause of death is never coded in MIMIC-III."
+        },
+        {
+          "name": "cause_source_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Source concepts for cause are absent."
+        },
+        {
+          "name": "cause_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No free-text cause of death is stored."
+        },
+        {
+          "name": "death_date",
+          "target_table": "patients",
+          "target_column": "dod",
+          "confidence": 0.9127,
+          "rationale": "Dod supplies the calendar date of death and is therefore mapped to death_date."
+        },
+        {
+          "name": "death_datetime",
+          "target_table": "patients",
+          "target_column": "dod",
+          "confidence": 0.9348,
+          "rationale": "The same dod column also provides the timestamp component used for death_datetime."
+        },
+        {
+          "name": "death_type_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Death-type concepts are not present."
+        },
+        {
+          "name": "person_id",
+          "target_table": "patients",
+          "target_column": "subject_id",
+          "confidence": 0.9673,
+          "rationale": "Subject_id is the natural person key for the death record."
+        }
+      ]
+    },
+    {
+      "entity": "location",
+      "matched_table": null,
+      "table_confidence": 0.0,
+      "table_rationale": "MIMIC-III contains no residential or geographic address data; consequently no table can be assigned to the location entity.",
+      "attributes": [
+        {
+          "name": "address_1",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Street address is never collected."
+        },
+        {
+          "name": "address_2",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Secondary address line is absent."
+        },
+        {
+          "name": "city",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "City is not recorded."
+        },
+        {
+          "name": "county",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "County information is missing."
+        },
+        {
+          "name": "location_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No location identifier exists."
+        },
+        {
+          "name": "location_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No source value for location is available."
+        },
+        {
+          "name": "state",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "State is not stored."
+        },
+        {
+          "name": "zip",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Postal code is absent."
+        }
+      ]
+    },
+    {
+      "entity": "observation",
+      "matched_table": "chartevents",
+      "table_confidence": 0.7983,
+      "table_rationale": "Chartevents contains the bulk of free-text and numeric observational findings recorded during a stay and is therefore preferred over the admissions header for the observation entity.",
+      "attributes": [
+        {
+          "name": "obs_event_field_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Event-field concepts are not present."
+        },
+        {
+          "name": "observation_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Observations are identified by itemids, not by OMOP concepts."
+        },
+        {
+          "name": "observation_date",
+          "target_table": "chartevents",
+          "target_column": "charttime",
+          "confidence": 0.9176,
+          "rationale": "Charttime supplies the date of the recorded observation."
+        },
+        {
+          "name": "observation_datetime",
+          "target_table": "chartevents",
+          "target_column": "charttime",
+          "confidence": 0.9364,
+          "rationale": "The same column also carries the full timestamp."
+        },
+        {
+          "name": "observation_event_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No separate event identifier is stored."
+        },
+        {
+          "name": "observation_id",
+          "target_table": "chartevents",
+          "target_column": "row_id",
+          "confidence": 0.8431,
+          "rationale": "Row_id uniquely identifies each charted observation."
+        },
+        {
+          "name": "observation_source_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Source concepts are absent."
+        },
+        {
+          "name": "observation_source_value",
+          "target_table": "d_items",
+          "target_column": "label",
+          "confidence": 0.8792,
+          "rationale": "The item label from the dictionary is the readable source description of the observation."
+        },
+        {
+          "name": "observation_type_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Type concepts are not coded."
+        },
+        {
+          "name": "person_id",
+          "target_table": "patients",
+          "target_column": "subject_id",
+          "confidence": 0.9257,
+          "rationale": "Subject_id correctly associates the observation with the patient."
+        },
+        {
+          "name": "provider_id",
+          "target_table": "caregivers",
+          "target_column": "cgid",
+          "confidence": 0.7148,
+          "rationale": "When a caregiver is recorded, cgid can be used as a provider surrogate."
+        },
+        {
+          "name": "qualifier_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Qualifiers are not standardized."
+        },
+        {
+          "name": "qualifier_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No qualifier source value is stored."
+        },
+        {
+          "name": "unit_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Units remain free-text."
+        },
+        {
+          "name": "unit_source_value",
+          "target_table": "chartevents",
+          "target_column": "valueuom",
+          "confidence": 0.8615,
+          "rationale": "Valueuom holds the unit string that accompanies numeric observations."
+        },
+        {
+          "name": "value_as_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Values are never stored as concepts."
+        },
+        {
+          "name": "value_as_datetime",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Datetime-valued observations are rare and not specially flagged."
+        },
+        {
+          "name": "value_as_number",
+          "target_table": "chartevents",
+          "target_column": "valuenum",
+          "confidence": 0.9283,
+          "rationale": "Valuenum is the numeric component of charted observations."
+        },
+        {
+          "name": "value_as_string",
+          "target_table": "chartevents",
+          "target_column": "value",
+          "confidence": 0.8947,
+          "rationale": "The original textual value is preserved in the value column."
+        },
+        {
+          "name": "visit_detail_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No visit-detail link is present."
+        },
+        {
+          "name": "visit_occurrence_id",
+          "target_table": "admissions",
+          "target_column": "hadm_id",
+          "confidence": 0.8519,
+          "rationale": "Hadm_id places the observation inside the correct admission."
+        }
+      ]
+    },
+    {
+      "entity": "observation_period",
+      "matched_table": null,
+      "table_confidence": 0.0,
+      "table_rationale": "MIMIC-III does not define continuous observation periods; only discrete admission intervals exist, so no table can be confidently assigned.",
+      "attributes": [
+        {
+          "name": "observation_period_end_date",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No period-end field is defined."
+        },
+        {
+          "name": "observation_period_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No period identifier exists."
+        },
+        {
+          "name": "observation_period_start_date",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No period-start field is defined."
+        },
+        {
+          "name": "period_type_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Period-type concepts are absent."
+        },
+        {
+          "name": "person_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No person link can be established for a non-existent period."
+        }
+      ]
+    },
+    {
+      "entity": "drug_exposure",
+      "matched_table": "prescriptions",
+      "table_confidence": 0.7389,
+      "table_rationale": "Prescriptions is the principal medication-order table and therefore the best match for drug_exposure, supplemented by input-event tables for administration detail.",
+      "attributes": [
+        {
+          "name": "days_supply",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Days-of-supply is not calculated or stored."
+        },
+        {
+          "name": "dose_unit_source_value",
+          "target_table": "prescriptions",
+          "target_column": "dose_unit_rx",
+          "confidence": 0.7842,
+          "rationale": "Dose_unit_rx holds the unit of the prescribed dose and is therefore preferred."
+        },
+        {
+          "name": "drug_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Drug concepts are not pre-mapped."
+        },
+        {
+          "name": "drug_exposure_end_date",
+          "target_table": "prescriptions",
+          "target_column": "enddate",
+          "confidence": 0.8126,
+          "rationale": "Enddate marks the intended end of the prescription."
+        },
+        {
+          "name": "drug_exposure_end_datetime",
+          "target_table": "inputevents_mv",
+          "target_column": "endtime",
+          "confidence": 0.7563,
+          "rationale": "For infusions the more precise endtime from inputevents_mv is used when available."
+        },
+        {
+          "name": "drug_exposure_id",
+          "target_table": "prescriptions",
+          "target_column": "row_id",
+          "confidence": 0.7938,
+          "rationale": "Row_id uniquely identifies each prescription record."
+        },
+        {
+          "name": "drug_exposure_start_date",
+          "target_table": "prescriptions",
+          "target_column": "startdate",
+          "confidence": 0.8347,
+          "rationale": "Startdate is the official start of the medication order."
+        },
+        {
+          "name": "drug_exposure_start_datetime",
+          "target_table": "prescriptions",
+          "target_column": "startdate",
+          "confidence": 0.8015,
+          "rationale": "The same startdate column supplies the datetime when a more granular start time is unavailable."
+        },
+        {
+          "name": "drug_source_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Source concepts are missing."
+        },
+        {
+          "name": "drug_source_value",
+          "target_table": "prescriptions",
+          "target_column": "drug",
+          "confidence": 0.8871,
+          "rationale": "The drug name string is the primary source value."
+        },
+        {
+          "name": "drug_type_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Type concepts are not recorded."
+        },
+        {
+          "name": "lot_number",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Lot numbers are never captured."
+        },
+        {
+          "name": "person_id",
+          "target_table": "patients",
+          "target_column": "subject_id",
+          "confidence": 0.9014,
+          "rationale": "Subject_id links the exposure to the patient."
+        },
+        {
+          "name": "provider_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Ordering provider is not stored on the prescriptions table."
+        },
+        {
+          "name": "quantity",
+          "target_table": "prescriptions",
+          "target_column": "dose_val_rx",
+          "confidence": 0.7629,
+          "rationale": "Dose_val_rx supplies the numeric quantity of the prescribed dose."
+        },
+        {
+          "name": "refills",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Refill counts are not recorded."
+        },
+        {
+          "name": "route_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Route is free-text only."
+        },
+        {
+          "name": "route_source_value",
+          "target_table": "prescriptions",
+          "target_column": "route",
+          "confidence": 0.8456,
+          "rationale": "The route column holds the administration route string."
+        },
+        {
+          "name": "sig",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Sig (directions) text is not stored as a distinct field."
+        },
+        {
+          "name": "stop_reason",
+          "target_table": "inputevents_mv",
+          "target_column": "statusdescription",
+          "confidence": 0.7184,
+          "rationale": "Statusdescription on the input-event tables often indicates why an infusion was stopped."
+        },
+        {
+          "name": "verbatim_end_date",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No separate verbatim end date is maintained."
+        },
+        {
+          "name": "visit_detail_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Visit-detail linkage is absent."
+        },
+        {
+          "name": "visit_occurrence_id",
+          "target_table": "admissions",
+          "target_column": "hadm_id",
+          "confidence": 0.8792,
+          "rationale": "Hadm_id correctly situates the drug exposure inside the hospital admission."
+        }
+      ]
+    },
+    {
+      "entity": "device_exposure",
+      "matched_table": null,
+      "table_confidence": 0.0,
+      "table_rationale": "MIMIC-III does not systematically record implantable or temporary medical devices; consequently no table can be mapped to device_exposure.",
+      "attributes": [
+        {
+          "name": "device_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Device concepts are absent."
+        },
+        {
+          "name": "device_exposure_end_date",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No end-date field exists."
+        },
+        {
+          "name": "device_exposure_end_datetime",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No end-datetime field exists."
+        },
+        {
+          "name": "device_exposure_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No device identifier is stored."
+        },
+        {
+          "name": "device_exposure_start_date",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No start-date field exists."
+        },
+        {
+          "name": "device_exposure_start_datetime",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No start-datetime field exists."
+        },
+        {
+          "name": "device_source_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Source concepts are missing."
+        },
+        {
+          "name": "device_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No device source value is recorded."
+        },
+        {
+          "name": "device_type_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Type concepts are absent."
+        },
+        {
+          "name": "person_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No person link can be established."
+        },
+        {
+          "name": "provider_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No provider link exists."
+        },
+        {
+          "name": "quantity",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Quantity is not applicable."
+        },
+        {
+          "name": "unique_device_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Unique device identifiers are never captured."
+        },
+        {
+          "name": "visit_detail_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No visit-detail link exists."
+        },
+        {
+          "name": "visit_occurrence_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No visit link exists."
+        }
+      ]
+    },
+    {
+      "entity": "note",
+      "matched_table": "noteevents",
+      "table_confidence": 0.8517,
+      "table_rationale": "Noteevents is the dedicated clinical-note repository and therefore the unambiguous match for the note entity.",
+      "attributes": [
+        {
+          "name": "encoding_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Character encoding is not recorded as a concept."
+        },
+        {
+          "name": "language_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Language is not coded."
+        },
+        {
+          "name": "note_class_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Note class concepts are absent."
+        },
+        {
+          "name": "note_date",
+          "target_table": "noteevents",
+          "target_column": "chartdate",
+          "confidence": 0.8763,
+          "rationale": "Chartdate supplies the calendar date of the note."
+        },
+        {
+          "name": "note_datetime",
+          "target_table": "noteevents",
+          "target_column": "charttime",
+          "confidence": 0.9128,
+          "rationale": "Charttime provides the more precise timestamp when available."
+        },
+        {
+          "name": "note_event_field_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Event-field concepts are not present."
+        },
+        {
+          "name": "note_event_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No separate event identifier is stored."
+        },
+        {
+          "name": "note_id",
+          "target_table": "noteevents",
+          "target_column": "row_id",
+          "confidence": 0.8945,
+          "rationale": "Row_id uniquely identifies each clinical note."
+        },
+        {
+          "name": "note_source_value",
+          "target_table": "noteevents",
+          "target_column": "category",
+          "confidence": 0.9231,
+          "rationale": "Category is the free-text classification of the note and is used as the source value."
+        },
+        {
+          "name": "note_text",
+          "target_table": "noteevents",
+          "target_column": "text",
+          "confidence": 0.9576,
+          "rationale": "The text column holds the full narrative content of the note."
+        },
+        {
+          "name": "note_title",
+          "target_table": "noteevents",
+          "target_column": "description",
+          "confidence": 0.9014,
+          "rationale": "Description functions as the title or short summary of the note."
+        },
+        {
+          "name": "note_type_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Type concepts are not coded."
+        },
+        {
+          "name": "person_id",
+          "target_table": "patients",
+          "target_column": "subject_id",
+          "confidence": 0.9187,
+          "rationale": "Subject_id correctly associates the note with the patient."
+        },
+        {
+          "name": "provider_id",
+          "target_table": "caregivers",
+          "target_column": "cgid",
+          "confidence": 0.7429,
+          "rationale": "When a caregiver is recorded, cgid can serve as the provider identifier."
+        },
+        {
+          "name": "visit_detail_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No visit-detail foreign key exists."
+        },
+        {
+          "name": "visit_occurrence_id",
+          "target_table": "admissions",
+          "target_column": "hadm_id",
+          "confidence": 0.8873,
+          "rationale": "Hadm_id places the note inside the correct hospital admission."
+        }
+      ]
+    },
+    {
+      "entity": "fact_relationship",
+      "matched_table": null,
+      "table_confidence": 0.0,
+      "table_rationale": "MIMIC-III does not maintain an explicit fact-relationship table; any relationships must be reconstructed from foreign keys, so no direct match is possible.",
+      "attributes": [
+        {
+          "name": "domain_concept_id_1",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Domain concepts are not stored."
+        },
+        {
+          "name": "domain_concept_id_2",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Domain concepts are not stored."
+        },
+        {
+          "name": "fact_id_1",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No fact-identifier pairs exist."
+        },
+        {
+          "name": "fact_id_2",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No fact-identifier pairs exist."
+        },
+        {
+          "name": "relationship_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Relationship concepts are absent."
+        }
+      ]
+    },
+    {
+      "entity": "payer_plan_period",
+      "matched_table": null,
+      "table_confidence": 0.0,
+      "table_rationale": "Insurance coverage periods are not tracked in MIMIC-III; only a single insurance type appears on the admission row, which is insufficient for a period entity.",
+      "attributes": [
+        {
+          "name": "family_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Family identifiers are absent."
+        },
+        {
+          "name": "payer_plan_period_end_date",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No coverage end date is recorded."
+        },
+        {
+          "name": "payer_plan_period_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No period identifier exists."
+        },
+        {
+          "name": "payer_plan_period_start_date",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No coverage start date is recorded."
+        },
+        {
+          "name": "payer_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Payer names are not stored as periods."
+        },
+        {
+          "name": "person_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No person link can be established for a non-existent period."
+        },
+        {
+          "name": "plan_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Plan names are absent."
+        }
+      ]
+    },
+    {
+      "entity": "cdm_source",
+      "matched_table": null,
+      "table_confidence": 0.0,
+      "table_rationale": "CDM source metadata is an OMOP-specific construct and is not present in the raw MIMIC-III schema.",
+      "attributes": [
+        {
+          "name": "cdm_etl_reference",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "ETL reference is not stored."
+        },
+        {
+          "name": "cdm_holder",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Holder information is absent."
+        },
+        {
+          "name": "cdm_release_date",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Release date is not recorded."
+        },
+        {
+          "name": "cdm_source_abbreviation",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Abbreviation is missing."
+        },
+        {
+          "name": "cdm_source_name",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Source name is not present."
+        },
+        {
+          "name": "cdm_version",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "CDM version is absent."
+        },
+        {
+          "name": "source_description",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Description is not stored."
+        },
+        {
+          "name": "source_documentation_reference",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Documentation reference is missing."
+        },
+        {
+          "name": "source_release_date",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Source release date is absent."
+        },
+        {
+          "name": "vocabulary_version",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Vocabulary version is not recorded."
+        }
+      ]
+    },
+    {
+      "entity": "care_site",
+      "matched_table": "transfers",
+      "table_confidence": 0.5318,
+      "table_rationale": "Transfers is the only table that repeatedly names care units; it therefore supplies a weak but usable approximation of care_site.",
+      "attributes": [
+        {
+          "name": "care_site_id",
+          "target_table": "transfers",
+          "target_column": "curr_wardid",
+          "confidence": 0.6847,
+          "rationale": "Curr_wardid is numeric and can serve as a surrogate care-site identifier."
+        },
+        {
+          "name": "care_site_name",
+          "target_table": "transfers",
+          "target_column": "curr_careunit",
+          "confidence": 0.9124,
+          "rationale": "Curr_careunit is the human-readable name of the unit and maps directly onto care_site_name."
+        },
+        {
+          "name": "care_site_source_value",
+          "target_table": "transfers",
+          "target_column": "curr_careunit",
+          "confidence": 0.8765,
+          "rationale": "The same care-unit string is reused as the source value."
+        },
+        {
+          "name": "location_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No geographic location is attached to care units."
+        },
+        {
+          "name": "place_of_service_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Place-of-service concepts are not coded."
+        },
+        {
+          "name": "place_of_service_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No place-of-service source value exists."
+        }
+      ]
+    },
+    {
+      "entity": "cohort",
+      "matched_table": null,
+      "table_confidence": 0.0,
+      "table_rationale": "Cohorts are not pre-defined in the MIMIC-III schema; any cohort would have to be constructed post-hoc.",
+      "attributes": [
+        {
+          "name": "cohort_definition_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No cohort definition identifier exists."
+        },
+        {
+          "name": "cohort_end_date",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No cohort end date is stored."
+        },
+        {
+          "name": "cohort_start_date",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No cohort start date is stored."
+        },
+        {
+          "name": "subject_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "No cohort membership table exists."
+        }
+      ]
+    },
+    {
+      "entity": "cohort_definition",
+      "matched_table": null,
+      "table_confidence": 0.0,
+      "table_rationale": "Cohort definition metadata is an analytic construct foreign to the source clinical database.",
+      "attributes": [
+        {
+          "name": "cohort_definition_description",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Description is absent."
+        },
+        {
+          "name": "cohort_definition_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Definition identifier is missing."
+        },
+        {
+          "name": "cohort_definition_name",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Name is not stored."
+        },
+        {
+          "name": "cohort_definition_syntax",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Syntax is absent."
+        },
+        {
+          "name": "cohort_initiation_date",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Initiation date is missing."
+        },
+        {
+          "name": "definition_type_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Type concepts are absent."
+        },
+        {
+          "name": "subject_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Subject concept is not recorded."
+        }
+      ]
+    },
+    {
+      "entity": "provider",
+      "matched_table": "caregivers",
+      "table_confidence": 0.6124,
+      "table_rationale": "Caregivers is the only table that enumerates individual care providers; although the information is sparse, it is the best available match for the provider entity.",
+      "attributes": [
+        {
+          "name": "care_site_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Caregivers are not permanently assigned to a care site in the schema."
+        },
+        {
+          "name": "dea",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "DEA numbers are never recorded."
+        },
+        {
+          "name": "gender_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Provider gender is not captured."
+        },
+        {
+          "name": "gender_source_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Source gender concepts are absent."
+        },
+        {
+          "name": "gender_source_value",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Gender source value is missing."
+        },
+        {
+          "name": "npi",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "NPI numbers are not stored."
+        },
+        {
+          "name": "provider_id",
+          "target_table": "caregivers",
+          "target_column": "cgid",
+          "confidence": 0.8943,
+          "rationale": "Cgid is the unique caregiver identifier and therefore maps onto provider_id."
+        },
+        {
+          "name": "provider_name",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Personal names of caregivers are deliberately omitted for privacy."
+        },
+        {
+          "name": "provider_source_value",
+          "target_table": "caregivers",
+          "target_column": "label",
+          "confidence": 0.8317,
+          "rationale": "Label encodes the caregiver role or type and is used as the source value."
+        },
+        {
+          "name": "specialty_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Specialty concepts are not present."
+        },
+        {
+          "name": "specialty_source_concept_id",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Source specialty concepts are absent."
+        },
+        {
+          "name": "specialty_source_value",
+          "target_table": "caregivers",
+          "target_column": "description",
+          "confidence": 0.8679,
+          "rationale": "Description expands the caregiver role and can serve as a specialty source string."
+        },
+        {
+          "name": "year_of_birth",
+          "target_column": null,
+          "confidence": 0.0,
+          "rationale": "Provider birth year is never collected."
+        }
+      ]
+    }
+  ]
+}

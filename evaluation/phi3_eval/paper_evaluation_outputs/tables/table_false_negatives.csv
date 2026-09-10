@@ -1,7 +1,0 @@
-entity,matched_table,table_confidence,actual_match,label_080,prediction_080
-observation,chartevents,0.7983,True,0,0
-procedure_occurrence,procedures_icd,0.7936,True,0,0
-drug_exposure,prescriptions,0.7389,True,0,0
-specimen,labevents,0.6128,True,0,0
-provider,caregivers,0.6124,True,0,0
-care_site,transfers,0.5318,True,0,0

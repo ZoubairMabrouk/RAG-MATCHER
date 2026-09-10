@@ -1,0 +1,2180 @@
+{
+  "config": {
+    "db_url": null,
+    "schema_file": "./scripts/schema_snapshot.json",
+    "dialect": "postgresql",
+    "index_type": "auto",
+    "table_threshold": 0.62,
+    "column_threshold": 0.68,
+    "table_top_k": 30,
+    "column_top_k": 30,
+    "llm_enabled": true
+  },
+  "mapping": [
+    {
+      "entity": "person",
+      "matched_table": "patients",
+      "table_confidence": 0.74992,
+      "table_rationale": "LLM match accepted: The 'patients' table aligns conceptually with the entity name 'person', and its columns logically fit the attributes of the entity.",
+      "attributes": [
+        {
+          "name": "birth_datetime",
+          "target_column": "dob",
+          "confidence": 0.6859999999999999,
+          "rationale": "Hybrid column score=0.290 for table patients. LLM match accepted: Semantic correspondence between 'birth_datetime' and 'dob', with compatible datatype (timestamp without time zone)"
+        },
+        {
+          "name": "care_site_id",
+          "target_column": "patients_id",
+          "confidence": 0.69292,
+          "rationale": "Hybrid column score=0.382 for table patients. LLM match accepted: Semantic meaning and datatype compatibility align well between care_site_id and patients_id."
+        },
+        {
+          "name": "day_of_birth",
+          "target_column": null,
+          "confidence": 0.6389600000000001,
+          "rationale": "Hybrid column score=0.247 for table patients. LLM match accepted: Semantic meaning and datatype compatibility align perfectly between 'day_of_birth' attribute and 'dob' column."
+        },
+        {
+          "name": "death_datetime",
+          "target_column": null,
+          "confidence": 0.6779999999999999,
+          "rationale": "Hybrid column score=0.270 for table patients. LLM match accepted: Semantic correspondence supported by descriptions: 'none' and 'None'. Datatype compatibility: TIMESTAMP WITHOUT TIME ZONE."
+        },
+        {
+          "name": "ethnicity_concept_id",
+          "target_column": null,
+          "confidence": 0.61636,
+          "rationale": "Hybrid column score=0.341 for table patients. LLM match accepted: Semantic meaning and datatype compatibility"
+        },
+        {
+          "name": "ethnicity_source_concept_id",
+          "target_column": null,
+          "confidence": 0.6699200000000001,
+          "rationale": "Hybrid column score=0.325 for table patients. LLM match accepted: The attribute 'ethnicity_source_concept_id' is likely an identifier and matches the column 'subject_id' in the table 'patients'. The datatype of both is VARCHAR(255), which aligns with the string attribute type."
+        },
+        {
+          "name": "ethnicity_source_value",
+          "target_column": null,
+          "confidence": 0.5848,
+          "rationale": "Hybrid column score=0.262 for table patients. LLM match accepted: Semantic meaning and datatype compatibility align well between 'ethnicity_source_value' and 'gender_v1'. The descriptions do not provide strong evidence of a conceptual correspondence, but the column name suggests it could be related to ethnicity or origin."
+        },
+        {
+          "name": "gender_concept_id",
+          "target_column": "gender",
+          "confidence": 0.7144400000000001,
+          "rationale": "Hybrid column score=0.436 for table patients. LLM match accepted: Semantic meaning alignment (conceptual comparison) and datatype compatibility (VARCHAR/TEXT)."
+        },
+        {
+          "name": "gender_source_concept_id",
+          "target_column": "gender",
+          "confidence": 0.6868000000000001,
+          "rationale": "Hybrid column score=0.367 for table patients. LLM match accepted: Semantic meaning alignment and datatype compatibility"
+        },
+        {
+          "name": "gender_source_value",
+          "target_column": "gender",
+          "confidence": 0.7097600000000001,
+          "rationale": "Hybrid column score=0.424 for table patients. LLM match accepted: Semantic meaning alignment and datatype compatibility"
+        },
+        {
+          "name": "location_id",
+          "target_column": "patients_id",
+          "confidence": 0.73068,
+          "rationale": "Hybrid column score=0.477 for table patients. LLM match accepted: Semantic meaning and datatype compatibility align well between location_id (VARCHAR) and patients_id (text)."
+        },
+        {
+          "name": "month_of_birth",
+          "target_column": null,
+          "confidence": 0.6699999999999999,
+          "rationale": "Hybrid column score=0.250 for table patients. LLM match accepted: Semantic meaning alignment (date_of_birth) and datatype compatibility (timestamp without time zone)"
+        },
+        {
+          "name": "person_id",
+          "target_column": "subject_id",
+          "confidence": 0.73068,
+          "rationale": "Hybrid column score=0.477 for table patients. LLM match accepted: Semantic meaning alignment (identifier) and datatype compatibility (VARCHAR)"
+        },
+        {
+          "name": "person_source_value",
+          "target_column": null,
+          "confidence": 0.642,
+          "rationale": "Hybrid column score=0.255 for table patients. LLM match accepted: Semantic meaning: 'person_source_value' likely refers to a unique identifier for a person, which aligns with the column name and datatype of 'patients_id'. Datatype compatibility is also strong as both are VARCHAR(255)."
+        },
+        {
+          "name": "provider_id",
+          "target_column": "patients_id",
+          "confidence": 0.7218800000000001,
+          "rationale": "Hybrid column score=0.455 for table patients. LLM match accepted: Semantic meaning and datatype compatibility align well between provider_id (attribute) and patients_id (column). The column name is an exact match for an identifier, which fits the likely domain role of identifiers."
+        },
+        {
+          "name": "race_concept_id",
+          "target_column": "subject_id",
+          "confidence": 0.6868000000000001,
+          "rationale": "Hybrid column score=0.367 for table patients. LLM match accepted: Semantic meaning alignment: 'concept' implies an identifier; Datatype compatibility: VARCHAR(255) matches; Business context: likely a patient identifier."
+        },
+        {
+          "name": "race_source_concept_id",
+          "target_column": "subject_id",
+          "confidence": 0.7036,
+          "rationale": "Hybrid column score=0.334 for table patients. LLM match accepted: Semantic meaning alignment: 'race_source_concept_id' matches 'subject_id'. Datatype compatibility: VARCHAR(255) aligns with bigint."
+        },
+        {
+          "name": "race_source_value",
+          "target_column": null,
+          "confidence": 0.6448,
+          "rationale": "Hybrid column score=0.262 for table patients. LLM match accepted: Semantic meaning alignment and datatype compatibility"
+        },
+        {
+          "name": "year_of_birth",
+          "target_column": null,
+          "confidence": 0.10668,
+          "rationale": "Hybrid column score=0.267 for table patients. LLM match accepted: No explanation"
+        }
+      ]
+    },
+    {
+      "entity": "visit_occurrence",
+      "matched_table": "icustays",
+      "table_confidence": 0.7496,
+      "table_rationale": "LLM match accepted: The table icustays has a clear identifier (row_id) and matches the conceptual entity 'patient stay' with attributes like subject_id, hadm_id, icustay_id, dbsource, first_careunit, last_careunit, intime, outtime, los. This is a strong candidate for the patient stay entity.",
+      "attributes": [
+        {
+          "name": "admitted_from_concept_id",
+          "target_column": null,
+          "confidence": 0.61696,
+          "rationale": "Hybrid column score=0.342 for table icustays. LLM match accepted: The column 'hadm_id' has a compatible datatype (integer) and its name suggests it could be an identifier, which aligns with the semantic meaning of 'admitted_from_concept_id'. The descriptions do not provide strong evidence for a different interpretation."
+        },
+        {
+          "name": "admitted_from_source_value",
+          "target_column": null,
+          "confidence": 0.58612,
+          "rationale": "Hybrid column score=0.265 for table icustays. LLM match accepted: Semantic alignment and datatype compatibility with 'admitted_from_source_value'"
+        },
+        {
+          "name": "care_site_id",
+          "target_column": "first_careunit",
+          "confidence": 0.69292,
+          "rationale": "Hybrid column score=0.382 for table icustays. LLM match accepted: Semantic meaning alignment: 'care' in care_site_id matches 'careunit' in first_careunit. Datatype compatibility: VARCHAR(255) aligns with character varying(20)."
+        },
+        {
+          "name": "discharge_to_concept_id",
+          "target_column": null,
+          "confidence": 0.67432,
+          "rationale": "Hybrid column score=0.336 for table icustays. LLM match accepted: Semantic meaning and datatype compatibility align well between discharge_to_concept_id and hadm_id."
+        },
+        {
+          "name": "discharge_to_source_value",
+          "target_column": null,
+          "confidence": 0.58752,
+          "rationale": "Hybrid column score=0.269 for table icustays. LLM match accepted: The column 'dbsource' has a high semantic similarity with the attribute name 'discharge_to_source_value'. Although it's not an exact match, the descriptions are absent, and the datatype is compatible (VARCHAR). The retrieval score is also relatively high."
+        },
+        {
+          "name": "person_id",
+          "target_column": "subject_id",
+          "confidence": 0.76068,
+          "rationale": "Hybrid column score=0.477 for table icustays. LLM match accepted: Semantic meaning alignment: 'person_id' matches 'subject_id'. Datatype compatibility: both are integers."
+        },
+        {
+          "name": "preceding_visit_occurrence_id",
+          "target_column": null,
+          "confidence": 0.6738000000000001,
+          "rationale": "Hybrid column score=0.335 for table icustays. LLM match accepted: The column 'icustay_id' has a compatible datatype (integer) and its name suggests it could be an identifier for a visit occurrence, which aligns with the semantic meaning of 'preceding_visit_occurrence_id'. The descriptions do not provide strong evidence to contradict this match."
+        },
+        {
+          "name": "provider_id",
+          "target_column": "icustay_id",
+          "confidence": 0.7218800000000001,
+          "rationale": "Hybrid column score=0.455 for table icustays. LLM match accepted: The column 'icustay_id' has a compatible datatype (integer) and its name conceptually matches the attribute 'provider_id'. The descriptions do not provide strong semantic correspondence, but the retrieval score is high."
+        },
+        {
+          "name": "visit_concept_id",
+          "target_column": "icustay_id",
+          "confidence": 0.68508,
+          "rationale": "Hybrid column score=0.363 for table icustays. LLM match accepted: Semantic meaning and datatype compatibility align well between visit_concept_id (VARCHAR) and icustay_id (integer). The descriptions do not provide strong evidence for an alternative match."
+        },
+        {
+          "name": "visit_end_date",
+          "target_column": null,
+          "confidence": 0.64148,
+          "rationale": "Hybrid column score=0.254 for table icustays. LLM match accepted: Semantic correspondence supported by descriptions: visit_end_date <-> dischtime"
+        },
+        {
+          "name": "visit_end_datetime",
+          "target_column": null,
+          "confidence": 0.6448,
+          "rationale": "Hybrid column score=0.262 for table icustays. LLM match accepted: Semantic meaning and datatype compatibility align well between visit_end_datetime and outtime."
+        },
+        {
+          "name": "visit_occurrence_id",
+          "target_column": "icustay_id",
+          "confidence": 0.7106399999999999,
+          "rationale": "Hybrid column score=0.352 for table icustays. LLM match accepted: Semantic meaning and datatype compatibility align well between visit_occurrence_id (VARCHAR) and icustay_id (integer). The descriptions do not provide strong semantic correspondence, but the column name suggests a unique identifier for ICU stays."
+        },
+        {
+          "name": "visit_source_concept_id",
+          "target_column": null,
+          "confidence": 0.62112,
+          "rationale": "Hybrid column score=0.353 for table icustays. LLM match accepted: Semantic meaning alignment: 'visit_source_concept_id' matches 'dbsource'. Datatype compatibility: VARCHAR(20) aligns with VARCHAR(255)."
+        },
+        {
+          "name": "visit_source_value",
+          "target_column": null,
+          "confidence": 0.59168,
+          "rationale": "Hybrid column score=0.279 for table icustays. LLM match accepted: Semantic meaning alignment: 'visit_source_value' matches 'dbsource'. Datatype compatibility: VARCHAR(255) aligns with character varying(20)."
+        },
+        {
+          "name": "visit_start_date",
+          "target_column": null,
+          "confidence": 0.6797599999999999,
+          "rationale": "Hybrid column score=0.274 for table icustays. LLM match accepted: Semantic meaning and datatype compatibility align well between visit_start_date (attribute) and intime (column). The descriptions do not provide strong evidence for an alternative match."
+        },
+        {
+          "name": "visit_start_datetime",
+          "target_column": null,
+          "confidence": 0.6448,
+          "rationale": "Hybrid column score=0.262 for table icustays. LLM match accepted: Semantic meaning and datatype compatibility align perfectly."
+        },
+        {
+          "name": "visit_type_concept_id",
+          "target_column": null,
+          "confidence": 0.60972,
+          "rationale": "Hybrid column score=0.324 for table icustays. LLM match accepted: The column 'hadm_id' has a high semantic similarity with the attribute name 'visit_type_concept_id', and its datatype (integer) is compatible. Additionally, the table 'icustays' where this column belongs seems to be related to hospital admissions, which aligns with the concept of visit types."
+        }
+      ]
+    },
+    {
+      "entity": "visit_detail",
+      "matched_table": "d_labitems",
+      "table_confidence": 0.7559600000000001,
+      "table_rationale": "LLM match accepted: The table name 'd_labitems' conceptually aligns with the entity 'Lab Item', and the attributes such as 'itemid', 'label', 'fluid', and 'category' logically fit the columns in the table.",
+      "attributes": [
+        {
+          "name": "admitted_from_concept_id",
+          "target_column": null,
+          "confidence": 0.6709200000000001,
+          "rationale": "Hybrid column score=0.327 for table d_labitems. LLM match accepted: Semantic correspondence supported by descriptions: 'visit_start_date' <-> 'admittime'"
+        },
+        {
+          "name": "admitted_from_source_value",
+          "target_column": null,
+          "confidence": 0.5763199999999999,
+          "rationale": "Hybrid column score=0.241 for table d_labitems. LLM match accepted: The column 'label_v7' has a datatype of TEXT and its description is empty, which aligns with the attribute 'admitted_from_source_value' having a datatype of VARCHAR(255). The semantic meaning of 'label_v7' seems to match the concept of 'admitted_from_source_value', as both are related to labels or descriptions. Although the retrieval score is not the highest, the structural and semantic alignment justifies this decision."
+        },
+        {
+          "name": "care_site_id",
+          "target_column": null,
+          "confidence": 0.61932,
+          "rationale": "Hybrid column score=0.348 for table d_labitems. LLM match accepted: The column 'itemid' has a compatible datatype (integer) and its name suggests it could be an identifier, which aligns with the semantic meaning of 'care_site_id'. The descriptions do not provide strong evidence for a different interpretation."
+        },
+        {
+          "name": "discharge_to_concept_id",
+          "target_column": null,
+          "confidence": 0.60448,
+          "rationale": "Hybrid column score=0.311 for table d_labitems. LLM match accepted: The column 'category_v7' has a high semantic similarity with the attribute name 'discharge_to_concept_id'. Although the datatype is TEXT, it's likely that this column contains concept IDs as strings. The descriptions do not provide strong evidence for an exact match, but the column name suggests a connection to concepts or categories."
+        },
+        {
+          "name": "discharge_to_source_value",
+          "target_column": null,
+          "confidence": 0.572,
+          "rationale": "Hybrid column score=0.230 for table d_labitems. LLM match accepted: Semantic meaning alignment: 'discharge_to_source_value' conceptually matches 'loinc_code'. Datatype compatibility: VARCHAR(255) aligns with character varying(100)."
+        },
+        {
+          "name": "person_id",
+          "target_column": null,
+          "confidence": 0.6706799999999999,
+          "rationale": "Hybrid column score=0.477 for table d_labitems. LLM match accepted: The attribute 'person_id' semantically aligns with 'row_id', which is likely an identifier column, and has a compatible datatype (integer)."
+        },
+        {
+          "name": "preceding_visit_detail_id",
+          "target_column": null,
+          "confidence": 0.66252,
+          "rationale": "Hybrid column score=0.306 for table d_labitems. LLM match accepted: Semantic meaning and datatype compatibility align well between the attribute 'preceding_visit_detail_id' and column 'preceding_visit_detail_id'. The descriptions do not provide strong semantic correspondence, but the column name matches exactly."
+        },
+        {
+          "name": "provider_id",
+          "target_column": "row_id",
+          "confidence": 0.7218800000000001,
+          "rationale": "Hybrid column score=0.455 for table d_labitems. LLM match accepted: The attribute 'provider_id' semantically aligns with 'row_id' as both are likely identifiers for lab items. The datatype is also compatible (integer)."
+        },
+        {
+          "name": "visit_detail_concept_id",
+          "target_column": null,
+          "confidence": 0.59676,
+          "rationale": "Hybrid column score=0.292 for table d_labitems. LLM match accepted: Semantic meaning alignment: 'category' conceptually matches 'concept_id'. Datatype compatibility: VARCHAR(255) aligns with TEXT column."
+        },
+        {
+          "name": "visit_detail_end_date",
+          "target_column": null,
+          "confidence": 0.6386400000000001,
+          "rationale": "Hybrid column score=0.247 for table d_labitems. LLM match accepted: Semantic correspondence supported by descriptions: visit_start_date <-> admittime and visit_end_date <-> dischtime"
+        },
+        {
+          "name": "visit_detail_end_datetime",
+          "target_column": null,
+          "confidence": 0.63392,
+          "rationale": "Hybrid column score=0.235 for table d_labitems. LLM match accepted: Semantic correspondence between visit_detail_end_datetime and dischtime based on descriptions of visit_start_date <-> admittime and visit_end_date <-> dischtime"
+        },
+        {
+          "name": "visit_detail_id",
+          "target_column": null,
+          "confidence": 0.674,
+          "rationale": "Hybrid column score=0.335 for table d_labitems. LLM match accepted: The column 'visit_detail_id' has a similar name to the attribute and is of type VARCHAR(255), which matches the datatype of the attribute."
+        },
+        {
+          "name": "visit_detail_parent_id",
+          "target_column": null,
+          "confidence": 0.6656000000000001,
+          "rationale": "Hybrid column score=0.314 for table d_labitems. LLM match accepted: The attribute 'visit_detail_parent_id' semantically aligns with column 'row_id' from table 'd_labitems', which is an identifier and has a high retrieval score."
+        },
+        {
+          "name": "visit_detail_source_concept_id",
+          "target_column": null,
+          "confidence": 0.59288,
+          "rationale": "Hybrid column score=0.282 for table d_labitems. LLM match accepted: Semantic meaning alignment: 'source_concept_id' suggests a unique identifier, which matches with 'loinc_code'. Datatype compatibility: VARCHAR(100) aligns with the attribute's type."
+        },
+        {
+          "name": "visit_detail_source_value",
+          "target_column": null,
+          "confidence": 0.63112,
+          "rationale": "Hybrid column score=0.228 for table d_labitems. LLM match accepted: Semantic meaning alignment: 'visit_detail_source_value' is likely related to LOINC codes, which are standardized medical terminology for laboratory results. Datatype compatibility: VARCHAR(100) matches the attribute type. Business context: Loinc code is an identifier for lab items."
+        },
+        {
+          "name": "visit_detail_start_date",
+          "target_column": null,
+          "confidence": 0.6395200000000001,
+          "rationale": "Hybrid column score=0.249 for table d_labitems. LLM match accepted: Semantic correspondence supported by descriptions: visit_start_date <-> admittime"
+        },
+        {
+          "name": "visit_detail_start_datetime",
+          "target_column": null,
+          "confidence": 0.63536,
+          "rationale": "Hybrid column score=0.238 for table d_labitems. LLM match accepted: Semantic meaning and datatype compatibility align well with the attribute 'visit_detail_start_datetime'. The column 'visit_start_date' in table 'd_labitems' has a compatible datatype (VARCHAR) and its description suggests it represents a date/time value, which matches the semantic meaning of the attribute."
+        },
+        {
+          "name": "visit_detail_type_concept_id",
+          "target_column": null,
+          "confidence": 0.58776,
+          "rationale": "Hybrid column score=0.269 for table d_labitems. LLM match accepted: Semantic meaning alignment: 'visit_detail_type' matches 'category', and datatype VARCHAR(255) is compatible with TEXT column."
+        },
+        {
+          "name": "visit_occurrence_id",
+          "target_column": null,
+          "confidence": 0.67784,
+          "rationale": "Hybrid column score=0.345 for table d_labitems. LLM match accepted: The column name matches the attribute name exactly, and it is an identifier column in the d_labitems table."
+        }
+      ]
+    },
+    {
+      "entity": "specimen",
+      "matched_table": "drgcodes",
+      "table_confidence": 0.74328,
+      "table_rationale": "LLM match accepted: The table name 'drgcodes' aligns with the entity concept of Diagnosis-Related Group (DRG) codes, which are used to classify hospital cases for reimbursement and statistical purposes. The columns in this table match the attributes of a DRG code, including subject_id, hadm_id, drg_type, drg_code, description, drg_severity, and drg_mortality.",
+      "attributes": [
+        {
+          "name": "anatomic_site_concept_id",
+          "target_column": null,
+          "confidence": 0.12972,
+          "rationale": "Hybrid column score=0.324 for table drgcodes. LLM match accepted: No explanation"
+        },
+        {
+          "name": "anatomic_site_source_value",
+          "target_column": null,
+          "confidence": 0.56636,
+          "rationale": "Hybrid column score=0.216 for table drgcodes. LLM match accepted: The attribute 'anatomic_site_source_value' semantically aligns with the column 'description', which has a compatible datatype (VARCHAR(255)). The descriptions of both concepts are also similar, supporting the match."
+        },
+        {
+          "name": "disease_status_concept_id",
+          "target_column": null,
+          "confidence": 0.60656,
+          "rationale": "Hybrid column score=0.316 for table drgcodes. LLM match accepted: The column 'description' in the table 'drgcodes' has a datatype of character varying(255), which matches the type of the attribute. The descriptions for this column do not provide strong semantic correspondence, but the column name is close to the attribute name and it's likely that this column contains disease status information."
+        },
+        {
+          "name": "disease_status_source_value",
+          "target_column": null,
+          "confidence": 0.6402000000000001,
+          "rationale": "Hybrid column score=0.251 for table drgcodes. LLM match accepted: Semantic meaning aligns with 'disease_status_source_value' and datatype is compatible (smallint). The column name 'drg_severity' conceptually matches the attribute name, considering common abbreviations and synonyms."
+        },
+        {
+          "name": "person_id",
+          "target_column": "subject_id",
+          "confidence": 0.73068,
+          "rationale": "Hybrid column score=0.477 for table drgcodes. LLM match accepted: Semantic meaning and datatype compatibility align well between person_id and subject_id."
+        },
+        {
+          "name": "quantity",
+          "target_column": null,
+          "confidence": 0.58268,
+          "rationale": "Hybrid column score=0.257 for table drgcodes. LLM match accepted: The column name 'drg_severity' conceptually matches the semantic meaning of 'quantity', and its datatype (smallint) is compatible with a numeric attribute."
+        },
+        {
+          "name": "specimen_concept_id",
+          "target_column": "subject_id",
+          "confidence": 0.6883600000000001,
+          "rationale": "Hybrid column score=0.371 for table drgcodes. LLM match accepted: The attribute 'specimen_concept_id' semantically aligns with 'subject_id' as both are likely identifiers for patients or specimens in the MIMIC database. The datatype is also compatible (integer)."
+        },
+        {
+          "name": "specimen_date",
+          "target_column": null,
+          "confidence": 0.64868,
+          "rationale": "Hybrid column score=0.272 for table drgcodes. LLM match accepted: Semantic meaning alignment: 'specimen_date' matches the description column's likely domain role as a date attribute."
+        },
+        {
+          "name": "specimen_datetime",
+          "target_column": null,
+          "confidence": 0.58148,
+          "rationale": "Hybrid column score=0.254 for table drgcodes. LLM match accepted: Semantic meaning alignment: 'datetime' matches with 'description', which likely contains date information. Datatype compatibility: VARCHAR(255) aligns with VARCHAR(255)."
+        },
+        {
+          "name": "specimen_id",
+          "target_column": "subject_id",
+          "confidence": 0.7200000000000001,
+          "rationale": "Hybrid column score=0.450 for table drgcodes. LLM match accepted: Semantic meaning and datatype compatibility align well between specimen_id (VARCHAR) and subject_id (integer). The descriptions do not provide strong evidence of a different semantic meaning."
+        },
+        {
+          "name": "specimen_source_id",
+          "target_column": null,
+          "confidence": 0.638,
+          "rationale": "Hybrid column score=0.395 for table drgcodes. LLM match accepted: Semantic meaning and datatype compatibility align well between 'specimen_source_id' and 'subject_id'. The descriptions do not provide strong evidence of a different conceptual correspondence."
+        },
+        {
+          "name": "specimen_source_value",
+          "target_column": null,
+          "confidence": 0.63392,
+          "rationale": "Hybrid column score=0.235 for table drgcodes. LLM match accepted: Semantic meaning and datatype compatibility align well between 'specimen_source_value' and 'description'. The descriptions also support this correspondence."
+        },
+        {
+          "name": "specimen_type_concept_id",
+          "target_column": null,
+          "confidence": 0.61972,
+          "rationale": "Hybrid column score=0.349 for table drgcodes. LLM match accepted: The column 'drg_type' has a compatible datatype (character varying(20)) and its description does not provide strong semantic correspondence with the attribute 'specimen_type_concept_id'. However, considering the table it belongs to ('drgcodes') and the retrieval score, this column seems to be the best match."
+        },
+        {
+          "name": "unit_concept_id",
+          "target_column": "description",
+          "confidence": 0.6868000000000001,
+          "rationale": "Hybrid column score=0.367 for table drgcodes. LLM match accepted: Semantic meaning alignment: 'unit_concept_id' matches 'description'. Datatype compatibility: VARCHAR(255) aligns with character varying(255)."
+        },
+        {
+          "name": "unit_source_value",
+          "target_column": null,
+          "confidence": 0.6332,
+          "rationale": "Hybrid column score=0.233 for table drgcodes. LLM match accepted: The attribute 'unit_source_value' semantically aligns with the column 'description', which has a compatible datatype (VARCHAR(255)). The descriptions of both concepts are also similar, supporting the match."
+        }
+      ]
+    },
+    {
+      "entity": "measurement",
+      "matched_table": "patients",
+      "table_confidence": 0.72972,
+      "table_rationale": "LLM match accepted: The table 'patients' aligns with the entity name and has attributes like 'subject_id', 'gender', 'dob', which are typical for a patient entity.",
+      "attributes": [
+        {
+          "name": "measurement_concept_id",
+          "target_column": null,
+          "confidence": 0.631,
+          "rationale": "Hybrid column score=0.378 for table patients. LLM match accepted: Semantic meaning alignment (conceptual identifier) and datatype compatibility (numeric)"
+        },
+        {
+          "name": "measurement_date",
+          "target_column": "dob",
+          "confidence": 0.69968,
+          "rationale": "Hybrid column score=0.279 for table patients. LLM match accepted: Semantic meaning alignment (date_of_birth) and datatype compatibility (timestamp without time zone)"
+        },
+        {
+          "name": "measurement_datetime",
+          "target_column": "dod",
+          "confidence": 0.68228,
+          "rationale": "Hybrid column score=0.281 for table patients. LLM match accepted: Semantic meaning alignment: 'measurement_datetime' matches 'death_datetime' (dod) conceptually, and datatype compatibility is high."
+        },
+        {
+          "name": "measurement_id",
+          "target_column": "patients_id",
+          "confidence": 0.7213200000000001,
+          "rationale": "Hybrid column score=0.453 for table patients. LLM match accepted: Semantic meaning and datatype compatibility align well between measurement_id (attribute) and patients_id (column). The column name is an exact match for an identifier, which fits the likely domain role of a quantity attribute."
+        },
+        {
+          "name": "measurement_source_concept_id",
+          "target_column": "subject_id",
+          "confidence": 0.7038,
+          "rationale": "Hybrid column score=0.335 for table patients. LLM match accepted: Semantic meaning alignment (conceptual correspondence) and datatype compatibility."
+        },
+        {
+          "name": "measurement_source_value",
+          "target_column": null,
+          "confidence": 0.63632,
+          "rationale": "Hybrid column score=0.241 for table patients. LLM match accepted: Semantic meaning alignment (conceptual correspondence) and datatype compatibility."
+        },
+        {
+          "name": "measurement_time",
+          "target_column": null,
+          "confidence": 0.57864,
+          "rationale": "Hybrid column score=0.247 for table patients. LLM match accepted: Semantic meaning alignment: 'measurement_time' conceptually aligns with 'dod_ssn', which is a timestamp without time zone, matching datatype compatibility criteria."
+        },
+        {
+          "name": "measurement_type_concept_id",
+          "target_column": null,
+          "confidence": 0.67596,
+          "rationale": "Hybrid column score=0.340 for table patients. LLM match accepted: Semantic meaning alignment (conceptual correspondence) and datatype compatibility (both are integers). The descriptions do not provide strong evidence for an alternative match."
+        },
+        {
+          "name": "operator_concept_id",
+          "target_column": "subject_id",
+          "confidence": 0.6883600000000001,
+          "rationale": "Hybrid column score=0.371 for table patients. LLM match accepted: Semantic meaning and datatype compatibility align well between operator_concept_id and subject_id."
+        },
+        {
+          "name": "person_id",
+          "target_column": "subject_id",
+          "confidence": 0.73068,
+          "rationale": "Hybrid column score=0.477 for table patients. LLM match accepted: Semantic meaning and datatype compatibility align well between person_id and subject_id."
+        },
+        {
+          "name": "provider_id",
+          "target_column": "patients_id",
+          "confidence": 0.7218800000000001,
+          "rationale": "Hybrid column score=0.455 for table patients. LLM match accepted: Semantic meaning and datatype compatibility align well between provider_id (attribute) and patients_id (column). The column is an identifier in the patients table, which fits the likely domain role of identifiers."
+        },
+        {
+          "name": "range_high",
+          "target_column": null,
+          "confidence": 0.5848,
+          "rationale": "Hybrid column score=0.262 for table patients. LLM match accepted: The column 'id' in the 'patients' table has a datatype of bigint, which is compatible with the VARCHAR(255) type of the 'range_high' attribute. The semantic meaning of 'id' aligns with the likely domain role of an identifier, and the retrieval score is relatively high."
+        },
+        {
+          "name": "range_low",
+          "target_column": null,
+          "confidence": 0.582,
+          "rationale": "Hybrid column score=0.255 for table patients. LLM match accepted: Semantic meaning alignment: 'range' suggests a boundary or limit, which aligns with an identifier column like 'patients_id'. Datatype compatibility: VARCHAR(255) matches the string type of the attribute."
+        },
+        {
+          "name": "unit_concept_id",
+          "target_column": "patients_id",
+          "confidence": 0.6868000000000001,
+          "rationale": "Hybrid column score=0.367 for table patients. LLM match accepted: Semantic meaning and datatype compatibility align well between 'unit_concept_id' and 'patients_id'. The column name matches the concept of an identifier, and its datatype (text) is compatible with the attribute's type (VARCHAR(255))."
+        },
+        {
+          "name": "unit_source_value",
+          "target_column": null,
+          "confidence": 0.5848,
+          "rationale": "Hybrid column score=0.262 for table patients. LLM match accepted: Semantic meaning alignment: 'value' in unit_source_value matches 'name' in name_v1. Datatype compatibility: VARCHAR(255) aligns with TEXT column."
+        },
+        {
+          "name": "value_as_concept_id",
+          "target_column": "patients_id",
+          "confidence": 0.7036,
+          "rationale": "Hybrid column score=0.334 for table patients. LLM match accepted: Semantic meaning and datatype compatibility align well between 'value_as_concept_id' and 'patients_id'. The column name matches the attribute name conceptually, and both are of type VARCHAR(255)."
+        },
+        {
+          "name": "value_as_number",
+          "target_column": null,
+          "confidence": 0.59332,
+          "rationale": "Hybrid column score=0.283 for table patients. LLM match accepted: Semantic meaning: 'id' matches 'value_as_number'. Datatype compatibility: VARCHAR(255) aligns with TEXT column."
+        },
+        {
+          "name": "value_source_value",
+          "target_column": null,
+          "confidence": 0.6448,
+          "rationale": "Hybrid column score=0.262 for table patients. LLM match accepted: Semantic meaning: 'value' and 'source' are not present in column name, but it's likely an identifier column (PK/FK). Datatype compatibility: VARCHAR(255) matches the attribute type."
+        },
+        {
+          "name": "visit_detail_id",
+          "target_column": "patients_id",
+          "confidence": 0.6868000000000001,
+          "rationale": "Hybrid column score=0.367 for table patients. LLM match accepted: Semantic meaning alignment and datatype compatibility"
+        },
+        {
+          "name": "visit_occurrence_id",
+          "target_column": "patients_id",
+          "confidence": 0.71836,
+          "rationale": "Hybrid column score=0.371 for table patients. LLM match accepted: Semantic meaning alignment and datatype compatibility"
+        }
+      ]
+    },
+    {
+      "entity": "procedure_occurrence",
+      "matched_table": "patients",
+      "table_confidence": 0.7652800000000001,
+      "table_rationale": "LLM match accepted: The table 'patients' has a column named 'subject_id', which matches the entity's attribute 'id'. The table also contains columns like 'gender', 'dob', and 'dod', which are relevant to the patient entity.",
+      "attributes": [
+        {
+          "name": "modifier_concept_id",
+          "target_column": "patients_id",
+          "confidence": 0.68064,
+          "rationale": "Hybrid column score=0.352 for table patients. LLM match accepted: Semantic meaning and datatype compatibility align well between 'modifier_concept_id' and 'patients_id'. The descriptions do not provide strong evidence of a conceptual correspondence, but the column name matches closely."
+        },
+        {
+          "name": "modifier_source_value",
+          "target_column": null,
+          "confidence": 0.64612,
+          "rationale": "Hybrid column score=0.265 for table patients. LLM match accepted: Semantic meaning alignment: 'modifier' suggests a value associated with a name; Datatype compatibility: VARCHAR(255) matches the attribute type."
+        },
+        {
+          "name": "person_id",
+          "target_column": "patients_id",
+          "confidence": 0.73068,
+          "rationale": "Hybrid column score=0.477 for table patients. LLM match accepted: Semantic meaning and datatype compatibility align well between person_id (attribute) and patients_id (column)."
+        },
+        {
+          "name": "procedure_concept_id",
+          "target_column": "subject_id",
+          "confidence": 0.7150799999999999,
+          "rationale": "Hybrid column score=0.363 for table patients. LLM match accepted: Semantic meaning and datatype compatibility align well between the attribute and column."
+        },
+        {
+          "name": "procedure_date",
+          "target_column": null,
+          "confidence": 0.6448,
+          "rationale": "Hybrid column score=0.262 for table patients. LLM match accepted: Semantic meaning and datatype compatibility align well between procedure_date and dod (date of death)."
+        },
+        {
+          "name": "procedure_datetime",
+          "target_column": null,
+          "confidence": 0.636,
+          "rationale": "Hybrid column score=0.255 for table patients. LLM match accepted: Semantic meaning alignment: 'procedure_datetime' matches 'death_datetime' (dod) conceptually, and datatype compatibility is high."
+        },
+        {
+          "name": "procedure_occurrence_id",
+          "target_column": "patients_id",
+          "confidence": 0.68064,
+          "rationale": "Hybrid column score=0.352 for table patients. LLM match accepted: Semantic meaning and datatype compatibility align well between procedure_occurrence_id (attribute) and patients_id (column)."
+        },
+        {
+          "name": "procedure_source_concept_id",
+          "target_column": null,
+          "confidence": 0.66752,
+          "rationale": "Hybrid column score=0.319 for table patients. LLM match accepted: Semantic meaning and datatype compatibility align well between the attribute and column."
+        },
+        {
+          "name": "procedure_source_value",
+          "target_column": null,
+          "confidence": 0.5848,
+          "rationale": "Hybrid column score=0.262 for table patients. LLM match accepted: Semantic meaning and datatype compatibility align well between procedure_source_value (VARCHAR) and patients_id (text)."
+        },
+        {
+          "name": "procedure_type_concept_id",
+          "target_column": null,
+          "confidence": 0.672,
+          "rationale": "Hybrid column score=0.330 for table patients. LLM match accepted: Semantic meaning and datatype compatibility align well between procedure_type_concept_id and subject_id."
+        },
+        {
+          "name": "provider_id",
+          "target_column": "patients_id",
+          "confidence": 0.7218800000000001,
+          "rationale": "Hybrid column score=0.455 for table patients. LLM match accepted: Semantic meaning and datatype compatibility align well between provider_id (attribute) and patients_id (column). The column name is an exact match for an identifier, which fits the likely domain role of identifiers."
+        },
+        {
+          "name": "quantity",
+          "target_column": null,
+          "confidence": 0.09732,
+          "rationale": "Hybrid column score=0.243 for table patients. LLM match accepted: No explanation"
+        },
+        {
+          "name": "visit_detail_id",
+          "target_column": "patients_id",
+          "confidence": 0.6868000000000001,
+          "rationale": "Hybrid column score=0.367 for table patients. LLM match accepted: Semantic meaning and datatype compatibility align well between visit_detail_id and patients_id. The column name matches the concept of an identifier, and the data type is compatible (VARCHAR)."
+        },
+        {
+          "name": "visit_occurrence_id",
+          "target_column": "patients_id",
+          "confidence": 0.71836,
+          "rationale": "Hybrid column score=0.371 for table patients. LLM match accepted: Semantic meaning and datatype compatibility align well between 'visit_occurrence_id' and 'patients_id'. The column name matches the concept of an identifier, and its data type (text) is compatible with the attribute's data type (VARCHAR(255))."
+        }
+      ]
+    },
+    {
+      "entity": "condition_occurrence",
+      "matched_table": "icustays",
+      "table_confidence": 0.7438800000000001,
+      "table_rationale": "LLM match accepted: The table icustays has a column 'subject_id' which matches the entity's id attribute, and it also contains columns like 'intime', 'outtime', and 'los' which are relevant to the entity's attributes.",
+      "attributes": [
+        {
+          "name": "condition_concept_id",
+          "target_column": "icustay_id",
+          "confidence": 0.70932,
+          "rationale": "Hybrid column score=0.348 for table icustays. LLM match accepted: Semantic meaning alignment: 'condition_concept_id' matches 'icustay_id'. Datatype compatibility: VARCHAR(255) aligns with integer."
+        },
+        {
+          "name": "condition_end_date",
+          "target_column": null,
+          "confidence": 0.6506000000000001,
+          "rationale": "Hybrid column score=0.277 for table icustays. LLM match accepted: Semantic meaning and datatype compatibility align well between condition_end_date and outtime."
+        },
+        {
+          "name": "condition_end_datetime",
+          "target_column": "outtime",
+          "confidence": 0.69436,
+          "rationale": "Hybrid column score=0.266 for table icustays. LLM match accepted: Semantic meaning alignment: 'condition_end_datetime' matches 'outtime'. Datatype compatibility: Both are timestamp without time zone."
+        },
+        {
+          "name": "condition_occurrence_id",
+          "target_column": null,
+          "confidence": 0.6759200000000001,
+          "rationale": "Hybrid column score=0.340 for table icustays. LLM match accepted: Semantic meaning and datatype compatibility align well between condition_occurrence_id and icustay_id."
+        },
+        {
+          "name": "condition_source_concept_id",
+          "target_column": null,
+          "confidence": 0.60992,
+          "rationale": "Hybrid column score=0.325 for table icustays. LLM match accepted: The column 'hadm_id' has a high semantic similarity with the attribute name and is an integer type, which matches the data type of the attribute."
+        },
+        {
+          "name": "condition_source_value",
+          "target_column": null,
+          "confidence": 0.6522800000000001,
+          "rationale": "Hybrid column score=0.281 for table icustays. LLM match accepted: Semantic meaning and datatype compatibility align well between condition_source_value and dbsource."
+        },
+        {
+          "name": "condition_start_date",
+          "target_column": null,
+          "confidence": 0.65432,
+          "rationale": "Hybrid column score=0.286 for table icustays. LLM match accepted: The attribute 'condition_start_date' semantically aligns with the column 'intime', which is a timestamp without time zone. Although the retrieval score is not the highest, the semantic meaning and datatype compatibility make this match strong."
+        },
+        {
+          "name": "condition_start_datetime",
+          "target_column": null,
+          "confidence": 0.64844,
+          "rationale": "Hybrid column score=0.271 for table icustays. LLM match accepted: Semantic meaning alignment: 'condition_start_datetime' matches 'intime'. Datatype compatibility: Both are timestamp without time zone."
+        },
+        {
+          "name": "condition_status_concept_id",
+          "target_column": null,
+          "confidence": 0.6647200000000001,
+          "rationale": "Hybrid column score=0.312 for table icustays. LLM match accepted: The column 'condition_status_concept_id' in the table 'icustays' has a compatible datatype (VARCHAR) and its name closely matches the attribute name. The descriptions do not provide strong semantic correspondence, but the retrieval score is high."
+        },
+        {
+          "name": "condition_status_source_value",
+          "target_column": null,
+          "confidence": 0.58356,
+          "rationale": "Hybrid column score=0.259 for table icustays. LLM match accepted: Semantic meaning alignment: 'source' in column name matches 'status_source_value' in attribute name. Datatype compatibility: VARCHAR(20) matches VARCHAR(255)."
+        },
+        {
+          "name": "condition_type_concept_id",
+          "target_column": null,
+          "confidence": 0.6056,
+          "rationale": "Hybrid column score=0.314 for table icustays. LLM match accepted: Semantic meaning and datatype compatibility align well between condition_type_concept_id and hadm_id."
+        },
+        {
+          "name": "person_id",
+          "target_column": "subject_id",
+          "confidence": 0.73068,
+          "rationale": "Hybrid column score=0.477 for table icustays. LLM match accepted: Semantic meaning alignment (conceptual equivalence) and datatype compatibility (integer). The descriptions also support this match."
+        },
+        {
+          "name": "provider_id",
+          "target_column": "icustay_id",
+          "confidence": 0.7218800000000001,
+          "rationale": "Hybrid column score=0.455 for table icustays. LLM match accepted: The column 'icustay_id' has a compatible datatype (integer) and its name conceptually matches the attribute 'provider_id'. The descriptions do not provide strong semantic correspondence, but the retrieval score is high."
+        },
+        {
+          "name": "stop_reason",
+          "target_column": null,
+          "confidence": 0.59376,
+          "rationale": "Hybrid column score=0.284 for table icustays. LLM match accepted: Semantic meaning: 'dbsource' implies a reason or source for ICU stay. Datatype compatibility: VARCHAR(20) matches string attribute type."
+        },
+        {
+          "name": "visit_detail_id",
+          "target_column": "icustay_id",
+          "confidence": 0.6868000000000001,
+          "rationale": "Hybrid column score=0.367 for table icustays. LLM match accepted: Semantic meaning and datatype compatibility align well between visit_detail_id (attribute) and icustay_id (column). The column is an integer identifier, which matches the expected type for a detail ID."
+        },
+        {
+          "name": "visit_occurrence_id",
+          "target_column": "icustay_id",
+          "confidence": 0.68064,
+          "rationale": "Hybrid column score=0.352 for table icustays. LLM match accepted: Semantic meaning and datatype compatibility align well between visit_occurrence_id and icustay_id."
+        }
+      ]
+    },
+    {
+      "entity": "death",
+      "matched_table": "iomt_vitals",
+      "table_confidence": 0.4749,
+      "table_rationale": "Hybrid score=0.475, margin=0.010.",
+      "attributes": [
+        {
+          "name": "cause_concept_id",
+          "target_column": null,
+          "confidence": 0.51576,
+          "rationale": "Hybrid column score=0.389 for table iomt_vitals. LLM match accepted: High retrieval score and potential relevance as an identifier column, despite datatype incompatibility."
+        },
+        {
+          "name": "cause_source_concept_id",
+          "target_column": null,
+          "confidence": 0.6756000000000001,
+          "rationale": "Hybrid column score=0.339 for table iomt_vitals. LLM match accepted: Semantic meaning alignment and datatype compatibility with VARCHAR(255) column."
+        },
+        {
+          "name": "cause_source_value",
+          "target_column": null,
+          "confidence": 0.5731999999999999,
+          "rationale": "Hybrid column score=0.233 for table iomt_vitals. LLM match accepted: The column 'device_id' has a datatype of text, which aligns with the string attribute 'cause_source_value'. The descriptions do not provide strong semantic correspondence, but the lexical similarity and structural hints suggest that this is the most likely match."
+        },
+        {
+          "name": "death_date",
+          "target_column": null,
+          "confidence": 0.58716,
+          "rationale": "Hybrid column score=0.268 for table iomt_vitals. LLM match accepted: Semantic correspondence between 'death_date' and 'ts' (timestamp) based on descriptions, despite datatype mismatch."
+        },
+        {
+          "name": "death_datetime",
+          "target_column": null,
+          "confidence": 0.59844,
+          "rationale": "Hybrid column score=0.296 for table iomt_vitals. LLM match accepted: Semantic correspondence between death_datetime and ts (timestamp) based on descriptions and datatype compatibility."
+        },
+        {
+          "name": "death_type_concept_id",
+          "target_column": null,
+          "confidence": 0.6709200000000001,
+          "rationale": "Hybrid column score=0.327 for table iomt_vitals. LLM match accepted: Semantic meaning alignment: 'death_type_concept_id' implies a type of death identifier, which matches the column name 'subject_id'. Datatype compatibility: VARCHAR(255) aligns with INT/DECIMAL columns (although not exactly, it's close). Business context: Identifiers often have '_id' suffix. Retrieval score is high but was overridden due to semantic and datatype alignment."
+        },
+        {
+          "name": "person_id",
+          "target_column": "subject_id",
+          "confidence": 0.72472,
+          "rationale": "Hybrid column score=0.462 for table iomt_vitals. LLM match accepted: Semantic meaning alignment (person_id ~ subject_id) and datatype compatibility (VARCHAR(255) ~ integer)"
+        }
+      ]
+    },
+    {
+      "entity": "location",
+      "matched_table": "location",
+      "table_confidence": 0.8286,
+      "table_rationale": "LLM match accepted: Strong conceptual alignment and attribute-column compatibility between the entity 'location' and the table 'location'.",
+      "attributes": [
+        {
+          "name": "address_1",
+          "target_column": null,
+          "confidence": 0.5736,
+          "rationale": "Hybrid column score=0.234 for table location. LLM match accepted: Semantic meaning alignment: 'address' implies a location, which matches the column name 'city'. Datatype compatibility: VARCHAR(255) aligns with TEXT data type."
+        },
+        {
+          "name": "address_2",
+          "target_column": null,
+          "confidence": 0.4536,
+          "rationale": "Hybrid column score=0.234 for table location. LLM match accepted: Datatype compatibility and lack of direct semantic matches or structural hints related to identifiers or quantities led to selecting 'city' as the best match."
+        },
+        {
+          "name": "city",
+          "target_column": "city",
+          "confidence": 0.8800000000000001,
+          "rationale": "Hybrid column score=0.850 for table location. LLM match accepted: Conceptual match with attribute name and compatible datatype"
+        },
+        {
+          "name": "county",
+          "target_column": null,
+          "confidence": 0.6072,
+          "rationale": "Hybrid column score=0.318 for table location. LLM match accepted: Semantic meaning alignment: 'city' conceptually matches 'county'. Datatype compatibility: TEXT datatype aligns with VARCHAR(255) type of the attribute."
+        },
+        {
+          "name": "location_id",
+          "target_column": "id",
+          "confidence": 0.71848,
+          "rationale": "Hybrid column score=0.446 for table location. LLM match accepted: Semantic match with column name 'id' and compatible data type VARCHAR(255)"
+        },
+        {
+          "name": "location_source_value",
+          "target_column": null,
+          "confidence": 0.55792,
+          "rationale": "Hybrid column score=0.195 for table location. LLM match accepted: Semantic meaning alignment: 'location' implies a place or address, which matches the column name 'city'. Datatype compatibility: VARCHAR(255) aligns with TEXT data type."
+        },
+        {
+          "name": "state",
+          "target_column": null,
+          "confidence": 0.56488,
+          "rationale": "Hybrid column score=0.212 for table location. LLM match accepted: Conceptual match between attribute name and column name, with compatible datatype."
+        },
+        {
+          "name": "zip",
+          "target_column": "zip",
+          "confidence": 0.8800000000000001,
+          "rationale": "Hybrid column score=0.850 for table location. LLM match accepted: The attribute 'zip' has a high semantic similarity with the column 'zip' in the table 'location'. The datatype is also compatible (VARCHAR(255))."
+        }
+      ]
+    },
+    {
+      "entity": "observation",
+      "matched_table": "chartevents",
+      "table_confidence": 0.7383200000000001,
+      "table_rationale": "LLM match accepted: The table name 'chartevents' conceptually aligns with the entity 'Vital Signs', and the attributes such as 'itemid', 'charttime', 'value', and 'valuenum' logically fit the columns in the table.",
+      "attributes": [
+        {
+          "name": "obs_event_field_concept_id",
+          "target_column": "hadm_id",
+          "confidence": 0.69,
+          "rationale": "Hybrid column score=0.300 for table chartevents. LLM match accepted: The attribute 'obs_event_field_concept_id' is likely an identifier for events in the chartevents table. The column 'hadm_id' has a high semantic similarity with the attribute name, and its datatype (integer) matches the expected type for identifiers."
+        },
+        {
+          "name": "observation_concept_id",
+          "target_column": "observation_concept_id",
+          "confidence": 0.684,
+          "rationale": "Hybrid column score=0.360 for table chartevents. LLM match accepted: Semantic meaning and datatype compatibility align well between the attribute 'observation_concept_id' and column 'observation_concept_id'. The descriptions do not provide strong semantic correspondence, but the column name matches exactly."
+        },
+        {
+          "name": "observation_date",
+          "target_column": null,
+          "confidence": 0.6389600000000001,
+          "rationale": "Hybrid column score=0.247 for table chartevents. LLM match accepted: Semantic meaning and datatype compatibility align well between observation_date and charttime."
+        },
+        {
+          "name": "observation_datetime",
+          "target_column": null,
+          "confidence": 0.64636,
+          "rationale": "Hybrid column score=0.266 for table chartevents. LLM match accepted: Semantic meaning alignment: 'observation_datetime' matches 'charttime'. Datatype compatibility: both are timestamp without time zone."
+        },
+        {
+          "name": "observation_event_id",
+          "target_column": "icustay_id",
+          "confidence": 0.6868000000000001,
+          "rationale": "Hybrid column score=0.367 for table chartevents. LLM match accepted: Semantic meaning and datatype compatibility align well between 'observation_event_id' and 'icustay_id'. The descriptions do not provide strong evidence of a conceptual correspondence, but the column names suggest a close match."
+        },
+        {
+          "name": "observation_id",
+          "target_column": "icustay_id",
+          "confidence": 0.7120000000000001,
+          "rationale": "Hybrid column score=0.430 for table chartevents. LLM match accepted: Semantic meaning and datatype compatibility align well between observation_id and icustay_id."
+        },
+        {
+          "name": "observation_source_concept_id",
+          "target_column": null,
+          "confidence": 0.66808,
+          "rationale": "Hybrid column score=0.320 for table chartevents. LLM match accepted: Semantic meaning and datatype compatibility align well between the attribute and column."
+        },
+        {
+          "name": "observation_source_value",
+          "target_column": "value",
+          "confidence": 0.72464,
+          "rationale": "Hybrid column score=0.387 for table chartevents. LLM match accepted: Semantic meaning alignment and datatype compatibility"
+        },
+        {
+          "name": "observation_type_concept_id",
+          "target_column": null,
+          "confidence": 0.6699200000000001,
+          "rationale": "Hybrid column score=0.325 for table chartevents. LLM match accepted: Semantic meaning and datatype compatibility align well between the attribute and column."
+        },
+        {
+          "name": "person_id",
+          "target_column": "subject_id",
+          "confidence": 0.73068,
+          "rationale": "Hybrid column score=0.477 for table chartevents. LLM match accepted: Semantic meaning and datatype compatibility align well between person_id (attribute) and subject_id (column). The descriptions do not provide strong evidence for an alternative match."
+        },
+        {
+          "name": "provider_id",
+          "target_column": "subject_id",
+          "confidence": 0.75188,
+          "rationale": "Hybrid column score=0.455 for table chartevents. LLM match accepted: The attribute 'provider_id' semantically aligns with 'subject_id' due to its conceptual meaning as an identifier. The datatype is also compatible (integer)."
+        },
+        {
+          "name": "qualifier_concept_id",
+          "target_column": null,
+          "confidence": 0.61932,
+          "rationale": "Hybrid column score=0.348 for table chartevents. LLM match accepted: The column 'itemid' has a high semantic similarity with 'qualifier_concept_id', and its datatype (integer) is compatible. The descriptions do not provide strong evidence for an alternative match."
+        },
+        {
+          "name": "qualifier_source_value",
+          "target_column": "value",
+          "confidence": 0.7274799999999999,
+          "rationale": "Hybrid column score=0.394 for table chartevents. LLM match accepted: Semantic meaning and datatype compatibility align well between 'qualifier_source_value' and 'value'. The descriptions do not provide strong evidence for an alternative match."
+        },
+        {
+          "name": "unit_concept_id",
+          "target_column": "itemid",
+          "confidence": 0.6868000000000001,
+          "rationale": "Hybrid column score=0.367 for table chartevents. LLM match accepted: Semantic meaning and datatype compatibility align well between unit_concept_id and itemid."
+        },
+        {
+          "name": "unit_source_value",
+          "target_column": "value",
+          "confidence": 0.73692,
+          "rationale": "Hybrid column score=0.417 for table chartevents. LLM match accepted: Semantic meaning and datatype compatibility align well between 'unit_source_value' and 'value'. The descriptions do not provide strong evidence of a conceptual correspondence, but the column name matches closely."
+        },
+        {
+          "name": "value_as_concept_id",
+          "target_column": "subject_id",
+          "confidence": 0.6906800000000001,
+          "rationale": "Hybrid column score=0.377 for table chartevents. LLM match accepted: Semantic meaning alignment (conceptual correspondence) and datatype compatibility (integer). The column name 'subject_id' closely matches the attribute name 'value_as_concept_id', suggesting a strong conceptual relationship between the two. Additionally, both have an integer data type, further supporting their semantic equivalence."
+        },
+        {
+          "name": "value_as_datetime",
+          "target_column": "charttime",
+          "confidence": 0.7093200000000001,
+          "rationale": "Hybrid column score=0.423 for table chartevents. LLM match accepted: Semantic meaning and datatype compatibility align well between 'value_as_datetime' and 'charttime'. The column name matches the concept of a datetime value, and its datatype (timestamp without time zone) is compatible with the attribute's expected type."
+        },
+        {
+          "name": "value_as_number",
+          "target_column": "valuenum",
+          "confidence": 0.71496,
+          "rationale": "Hybrid column score=0.437 for table chartevents. LLM match accepted: Semantic meaning and datatype compatibility align well between 'value_as_number' and 'valuenum'. The descriptions do not provide strong evidence of a conceptual correspondence, but the column name and datatype are very similar."
+        },
+        {
+          "name": "value_as_string",
+          "target_column": "value",
+          "confidence": 0.71496,
+          "rationale": "Hybrid column score=0.437 for table chartevents. LLM match accepted: Semantic meaning and datatype compatibility align well between 'value_as_string' and 'value'."
+        },
+        {
+          "name": "visit_detail_id",
+          "target_column": null,
+          "confidence": 0.6268,
+          "rationale": "Hybrid column score=0.367 for table chartevents. LLM match accepted: Semantic meaning and datatype compatibility align well between visit_detail_id and hadm_id."
+        },
+        {
+          "name": "visit_occurrence_id",
+          "target_column": "subject_id",
+          "confidence": 0.68064,
+          "rationale": "Hybrid column score=0.352 for table chartevents. LLM match accepted: Semantic meaning and datatype compatibility align well between visit_occurrence_id (attribute) and subject_id (column). The descriptions do not provide strong evidence for an alternative match."
+        }
+      ]
+    },
+    {
+      "entity": "observation_period",
+      "matched_table": "inputevents_mv",
+      "table_confidence": 0.65832,
+      "table_rationale": "LLM match accepted: Conceptual alignment with medical observations, attribute-column compatibility, grouping coherence, and structural indicators all support this match.",
+      "attributes": [
+        {
+          "name": "observation_period_end_date",
+          "target_column": null,
+          "confidence": 0.65656,
+          "rationale": "Hybrid column score=0.291 for table inputevents_mv. LLM match accepted: Semantic meaning alignment (observation_period_end_date) and datatype compatibility (timestamp without time zone)."
+        },
+        {
+          "name": "observation_period_id",
+          "target_column": "hadm_id",
+          "confidence": 0.6853600000000001,
+          "rationale": "Hybrid column score=0.363 for table inputevents_mv. LLM match accepted: The column 'hadm_id' is an identifier and has a compatible datatype (integer). The descriptions do not provide strong semantic correspondence, but the column name matches the attribute name conceptually."
+        },
+        {
+          "name": "observation_period_start_date",
+          "target_column": null,
+          "confidence": 0.65544,
+          "rationale": "Hybrid column score=0.289 for table inputevents_mv. LLM match accepted: Semantic meaning alignment: 'start' implies a beginning date; Datatype compatibility: TIMESTAMP; Business context: likely a start date in a time series."
+        },
+        {
+          "name": "period_type_concept_id",
+          "target_column": null,
+          "confidence": 0.6136,
+          "rationale": "Hybrid column score=0.334 for table inputevents_mv. LLM match accepted: The column 'itemid' has a compatible datatype (integer) and its name suggests it could be an identifier, which aligns with the likely domain role of 'period_type_concept_id'. The semantic description of 'itemid' as 'none' does not provide strong evidence for a match, but the retrieval score is relatively high."
+        },
+        {
+          "name": "person_id",
+          "target_column": null,
+          "confidence": 0.6706799999999999,
+          "rationale": "Hybrid column score=0.477 for table inputevents_mv. LLM match accepted: Semantic match based on identifier concept and common usage in healthcare datasets."
+        }
+      ]
+    },
+    {
+      "entity": "drug_exposure",
+      "matched_table": "labevents",
+      "table_confidence": 0.7712800000000001,
+      "table_rationale": "LLM match accepted: The table 'labevents' has a column named 'itemid' which matches the entity's attribute 'id'. The datatype of 'itemid' is integer, matching the expected type for an identifier.",
+      "attributes": [
+        {
+          "name": "days_supply",
+          "target_column": null,
+          "confidence": 0.6448,
+          "rationale": "Hybrid column score=0.262 for table labevents. LLM match accepted: Semantic meaning alignment and datatype compatibility"
+        },
+        {
+          "name": "dose_unit_source_value",
+          "target_column": "valueuom",
+          "confidence": 0.6834800000000001,
+          "rationale": "Hybrid column score=0.359 for table labevents. LLM match accepted: The column 'valueuom' has a datatype of character varying(20) which is compatible with the attribute's type VARCHAR(255). The semantic meaning of the attribute 'dose_unit_source_value' aligns with the concept of unit of measurement, which is closely related to the valueuom column. Additionally, the table 'labevents' where this column belongs seems to be relevant for lab events and measurements."
+        },
+        {
+          "name": "drug_concept_id",
+          "target_column": null,
+          "confidence": 0.6227199999999999,
+          "rationale": "Hybrid column score=0.357 for table labevents. LLM match accepted: Semantic meaning and datatype compatibility align well between attribute 'drug_concept_id' (VARCHAR(255)) and column 'drug_concept_id' in table 'labevents'."
+        },
+        {
+          "name": "drug_exposure_end_date",
+          "target_column": null,
+          "confidence": 0.5773199999999999,
+          "rationale": "Hybrid column score=0.243 for table labevents. LLM match accepted: The attribute 'drug_exposure_end_date' semantically aligns with 'charttime', which is a timestamp without time zone column in the labevents table, indicating a date-related field."
+        },
+        {
+          "name": "drug_exposure_end_datetime",
+          "target_column": null,
+          "confidence": 0.6384000000000001,
+          "rationale": "Hybrid column score=0.246 for table labevents. LLM match accepted: Semantic meaning and datatype compatibility align well between drug_exposure_end_datetime and charttime."
+        },
+        {
+          "name": "drug_exposure_id",
+          "target_column": "hadm_id",
+          "confidence": 0.68508,
+          "rationale": "Hybrid column score=0.363 for table labevents. LLM match accepted: Semantic meaning alignment: 'drug_exposure_id' conceptually matches 'hadm_id', which is an identifier column in the labevents table."
+        },
+        {
+          "name": "drug_exposure_start_date",
+          "target_column": null,
+          "confidence": 0.6395200000000001,
+          "rationale": "Hybrid column score=0.249 for table labevents. LLM match accepted: Semantic meaning alignment: 'drug_exposure_start_date' matches 'charttime'. Datatype compatibility: TIMESTAMP without time zone aligns with VARCHAR(255)."
+        },
+        {
+          "name": "drug_exposure_start_datetime",
+          "target_column": null,
+          "confidence": 0.63632,
+          "rationale": "Hybrid column score=0.241 for table labevents. LLM match accepted: Semantic meaning alignment: 'drug_exposure_start_datetime' conceptually matches 'charttime'. Datatype compatibility: Both are timestamp without time zone."
+        },
+        {
+          "name": "drug_source_concept_id",
+          "target_column": null,
+          "confidence": 0.6156,
+          "rationale": "Hybrid column score=0.339 for table labevents. LLM match accepted: The column 'hadm_id' has a high semantic similarity with the attribute 'drug_source_concept_id', as both are likely identifiers. The datatype of 'hadm_id' (integer) is also compatible with the attribute's type (VARCHAR(255)). Additionally, the table 'labevents' where this column belongs to is related to lab events, which could be relevant to drug source concepts."
+        },
+        {
+          "name": "drug_source_value",
+          "target_column": "value",
+          "confidence": 0.70692,
+          "rationale": "Hybrid column score=0.417 for table labevents. LLM match accepted: Semantic meaning and datatype compatibility align well between 'drug_source_value' (VARCHAR(255)) and 'value' (character varying(200))."
+        },
+        {
+          "name": "drug_type_concept_id",
+          "target_column": null,
+          "confidence": 0.6068,
+          "rationale": "Hybrid column score=0.317 for table labevents. LLM match accepted: Semantic meaning and datatype compatibility align well between the attribute 'drug_type_concept_id' (VARCHAR(255)) and column 'drug_type_concept_id' in table 'labevents'."
+        },
+        {
+          "name": "lot_number",
+          "target_column": null,
+          "confidence": 0.58976,
+          "rationale": "Hybrid column score=0.274 for table labevents. LLM match accepted: The column 'itemid' has a datatype of integer and is likely an identifier, matching the semantic meaning of 'lot_number'. Although its retrieval score is lower than some other candidates, its datatype compatibility and structural hints make it the best match."
+        },
+        {
+          "name": "person_id",
+          "target_column": "subject_id",
+          "confidence": 0.73068,
+          "rationale": "Hybrid column score=0.477 for table labevents. LLM match accepted: Semantic meaning alignment (person_id ~ subject_id) and datatype compatibility (VARCHAR(255) ~ integer)."
+        },
+        {
+          "name": "provider_id",
+          "target_column": "subject_id",
+          "confidence": 0.7218800000000001,
+          "rationale": "Hybrid column score=0.455 for table labevents. LLM match accepted: The attribute 'provider_id' semantically aligns with 'subject_id' as both are likely identifiers. The datatype is also compatible (integer)."
+        },
+        {
+          "name": "quantity",
+          "target_column": null,
+          "confidence": 0.6395200000000001,
+          "rationale": "Hybrid column score=0.249 for table labevents. LLM match accepted: Semantic meaning alignment (quantity) and datatype compatibility (DECIMAL)."
+        },
+        {
+          "name": "refills",
+          "target_column": null,
+          "confidence": 0.6448,
+          "rationale": "Hybrid column score=0.262 for table labevents. LLM match accepted: The attribute 'refills' semantically aligns with the column 'value', which is likely to store quantities or amounts. The datatype compatibility is also good, as both are VARCHAR types."
+        },
+        {
+          "name": "route_concept_id",
+          "target_column": "itemid",
+          "confidence": 0.69292,
+          "rationale": "Hybrid column score=0.382 for table labevents. LLM match accepted: The column 'itemid' in table 'labevents' has a datatype of integer, which matches the type of 'route_concept_id'. The descriptions do not provide strong semantic correspondence, but the column name is similar to 'concept_id', suggesting it might be an identifier for routes or concepts."
+        },
+        {
+          "name": "route_source_value",
+          "target_column": "value",
+          "confidence": 0.7046800000000001,
+          "rationale": "Hybrid column score=0.412 for table labevents. LLM match accepted: The attribute 'route_source_value' semantically aligns with the column 'value' in table 'labevents'. The datatype is compatible (VARCHAR), and the descriptions do not provide strong semantic correspondence to support a different match."
+        },
+        {
+          "name": "sig",
+          "target_column": null,
+          "confidence": 0.632,
+          "rationale": "Hybrid column score=0.230 for table labevents. LLM match accepted: Semantic meaning alignment: 'sig' likely refers to a signature or value, which matches the column name and description of 'value'. Datatype compatibility: VARCHAR(200) aligns with VARCHAR(255)."
+        },
+        {
+          "name": "stop_reason",
+          "target_column": null,
+          "confidence": 0.572,
+          "rationale": "Hybrid column score=0.230 for table labevents. LLM match accepted: Semantic meaning alignment and datatype compatibility"
+        },
+        {
+          "name": "verbatim_end_date",
+          "target_column": null,
+          "confidence": 0.58308,
+          "rationale": "Hybrid column score=0.258 for table labevents. LLM match accepted: The attribute 'verbatim_end_date' semantically aligns with 'charttime', which is a timestamp without time zone column in the labevents table, indicating a date/time value."
+        },
+        {
+          "name": "visit_detail_id",
+          "target_column": null,
+          "confidence": 0.6268,
+          "rationale": "Hybrid column score=0.367 for table labevents. LLM match accepted: Strong semantic match based on column name and table context."
+        },
+        {
+          "name": "visit_occurrence_id",
+          "target_column": "hadm_id",
+          "confidence": 0.68064,
+          "rationale": "Hybrid column score=0.352 for table labevents. LLM match accepted: The column 'hadm_id' has a high semantic similarity with the attribute 'visit_occurrence_id', as both are likely identifiers for hospital admissions. The datatype is also compatible (integer)."
+        }
+      ]
+    },
+    {
+      "entity": "device_exposure",
+      "matched_table": "patients",
+      "table_confidence": 0.73284,
+      "table_rationale": "LLM match accepted: The table 'patients' has attributes that logically fit the columns in the table, such as 'subject_id', 'gender', and 'dob'. The datatypes are also compatible (id->integer, date->timestamp, name->text).",
+      "attributes": [
+        {
+          "name": "device_concept_id",
+          "target_column": null,
+          "confidence": 0.67956,
+          "rationale": "Hybrid column score=0.349 for table patients. LLM match accepted: Semantic meaning and datatype compatibility align well between device_concept_id and patients_id."
+        },
+        {
+          "name": "device_exposure_end_date",
+          "target_column": null,
+          "confidence": 0.58128,
+          "rationale": "Hybrid column score=0.253 for table patients. LLM match accepted: Semantic meaning alignment: 'end_date' matches with 'hosp' indicating a date related to hospitalization, datatype compatibility: timestamp without time zone aligns with the attribute type VARCHAR(255), and structural hints: PK/FK columns may be identifiers which is not the case here but it's a good sign."
+        },
+        {
+          "name": "device_exposure_end_datetime",
+          "target_column": null,
+          "confidence": 0.5773199999999999,
+          "rationale": "Hybrid column score=0.243 for table patients. LLM match accepted: The attribute 'device_exposure_end_datetime' semantically aligns with 'dod_ssn', but since it's a date-time attribute, it matches better with 'dod_hosp' or 'dod'. The descriptions do not provide strong semantic correspondence, so I rely on the column name and datatype. Although 'dod' has a lower retrieval score, its datatype is compatible (timestamp without time zone), making it the best match."
+        },
+        {
+          "name": "device_exposure_id",
+          "target_column": "patients_id",
+          "confidence": 0.712,
+          "rationale": "Hybrid column score=0.355 for table patients. LLM match accepted: Semantic meaning and datatype compatibility align well between device_exposure_id (VARCHAR) and patients_id (text). The descriptions do not provide strong semantic correspondence, but the column name matches closely."
+        },
+        {
+          "name": "device_exposure_start_date",
+          "target_column": null,
+          "confidence": 0.10236,
+          "rationale": "Hybrid column score=0.256 for table patients. LLM match accepted: No explanation"
+        },
+        {
+          "name": "device_exposure_start_datetime",
+          "target_column": null,
+          "confidence": 0.4709,
+          "rationale": "Hybrid column score=0.246 for table patients. LLM match accepted: The column 'dod' has a datatype of timestamp without time zone and its description matches the semantic meaning of 'device_exposure_start_datetime'. Although the retrieval score is not the highest, the semantic correspondence between the attribute name and the column name justifies this match."
+        },
+        {
+          "name": "device_source_concept_id",
+          "target_column": null,
+          "confidence": 0.67312,
+          "rationale": "Hybrid column score=0.333 for table patients. LLM match accepted: Semantic meaning and datatype compatibility align well between device_source_concept_id (VARCHAR(255)) and patients_id (text)."
+        },
+        {
+          "name": "device_source_value",
+          "target_column": null,
+          "confidence": 0.649,
+          "rationale": "Hybrid column score=0.273 for table patients. LLM match accepted: Semantic meaning alignment (device_source_value ~ patients_id_v11), datatype compatibility (VARCHAR(255) matches text), and business context (identifier)"
+        },
+        {
+          "name": "device_type_concept_id",
+          "target_column": null,
+          "confidence": 0.6686000000000001,
+          "rationale": "Hybrid column score=0.322 for table patients. LLM match accepted: The attribute 'device_type_concept_id' is likely an identifier for devices, and 'subject_id' in the patients table matches this concept semantically. The datatype is also compatible (BIGINT)."
+        },
+        {
+          "name": "person_id",
+          "target_column": "patients_id",
+          "confidence": 0.76068,
+          "rationale": "Hybrid column score=0.477 for table patients. LLM match accepted: Semantic meaning alignment (person_id ~ patients_id) and datatype compatibility (VARCHAR(255))"
+        },
+        {
+          "name": "provider_id",
+          "target_column": "patients_id",
+          "confidence": 0.7218800000000001,
+          "rationale": "Hybrid column score=0.455 for table patients. LLM match accepted: Semantic meaning and datatype compatibility align well between provider_id (attribute) and patients_id (column). The column is an identifier in the patients table, which fits the likely domain role of identifiers."
+        },
+        {
+          "name": "quantity",
+          "target_column": null,
+          "confidence": 0.63732,
+          "rationale": "Hybrid column score=0.243 for table patients. LLM match accepted: Semantic meaning and datatype compatibility align well between 'quantity' attribute and 'patients_id' column."
+        },
+        {
+          "name": "unique_device_id",
+          "target_column": "patients_id",
+          "confidence": 0.68508,
+          "rationale": "Hybrid column score=0.363 for table patients. LLM match accepted: Semantic meaning alignment: 'unique_device_id' conceptually matches 'patients_id'. Datatype compatibility: VARCHAR(255) aligns with TEXT column."
+        },
+        {
+          "name": "visit_detail_id",
+          "target_column": "patients_id",
+          "confidence": 0.6868000000000001,
+          "rationale": "Hybrid column score=0.367 for table patients. LLM match accepted: Semantic meaning alignment: 'visit' and 'detail' are not explicitly mentioned in column names, but 'patients_id' suggests a unique identifier for patients, which could be related to visit details."
+        },
+        {
+          "name": "visit_occurrence_id",
+          "target_column": "patients_id",
+          "confidence": 0.71836,
+          "rationale": "Hybrid column score=0.371 for table patients. LLM match accepted: Semantic meaning and datatype compatibility align well between visit_occurrence_id (VARCHAR) and patients_id (text). The column name is a strong identifier, fitting the likely domain role of an identifier."
+        }
+      ]
+    },
+    {
+      "entity": "note",
+      "matched_table": "labevents",
+      "table_confidence": 0.7438800000000001,
+      "table_rationale": "LLM match accepted: The entity name 'note' aligns with the table name 'labevents', which stores laboratory events. The attributes 'itemid', 'charttime', and 'value' are compatible with the columns in this table, and the datatypes match (e.g., 'itemid' is an integer). This table appears to represent a business object related to lab results, which aligns with the entity's conceptual meaning.",
+      "attributes": [
+        {
+          "name": "encoding_concept_id",
+          "target_column": null,
+          "confidence": 0.6764800000000001,
+          "rationale": "Hybrid column score=0.341 for table labevents. LLM match accepted: The attribute 'encoding_concept_id' semantically aligns with 'subject_id' based on its name and datatype (integer). The descriptions do not provide strong semantic correspondence, but the column's role as an identifier supports the match."
+        },
+        {
+          "name": "language_concept_id",
+          "target_column": "language_concept_id",
+          "confidence": 0.68064,
+          "rationale": "Hybrid column score=0.352 for table labevents. LLM match accepted: The column name matches the attribute name exactly, and its datatype (VARCHAR(255)) is compatible with the attribute's type (VARCHAR(255)). The descriptions do not provide any additional information that would suggest a different match."
+        },
+        {
+          "name": "note_class_concept_id",
+          "target_column": null,
+          "confidence": 0.6068,
+          "rationale": "Hybrid column score=0.317 for table labevents. LLM match accepted: Semantic meaning and datatype compatibility align well between the attribute 'note_class_concept_id' (VARCHAR(255)) and column 'value' in table 'labevents'. The descriptions do not provide strong semantic correspondence, but the lexical similarity is sufficient to justify a match."
+        },
+        {
+          "name": "note_date",
+          "target_column": null,
+          "confidence": 0.6448,
+          "rationale": "Hybrid column score=0.262 for table labevents. LLM match accepted: Semantic meaning alignment: 'note_date' matches 'charttime', which indicates a date/time column. Datatype compatibility: VARCHAR(255) aligns with timestamp without time zone."
+        },
+        {
+          "name": "note_datetime",
+          "target_column": null,
+          "confidence": 0.6610800000000001,
+          "rationale": "Hybrid column score=0.303 for table labevents. LLM match accepted: Semantic meaning and datatype compatibility align perfectly between 'note_datetime' and 'charttime'. The descriptions do not provide strong semantic correspondence, but the column name and datatype are a clear match."
+        },
+        {
+          "name": "note_event_field_concept_id",
+          "target_column": null,
+          "confidence": 0.47515999999999997,
+          "rationale": "Hybrid column score=0.288 for table labevents. LLM match accepted: High retrieval score and likely domain role as an identifier, but incompatible datatype"
+        },
+        {
+          "name": "note_event_id",
+          "target_column": "row_id",
+          "confidence": 0.68916,
+          "rationale": "Hybrid column score=0.373 for table labevents. LLM match accepted: Semantic meaning alignment (conceptual correspondence) and datatype compatibility."
+        },
+        {
+          "name": "note_id",
+          "target_column": null,
+          "confidence": 0.18492,
+          "rationale": "Hybrid column score=0.462 for table labevents. LLM match accepted: No explanation"
+        },
+        {
+          "name": "note_source_value",
+          "target_column": "value",
+          "confidence": 0.70692,
+          "rationale": "Hybrid column score=0.417 for table labevents. LLM match accepted: Semantic meaning alignment: 'note_source_value' matches 'value'. Datatype compatibility: VARCHAR(255) aligns with character varying(200)."
+        },
+        {
+          "name": "note_text",
+          "target_column": null,
+          "confidence": 0.65988,
+          "rationale": "Hybrid column score=0.225 for table labevents. LLM match accepted: Semantic meaning alignment: 'note_text' matches the column name 'value'. Datatype compatibility: VARCHAR(255) aligns with character varying(200)."
+        },
+        {
+          "name": "note_title",
+          "target_column": null,
+          "confidence": 0.6471600000000001,
+          "rationale": "Hybrid column score=0.268 for table labevents. LLM match accepted: The attribute 'note_title' semantically aligns with the column 'value', which is likely to store note titles given its data type and table context."
+        },
+        {
+          "name": "note_type_concept_id",
+          "target_column": null,
+          "confidence": 0.60808,
+          "rationale": "Hybrid column score=0.320 for table labevents. LLM match accepted: The column 'itemid' in table 'labevents' has a datatype of integer, which matches the type of the attribute 'note_type_concept_id'. The descriptions do not provide strong semantic correspondence, but the column name is conceptually similar to an identifier."
+        },
+        {
+          "name": "person_id",
+          "target_column": null,
+          "confidence": 0.6706799999999999,
+          "rationale": "Hybrid column score=0.477 for table labevents. LLM match accepted: Semantic meaning and datatype compatibility align with 'person_id' attribute"
+        },
+        {
+          "name": "provider_id",
+          "target_column": "subject_id",
+          "confidence": 0.7218800000000001,
+          "rationale": "Hybrid column score=0.455 for table labevents. LLM match accepted: The attribute 'provider_id' semantically aligns with 'subject_id' as both are likely identifiers. The datatype is also compatible (integer). Although the retrieval score is not the highest, the semantic meaning and structural hints justify this match."
+        },
+        {
+          "name": "visit_detail_id",
+          "target_column": null,
+          "confidence": 0.6268,
+          "rationale": "Hybrid column score=0.367 for table labevents. LLM match accepted: Semantic meaning: 'detail' implies a specific identifier within a visit, which aligns with the concept of hadm_id as a unique identifier for hospital admissions. Datatype compatibility: VARCHAR(255) matches the type of hadm_id."
+        },
+        {
+          "name": "visit_occurrence_id",
+          "target_column": "hadm_id",
+          "confidence": 0.68064,
+          "rationale": "Hybrid column score=0.352 for table labevents. LLM match accepted: The attribute 'visit_occurrence_id' semantically aligns with 'hadm_id' based on their conceptual meaning and structural hints. Both are identifiers, and 'hadm_id' is a primary key in the labevents table."
+        }
+      ]
+    },
+    {
+      "entity": "fact_relationship",
+      "matched_table": "diagnoses_icd_items",
+      "table_confidence": 0.64996,
+      "table_rationale": "LLM match accepted: Conceptual alignment and attribute-column compatibility suggest this table represents relationships between diagnoses (ICD-9 codes) and their sequences, fitting the entity's concept of fact_relationship.",
+      "attributes": [
+        {
+          "name": "domain_concept_id_1",
+          "target_column": null,
+          "confidence": 0.66756,
+          "rationale": "Hybrid column score=0.319 for table diagnoses_icd_items. LLM match accepted: Semantic meaning alignment: 'domain_concept_id_1' matches with 'diagnoses_icd_items.d_icd_diagnoses_id_v1'. Datatype compatibility: VARCHAR(255) aligns with TEXT column."
+        },
+        {
+          "name": "domain_concept_id_2",
+          "target_column": null,
+          "confidence": 0.66756,
+          "rationale": "Hybrid column score=0.319 for table diagnoses_icd_items. LLM match accepted: Semantic meaning and datatype compatibility align well between attribute 'domain_concept_id_2' and column 'd_icd_diagnoses_id_v2'. The descriptions do not provide strong evidence for a different match."
+        },
+        {
+          "name": "fact_id_1",
+          "target_column": "d_icd_diagnoses_id_v1",
+          "confidence": 0.69672,
+          "rationale": "Hybrid column score=0.392 for table diagnoses_icd_items. LLM match accepted: The column name closely matches the attribute name 'fact_id_1', and its datatype is compatible (text). The descriptions do not provide strong semantic correspondence, but the column's purpose as an identifier aligns with the likely domain role of the attribute."
+        },
+        {
+          "name": "fact_id_2",
+          "target_column": "d_icd_diagnoses_id_v2",
+          "confidence": 0.69672,
+          "rationale": "Hybrid column score=0.392 for table diagnoses_icd_items. LLM match accepted: Semantic meaning alignment (diagnosis identifier) and datatype compatibility (text)"
+        },
+        {
+          "name": "relationship_concept_id",
+          "target_column": null,
+          "confidence": 0.6739200000000001,
+          "rationale": "Hybrid column score=0.335 for table diagnoses_icd_items. LLM match accepted: The column name matches the attribute name closely, and it is an identifier column (text data type) which aligns with the semantic meaning of a relationship concept ID."
+        }
+      ]
+    },
+    {
+      "entity": "payer_plan_period",
+      "matched_table": "prescriptions_items",
+      "table_confidence": 0.64956,
+      "table_rationale": "LLM match accepted: The entity name 'payers' aligns conceptually with 'prescriptions', and attributes like 'drug', 'dose_val_rx', and 'valid_from' match the columns in the table, indicating a strong domain/conceptual alignment.",
+      "attributes": [
+        {
+          "name": "family_source_value",
+          "target_column": null,
+          "confidence": 0.64636,
+          "rationale": "Hybrid column score=0.266 for table prescriptions_items. LLM match accepted: Semantic meaning aligns with 'family_source_value', datatype is compatible (VARCHAR), and the column name suggests a value related to dosage."
+        },
+        {
+          "name": "payer_plan_period_end_date",
+          "target_column": null,
+          "confidence": 0.63632,
+          "rationale": "Hybrid column score=0.241 for table prescriptions_items. LLM match accepted: Semantic meaning alignment: 'end_date' conceptually matches 'to'. Datatype compatibility: both are timestamp with time zone."
+        },
+        {
+          "name": "payer_plan_period_id",
+          "target_column": null,
+          "confidence": 0.60236,
+          "rationale": "Hybrid column score=0.306 for table prescriptions_items. LLM match accepted: Semantic meaning alignment: 'payer' and 'plan' are related to 'route', 'period' matches with 'v9' suffix, datatype compatibility (VARCHAR), and business context (identifiers)"
+        },
+        {
+          "name": "payer_plan_period_start_date",
+          "target_column": null,
+          "confidence": 0.6392,
+          "rationale": "Hybrid column score=0.248 for table prescriptions_items. LLM match accepted: Semantic meaning alignment: 'period_start_date' conceptually matches 'valid_from'. Datatype compatibility: both are timestamp with time zone."
+        },
+        {
+          "name": "payer_source_value",
+          "target_column": null,
+          "confidence": 0.59168,
+          "rationale": "Hybrid column score=0.279 for table prescriptions_items. LLM match accepted: Semantic meaning alignment and datatype compatibility"
+        },
+        {
+          "name": "person_id",
+          "target_column": "id",
+          "confidence": 0.72472,
+          "rationale": "Hybrid column score=0.462 for table prescriptions_items. LLM match accepted: Semantic meaning and datatype compatibility align well between person_id (VARCHAR) and id (bigint). The column name 'id' is a common identifier in many tables, and its data type is compatible with the attribute's VARCHAR(255) type."
+        },
+        {
+          "name": "plan_source_value",
+          "target_column": null,
+          "confidence": 0.648,
+          "rationale": "Hybrid column score=0.270 for table prescriptions_items. LLM match accepted: Semantic meaning alignment and datatype compatibility"
+        }
+      ]
+    },
+    {
+      "entity": "cdm_source",
+      "matched_table": "orders",
+      "table_confidence": 0.65656,
+      "table_rationale": "LLM match accepted: The 'orders' table has an attribute 'order_date' which aligns with the conceptual date of release, and it also contains attributes like 'total', 'status', and 'customer_id' that are relevant to a product's release.",
+      "attributes": [
+        {
+          "name": "cdm_etl_reference",
+          "target_column": null,
+          "confidence": 0.64148,
+          "rationale": "Hybrid column score=0.254 for table orders. LLM match accepted: The attribute 'cdm_etl_reference' semantically aligns with the column 'status', which is likely an identifier or a status indicator in the orders table."
+        },
+        {
+          "name": "cdm_holder",
+          "target_column": null,
+          "confidence": 0.6072,
+          "rationale": "Hybrid column score=0.318 for table orders. LLM match accepted: The column 'customer_id' has a datatype of uuid, which matches the string type of 'cdm_holder'. The semantic meaning of 'cdm_holder' suggests it could be an identifier for a customer or holder, aligning with the concept of 'customer_id'."
+        },
+        {
+          "name": "cdm_release_date",
+          "target_column": "order_date",
+          "confidence": 0.70232,
+          "rationale": "Hybrid column score=0.406 for table orders. LLM match accepted: Semantic meaning alignment: 'cdm_release_date' matches 'order_date'. Datatype compatibility: Both are date/time types."
+        },
+        {
+          "name": "cdm_source_abbreviation",
+          "target_column": null,
+          "confidence": 0.57392,
+          "rationale": "Hybrid column score=0.235 for table orders. LLM match accepted: The column 'status' has a datatype of character varying(50), which matches the type of the attribute (VARCHAR(255)). The semantic meaning of 'status' aligns with the concept of abbreviations, and it is likely that this column represents some kind of identifier or label for the orders table."
+        },
+        {
+          "name": "cdm_source_name",
+          "target_column": null,
+          "confidence": 0.12272000000000001,
+          "rationale": "Hybrid column score=0.307 for table orders. LLM match accepted: No explanation"
+        },
+        {
+          "name": "cdm_version",
+          "target_column": null,
+          "confidence": 0.11092,
+          "rationale": "Hybrid column score=0.277 for table orders. LLM match accepted: No explanation"
+        },
+        {
+          "name": "source_description",
+          "target_column": null,
+          "confidence": 0.5691999999999999,
+          "rationale": "Hybrid column score=0.223 for table orders. LLM match accepted: Semantic meaning alignment: 'description' is a common synonym for 'status'. Datatype compatibility: VARCHAR(50) matches the attribute type."
+        },
+        {
+          "name": "source_documentation_reference",
+          "target_column": null,
+          "confidence": 0.5791999999999999,
+          "rationale": "Hybrid column score=0.248 for table orders. LLM match accepted: The attribute 'source_documentation_reference' semantically aligns with the column 'status', which is likely an identifier or a status indicator in the orders table."
+        },
+        {
+          "name": "source_release_date",
+          "target_column": "order_date",
+          "confidence": 0.7038,
+          "rationale": "Hybrid column score=0.409 for table orders. LLM match accepted: Semantic meaning alignment (release date) and datatype compatibility (timestamp without time zone)"
+        },
+        {
+          "name": "vocabulary_version",
+          "target_column": null,
+          "confidence": 0.0892,
+          "rationale": "Hybrid column score=0.223 for table orders. LLM match accepted: No explanation"
+        }
+      ]
+    },
+    {
+      "entity": "care_site",
+      "matched_table": "location",
+      "table_confidence": 0.71352,
+      "table_rationale": "LLM match accepted: Conceptual alignment between 'care_site' and 'location', along with compatible attributes and structural indicators.",
+      "attributes": [
+        {
+          "name": "care_site_id",
+          "target_column": "id",
+          "confidence": 0.6880000000000001,
+          "rationale": "Hybrid column score=0.370 for table location. LLM match accepted: The attribute 'care_site_id' semantically aligns with the column 'id' in table 'location'. The datatype is compatible (integer), and the retrieval score supports this match."
+        },
+        {
+          "name": "care_site_name",
+          "target_column": null,
+          "confidence": 0.63732,
+          "rationale": "Hybrid column score=0.243 for table location. LLM match accepted: Semantic meaning alignment: 'care_site_name' is likely related to a location, and 'city' is a common attribute for locations. Datatype compatibility: VARCHAR(255) matches the column's data type."
+        },
+        {
+          "name": "care_site_source_value",
+          "target_column": null,
+          "confidence": 0.50584,
+          "rationale": "Hybrid column score=0.215 for table location. LLM match accepted: Semantic meaning and datatype compatibility match; city column likely contains care site source information"
+        },
+        {
+          "name": "location_id",
+          "target_column": "id",
+          "confidence": 0.71848,
+          "rationale": "Hybrid column score=0.446 for table location. LLM match accepted: Semantic meaning and datatype compatibility align well between 'location_id' and 'id'. The column 'id' in table 'location' has a high retrieval score (0.5711) and its description is empty, indicating it's likely an identifier."
+        },
+        {
+          "name": "place_of_service_concept_id",
+          "target_column": null,
+          "confidence": 0.58904,
+          "rationale": "Hybrid column score=0.273 for table location. LLM match accepted: Datatype compatibility and semantic meaning align with the attribute's likely identifier role."
+        },
+        {
+          "name": "place_of_service_source_value",
+          "target_column": null,
+          "confidence": 0.56948,
+          "rationale": "Hybrid column score=0.224 for table location. LLM match accepted: Semantic meaning alignment: 'place_of_service_source_value' likely refers to a location or service source, which matches the column name 'city'. Datatype compatibility: VARCHAR(255) aligns with TEXT datatype."
+        }
+      ]
+    },
+    {
+      "entity": "cohort",
+      "matched_table": "patients",
+      "table_confidence": 0.65788,
+      "table_rationale": "LLM match accepted: Conceptual alignment with 'cohort' entity and attribute compatibility with 'patients' table",
+      "attributes": [
+        {
+          "name": "cohort_definition_id",
+          "target_column": "patients_id",
+          "confidence": 0.70636,
+          "rationale": "Hybrid column score=0.341 for table patients. LLM match accepted: Semantic meaning and datatype compatibility align well between cohort_definition_id and patients_id."
+        },
+        {
+          "name": "cohort_end_date",
+          "target_column": null,
+          "confidence": 0.5848,
+          "rationale": "Hybrid column score=0.262 for table patients. LLM match accepted: The column 'dod_hosp' has a datatype of timestamp without time zone, which is compatible with the attribute's type VARCHAR(255). The semantic meaning of 'cohort_end_date' aligns with 'death hospital date', and the table 'patients' matches the entity."
+        },
+        {
+          "name": "cohort_start_date",
+          "target_column": null,
+          "confidence": 0.10148,
+          "rationale": "Hybrid column score=0.254 for table patients. LLM match accepted: No explanation"
+        },
+        {
+          "name": "subject_id",
+          "target_column": "subject_id",
+          "confidence": 0.9099999999999999,
+          "rationale": "Hybrid column score=0.850 for table patients. LLM match accepted: Semantic meaning and datatype compatibility align perfectly between attribute 'subject_id' and column 'subject_id'."
+        }
+      ]
+    },
+    {
+      "entity": "cohort_definition",
+      "matched_table": "admissions",
+      "table_confidence": 0.71584,
+      "table_rationale": "LLM match accepted: The 'admissions' table aligns conceptually with the entity 'cohort_definition', and attribute/column compatibility is strong.",
+      "attributes": [
+        {
+          "name": "cohort_definition_description",
+          "target_column": null,
+          "confidence": 0.57812,
+          "rationale": "Hybrid column score=0.245 for table admissions. LLM match accepted: The attribute 'cohort_definition_description' semantically aligns with the column 'insurance', which has a compatible datatype (VARCHAR(255)). The descriptions do not provide strong semantic correspondence, but the lexical similarity between 'description' and 'definition' supports this match."
+        },
+        {
+          "name": "cohort_definition_id",
+          "target_column": null,
+          "confidence": 0.62348,
+          "rationale": "Hybrid column score=0.359 for table admissions. LLM match accepted: Semantic meaning alignment and datatype compatibility"
+        },
+        {
+          "name": "cohort_definition_name",
+          "target_column": null,
+          "confidence": 0.5904,
+          "rationale": "Hybrid column score=0.276 for table admissions. LLM match accepted: The column name 'admission_type' conceptually matches the attribute name 'cohort_definition_name'. Although the datatype is not an exact match, it's a string type which aligns with the VARCHAR(255) of the attribute."
+        },
+        {
+          "name": "cohort_definition_syntax",
+          "target_column": null,
+          "confidence": 0.64268,
+          "rationale": "Hybrid column score=0.257 for table admissions. LLM match accepted: The attribute 'cohort_definition_syntax' semantically aligns with the column 'insurance', which is likely to contain syntax-related information for insurance purposes."
+        },
+        {
+          "name": "cohort_initiation_date",
+          "target_column": null,
+          "confidence": 0.656,
+          "rationale": "Hybrid column score=0.290 for table admissions. LLM match accepted: Strong semantic correspondence between cohort_initiation_date and admittime, with high datatype compatibility."
+        },
+        {
+          "name": "definition_type_concept_id",
+          "target_column": null,
+          "confidence": 0.6295999999999999,
+          "rationale": "Hybrid column score=0.374 for table admissions. LLM match accepted: The column 'admission_type' has a similar semantic meaning to the attribute 'definition_type_concept_id'. Although it's not an exact match, the descriptions are empty, and the retrieval score is high (0.7053). The datatype compatibility is also good, as both are VARCHAR(50) types."
+        },
+        {
+          "name": "subject_concept_id",
+          "target_column": "subject_id",
+          "confidence": 0.822,
+          "rationale": "Hybrid column score=0.630 for table admissions. LLM match accepted: Semantic meaning and datatype compatibility align perfectly."
+        }
+      ]
+    },
+    {
+      "entity": "provider",
+      "matched_table": "patients",
+      "table_confidence": 0.7370000000000001,
+      "table_rationale": "LLM match accepted: Conceptual alignment with 'provider' entity, attribute compatibility, and grouping coherence justify selecting 'patients' table.",
+      "attributes": [
+        {
+          "name": "care_site_id",
+          "target_column": "patients_id",
+          "confidence": 0.69292,
+          "rationale": "Hybrid column score=0.382 for table patients. LLM match accepted: Semantic meaning alignment: 'care_site_id' matches 'patients_id'. Datatype compatibility: VARCHAR(255) aligns with TEXT column."
+        },
+        {
+          "name": "dea",
+          "target_column": null,
+          "confidence": 0.64976,
+          "rationale": "Hybrid column score=0.274 for table patients. LLM match accepted: Semantic meaning alignment (dea ~ patients_id) and datatype compatibility (VARCHAR(255)) support this match."
+        },
+        {
+          "name": "gender_concept_id",
+          "target_column": "gender",
+          "confidence": 0.7144400000000001,
+          "rationale": "Hybrid column score=0.436 for table patients. LLM match accepted: Semantic meaning matches (conceptual alignment), datatype compatible (text)"
+        },
+        {
+          "name": "gender_source_concept_id",
+          "target_column": "gender",
+          "confidence": 0.6868000000000001,
+          "rationale": "Hybrid column score=0.367 for table patients. LLM match accepted: Semantic meaning and datatype compatibility align well between the attribute and column."
+        },
+        {
+          "name": "gender_source_value",
+          "target_column": "gender",
+          "confidence": 0.7097600000000001,
+          "rationale": "Hybrid column score=0.424 for table patients. LLM match accepted: Semantic meaning alignment: 'gender_source_value' matches 'gender'. Datatype compatibility: VARCHAR(255) aligns with TEXT column."
+        },
+        {
+          "name": "npi",
+          "target_column": null,
+          "confidence": 0.6448,
+          "rationale": "Hybrid column score=0.262 for table patients. LLM match accepted: Semantic meaning alignment: 'npi' conceptually matches 'patients_id'. Datatype compatibility: VARCHAR(255) aligns with text column."
+        },
+        {
+          "name": "provider_id",
+          "target_column": "patients_id",
+          "confidence": 0.7218800000000001,
+          "rationale": "Hybrid column score=0.455 for table patients. LLM match accepted: Semantic meaning and datatype compatibility align well between provider_id (attribute) and patients_id (column). The column name matches the attribute name conceptually, and both are of type VARCHAR(255), which is compatible with string attributes."
+        },
+        {
+          "name": "provider_name",
+          "target_column": "name",
+          "confidence": 0.73672,
+          "rationale": "Hybrid column score=0.492 for table patients. LLM match accepted: Semantic meaning alignment and datatype compatibility"
+        },
+        {
+          "name": "provider_source_value",
+          "target_column": null,
+          "confidence": 0.6527200000000001,
+          "rationale": "Hybrid column score=0.282 for table patients. LLM match accepted: Semantic meaning alignment: 'provider' is a common abbreviation for 'provider_source', and 'value' matches the column name. Datatype compatibility: VARCHAR(255) aligns with TEXT datatype."
+        },
+        {
+          "name": "specialty_concept_id",
+          "target_column": null,
+          "confidence": 0.15428,
+          "rationale": "Hybrid column score=0.386 for table patients. LLM match accepted: No suitable column found"
+        },
+        {
+          "name": "specialty_source_concept_id",
+          "target_column": "subject_id",
+          "confidence": 0.6820400000000001,
+          "rationale": "Hybrid column score=0.355 for table patients. LLM match accepted: Semantic meaning and datatype compatibility align well between the attribute and column."
+        },
+        {
+          "name": "specialty_source_value",
+          "target_column": null,
+          "confidence": 0.6448,
+          "rationale": "Hybrid column score=0.262 for table patients. LLM match accepted: Semantic meaning alignment: 'specialty' conceptually matches 'name'. Datatype compatibility: VARCHAR(255) aligns with TEXT column."
+        },
+        {
+          "name": "year_of_birth",
+          "target_column": null,
+          "confidence": 0.64668,
+          "rationale": "Hybrid column score=0.267 for table patients. LLM match accepted: Semantic meaning and datatype compatibility align perfectly"
+        }
+      ]
+    }
+  ],
+  "plan": [
+    {
+      "change_type": "create_table",
+      "target_table": "patients",
+      "target_column": null,
+      "definition": "birth_datetime VARCHAR(255), care_site_id VARCHAR(255), day_of_birth VARCHAR(255), death_datetime VARCHAR(255), ethnicity_concept_id VARCHAR(255), ethnicity_source_concept_id VARCHAR(255), ethnicity_source_value VARCHAR(255), gender_concept_id VARCHAR(255), gender_source_concept_id VARCHAR(255), gender_source_value VARCHAR(255), location_id VARCHAR(255), month_of_birth VARCHAR(255), person_id VARCHAR(255), person_source_value VARCHAR(255), provider_id VARCHAR(255), race_concept_id VARCHAR(255), race_source_concept_id VARCHAR(255), race_source_value VARCHAR(255), year_of_birth VARCHAR(255)",
+      "reason": "Entity 'person' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium",
+      "data_type": null,
+      "primary_key": false,
+      "foreign_key": null,
+      "cardinality": null,
+      "dependencies": [],
+      "rationale": null,
+      "source_element": null
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "icustays",
+      "target_column": null,
+      "definition": "admitted_from_concept_id VARCHAR(255), admitted_from_source_value VARCHAR(255), care_site_id VARCHAR(255), discharge_to_concept_id VARCHAR(255), discharge_to_source_value VARCHAR(255), person_id VARCHAR(255), preceding_visit_occurrence_id VARCHAR(255), provider_id VARCHAR(255), visit_concept_id VARCHAR(255), visit_end_date VARCHAR(255), visit_end_datetime VARCHAR(255), visit_occurrence_id VARCHAR(255), visit_source_concept_id VARCHAR(255), visit_source_value VARCHAR(255), visit_start_date VARCHAR(255), visit_start_datetime VARCHAR(255), visit_type_concept_id VARCHAR(255)",
+      "reason": "Entity 'visit_occurrence' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium",
+      "data_type": null,
+      "primary_key": false,
+      "foreign_key": null,
+      "cardinality": null,
+      "dependencies": [],
+      "rationale": null,
+      "source_element": null
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "d_labitems",
+      "target_column": null,
+      "definition": "admitted_from_concept_id VARCHAR(255), admitted_from_source_value VARCHAR(255), care_site_id VARCHAR(255), discharge_to_concept_id VARCHAR(255), discharge_to_source_value VARCHAR(255), person_id VARCHAR(255), preceding_visit_detail_id VARCHAR(255), provider_id VARCHAR(255), visit_detail_concept_id VARCHAR(255), visit_detail_end_date VARCHAR(255), visit_detail_end_datetime VARCHAR(255), visit_detail_id VARCHAR(255), visit_detail_parent_id VARCHAR(255), visit_detail_source_concept_id VARCHAR(255), visit_detail_source_value VARCHAR(255), visit_detail_start_date VARCHAR(255), visit_detail_start_datetime VARCHAR(255), visit_detail_type_concept_id VARCHAR(255), visit_occurrence_id VARCHAR(255)",
+      "reason": "Entity 'visit_detail' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium",
+      "data_type": null,
+      "primary_key": false,
+      "foreign_key": null,
+      "cardinality": null,
+      "dependencies": [],
+      "rationale": null,
+      "source_element": null
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "drgcodes",
+      "target_column": null,
+      "definition": "anatomic_site_concept_id VARCHAR(255), anatomic_site_source_value VARCHAR(255), disease_status_concept_id VARCHAR(255), disease_status_source_value VARCHAR(255), person_id VARCHAR(255), quantity VARCHAR(255), specimen_concept_id VARCHAR(255), specimen_date VARCHAR(255), specimen_datetime VARCHAR(255), specimen_id VARCHAR(255), specimen_source_id VARCHAR(255), specimen_source_value VARCHAR(255), specimen_type_concept_id VARCHAR(255), unit_concept_id VARCHAR(255), unit_source_value VARCHAR(255)",
+      "reason": "Entity 'specimen' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium",
+      "data_type": null,
+      "primary_key": false,
+      "foreign_key": null,
+      "cardinality": null,
+      "dependencies": [],
+      "rationale": null,
+      "source_element": null
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "patients",
+      "target_column": null,
+      "definition": "measurement_concept_id VARCHAR(255), measurement_date VARCHAR(255), measurement_datetime VARCHAR(255), measurement_id VARCHAR(255), measurement_source_concept_id VARCHAR(255), measurement_source_value VARCHAR(255), measurement_time VARCHAR(255), measurement_type_concept_id VARCHAR(255), operator_concept_id VARCHAR(255), person_id VARCHAR(255), provider_id VARCHAR(255), range_high VARCHAR(255), range_low VARCHAR(255), unit_concept_id VARCHAR(255), unit_source_value VARCHAR(255), value_as_concept_id VARCHAR(255), value_as_number VARCHAR(255), value_source_value VARCHAR(255), visit_detail_id VARCHAR(255), visit_occurrence_id VARCHAR(255)",
+      "reason": "Entity 'measurement' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium",
+      "data_type": null,
+      "primary_key": false,
+      "foreign_key": null,
+      "cardinality": null,
+      "dependencies": [],
+      "rationale": null,
+      "source_element": null
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "patients",
+      "target_column": null,
+      "definition": "modifier_concept_id VARCHAR(255), modifier_source_value VARCHAR(255), person_id VARCHAR(255), procedure_concept_id VARCHAR(255), procedure_date VARCHAR(255), procedure_datetime VARCHAR(255), procedure_occurrence_id VARCHAR(255), procedure_source_concept_id VARCHAR(255), procedure_source_value VARCHAR(255), procedure_type_concept_id VARCHAR(255), provider_id VARCHAR(255), quantity VARCHAR(255), visit_detail_id VARCHAR(255), visit_occurrence_id VARCHAR(255)",
+      "reason": "Entity 'procedure_occurrence' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium",
+      "data_type": null,
+      "primary_key": false,
+      "foreign_key": null,
+      "cardinality": null,
+      "dependencies": [],
+      "rationale": null,
+      "source_element": null
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "labevents",
+      "target_column": null,
+      "definition": "condition_concept_id VARCHAR(255), condition_end_date VARCHAR(255), condition_end_datetime VARCHAR(255), condition_occurrence_id VARCHAR(255), condition_source_concept_id VARCHAR(255), condition_source_value VARCHAR(255), condition_start_date VARCHAR(255), condition_start_datetime VARCHAR(255), condition_status_concept_id VARCHAR(255), condition_status_source_value VARCHAR(255), condition_type_concept_id VARCHAR(255), person_id VARCHAR(255), provider_id VARCHAR(255), stop_reason VARCHAR(255), visit_detail_id VARCHAR(255), visit_occurrence_id VARCHAR(255)",
+      "reason": "Entity 'condition_occurrence' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium",
+      "data_type": null,
+      "primary_key": false,
+      "foreign_key": null,
+      "cardinality": null,
+      "dependencies": [],
+      "rationale": null,
+      "source_element": null
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "deaths",
+      "target_column": null,
+      "definition": "cause_concept_id VARCHAR(255), cause_source_concept_id VARCHAR(255), cause_source_value VARCHAR(255), death_date VARCHAR(255), death_datetime VARCHAR(255), death_type_concept_id VARCHAR(255), person_id VARCHAR(255)",
+      "reason": "Entity 'death' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium",
+      "data_type": null,
+      "primary_key": false,
+      "foreign_key": null,
+      "cardinality": null,
+      "dependencies": [],
+      "rationale": null,
+      "source_element": null
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "location",
+      "target_column": null,
+      "definition": "address_1 VARCHAR(255), address_2 VARCHAR(255), city VARCHAR(255), county VARCHAR(255), location_id VARCHAR(255), location_source_value VARCHAR(255), state VARCHAR(255), zip VARCHAR(255)",
+      "reason": "Entity 'location' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium",
+      "data_type": null,
+      "primary_key": false,
+      "foreign_key": null,
+      "cardinality": null,
+      "dependencies": [],
+      "rationale": null,
+      "source_element": null
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "chartevents",
+      "target_column": null,
+      "definition": "obs_event_field_concept_id VARCHAR(255), observation_concept_id VARCHAR(255), observation_date VARCHAR(255), observation_datetime VARCHAR(255), observation_event_id VARCHAR(255), observation_id VARCHAR(255), observation_source_concept_id VARCHAR(255), observation_source_value VARCHAR(255), observation_type_concept_id VARCHAR(255), person_id VARCHAR(255), provider_id VARCHAR(255), qualifier_concept_id VARCHAR(255), qualifier_source_value VARCHAR(255), unit_concept_id VARCHAR(255), unit_source_value VARCHAR(255), value_as_concept_id VARCHAR(255), value_as_datetime VARCHAR(255), value_as_number VARCHAR(255), value_as_string VARCHAR(255), visit_detail_id VARCHAR(255), visit_occurrence_id VARCHAR(255)",
+      "reason": "Entity 'observation' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium",
+      "data_type": null,
+      "primary_key": false,
+      "foreign_key": null,
+      "cardinality": null,
+      "dependencies": [],
+      "rationale": null,
+      "source_element": null
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "observation_periods",
+      "target_column": null,
+      "definition": "observation_period_end_date VARCHAR(255), observation_period_id VARCHAR(255), observation_period_start_date VARCHAR(255), period_type_concept_id VARCHAR(255), person_id VARCHAR(255)",
+      "reason": "Entity 'observation_period' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium",
+      "data_type": null,
+      "primary_key": false,
+      "foreign_key": null,
+      "cardinality": null,
+      "dependencies": [],
+      "rationale": null,
+      "source_element": null
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "labevents",
+      "target_column": null,
+      "definition": "days_supply VARCHAR(255), dose_unit_source_value VARCHAR(255), drug_concept_id VARCHAR(255), drug_exposure_end_date VARCHAR(255), drug_exposure_end_datetime VARCHAR(255), drug_exposure_id VARCHAR(255), drug_exposure_start_date VARCHAR(255), drug_exposure_start_datetime VARCHAR(255), drug_source_concept_id VARCHAR(255), drug_source_value VARCHAR(255), drug_type_concept_id VARCHAR(255), lot_number VARCHAR(255), person_id VARCHAR(255), provider_id VARCHAR(255), quantity VARCHAR(255), refills VARCHAR(255), route_concept_id VARCHAR(255), route_source_value VARCHAR(255), sig VARCHAR(255), stop_reason VARCHAR(255), verbatim_end_date VARCHAR(255), visit_detail_id VARCHAR(255), visit_occurrence_id VARCHAR(255)",
+      "reason": "Entity 'drug_exposure' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium",
+      "data_type": null,
+      "primary_key": false,
+      "foreign_key": null,
+      "cardinality": null,
+      "dependencies": [],
+      "rationale": null,
+      "source_element": null
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "patients",
+      "target_column": null,
+      "definition": "device_concept_id VARCHAR(255), device_exposure_end_date VARCHAR(255), device_exposure_end_datetime VARCHAR(255), device_exposure_id VARCHAR(255), device_exposure_start_date VARCHAR(255), device_exposure_start_datetime VARCHAR(255), device_source_concept_id VARCHAR(255), device_source_value VARCHAR(255), device_type_concept_id VARCHAR(255), person_id VARCHAR(255), provider_id VARCHAR(255), quantity VARCHAR(255), unique_device_id VARCHAR(255), visit_detail_id VARCHAR(255), visit_occurrence_id VARCHAR(255)",
+      "reason": "Entity 'device_exposure' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium",
+      "data_type": null,
+      "primary_key": false,
+      "foreign_key": null,
+      "cardinality": null,
+      "dependencies": [],
+      "rationale": null,
+      "source_element": null
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "labevents",
+      "target_column": null,
+      "definition": "encoding_concept_id VARCHAR(255), language_concept_id VARCHAR(255), note_class_concept_id VARCHAR(255), note_date VARCHAR(255), note_datetime VARCHAR(255), note_event_field_concept_id VARCHAR(255), note_event_id VARCHAR(255), note_id VARCHAR(255), note_source_value VARCHAR(255), note_text VARCHAR(255), note_title VARCHAR(255), note_type_concept_id VARCHAR(255), person_id VARCHAR(255), provider_id VARCHAR(255), visit_detail_id VARCHAR(255), visit_occurrence_id VARCHAR(255)",
+      "reason": "Entity 'note' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium",
+      "data_type": null,
+      "primary_key": false,
+      "foreign_key": null,
+      "cardinality": null,
+      "dependencies": [],
+      "rationale": null,
+      "source_element": null
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "d_icd_diagnoses_items",
+      "target_column": null,
+      "definition": "domain_concept_id_1 VARCHAR(255), domain_concept_id_2 VARCHAR(255), fact_id_1 VARCHAR(255), fact_id_2 VARCHAR(255), relationship_concept_id VARCHAR(255)",
+      "reason": "Entity 'fact_relationship' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium",
+      "data_type": null,
+      "primary_key": false,
+      "foreign_key": null,
+      "cardinality": null,
+      "dependencies": [],
+      "rationale": null,
+      "source_element": null
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "prescriptions_items",
+      "target_column": null,
+      "definition": "family_source_value VARCHAR(255), payer_plan_period_end_date VARCHAR(255), payer_plan_period_id VARCHAR(255), payer_plan_period_start_date VARCHAR(255), payer_source_value VARCHAR(255), person_id VARCHAR(255), plan_source_value VARCHAR(255)",
+      "reason": "Entity 'payer_plan_period' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium",
+      "data_type": null,
+      "primary_key": false,
+      "foreign_key": null,
+      "cardinality": null,
+      "dependencies": [],
+      "rationale": null,
+      "source_element": null
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "labevents",
+      "target_column": null,
+      "definition": "cdm_etl_reference VARCHAR(255), cdm_holder VARCHAR(255), cdm_release_date VARCHAR(255), cdm_source_abbreviation VARCHAR(255), cdm_source_name VARCHAR(255), cdm_version VARCHAR(255), source_description VARCHAR(255), source_documentation_reference VARCHAR(255), source_release_date VARCHAR(255), vocabulary_version VARCHAR(255)",
+      "reason": "Entity 'cdm_source' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium",
+      "data_type": null,
+      "primary_key": false,
+      "foreign_key": null,
+      "cardinality": null,
+      "dependencies": [],
+      "rationale": null,
+      "source_element": null
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "locations",
+      "target_column": null,
+      "definition": "care_site_id VARCHAR(255), care_site_name VARCHAR(255), care_site_source_value VARCHAR(255), location_id VARCHAR(255), place_of_service_concept_id VARCHAR(255), place_of_service_source_value VARCHAR(255)",
+      "reason": "Entity 'care_site' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium",
+      "data_type": null,
+      "primary_key": false,
+      "foreign_key": null,
+      "cardinality": null,
+      "dependencies": [],
+      "rationale": null,
+      "source_element": null
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "icustays",
+      "target_column": null,
+      "definition": "cohort_definition_id VARCHAR(255), cohort_end_date VARCHAR(255), cohort_start_date VARCHAR(255), subject_id VARCHAR(255)",
+      "reason": "Entity 'cohort' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium",
+      "data_type": null,
+      "primary_key": false,
+      "foreign_key": null,
+      "cardinality": null,
+      "dependencies": [],
+      "rationale": null,
+      "source_element": null
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "admissions",
+      "target_column": null,
+      "definition": "cohort_definition_description VARCHAR(255), cohort_definition_id VARCHAR(255), cohort_definition_name VARCHAR(255), cohort_definition_syntax VARCHAR(255), cohort_initiation_date VARCHAR(255), definition_type_concept_id VARCHAR(255), subject_concept_id VARCHAR(255)",
+      "reason": "Entity 'cohort_definition' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium",
+      "data_type": null,
+      "primary_key": false,
+      "foreign_key": null,
+      "cardinality": null,
+      "dependencies": [],
+      "rationale": null,
+      "source_element": null
+    },
+    {
+      "change_type": "create_table",
+      "target_table": "patients",
+      "target_column": null,
+      "definition": "care_site_id VARCHAR(255), dea VARCHAR(255), gender_concept_id VARCHAR(255), gender_source_concept_id VARCHAR(255), gender_source_value VARCHAR(255), npi VARCHAR(255), provider_id VARCHAR(255), provider_name VARCHAR(255), provider_source_value VARCHAR(255), specialty_concept_id VARCHAR(255), specialty_source_concept_id VARCHAR(255), specialty_source_value VARCHAR(255), year_of_birth VARCHAR(255)",
+      "reason": "Entity 'provider' requires new table",
+      "sql": null,
+      "safe": true,
+      "requires_data_migration": false,
+      "estimated_impact": "medium",
+      "data_type": null,
+      "primary_key": false,
+      "foreign_key": null,
+      "cardinality": null,
+      "dependencies": [],
+      "rationale": null,
+      "source_element": null
+    }
+  ],
+  "sql": [
+    "CREATE TABLE patients (measurement_concept_id VARCHAR(255), measurement_date VARCHAR(255), measurement_datetime VARCHAR(255), measurement_id VARCHAR(255), measurement_source_concept_id VARCHAR(255), measurement_source_value VARCHAR(255), measurement_time VARCHAR(255), measurement_type_concept_id VARCHAR(255), operator_concept_id VARCHAR(255), person_id VARCHAR(255), provider_id VARCHAR(255), range_high VARCHAR(255), range_low VARCHAR(255), unit_concept_id VARCHAR(255), unit_source_value VARCHAR(255), value_as_concept_id VARCHAR(255), value_as_number VARCHAR(255), value_source_value VARCHAR(255), visit_detail_id VARCHAR(255), visit_occurrence_id VARCHAR(255));",
+    "CREATE TABLE icustays (admitted_from_concept_id VARCHAR(255), admitted_from_source_value VARCHAR(255), care_site_id VARCHAR(255), discharge_to_concept_id VARCHAR(255), discharge_to_source_value VARCHAR(255), person_id VARCHAR(255), preceding_visit_occurrence_id VARCHAR(255), provider_id VARCHAR(255), visit_concept_id VARCHAR(255), visit_end_date VARCHAR(255), visit_end_datetime VARCHAR(255), visit_occurrence_id VARCHAR(255), visit_source_concept_id VARCHAR(255), visit_source_value VARCHAR(255), visit_start_date VARCHAR(255), visit_start_datetime VARCHAR(255), visit_type_concept_id VARCHAR(255));",
+    "CREATE TABLE d_labitems (admitted_from_concept_id VARCHAR(255), admitted_from_source_value VARCHAR(255), care_site_id VARCHAR(255), discharge_to_concept_id VARCHAR(255), discharge_to_source_value VARCHAR(255), person_id VARCHAR(255), preceding_visit_detail_id VARCHAR(255), provider_id VARCHAR(255), visit_detail_concept_id VARCHAR(255), visit_detail_end_date VARCHAR(255), visit_detail_end_datetime VARCHAR(255), visit_detail_id VARCHAR(255), visit_detail_parent_id VARCHAR(255), visit_detail_source_concept_id VARCHAR(255), visit_detail_source_value VARCHAR(255), visit_detail_start_date VARCHAR(255), visit_detail_start_datetime VARCHAR(255), visit_detail_type_concept_id VARCHAR(255), visit_occurrence_id VARCHAR(255));",
+    "CREATE TABLE drgcodes (anatomic_site_concept_id VARCHAR(255), anatomic_site_source_value VARCHAR(255), disease_status_concept_id VARCHAR(255), disease_status_source_value VARCHAR(255), person_id VARCHAR(255), quantity VARCHAR(255), specimen_concept_id VARCHAR(255), specimen_date VARCHAR(255), specimen_datetime VARCHAR(255), specimen_id VARCHAR(255), specimen_source_id VARCHAR(255), specimen_source_value VARCHAR(255), specimen_type_concept_id VARCHAR(255), unit_concept_id VARCHAR(255), unit_source_value VARCHAR(255));",
+    "CREATE TABLE labevents (days_supply VARCHAR(255), dose_unit_source_value VARCHAR(255), drug_concept_id VARCHAR(255), drug_exposure_end_date VARCHAR(255), drug_exposure_end_datetime VARCHAR(255), drug_exposure_id VARCHAR(255), drug_exposure_start_date VARCHAR(255), drug_exposure_start_datetime VARCHAR(255), drug_source_concept_id VARCHAR(255), drug_source_value VARCHAR(255), drug_type_concept_id VARCHAR(255), lot_number VARCHAR(255), person_id VARCHAR(255), provider_id VARCHAR(255), quantity VARCHAR(255), refills VARCHAR(255), route_concept_id VARCHAR(255), route_source_value VARCHAR(255), sig VARCHAR(255), stop_reason VARCHAR(255), verbatim_end_date VARCHAR(255), visit_detail_id VARCHAR(255), visit_occurrence_id VARCHAR(255));",
+    "CREATE TABLE deaths (cause_concept_id VARCHAR(255), cause_source_concept_id VARCHAR(255), cause_source_value VARCHAR(255), death_date VARCHAR(255), death_datetime VARCHAR(255), death_type_concept_id VARCHAR(255), person_id VARCHAR(255));",
+    "CREATE TABLE location (address_1 VARCHAR(255), address_2 VARCHAR(255), city VARCHAR(255), county VARCHAR(255), location_id VARCHAR(255), location_source_value VARCHAR(255), state VARCHAR(255), zip VARCHAR(255));",
+    "CREATE TABLE chartevents (obs_event_field_concept_id VARCHAR(255), observation_concept_id VARCHAR(255), observation_date VARCHAR(255), observation_datetime VARCHAR(255), observation_event_id VARCHAR(255), observation_id VARCHAR(255), observation_source_concept_id VARCHAR(255), observation_source_value VARCHAR(255), observation_type_concept_id VARCHAR(255), person_id VARCHAR(255), provider_id VARCHAR(255), qualifier_concept_id VARCHAR(255), qualifier_source_value VARCHAR(255), unit_concept_id VARCHAR(255), unit_source_value VARCHAR(255), value_as_concept_id VARCHAR(255), value_as_datetime VARCHAR(255), value_as_number VARCHAR(255), value_as_string VARCHAR(255), visit_detail_id VARCHAR(255), visit_occurrence_id VARCHAR(255));",
+    "CREATE TABLE observation_periods (observation_period_end_date VARCHAR(255), observation_period_id VARCHAR(255), observation_period_start_date VARCHAR(255), period_type_concept_id VARCHAR(255), person_id VARCHAR(255));",
+    "CREATE TABLE d_icd_diagnoses_items (domain_concept_id_1 VARCHAR(255), domain_concept_id_2 VARCHAR(255), fact_id_1 VARCHAR(255), fact_id_2 VARCHAR(255), relationship_concept_id VARCHAR(255));",
+    "CREATE TABLE prescriptions_items (family_source_value VARCHAR(255), payer_plan_period_end_date VARCHAR(255), payer_plan_period_id VARCHAR(255), payer_plan_period_start_date VARCHAR(255), payer_source_value VARCHAR(255), person_id VARCHAR(255), plan_source_value VARCHAR(255));",
+    "CREATE TABLE locations (care_site_id VARCHAR(255), care_site_name VARCHAR(255), care_site_source_value VARCHAR(255), location_id VARCHAR(255), place_of_service_concept_id VARCHAR(255), place_of_service_source_value VARCHAR(255));",
+    "CREATE TABLE admissions (cohort_definition_description VARCHAR(255), cohort_definition_id VARCHAR(255), cohort_definition_name VARCHAR(255), cohort_definition_syntax VARCHAR(255), cohort_initiation_date VARCHAR(255), definition_type_concept_id VARCHAR(255), subject_concept_id VARCHAR(255));"
+  ]
+}

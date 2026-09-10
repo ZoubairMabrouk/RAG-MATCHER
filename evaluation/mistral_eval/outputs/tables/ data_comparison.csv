@@ -1,0 +1,3 @@
+Evaluation,Universe size,Recall @ best F1 threshold,Precision @ best F1 threshold,F1 @ best F1 threshold
+(this notebook),64080,0.18604651162790697,0.4528301886792453,0.26373626373626374
+Open-world (predicted pairs only),54,,0.4444444444444444,
